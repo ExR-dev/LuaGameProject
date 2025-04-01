@@ -12,6 +12,7 @@ int main()
     const int screenWidth = 1600;
     const int screenHeight = 900;
 
+    SetConfigFlags(FLAG_MSAA_4X_HINT);
     InitWindow(screenWidth, screenHeight, "raylib [core] example - 3d camera first person");
 
     // Define the camera to look into our 3d world (position, target, up vector)
@@ -38,12 +39,14 @@ int main()
 
     DisableCursor();                    // Limit cursor to relative movement inside the window
 
-    //SetTargetFPS(60);                   // Set our game to run at 60 frames-per-second
+    SetTargetFPS(144);                   // Set our game to run at 144 frames-per-second
     //--------------------------------------------------------------------------------------
 
     // Load content
-    Model model = LoadModel("Content/Meshes/Maxwell.obj"); 
+    Model model = LoadModel("Content/Meshes/Maxwell.obj");
     Texture2D texture = LoadTexture("Content/Textures/Maxwell.png");
+    GenTextureMipmaps(&texture);
+    SetTextureFilter(texture, TEXTURE_FILTER_TRILINEAR);
 
     model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
 

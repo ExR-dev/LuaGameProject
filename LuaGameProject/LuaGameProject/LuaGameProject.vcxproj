@@ -168,7 +168,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="entt.hpp" />
+    <ClInclude Include="EnTT\entt.hpp" />
     <ClInclude Include="rcamera.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
