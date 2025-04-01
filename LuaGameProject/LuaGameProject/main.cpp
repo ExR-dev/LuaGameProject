@@ -41,6 +41,12 @@ int main()
     //SetTargetFPS(60);                   // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
 
+    // Load content
+    Model model = LoadModel("Content/Meshes/Maxwell.obj"); 
+    Texture2D texture = LoadTexture("Content/Textures/Maxwell.png");
+
+    model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
+
     // Main game loop
     while (!WindowShouldClose())        // Detect window close button or ESC key
     {
@@ -151,6 +157,8 @@ int main()
             DrawCube(camera.target, 0.5f, 0.5f, 0.5f, PURPLE);
             DrawCubeWires(camera.target, 0.5f, 0.5f, 0.5f, DARKPURPLE);
         }
+
+        DrawModel(model, { 0.0f, 0.0f, 0.0f }, 1.0f, WHITE);
 
         EndMode3D();
 
