@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LuaGameProject", "LuaGameProject\LuaGameProject.vcxproj", "{9FDAD8E7-DD4F-4445-B153-DE4BFE7EE544}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E6B55400-CF80-48FF-A39E-4BE4220394B1} = {E6B55400-CF80-48FF-A39E-4BE4220394B1}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LuaLib", "LuaLib\LuaLib.vcxproj", "{E6B55400-CF80-48FF-A39E-4BE4220394B1}"
 EndProject
