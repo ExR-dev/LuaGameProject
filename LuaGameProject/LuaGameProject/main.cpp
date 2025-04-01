@@ -1,6 +1,8 @@
 #include "stdafx.h"
+#include "LuaConsole.h"
 
 #define MAX_COLUMNS 20
+
 
 //------------------------------------------------------------------------------------
 // Program main entry point
@@ -8,6 +10,16 @@
 int main()
 {
 	entt::registry registry;
+
+	lua_State *L = luaL_newstate();
+	luaL_openlibs(L);
+
+    if (luaL_dostring(L, "print('Hello from Lua!')") != LUA_OK)
+    {
+        DumpLuaError(L);
+    }
+
+	std::thread consoleThread(ConsoleThreadFunction, L);
 
     // Initialization
     //--------------------------------------------------------------------------------------
@@ -39,7 +51,7 @@ int main()
         colors[i] = { (uint8_t)GetRandomValue(20, 255), (uint8_t)GetRandomValue(10, 55), 30, 255 };
     }
 
-    DisableCursor();                    // Limit cursor to relative movement inside the window
+    //DisableCursor();                    // Limit cursor to relative movement inside the window
 
     SetTargetFPS(144);                   // Set our game to run at 144 frames-per-second
     //--------------------------------------------------------------------------------------
