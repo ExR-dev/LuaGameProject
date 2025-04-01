@@ -1,0 +1,134 @@
+{
+	Action: "Exit"
+	Binding Type: "Combo"
+	Reset on Trigger: false
+	Steps: 
+	{
+		Simple: 
+		{
+			Key Code: "LeftShift"
+			Trigger: "Pressed", "Held"
+			Active Time: -1.0
+		}
+		Simple: 
+		{
+			Key Code: "Escape"
+			Trigger: "Pressed"
+			Active Time: -1.0
+		}
+	}
+}
+
+{
+	Action: "Lock Cursor"
+	Binding Type: "Combo"
+	Reset on Trigger: false
+	Steps: 
+	{
+		Simple: 
+		{
+			Key Code: "LeftControl"
+			Trigger: "Pressed", "Held"
+			Active Time: -1.0
+		}
+		Simple: 
+		{
+			Key Code: "Tab"
+			Trigger: "Pressed"
+			Active Time: -1.0
+		}
+	}
+}
+
+{
+	Action: "Copy Selected"
+	Binding Type: "Combo"
+	Reset on Trigger: false
+	Steps: 
+	{
+		Simple: 
+		{
+			Key Code: "LeftControl"
+			Trigger: "Pressed", "Held"
+			Active Time: -1.0
+		}
+		Simple: 
+		{
+			Key Code: "D"
+			Trigger: "Pressed"
+			Active Time: -1.0
+		}
+	}
+}
+
+{
+	Action: "Cycle Scene"
+	Binding Type: "Combo"
+	Reset on Trigger: false
+	Steps: 
+	{
+		Simple: 
+		{
+			Key Code: "LeftShift"
+			Trigger: "Pressed", "Held"
+			Active Time: -1.0
+		}
+		Simple: 
+		{
+			Key Code: "D1"
+			Trigger: "Pressed"
+			Active Time: -1.0
+		}
+	}
+}
+
+{
+	Action: "Save"
+	Binding Type: "Single"
+	Reset on Trigger: false
+	Steps: 
+	{
+		Simple: 
+		{
+			Key Code: "F5"
+			Trigger: "Pressed"
+			Active Time: -1.0
+		}
+	}
+}
+
+{
+	Action: "Load"
+	Binding Type: "Single"
+	Reset on Trigger: false
+	Steps: 
+	{
+		Simple: 
+		{
+			Key Code: "F9"
+			Trigger: "Pressed"
+			Active Time: -1.0
+		}
+	}
+}
+
+#Fullscreen
+#Pause: 
+#Move Forward: 
+#Move Backward: 
+#Move Left: 
+#Move Right: 
+#Sprint: 
+#Crouch: 
+#Flashlight: 
+#Interact: 
+#Bring up Picture: 
+#Delete Entity: 
+#Cycle Scenea: 
+#Create Entity: 
+#Select: 
+#Cycle Transform Tools: 
+#Translate Tool: 
+#Rotate Tool: 
+#Scale Tool: 
+#Add PIX Marker: 
