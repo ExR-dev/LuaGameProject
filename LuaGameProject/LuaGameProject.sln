@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35707.178 d17.12
+VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LuaGameProject", "LuaGameProject\LuaGameProject.vcxproj", "{9FDAD8E7-DD4F-4445-B153-DE4BFE7EE544}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LuaLib", "LuaLib\LuaLib.vcxproj", "{E6B55400-CF80-48FF-A39E-4BE4220394B1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,14 @@ Global
 		{9FDAD8E7-DD4F-4445-B153-DE4BFE7EE544}.Release|x64.Build.0 = Release|x64
 		{9FDAD8E7-DD4F-4445-B153-DE4BFE7EE544}.Release|x86.ActiveCfg = Release|Win32
 		{9FDAD8E7-DD4F-4445-B153-DE4BFE7EE544}.Release|x86.Build.0 = Release|Win32
+		{E6B55400-CF80-48FF-A39E-4BE4220394B1}.Debug|x64.ActiveCfg = Debug|x64
+		{E6B55400-CF80-48FF-A39E-4BE4220394B1}.Debug|x64.Build.0 = Debug|x64
+		{E6B55400-CF80-48FF-A39E-4BE4220394B1}.Debug|x86.ActiveCfg = Debug|Win32
+		{E6B55400-CF80-48FF-A39E-4BE4220394B1}.Debug|x86.Build.0 = Debug|Win32
+		{E6B55400-CF80-48FF-A39E-4BE4220394B1}.Release|x64.ActiveCfg = Release|x64
+		{E6B55400-CF80-48FF-A39E-4BE4220394B1}.Release|x64.Build.0 = Release|x64
+		{E6B55400-CF80-48FF-A39E-4BE4220394B1}.Release|x86.ActiveCfg = Release|Win32
+		{E6B55400-CF80-48FF-A39E-4BE4220394B1}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

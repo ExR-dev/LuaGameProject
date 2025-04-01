@@ -1,0 +1,3 @@
+C:\Users\xterm\Desktop\LuaGameProject\LuaGameProject\LuaGameProject\bin\raylib.dll
+C:\Users\xterm\Desktop\LuaGameProject\LuaGameProject\LuaGameProject\bin\glfw3.dll
+C:\Users\xterm\Desktop\LuaGameProject\LuaGameProject\LuaGameProject\inc\LuaGameP.BD3BB0EF.Up2Date
