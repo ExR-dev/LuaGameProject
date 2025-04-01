@@ -37,6 +37,7 @@
 #include "ImGui/imgui_impl_dx11.h"
 #include "ImGui/imgui_stdlib.h"
 #endif
+
 #ifdef PIX_TIMELINING
 #include "pix3.h"
 #endif
@@ -67,6 +68,14 @@
 #include "StructuredBufferD3D11.h"
 #include "SubMeshD3D11.h"
 #include "VertexBufferD3D11.h"
+
+#ifdef USE_RAYLIB
+
+namespace RL
+{
+    //#include "raylib.h"
+}
+#endif
 
 constexpr UINT MENU_SCENE = 0;
 constexpr UINT GAME_SCENE = 1;

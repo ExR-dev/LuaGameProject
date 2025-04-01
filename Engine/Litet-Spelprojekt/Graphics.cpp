@@ -190,7 +190,7 @@ bool Graphics::Setup(const UINT width, const UINT height, const Window window,
 		return false;
 	}
 
-#ifdef DEBUG_BUILD
+#ifdef USE_IMGUI
 	std::memcpy(&_shadowRasterizerDesc, &rasterizerDesc, sizeof(D3D11_RASTERIZER_DESC));
 #endif
 

@@ -16,7 +16,9 @@
 /// -------- Debug Build Defines -------- 
 
 /// USE_IMGUI enables the use of ImGui for development purposes. Most runtime development tools are used through ImGui.
+#ifndef USE_RAYLIB
 #define USE_IMGUI
+#endif
 
 /// PIX_TIMELINING enables the use of PIX for Windows for CPU and GPU profiling.
 //#define PIX_TIMELINING
