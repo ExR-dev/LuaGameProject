@@ -91,6 +91,37 @@ bool Window::UpdateWindowSize()
 	return SDL_GetWindowSize(_window, &_physicalWidth, &_physicalHeight);
 }
 
+bool Window::UpdateWindow(Input* input)
+{		
+	SDL_Event event;
+	while (SDL_PollEvent(&event))
+	{
+#ifdef USE_IMGUI
+		ImGui_ImplSDL3_ProcessEvent(&event);
+#endif
+
+		switch (event.type)
+		{
+		case SDL_EVENT_QUIT:
+			_isClosing = true;
+			break;
+
+		case SDL_EVENT_WINDOW_RESIZED:
+			UpdateWindowSize();
+			break;
+
+		case SDL_EVENT_MOUSE_WHEEL: // Scroll wheel event, couldn't be fetched from Input's update.
+			input->SetMouseScroll(event.wheel.x, event.wheel.y);
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	return true;
+}
+
 HWND Window::GetHWND() const
 {
 	return _hwnd;
@@ -149,6 +180,11 @@ WindowType Window::GetWindowType() const
 bool Window::IsFullscreen() const
 {
 	return _isFullscreen;
+}
+
+bool Window::IsClosing() const
+{
+	return _isClosing;
 }
 
 IDXGISwapChain** Window::GetSwapChainAddress()

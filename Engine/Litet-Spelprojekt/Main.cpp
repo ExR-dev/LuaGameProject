@@ -163,33 +163,19 @@ int main(int argc, char* argv[])
 #endif
 		input->SetMouseScroll(0, 0);
 
-		SDL_Event event;
-		while (SDL_PollEvent(&event))
+		if (!window.UpdateWindow(input))
 		{
-#ifdef USE_IMGUI
-			ImGui_ImplSDL3_ProcessEvent(&event);
-#endif
-
-			switch (event.type)
-			{
-			case SDL_EVENT_QUIT:
-				returnCode = 1;
-				running = false;
-				break;
-
-			case SDL_EVENT_WINDOW_RESIZED:
-				window.UpdateWindowSize();
-				break;
-
-			case SDL_EVENT_MOUSE_WHEEL: // Scroll wheel event, couldn't be fetched from Input's update.
-				input->SetMouseScroll(event.wheel.x, event.wheel.y);
-				break;
-
-			default:
-				break;
-			}
+			ErrMsg("Failed to update window!");
+			returnCode = -1;
+			running = false;
 		}
 
+		if (window.IsClosing())
+		{
+			returnCode = 1;
+			running = false;
+		}
+		
 		// Toggle fullscreen with [Left Control] + [Enter]
 		if (BindingCollection::IsTriggered(InputBindings::InputAction::Fullscreen))
 		{

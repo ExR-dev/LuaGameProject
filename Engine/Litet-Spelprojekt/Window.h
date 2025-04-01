@@ -5,6 +5,7 @@
 #include <d3d11.h>
 #include <wrl/client.h>
 
+class Input;
 
 enum class WindowType
 {
@@ -21,6 +22,8 @@ private:
 	int _physicalWidth = NULL;
 	int _physicalHeight = NULL;
 	bool _isFullscreen = false;
+
+	bool _isClosing = false;
 
 	WindowType _windowType = WindowType::MAIN;
 
@@ -42,6 +45,8 @@ public:
 	bool ToggleFullscreen();
 	bool UpdateWindowSize();
 
+	bool UpdateWindow(Input* input);
+
 	HWND GetHWND() const;
 	UINT GetHeight() const;
 	UINT GetWidth() const;
@@ -54,6 +59,7 @@ public:
 	ID3D11UnorderedAccessView* GetUAV() const;
 	WindowType GetWindowType() const;
 	bool IsFullscreen() const;
+	bool IsClosing() const;
 
 	IDXGISwapChain** GetSwapChainAddress();
 	ID3D11UnorderedAccessView** GetUAVAddress();
