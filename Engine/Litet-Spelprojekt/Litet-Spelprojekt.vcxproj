@@ -239,6 +239,8 @@
     <ClCompile Include="ExampleCollisionBehaviour.cpp" />
     <ClCompile Include="FlashlightBehaviour.cpp" />
     <ClCompile Include="GameMath.cpp" />
+    <ClCompile Include="WindowSDL3.cpp" />
+    <ClInclude Include="WindowSDL3.h" />
     <FxCompile Include="PS_DebugViewUVCoords.hlsl">
       <FileType>Document</FileType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>

@@ -200,7 +200,7 @@ private:
 public:
 	~Graphics();
 
-	[[nodiscard]] bool Setup(UINT width, UINT height, Window window,
+	[[nodiscard]] bool Setup(UINT width, UINT height, const Window *window,
 		ID3D11Device *&device, ID3D11DeviceContext *&immediateContext, Content *content);
 
 	void Shutdown();

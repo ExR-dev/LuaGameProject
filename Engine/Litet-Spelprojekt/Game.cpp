@@ -231,7 +231,7 @@ bool Game::LoadContent(
 	return true;
 }
 
-bool Game::Setup(Time& time, const UINT width, const UINT height, Window window)
+bool Game::Setup(Time& time, const UINT width, const UINT height, Window *window)
 {
 #ifdef PIX_TIMELINING
 	PIXScopedEvent(866842434, "Game Setup");
@@ -745,7 +745,7 @@ Graphics *Game::GetGraphics()
 	return &_graphics;
 }
 
-Window Game::GetWindow()
+Window *Game::GetWindow()
 {
 	return _window;
 }

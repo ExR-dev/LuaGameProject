@@ -21,7 +21,7 @@ private:
 	Content		_content;
 	std::vector<Scene *> _scenes;
 	UINT		_activeSceneIndex;
-	Window		_window;
+	Window		*_window;
 
 	struct TextureData		{ std::string name;	bool transparent; };
 	struct TextureMapData	{ TextureType type;	std::string name;	std::string file; };
@@ -55,7 +55,7 @@ public:
 	Game();
 	~Game();
 
-	[[nodiscard]] bool Setup(Time &time, UINT width, UINT height, Window window);
+	[[nodiscard]] bool Setup(Time &time, UINT width, UINT height, Window *window);
 
 	/// Returns true if active scene exists and is initialized, Otherwise false.
 	[[nodiscard]] bool ActiveSceneIsValid();
@@ -71,7 +71,7 @@ public:
 
 	[[nodiscard]] Graphics *GetGraphics();
 
-	[[nodiscard]] Window GetWindow();
+	[[nodiscard]] Window *GetWindow();
 
 	[[nodiscard]] bool Update(Time &time, const Input &input);
 	[[nodiscard]] bool Render(Time &time, const Input &input);

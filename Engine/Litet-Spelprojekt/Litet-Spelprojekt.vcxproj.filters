@@ -169,6 +169,12 @@
     <ClCompile Include="CreditsBehaviour.cpp">
       <Filter>Source Files\Behaviours</Filter>
     </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Source Files\System\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowSDL3.cpp">
+      <Filter>Source Files\System\Window</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ColliderBehaviour.h">
@@ -343,6 +349,12 @@
     </ClInclude>
     <ClInclude Include="CreditsBehaviour.h">
       <Filter>Header Files\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Header Files\System\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowSDL3.h">
+      <Filter>Header Files\System\Window</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -537,9 +549,6 @@
     <ClCompile Include="SoundSource.cpp">
       <Filter>Source Files\System</Filter>
     </ClCompile>
-    <ClCompile Include="Window.cpp">
-      <Filter>Source Files\System</Filter>
-    </ClCompile>
     <ClCompile Include="ImGui\imgui.cpp">
       <Filter>Source Files\Externals</Filter>
     </ClCompile>
@@ -704,9 +713,6 @@
     <ClInclude Include="UIButtonBehaviour.h">
       <Filter>Header Files\Behaviours</Filter>
     </ClInclude>
-    <ClInclude Include="Window.h">
-      <Filter>Header Files\System</Filter>
-    </ClInclude>
     <ClInclude Include="ImGui\imconfig.h">
       <Filter>Header Files\Externals</Filter>
     </ClInclude>
@@ -846,6 +852,12 @@
     </Filter>
     <Filter Include="Source Files\Behaviours\MonsterStates">
       <UniqueIdentifier>{ad7a9354-a2f5-46f5-9cb8-b00fa695fa88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\System\Window">
+      <UniqueIdentifier>{11ed56ba-871e-4ff7-b3a3-944e07ea3d6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\System\Window">
+      <UniqueIdentifier>{17f1f747-6885-435d-97b6-4ac9b0d7e51d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

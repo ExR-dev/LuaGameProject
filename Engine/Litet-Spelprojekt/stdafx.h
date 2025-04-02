@@ -24,11 +24,16 @@
 #include <d3d11_4.h>
 #include <DirectXMath.h>
 #include <DirectXCollision.h>
-#include <SDL3/SDL.h>
 #include <winsdkver.h>
 #define _WIN32_WINNT 0x0A00
 #include <sdkddkver.h>
 #include <Audio.h>
+
+#include "Window.h"
+#ifdef USE_SDL3
+#include <SDL3/SDL.h>
+#include "WindowSDL3.h"
+#endif
 
 #ifdef USE_IMGUI
 #include "ImGui/imconfig.h"
@@ -44,7 +49,6 @@
 #include "stb_image.h"
 
 #include "GameMath.h"
-#include "Window.h"
 #include "D3D11Helper.h"
 #include "Time.h"
 #include "Input.h"

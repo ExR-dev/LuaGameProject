@@ -14,14 +14,18 @@ Input::Input()
 		_vKeys[i] = (GetAsyncKeyState(i) & 0x8000) ? true : false;
 	}
 
+#ifdef USE_SDL3
 	SDL_GetMouseState(&_mousePos.x, &_mousePos.y);
+#endif
 	_mouseX = _mousePos.x;
 	_mouseY = _mousePos.y;
 }
 
-bool Input::Update(Window& window)
+bool Input::Update(const Window *window)
 {
-	_isInFocus = SDL_GetWindowFlags(window.GetWindow()) & SDL_WINDOW_INPUT_FOCUS;
+#ifdef USE_SDL3
+	SDL_Window *windowSDL = dynamic_cast<const WindowSDL3 *>(window)->GetWindow();
+	_isInFocus = SDL_GetWindowFlags(windowSDL) & SDL_WINDOW_INPUT_FOCUS;
 
 	if (_cursorLocked)
 	{
@@ -31,11 +35,12 @@ bool Input::Update(Window& window)
 	{
 		SDL_GetMouseState(&_mousePos.x, &_mousePos.y);
 	}
+#endif
 
-	_realWindowWidth = window.GetPhysicalWidth();
-	_realWindowHeight = window.GetPhysicalHeight();
+	_realWindowWidth = window->GetPhysicalWidth();
+	_realWindowHeight = window->GetPhysicalHeight();
 
-	_isFullscreen = window.IsFullscreen();
+	_isFullscreen = window->IsFullscreen();
 	if (_isFullscreen)
 	{
 		_mousePos.x = (_mousePos.x * (float)_windowWidth / (float)_realWindowWidth);
@@ -153,11 +158,14 @@ void Input::SetMouseScroll(float scrollX, float scrollY)
 	_scrollY = scrollY;
 }
 
-void Input::SetMousePosition(Window &window, float mouseX, float mouseY)
+void Input::SetMousePosition(const Window *window, float mouseX, float mouseY)
 {
 	_mouseX = mouseX;
 	_mouseY = mouseY;
-	SDL_WarpMouseInWindow(window.GetWindow(), _mouseX, _mouseY);
+#ifdef USE_SDL3
+	SDL_Window *windowSDL = dynamic_cast<const WindowSDL3 *>(window)->GetWindow();
+	SDL_WarpMouseInWindow(windowSDL, _mouseX, _mouseY);
+#endif
 }
 
 bool Input::IsPressedOrHeld(KeyCode keyCode) const
@@ -182,9 +190,10 @@ void Input::EnableAllInput()
 	_disable = false;
 }
 
-bool Input::ToggleLockCursor(Window& window)
+bool Input::ToggleLockCursor(const Window *window)
 {
-	SDL_Window* sdl_window = window.GetWindow();
+#ifdef USE_SDL3
+	SDL_Window* sdl_window = dynamic_cast<const WindowSDL3*>(window)->GetWindow();
 
 	// Toggle cursor lock.
 	SDL_SetWindowRelativeMouseMode(sdl_window, !_cursorLocked);
@@ -192,7 +201,8 @@ bool Input::ToggleLockCursor(Window& window)
 
 	// Warp cursor to center of window if unlocked.
 	if(!_cursorLocked)
-		SDL_WarpMouseInWindow(sdl_window, window.GetWidth()/2.0f, window.GetHeight()/2.0f);
+		SDL_WarpMouseInWindow(sdl_window, window->GetWidth()/2.0f, window->GetHeight()/2.0f);
+#endif
 
 	return _cursorLocked;
 }

@@ -2,8 +2,11 @@
 
 #include <Windows.h>
 #include <unordered_map>
-#include <SDL3/SDL.h>
 #include "Window.h"
+
+#ifdef USE_SDL3
+#include <SDL3/SDL.h>
+#endif
 
 
 enum class KeyCode : unsigned char
@@ -405,7 +408,7 @@ public:
         return &instance;
     }
 
-    [[nodiscard]] bool Update(Window& window);
+    [[nodiscard]] bool Update(const Window *window);
 
 	[[nodiscard]] KeyState GetKey(KeyCode keyCode) const;
 	[[nodiscard]] KeyState GetKey(UCHAR keyCode) const;
@@ -418,7 +421,7 @@ public:
 
     void SetWindowSize(WindowSize &size);
     void SetMouseScroll(float scrollX, float scrollY);
-    void SetMousePosition(Window &window, float mouseX, float mouseY);
+    void SetMousePosition(const Window *window, float mouseX, float mouseY);
 
     [[nodiscard]] bool IsPressedOrHeld(KeyCode keyCode) const;
 
@@ -428,5 +431,5 @@ public:
     void DisableAllInput();
     void EnableAllInput();
 
-    bool ToggleLockCursor(Window& window);
+    bool ToggleLockCursor(const Window *window);
 };

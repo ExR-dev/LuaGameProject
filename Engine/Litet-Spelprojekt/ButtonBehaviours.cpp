@@ -37,7 +37,7 @@ bool PlayButtonBehaviour::SwitchScene()
 	}
 
 
-	Window window = game->GetWindow();
+	Window* window = game->GetWindow();
 	Input::GetInstance()->ToggleLockCursor(window);
 
 	FogSettingsBuffer fogSettings;

@@ -53,8 +53,18 @@ int main(int argc, char* argv[])
 	Input *input = Input::GetInstance();
 	input->SetWindowSize(windowSize);
 
-	Window window = { };
-	if (!window.Initialize("Lurks Below", input->GetWindowSize().width, input->GetWindowSize().height))
+	Window *window = nullptr;
+#ifdef USE_SDL3
+	window = new WindowSDL3();
+#endif
+
+	if (!window)
+	{
+		ErrMsg("No window library has been configured!");
+		return -1;
+	}
+
+	if (!window->Initialize("Lurks Below", input->GetWindowSize().width, input->GetWindowSize().height))
 	{
 		ErrMsg("Failed to setup window!");
 		return -1;
@@ -153,7 +163,7 @@ int main(int argc, char* argv[])
 	}
 
 
-	window.UpdateWindowSize();
+	window->UpdateWindowSize();
 
 	size_t frameCount = 0;
 	while (running)
@@ -163,14 +173,14 @@ int main(int argc, char* argv[])
 #endif
 		input->SetMouseScroll(0, 0);
 
-		if (!window.UpdateWindow(input))
+		if (!window->UpdateWindow(input))
 		{
 			ErrMsg("Failed to update window!");
 			returnCode = -1;
 			running = false;
 		}
 
-		if (window.IsClosing())
+		if (window->IsClosing())
 		{
 			returnCode = 1;
 			running = false;
@@ -179,7 +189,7 @@ int main(int argc, char* argv[])
 		// Toggle fullscreen with [Left Control] + [Enter]
 		if (BindingCollection::IsTriggered(InputBindings::InputAction::Fullscreen))
 		{
-			if (!window.ToggleFullscreen())
+			if (!window->ToggleFullscreen())
 			{
 				ErrMsg("Failed to toggle fullscreen!");
 			}
@@ -277,7 +287,7 @@ int main(int argc, char* argv[])
 
 						if (input->IsInFocus() && input->IsCursorLocked())
 						{
-							input->SetMousePosition(window, window.GetWidth() / 2.0f, window.GetHeight() / 2.0f);
+							input->SetMousePosition(window, window->GetWidth() / 2.0f, window->GetHeight() / 2.0f);
 							input->ToggleLockCursor(window);
 						}
 
@@ -345,7 +355,7 @@ int main(int argc, char* argv[])
 		{
 			if (input->IsInFocus() && input->IsCursorLocked())
 			{
-				input->SetMousePosition(window, window.GetWidth() / 2.0f, window.GetHeight() / 2.0f);
+				input->SetMousePosition(window, window->GetWidth() / 2.0f, window->GetHeight() / 2.0f);
 				input->ToggleLockCursor(window);
 			}
 		}

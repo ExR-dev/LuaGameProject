@@ -1,9 +1,6 @@
 #pragma once
 #include <Windows.h>
 #include <iostream>
-#include <SDL3/SDL.h>
-#include <d3d11.h>
-#include <wrl/client.h>
 
 class Input;
 
@@ -14,9 +11,11 @@ enum class WindowType
 };
 
 class Window {
-private:
+protected:
 	std::string _name = "Window";
+
 	HWND _hwnd = NULL;
+
 	UINT _height = NULL;
 	UINT _width = NULL;
 	int _physicalWidth = NULL;
@@ -27,40 +26,24 @@ private:
 
 	WindowType _windowType = WindowType::MAIN;
 
-	SDL_Surface* _surface = nullptr;
-	SDL_Window* _window = nullptr;
-
-	D3D11_VIEWPORT _viewport = { };
-	Microsoft::WRL::ComPtr<IDXGISwapChain> _swapChain = nullptr;
-	Microsoft::WRL::ComPtr<ID3D11UnorderedAccessView> _uav = nullptr;
-
-	bool SetupWindow();
 
 public:
 	Window();
 	Window(std::string name, UINT width, UINT height, WindowType windowType = WindowType::MAIN);
 	~Window() = default;
 
-	bool Initialize(std::string name, UINT width, UINT height, WindowType windowType = WindowType::MAIN);
-	bool ToggleFullscreen();
-	bool UpdateWindowSize();
+	virtual bool Initialize(std::string name, UINT width, UINT height, WindowType windowType = WindowType::MAIN) = 0;
+	virtual bool ToggleFullscreen() = 0;
+	virtual bool UpdateWindowSize() = 0;
 
-	bool UpdateWindow(Input* input);
+	virtual bool UpdateWindow(Input* input) = 0;
 
 	HWND GetHWND() const;
 	UINT GetHeight() const;
 	UINT GetWidth() const;
 	int GetPhysicalHeight() const;
 	int GetPhysicalWidth() const;
-	SDL_Surface* GetSurface() const;
-	SDL_Window* GetWindow() const;
-	const D3D11_VIEWPORT* GetViewport() const;
-	IDXGISwapChain* GetSwapChain() const;
-	ID3D11UnorderedAccessView* GetUAV() const;
 	WindowType GetWindowType() const;
 	bool IsFullscreen() const;
 	bool IsClosing() const;
-
-	IDXGISwapChain** GetSwapChainAddress();
-	ID3D11UnorderedAccessView** GetUAVAddress();
 };

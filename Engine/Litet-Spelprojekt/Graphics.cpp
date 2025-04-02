@@ -19,7 +19,7 @@ Graphics::~Graphics()
 		Shutdown();
 }
 
-bool Graphics::Setup(const UINT width, const UINT height, const Window window, 
+bool Graphics::Setup(const UINT width, const UINT height, const Window *window, 
 	ID3D11Device *&device, ID3D11DeviceContext *&immediateContext, Content *content)
 {
 #ifdef PIX_TIMELINING
@@ -36,7 +36,7 @@ bool Graphics::Setup(const UINT width, const UINT height, const Window window,
 		return false;
 	}
 
-	if (!SetupD3D11(width, height, window.GetHWND(), device, immediateContext, 
+	if (!SetupD3D11(width, height, window->GetHWND(), device, immediateContext, 
 			*_swapChain.ReleaseAndGetAddressOf(),
 			*_rtv.ReleaseAndGetAddressOf(), 
 #ifdef USE_IMGUI
