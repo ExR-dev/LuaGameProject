@@ -5,7 +5,6 @@
 #include <format>
 #include "LuaUtils.h"
 
-
 void ConsoleThreadFunction(lua_State *L)
 {
 	std::string input;

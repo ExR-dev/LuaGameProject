@@ -183,10 +183,56 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Components.h" />
+    <ClInclude Include="Components\RenderComponents.h" />
+    <ClInclude Include="Components\TransformComponents.h" />
     <ClInclude Include="EnTT\entt.hpp" />
     <ClInclude Include="LuaConsole.h" />
     <ClInclude Include="LuaUtils.h" />
-    <ClInclude Include="rcamera.h" />
+    <ClInclude Include="raylib-cpp\AudioDevice.hpp" />
+    <ClInclude Include="raylib-cpp\AudioStream.hpp" />
+    <ClInclude Include="raylib-cpp\AutomationEventList.hpp" />
+    <ClInclude Include="raylib-cpp\BoundingBox.hpp" />
+    <ClInclude Include="raylib-cpp\Camera2D.hpp" />
+    <ClInclude Include="raylib-cpp\Camera3D.hpp" />
+    <ClInclude Include="raylib-cpp\Color.hpp" />
+    <ClInclude Include="raylib-cpp\FileData.hpp" />
+    <ClInclude Include="raylib-cpp\FileText.hpp" />
+    <ClInclude Include="raylib-cpp\Font.hpp" />
+    <ClInclude Include="raylib-cpp\Functions.hpp" />
+    <ClInclude Include="raylib-cpp\Gamepad.hpp" />
+    <ClInclude Include="raylib-cpp\Image.hpp" />
+    <ClInclude Include="raylib-cpp\Keyboard.hpp" />
+    <ClInclude Include="raylib-cpp\Material.hpp" />
+    <ClInclude Include="raylib-cpp\Matrix.hpp" />
+    <ClInclude Include="raylib-cpp\Mesh.hpp" />
+    <ClInclude Include="raylib-cpp\MeshUnmanaged.hpp" />
+    <ClInclude Include="raylib-cpp\Model.hpp" />
+    <ClInclude Include="raylib-cpp\ModelAnimation.hpp" />
+    <ClInclude Include="raylib-cpp\Mouse.hpp" />
+    <ClInclude Include="raylib-cpp\Music.hpp" />
+    <ClInclude Include="raylib-cpp\Ray.hpp" />
+    <ClInclude Include="raylib-cpp\RayCollision.hpp" />
+    <ClInclude Include="raylib-cpp\raylib-cpp-utils.hpp" />
+    <ClInclude Include="raylib-cpp\raylib-cpp.hpp" />
+    <ClInclude Include="raylib-cpp\raylib.hpp" />
+    <ClInclude Include="raylib-cpp\RaylibException.hpp" />
+    <ClInclude Include="raylib-cpp\raymath.hpp" />
+    <ClInclude Include="raylib-cpp\Rectangle.hpp" />
+    <ClInclude Include="raylib-cpp\RenderTexture.hpp" />
+    <ClInclude Include="raylib-cpp\Shader.hpp" />
+    <ClInclude Include="raylib-cpp\ShaderUnmanaged.hpp" />
+    <ClInclude Include="raylib-cpp\Sound.hpp" />
+    <ClInclude Include="raylib-cpp\Text.hpp" />
+    <ClInclude Include="raylib-cpp\Texture.hpp" />
+    <ClInclude Include="raylib-cpp\TextureUnmanaged.hpp" />
+    <ClInclude Include="raylib-cpp\Touch.hpp" />
+    <ClInclude Include="raylib-cpp\Vector2.hpp" />
+    <ClInclude Include="raylib-cpp\Vector3.hpp" />
+    <ClInclude Include="raylib-cpp\Vector4.hpp" />
+    <ClInclude Include="raylib-cpp\VrStereoConfig.hpp" />
+    <ClInclude Include="raylib-cpp\Wave.hpp" />
+    <ClInclude Include="raylib-cpp\Window.hpp" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

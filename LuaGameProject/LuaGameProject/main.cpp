@@ -1,8 +1,7 @@
 #include "stdafx.h"
 #include "LuaConsole.h"
 
-#define MAX_COLUMNS 20
-
+#define MAX_COLUMNS 200
 
 //------------------------------------------------------------------------------------
 // Program main entry point
@@ -19,8 +18,6 @@ int main()
         DumpLuaError(L);
     }
 
-	std::thread consoleThread(ConsoleThreadFunction, L);
-
     // Initialization
     //--------------------------------------------------------------------------------------
     const int screenWidth = 1600;
@@ -30,7 +27,7 @@ int main()
     InitWindow(screenWidth, screenHeight, "raylib [core] example - 3d camera first person");
 
     // Define the camera to look into our 3d world (position, target, up vector)
-    Camera camera = { 0 };
+    raylib::Camera camera{};
     camera.position = { 0.0f, 2.0f, 4.0f };    // Camera position
     camera.target = { 0.0f, 2.0f, 0.0f };      // Camera looking at point
     camera.up = { 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
@@ -39,36 +36,62 @@ int main()
 
     int cameraMode = CAMERA_FIRST_PERSON;
 
-    // Generates some random columns
-    float heights[MAX_COLUMNS] = { 0 };
-    Vector3 positions[MAX_COLUMNS] = { 0 };
-    Color colors[MAX_COLUMNS] = { 0 };
-
+    // Generates some random column entities
     for (int i = 0; i < MAX_COLUMNS; i++)
     {
-        heights[i] = (float)GetRandomValue(1, 12);
-        positions[i] = { (float)GetRandomValue(-15, 15), heights[i] / 2.0f, (float)GetRandomValue(-15, 15) };
-        colors[i] = { (uint8_t)GetRandomValue(20, 255), (uint8_t)GetRandomValue(10, 55), 30, 255 };
+        float height = ((float)GetRandomValue(10, 240)) / 10.0f;
+        raylib::Vector3 position = { ((float)GetRandomValue(-3500, 3500)) / 100.0f, height / 2.0f, ((float)GetRandomValue(-3500, 3500)) / 100.0f };
+        raylib::Color color = { (uint8_t)GetRandomValue(20, 255), (uint8_t)GetRandomValue(10, 55), 30, 255 };
+
+        // Add entity
+		auto ent = registry.create();
+
+        raylib::Matrix matrix = raylib::Matrix::Translate(position.x, position.y, position.z);
+		//matrix = matrix * raylib::Matrix::Scale(2.0f, 1.0f, 2.0f);
+
+		registry.emplace<Component::Transform>(ent, matrix);
+		registry.emplace<Component::Render>(ent, color, true);
+		registry.emplace<Component::Cube>(ent, raylib::Vector3{ 0.0f, 0.0f, 0.0f }, raylib::Vector3{ 2.0f, height, 2.0f });
     }
 
-    //DisableCursor();                    // Limit cursor to relative movement inside the window
+    DisableCursor();                    // Limit cursor to relative movement inside the window
+	bool cursorEnabled = false;
 
     SetTargetFPS(144);                   // Set our game to run at 144 frames-per-second
     //--------------------------------------------------------------------------------------
 
     // Load content
-    Model model = LoadModel("Content/Meshes/Maxwell.obj");
-    Texture2D texture = LoadTexture("Content/Textures/Maxwell.png");
+    raylib::Model model = LoadModel("Content/Meshes/Maxwell.obj");
+    raylib::Texture2D texture = LoadTexture("Content/Textures/Maxwell.png");
     GenTextureMipmaps(&texture);
     SetTextureFilter(texture, TEXTURE_FILTER_TRILINEAR);
 
     model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
+
+	// Start Lua console thread
+    std::thread consoleThread(ConsoleThreadFunction, L);
+    consoleThread.detach();
 
     // Main game loop
     while (!WindowShouldClose())        // Detect window close button or ESC key
     {
         // Update
         //----------------------------------------------------------------------------------
+        // Toggle mouse
+        if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
+        {
+			if (cursorEnabled)
+			{
+				DisableCursor();
+				cursorEnabled = false;
+			}
+			else
+			{
+				EnableCursor();
+				cursorEnabled = true;
+			}
+		}
+        
         // Switch camera mode
         if (IsKeyPressed(KEY_ONE))
         {
@@ -156,16 +179,34 @@ int main()
 
         BeginMode3D(camera);
 
-        DrawPlane({ 0.0f, 0.0f, 0.0f }, { 32.0f, 32.0f }, LIGHTGRAY); // Draw ground
-        DrawCube({ -16.0f, 2.5f, 0.0f }, 1.0f, 5.0f, 32.0f, BLUE);     // Draw a blue wall
-        DrawCube({ 16.0f, 2.5f, 0.0f }, 1.0f, 5.0f, 32.0f, LIME);      // Draw a green wall
-        DrawCube({ 0.0f, 2.5f, 16.0f }, 32.0f, 5.0f, 1.0f, GOLD);      // Draw a yellow wall
+        DrawPlane({ 0.0f, 0.0f, 0.0f }, { 72.0f, 72.0f }, LIGHTGRAY);  // Draw ground
+        DrawCube({ -36.0f, 2.5f, 0.0f }, 1.0f, 5.0f, 72.0f, BLUE);     // Draw a blue wall
+        DrawCube({ 36.0f, 2.5f, 0.0f }, 1.0f, 5.0f, 72.0f, LIME);      // Draw a green wall
+        DrawCube({ 0.0f, 2.5f, 36.0f }, 72.0f, 5.0f, 1.0f, GOLD);      // Draw a yellow wall
 
-        // Draw some cubes around
-        for (int i = 0; i < MAX_COLUMNS; i++)
+		// Draw all entities with Render component
         {
-            DrawCube(positions[i], 2.0f, heights[i], 2.0f, colors[i]);
-            DrawCubeWires(positions[i], 2.0f, heights[i], 2.0f, MAROON);
+			auto renderCubeGroup = registry.group<Component::Render>(entt::get<Component::Cube>);
+            for (auto entity : renderCubeGroup)
+            {
+				const auto&[render, cube] = renderCubeGroup.get<Component::Render, Component::Cube>(entity);
+
+				if (!render.visible)
+					continue;
+
+                raylib::Vector3 pos = cube.position;
+                raylib::Vector3 size = cube.size;
+                raylib::Color color = render.color;
+
+				// Get transform if it exists
+                if (auto transform = registry.try_get<Component::Transform>(entity))
+                {
+                    pos = Vector3Transform(pos, transform->transform);
+                }
+
+                DrawCubeV(pos, size, color);
+                DrawCubeWiresV(pos, size, MAROON);
+            }
         }
 
         // Draw player cube
@@ -212,7 +253,7 @@ int main()
 
     // De-Initialization
     //--------------------------------------------------------------------------------------
-    CloseWindow();        // Close window and OpenGL context
+    CloseWindow();              // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
 
     return 0;

@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "LuaUtils.h"
 
-
 void DumpLuaError(lua_State *L)
 {
 	if (lua_gettop(L) && lua_isstring(L, -1))
