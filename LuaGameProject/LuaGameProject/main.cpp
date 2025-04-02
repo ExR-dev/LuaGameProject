@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "LuaConsole.h"
 
-#define MAX_COLUMNS 200
+#define MAX_COLUMNS 500
 
 //------------------------------------------------------------------------------------
 // Program main entry point
@@ -39,25 +39,25 @@ int main()
     // Generates some random column entities
     for (int i = 0; i < MAX_COLUMNS; i++)
     {
-        float height = ((float)GetRandomValue(10, 240)) / 10.0f;
+        float height = ((float)GetRandomValue(10, 180)) / 10.0f;
         raylib::Vector3 position = { ((float)GetRandomValue(-3500, 3500)) / 100.0f, height / 2.0f, ((float)GetRandomValue(-3500, 3500)) / 100.0f };
         raylib::Color color = { (uint8_t)GetRandomValue(20, 255), (uint8_t)GetRandomValue(10, 55), 30, 255 };
 
-        // Add entity
+        raylib::Matrix matrix = raylib::Matrix::Translate(position.x, position.y, position.z);
+
+        // Create entity
 		auto ent = registry.create();
 
-        raylib::Matrix matrix = raylib::Matrix::Translate(position.x, position.y, position.z);
-		//matrix = matrix * raylib::Matrix::Scale(2.0f, 1.0f, 2.0f);
-
+		// Add components
 		registry.emplace<Component::Transform>(ent, matrix);
 		registry.emplace<Component::Render>(ent, color, true);
-		registry.emplace<Component::Cube>(ent, raylib::Vector3{ 0.0f, 0.0f, 0.0f }, raylib::Vector3{ 2.0f, height, 2.0f });
+		registry.emplace<Component::Cube>(ent, raylib::Vector3{ 0.0f, 0.0f, 0.0f }, raylib::Vector3{ 0.2f, height, 0.2f });
     }
 
     DisableCursor();                    // Limit cursor to relative movement inside the window
 	bool cursorEnabled = false;
 
-    SetTargetFPS(144);                   // Set our game to run at 144 frames-per-second
+    //SetTargetFPS(144);                   // Set our game to run at 144 frames-per-second
     //--------------------------------------------------------------------------------------
 
     // Load content
@@ -186,26 +186,40 @@ int main()
 
 		// Draw all entities with Render component
         {
-			auto renderCubeGroup = registry.group<Component::Render>(entt::get<Component::Cube>);
-            for (auto entity : renderCubeGroup)
+			// Draw entities with render and cube, not transform
             {
-				const auto&[render, cube] = renderCubeGroup.get<Component::Render, Component::Cube>(entity);
+                auto view = registry.view<Component::Render, Component::Cube>(entt::exclude<Component::Transform>);
 
-				if (!render.visible)
-					continue;
+                view.each([](const Component::Render &render, const Component::Cube &cube) {
+                    if (!render.visible)
+                        return;
 
-                raylib::Vector3 pos = cube.position;
-                raylib::Vector3 size = cube.size;
-                raylib::Color color = render.color;
+                    raylib::Vector3 pos = cube.position;
+                    raylib::Vector3 size = cube.size;
+                    raylib::Color color = render.color;
 
-				// Get transform if it exists
-                if (auto transform = registry.try_get<Component::Transform>(entity))
-                {
-                    pos = Vector3Transform(pos, transform->transform);
-                }
+                    DrawCubeV(pos, size, color);
+                    //DrawCubeWiresV(pos, size, MAROON);
+                });
+            }
 
-                DrawCubeV(pos, size, color);
-                DrawCubeWiresV(pos, size, MAROON);
+			// Draw entities with transform, render and cube
+            {
+                auto view = registry.view<Component::Transform, Component::Render, Component::Cube>();
+
+                view.each([](const Component::Transform &transform, const Component::Render &render, const Component::Cube &cube) {
+                    if (!render.visible)
+                        return;
+
+                    raylib::Vector3 pos = cube.position;
+                    raylib::Vector3 size = cube.size;
+                    raylib::Color color = render.color;
+
+                    pos = Vector3Transform(pos, transform.transform);
+
+                    DrawCubeV(pos, size, color);
+                    //DrawCubeWiresV(pos, size, MAROON);
+                });
             }
         }
 

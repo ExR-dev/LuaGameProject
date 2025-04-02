@@ -5,6 +5,7 @@
 #include <format>
 #include <atomic>
 #include <thread>
+#include <execution>
 
 #include "raylib-cpp/raylib-cpp.hpp"
 #include "rcamera.h"
