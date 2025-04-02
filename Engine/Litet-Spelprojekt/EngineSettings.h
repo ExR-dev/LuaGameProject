@@ -17,8 +17,12 @@
 
 /// USE_IMGUI enables the use of ImGui for development purposes. Most runtime development tools are used through ImGui.
 #ifndef USE_RAYLIB
-#define USE_IMGUI
 #define USE_SDL3
+
+#ifdef USE_SDL3
+#define USE_IMGUI
+#endif
+
 #endif
 
 

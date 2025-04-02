@@ -2,12 +2,10 @@
 
 #ifdef USE_SDL3
 
-#include <Windows.h>
-#include <iostream>
-#include <d3d11.h>
-#include <wrl/client.h>
-
 #include <SDL3/SDL.h>
+
+#include "Window.h"
+
 
 class Input;
 
