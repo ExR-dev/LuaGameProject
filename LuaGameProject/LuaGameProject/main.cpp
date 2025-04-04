@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "LuaConsole.h"
 
+#include "dep/imgui/backends/imgui_impl_raylib.h"
+#include "dep/imgui/imgui.h"
+
 #define MAX_COLUMNS 500
 
 //------------------------------------------------------------------------------------
@@ -17,6 +20,11 @@ int main()
     {
         DumpLuaError(L);
     }
+
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+
+    ImGui_ImplRaylib_Init();
 
     // Initialization
     //--------------------------------------------------------------------------------------
@@ -75,6 +83,12 @@ int main()
     // Main game loop
     while (!WindowShouldClose())        // Detect window close button or ESC key
     {
+        ImGui_ImplRaylib_NewFrame();
+        ImGui_ImplRaylib_ProcessEvent();
+        ImGui::NewFrame();
+
+        ImGui::Begin("Debug");
+
         // Update
         //----------------------------------------------------------------------------------
         // Toggle mouse
@@ -267,6 +281,8 @@ int main()
 
     // De-Initialization
     //--------------------------------------------------------------------------------------
+    ImGui_ImplRaylib_Shutdown();
+
     CloseWindow();              // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
 
