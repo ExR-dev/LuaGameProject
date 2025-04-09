@@ -31,6 +31,7 @@ class DungeonGenerator
 {
 private:
 	std::vector<Room> _rooms;
+	std::vector<int> _selectedRooms;
 
 	const unsigned int _tileSize = 10;
 
@@ -47,6 +48,7 @@ public:
 
 	void Generate(float radius);
 	void SeperateRooms();
+	void RoomSelection();
 
 	void Draw();
 };
