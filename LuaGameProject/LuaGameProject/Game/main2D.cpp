@@ -2,6 +2,8 @@
 #include "main2D.h"
 #include "../LuaConsole.h"
 
+#include "Utilities/DungeonGenerator.h"
+
 namespace Main2D
 {
 #define G 900
@@ -163,6 +165,20 @@ namespace Main2D
         if (player->position.y > bboxWorldMax.y) camera->target.y = bboxWorldMin.y + (player->position.y - bboxWorldMax.y);
     }
 
+    void UpdateFreeCamera(raylib::Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height)
+    {
+        raylib::Vector2 move(
+            IsKeyDown(KEY_RIGHT) - IsKeyDown(KEY_LEFT),
+            IsKeyDown(KEY_DOWN)  - IsKeyDown(KEY_UP)
+        );
+
+        move = Vector2Normalize(move);
+
+        static float moveSpeed = 100;
+
+        camera->target = Vector2Add(camera->target, Vector2Scale(move, moveSpeed * delta));
+    }
+
     //------------------------------------------------------------------------------------
     // Game loop
     //------------------------------------------------------------------------------------
@@ -205,9 +221,13 @@ namespace Main2D
         camera.rotation = 0.0f;
         camera.zoom = 1.0f;
 
+        DungeonGenerator dungeon;
+        dungeon.Generate();
+
         // Store pointers to the multiple update camera functions
         void (*cameraUpdaters[])(raylib::Camera2D *, Player *, EnvItem *, int, float, int, int) = {
             UpdateCameraCenter,
+            UpdateFreeCamera,
             UpdateCameraCenterInsideMap,
             UpdateCameraCenterSmoothFollow,
             UpdateCameraEvenOutOnLanding,
@@ -219,6 +239,7 @@ namespace Main2D
 
         const char *cameraDescriptions[] = {
             "Follow player center",
+            "Free camera movement"
             "Follow player center, but clamp to map edges",
             "Follow player center; smoothed",
             "Follow player center horizontally; update player center vertically after landing",
@@ -284,12 +305,15 @@ namespace Main2D
 
             BeginMode2D(camera);
 
+
             for (int i = 0; i < envItemsLength; i++) DrawRectangleRec(envItems[i].rect, envItems[i].color);
 
             raylib::Rectangle playerRect = { player.position.x - 20, player.position.y - 40, 40.0f, 40.0f };
             DrawRectangleRec(playerRect, RED);
 
             DrawCircleV(player.position, 5.0f, GOLD);
+
+            dungeon.Draw();
 
             EndMode2D();
 
