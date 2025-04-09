@@ -23,9 +23,9 @@ void DungeonGenerator::Initialize()
 	if (_rooms.size() > 0)
 		_rooms.clear();
 
-	for (int _ = 0; _ < 10; _++)
-		AddRoom({{(float)((int)Math::Random(2, 10)*_tileSize), (float)((int)Math::Random(2, 10)*_tileSize)}, 
-				 {(unsigned char)(Math::Random01()*255), (unsigned char)(Math::Random01()*255), (unsigned char)(Math::Random01()*255), 255}});
+	for (int _ = 0; _ < 100; _++)
+		AddRoom({{(float)(Math::Random(2, 10)*_tileSize), (float)(Math::Random(2, 10)*_tileSize)}, 
+				 {(unsigned char)(Math::Random01f()*255), (unsigned char)(Math::Random01f()*255), (unsigned char)(Math::Random01f()*255), 255}});
 }
 
 void DungeonGenerator::AddRoom(const Room &room)
@@ -44,21 +44,45 @@ void DungeonGenerator::SeperateRooms()
 {
 	bool foundIntersection = true;
 
-	//while (foundIntersection)
+	while (foundIntersection)
 	{
 		foundIntersection = false;
 		for (auto &room : _rooms)
+		{
 			for (auto &other : _rooms)
-				if (room != other)
-					if (Intersecting(room, other))
-					{
-						foundIntersection = true;
+			{
+				if (room != other && Intersecting(room, other))
+				{
+					foundIntersection = true;
 
-						// Seperate rooms
-						Vector2 dir = Vector2Normalize(Vector2Subtract(room.pos, other.pos));
-						room.pos = Vector2Add(room.pos, Vector2Scale(dir, _tileSize));
-						other.pos = Vector2Subtract(other.pos, Vector2Scale(dir, _tileSize));
+					Vector2 delta = Vector2Subtract(room.pos, other.pos);
+
+					// Decide axis of least penetration
+					float overlapX = (room.size.x + other.size.x) / 2 - fabs(delta.x);
+					float overlapY = (room.size.y + other.size.y) / 2 - fabs(delta.y);
+
+					if (overlapX < overlapY)
+					{
+						float dir = (delta.x < 0) ? -1 : 1;
+						room.pos.x += dir * _tileSize;
+						other.pos.x -= dir * _tileSize;
 					}
+					else
+					{
+						float dir = (delta.y < 0) ? -1 : 1;
+						room.pos.y += dir * _tileSize;
+						other.pos.y -= dir * _tileSize;
+					}
+
+				}
+			}
+		}
+
+		// Snap to tile grid
+		for (auto &room : _rooms) {
+			room.pos.x = roundf(room.pos.x / _tileSize) * _tileSize;
+			room.pos.y = roundf(room.pos.y / _tileSize) * _tileSize;
+		}
 	}
 }
 
