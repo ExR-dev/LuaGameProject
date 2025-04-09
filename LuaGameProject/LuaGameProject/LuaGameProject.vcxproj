@@ -167,6 +167,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Game\main3D.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="LuaConsole.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
@@ -175,6 +181,12 @@
     </ClCompile>
     <ClCompile Include="LuaUtils.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Game\main2D.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -187,8 +199,10 @@
     <ClInclude Include="Components\RenderComponents.h" />
     <ClInclude Include="Components\TransformComponents.h" />
     <ClInclude Include="EnTT\entt.hpp" />
+    <ClInclude Include="Game\main3D.h" />
     <ClInclude Include="LuaConsole.h" />
     <ClInclude Include="LuaUtils.h" />
+    <ClInclude Include="Game\main2D.h" />
     <ClInclude Include="raylib-cpp\AudioDevice.hpp" />
     <ClInclude Include="raylib-cpp\AudioStream.hpp" />
     <ClInclude Include="raylib-cpp\AutomationEventList.hpp" />
