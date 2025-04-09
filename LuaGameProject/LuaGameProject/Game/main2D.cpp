@@ -174,7 +174,7 @@ namespace Main2D
 
         move = Vector2Normalize(move);
 
-        static float moveSpeed = 100;
+        const static float moveSpeed = 100;
 
         camera->target = Vector2Add(camera->target, Vector2Scale(move, moveSpeed * delta));
     }
@@ -185,6 +185,8 @@ namespace Main2D
     int Run()
     {
         entt::registry registry;
+
+        srand(time(NULL));
 
         lua_State *L = luaL_newstate();
         luaL_openlibs(L);
@@ -221,8 +223,8 @@ namespace Main2D
         camera.rotation = 0.0f;
         camera.zoom = 1.0f;
 
-        DungeonGenerator dungeon;
-        dungeon.Generate();
+        DungeonGenerator dungeon = DungeonGenerator({ 200, 200 });
+        dungeon.Generate(100);
 
         // Store pointers to the multiple update camera functions
         void (*cameraUpdaters[])(raylib::Camera2D *, Player *, EnvItem *, int, float, int, int) = {
@@ -239,7 +241,7 @@ namespace Main2D
 
         const char *cameraDescriptions[] = {
             "Follow player center",
-            "Free camera movement"
+            "Free camera movement",
             "Follow player center, but clamp to map edges",
             "Follow player center; smoothed",
             "Follow player center horizontally; update player center vertically after landing",
@@ -290,6 +292,14 @@ namespace Main2D
                 camera.zoom = 1.0f;
                 player.position = raylib::Vector2{ 400, 280 };
             }
+
+            if (IsKeyPressed(KEY_T))
+            {
+                dungeon.Initialize();
+                dungeon.Generate(100);
+            }
+
+            if (IsKeyPressed(KEY_Y)) dungeon.SeperateRooms();
 
             if (IsKeyPressed(KEY_C)) cameraOption = (cameraOption + 1) % cameraUpdatersLength;
 
