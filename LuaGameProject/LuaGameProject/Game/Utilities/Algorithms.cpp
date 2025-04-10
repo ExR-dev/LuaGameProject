@@ -83,3 +83,43 @@ std::vector<Triangle> BowyerWatson(const std::vector<Point> &points)
 
     return triangles;
 }
+
+std::vector<int> Prim(const std::vector<std::vector<float>> &graph)
+{
+    const unsigned int n = graph.size();
+	std::vector<int> res;
+
+	int no_edge = 0;
+    std::vector<bool> selected(n, false);
+
+	selected[0] = true;
+
+	int x, y;
+	while (no_edge < n - 1)
+	{
+		int min = INFINITY;
+		x = 0;
+		y = 0;
+
+		for (int i = 0; i < n; i++)
+			if (selected[i])
+				for (int j = 0; j < n; j++)
+					if (!selected[j])
+						if (min > graph[i][j])
+						{
+							min = graph[i][j];
+							x = i;
+							y = j;
+						}
+
+		selected[y] = true;
+		no_edge++;
+	}
+
+	for (int i = 0; i < n; i++)
+		if (selected[i])
+			res.push_back(i);
+
+	return res;
+}
+

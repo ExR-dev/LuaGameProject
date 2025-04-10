@@ -22,7 +22,7 @@ struct Point
 	Point &operator=(const Point &) = default;
 	Point &operator=(Point &&) = default;
 
-	inline Vector2 ToVector() { return Vector2(x, y); }
+	inline Vector2 ToVector() const { return Vector2(x, y); }
 
 	inline bool operator==(const Point &other) const
 	{
@@ -51,6 +51,10 @@ struct Line
 	inline bool operator!=(const Line &other) const
 	{
 		return !(*this == other);
+	}
+
+	float weight() const {
+		return sqrt(pow(p2.x - p1.x, 2) + pow(p2.y - p1.y, 2));
 	}
 };
 

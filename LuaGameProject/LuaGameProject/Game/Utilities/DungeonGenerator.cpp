@@ -127,9 +127,19 @@ void DungeonGenerator::GenerateGraph()
 
 	std::vector<Triangle> triangles = BowyerWatson(points);
 
+	bool found;
 	for (const auto &triangle : triangles)
 		for (int e = 0; e < 3; e++)
-			_graph.push_back(triangle.GetEdge(e));
+		{
+			found = false;
+			Line edge = triangle.GetEdge(e);
+
+			for (const auto &line : _graph)
+				found |= (line == edge);
+
+			if (!found)
+				_graph.push_back(edge);
+		}
 }
 
 void DungeonGenerator::Draw()
