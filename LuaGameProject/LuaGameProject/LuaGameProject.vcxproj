@@ -167,6 +167,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Game\Utilities\Algorithms.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../../stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../../stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../../stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="Game\Utilities\DungeonGenerator.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../../stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../../stdafx.h</PrecompiledHeaderFile>
@@ -211,6 +217,7 @@
     <ClInclude Include="Components\RenderComponents.h" />
     <ClInclude Include="Components\TransformComponents.h" />
     <ClInclude Include="EnTT\entt.hpp" />
+    <ClInclude Include="Game\Utilities\Algorithms.h" />
     <ClInclude Include="Game\Utilities\DungeonGenerator.h" />
     <ClInclude Include="Game\main3D.h" />
     <ClInclude Include="Game\Utilities\Math.h" />

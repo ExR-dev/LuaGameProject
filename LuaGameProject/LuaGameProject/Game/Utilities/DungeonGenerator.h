@@ -4,6 +4,8 @@
 
 #include "../../raylib-cpp/raylib-cpp.hpp"
 
+#include "Math.h"
+
 struct Room
 {
 	Room(raylib::Vector2 size, raylib::Color color);
@@ -32,6 +34,7 @@ class DungeonGenerator
 private:
 	std::vector<Room> _rooms;
 	std::vector<int> _selectedRooms;
+	std::vector<Math::Line> _graph;
 
 	const unsigned int _tileSize = 10;
 
@@ -49,6 +52,7 @@ public:
 	void Generate(float radius);
 	void SeperateRooms();
 	void RoomSelection();
+	void GenerateGraph();
 
 	void Draw();
 };

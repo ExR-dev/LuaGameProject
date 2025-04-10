@@ -41,3 +41,23 @@ Vector2 Math::RandomGridPointCircle(float radius, float tileSize)
              RoundM(radius * r * sinf(t), tileSize)};
 }
 
+bool Math::IsTriangleCounterClockwise(const Triangle &t)
+{
+    return (t.p2.x - t.p1.x) * (t.p3.y - t.p1.y) - (t.p3.x - t.p1.x) * (t.p2.y - t.p1.y) > 0;
+}
+
+bool Math::IsPointInsideTriangleCircumcircle(const Triangle &t, const Point &p)
+{
+    float ax = t.p1.x - p.x,
+          ay = t.p1.y - p.y,
+          bx = t.p2.x - p.x,
+          by = t.p2.y - p.y,
+          cx = t.p3.x - p.x,
+          cy = t.p3.y - p.y;
+
+    float det = ((ax*ax + ay*ay) * (bx*cy - cx*by) -
+                 (bx*bx + by*by) * (ax*cy - cx*ay) +
+                 (cx*cx + cy*cy) * (ax*by - bx*ay));
+
+    return IsTriangleCounterClockwise(t) ? (det > 0) : (det < 0);
+}

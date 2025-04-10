@@ -1,8 +1,11 @@
 #include "../../stdafx.h"
 #include "DungeonGenerator.h"
 #include "Math.h"
+#include "Algorithms.h"
 
 int Room::_ID = 0;
+
+using namespace Math;
 
 bool DungeonGenerator::Intersecting(const Room &r1, const Room &r2)
 {
@@ -21,7 +24,11 @@ DungeonGenerator::DungeonGenerator(Vector2 pos):
 void DungeonGenerator::Initialize()
 {
 	if (_rooms.size() > 0)
+	{
 		_rooms.clear();
+		_selectedRooms.clear();
+		_graph.clear();
+	}
 
 	for (int _ = 0; _ < 100; _++)
 		AddRoom({{(float)(Math::Random(2, 10)*_tileSize), (float)(Math::Random(2, 10)*_tileSize)}, 
@@ -85,9 +92,11 @@ void DungeonGenerator::SeperateRooms()
 		}
 	}
 
-	if (!foundIntersection)
-		RoomSelection();
+	if (foundIntersection)
+		return;
 
+	RoomSelection();
+	GenerateGraph();
 }
 
 void DungeonGenerator::RoomSelection()
@@ -109,6 +118,20 @@ void DungeonGenerator::RoomSelection()
 			_selectedRooms.push_back(i);
 }
 
+void DungeonGenerator::GenerateGraph()
+{
+	std::vector<Point> points;
+	
+	for (const auto &room : _selectedRooms)
+		points.push_back(_rooms[room].pos);
+
+	std::vector<Triangle> triangles = BowyerWatson(points);
+
+	for (const auto &triangle : triangles)
+		for (int e = 0; e < 3; e++)
+			_graph.push_back(triangle.GetEdge(e));
+}
+
 void DungeonGenerator::Draw()
 {
 	for (const auto &room : _rooms)
@@ -123,6 +146,9 @@ void DungeonGenerator::Draw()
 		Room room = _rooms[_selectedRooms[i]];
 		DrawCircle(room.pos.x, room.pos.y, 3, { 0, 255, 0, 255 });
 	}
+
+	for (const auto &edge : _graph)
+		DrawLine(edge.p1.x, edge.p1.y, edge.p2.x, edge.p2.y, { 0, 0, 255, 255 });
 }
 
 
