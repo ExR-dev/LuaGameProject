@@ -44,7 +44,13 @@ struct Line
 
 	inline bool operator==(const Line &other) const
 	{ 
-		return p1 == other.p1 && p2 == other.p2;
+		return (p1 == other.p1 && p2 == other.p2) ||
+			   (p1 == other.p2 && p2 == other.p1);
+	}
+
+	inline bool operator!=(const Line &other) const
+	{
+		return !(*this == other);
 	}
 };
 
@@ -76,7 +82,15 @@ struct Triangle
 
 	inline bool operator==(const Triangle &other) const
 	{
-		return p1 == other.p1 && p2 == other.p2 && p3 == other.p3;
+		std::array<Point, 3> a = GetPointList();
+		std::array<Point, 3> b = other.GetPointList();
+
+		// Check that every point in 'a' is in 'b'
+		return std::all_of(a.begin(), a.end(), [&](const Point &pa) {
+			return std::any_of(b.begin(), b.end(), [&](const Point &pb) {
+				return pa == pb;
+				});
+			});
 	}
 };
 
