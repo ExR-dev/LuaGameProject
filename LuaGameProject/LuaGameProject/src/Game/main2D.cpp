@@ -1,4 +1,4 @@
-﻿#include "../stdafx.h"
+﻿#include "stdafx.h"
 #include "main2D.h"
 #include "../LuaConsole.h"
 

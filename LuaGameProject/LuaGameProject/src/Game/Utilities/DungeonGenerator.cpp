@@ -1,4 +1,4 @@
-#include "../../stdafx.h"
+#include "stdafx.h"
 #include "DungeonGenerator.h"
 #include "Math.h"
 #include "Algorithms.h"

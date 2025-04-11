@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "../../raylib-cpp/raylib-cpp.hpp"
+#include "dep/raylib-cpp/raylib-cpp.hpp"
 
 #include "Math.h"
 

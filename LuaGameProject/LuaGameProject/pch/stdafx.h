@@ -7,9 +7,9 @@
 #include <thread>
 #include <execution>
 
-#include "raylib-cpp/raylib-cpp.hpp"
-#include "rcamera.h"
-#include "EnTT/entt.hpp"
+#include "dep/raylib-cpp/raylib-cpp.hpp"
+#include "dep/rcamera.h"
+#include "dep/EnTT/entt.hpp"
 #include "lua.hpp"
 
 #include "LuaUtils.h"

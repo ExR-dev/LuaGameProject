@@ -1,4 +1,4 @@
-#include "../stdafx.h"
+#include "stdafx.h"
 #include "main3D.h"
 #include "../LuaConsole.h"
 
@@ -64,8 +64,8 @@ namespace Main3D
         //--------------------------------------------------------------------------------------
 
         // Load content
-        raylib::Model model = LoadModel("Content/Meshes/Maxwell.obj");
-        raylib::Texture2D texture = LoadTexture("Content/Textures/Maxwell.png");
+        raylib::Model model = LoadModel("res/Meshes/Maxwell.obj");
+        raylib::Texture2D texture = LoadTexture("res/Textures/Maxwell.png");
         GenTextureMipmaps(&texture);
         SetTextureFilter(texture, TEXTURE_FILTER_TRILINEAR);
 

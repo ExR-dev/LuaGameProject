@@ -15,201 +15,201 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="stdafx.cpp">
+    <ClCompile Include="pch\stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LuaConsole.cpp">
+    <ClCompile Include="src\LuaConsole.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LuaUtils.cpp">
+    <ClCompile Include="src\LuaUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game\main2D.cpp">
+    <ClCompile Include="src\Game\main2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game\main3D.cpp">
+    <ClCompile Include="src\Game\main3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Utilities\DungeonGenerator.cpp">
+    <ClCompile Include="src\Game\Utilities\DungeonGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Utilities\Math.cpp">
+    <ClCompile Include="src\Game\Utilities\Math.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Utilities\Algorithms.cpp">
+    <ClCompile Include="src\Game\Utilities\Algorithms.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
+    <ClInclude Include="pch\stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="EnTT\entt.hpp">
+    <ClInclude Include="dep\EnTT\entt.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LuaConsole.h">
+    <ClInclude Include="src\LuaConsole.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LuaUtils.h">
+    <ClInclude Include="src\LuaUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Components.h">
+    <ClInclude Include="src\Components.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Components\RenderComponents.h">
+    <ClInclude Include="src\Components\RenderComponents.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Components\TransformComponents.h">
+    <ClInclude Include="src\Components\TransformComponents.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\AudioDevice.hpp">
+    <ClInclude Include="dep\raylib-cpp\AudioDevice.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\AudioStream.hpp">
+    <ClInclude Include="dep\raylib-cpp\AudioStream.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\AutomationEventList.hpp">
+    <ClInclude Include="dep\raylib-cpp\AutomationEventList.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\BoundingBox.hpp">
+    <ClInclude Include="dep\raylib-cpp\BoundingBox.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\Camera2D.hpp">
+    <ClInclude Include="dep\raylib-cpp\Camera2D.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\Camera3D.hpp">
+    <ClInclude Include="dep\raylib-cpp\Camera3D.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\Color.hpp">
+    <ClInclude Include="dep\raylib-cpp\Color.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\FileData.hpp">
+    <ClInclude Include="dep\raylib-cpp\FileData.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\FileText.hpp">
+    <ClInclude Include="dep\raylib-cpp\FileText.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\Font.hpp">
+    <ClInclude Include="dep\raylib-cpp\Font.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\Functions.hpp">
+    <ClInclude Include="dep\raylib-cpp\Functions.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\Gamepad.hpp">
+    <ClInclude Include="dep\raylib-cpp\Gamepad.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\Image.hpp">
+    <ClInclude Include="dep\raylib-cpp\Image.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\Keyboard.hpp">
+    <ClInclude Include="dep\raylib-cpp\Keyboard.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\Material.hpp">
+    <ClInclude Include="dep\raylib-cpp\Material.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\Matrix.hpp">
+    <ClInclude Include="dep\raylib-cpp\Matrix.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\Mesh.hpp">
+    <ClInclude Include="dep\raylib-cpp\Mesh.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\MeshUnmanaged.hpp">
+    <ClInclude Include="dep\raylib-cpp\MeshUnmanaged.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\Model.hpp">
+    <ClInclude Include="dep\raylib-cpp\Model.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\ModelAnimation.hpp">
+    <ClInclude Include="dep\raylib-cpp\ModelAnimation.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\Mouse.hpp">
+    <ClInclude Include="dep\raylib-cpp\Mouse.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\Music.hpp">
+    <ClInclude Include="dep\raylib-cpp\Music.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\Ray.hpp">
+    <ClInclude Include="dep\raylib-cpp\Ray.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\RayCollision.hpp">
+    <ClInclude Include="dep\raylib-cpp\RayCollision.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\raylib.hpp">
+    <ClInclude Include="dep\raylib-cpp\raylib.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\raylib-cpp.hpp">
+    <ClInclude Include="dep\raylib-cpp\raylib-cpp.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\raylib-cpp-utils.hpp">
+    <ClInclude Include="dep\raylib-cpp\raylib-cpp-utils.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\RaylibException.hpp">
+    <ClInclude Include="dep\raylib-cpp\RaylibException.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\raymath.hpp">
+    <ClInclude Include="dep\raylib-cpp\raymath.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\Rectangle.hpp">
+    <ClInclude Include="dep\raylib-cpp\Rectangle.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\RenderTexture.hpp">
+    <ClInclude Include="dep\raylib-cpp\RenderTexture.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\Shader.hpp">
+    <ClInclude Include="dep\raylib-cpp\Shader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\ShaderUnmanaged.hpp">
+    <ClInclude Include="dep\raylib-cpp\ShaderUnmanaged.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\Sound.hpp">
+    <ClInclude Include="dep\raylib-cpp\Sound.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\Text.hpp">
+    <ClInclude Include="dep\raylib-cpp\Text.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\Texture.hpp">
+    <ClInclude Include="dep\raylib-cpp\Texture.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\TextureUnmanaged.hpp">
+    <ClInclude Include="dep\raylib-cpp\TextureUnmanaged.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\Touch.hpp">
+    <ClInclude Include="dep\raylib-cpp\Touch.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\Vector2.hpp">
+    <ClInclude Include="dep\raylib-cpp\Vector2.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\Vector3.hpp">
+    <ClInclude Include="dep\raylib-cpp\Vector3.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\Vector4.hpp">
+    <ClInclude Include="dep\raylib-cpp\Vector4.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\VrStereoConfig.hpp">
+    <ClInclude Include="dep\raylib-cpp\VrStereoConfig.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\Wave.hpp">
+    <ClInclude Include="dep\raylib-cpp\Wave.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="raylib-cpp\Window.hpp">
+    <ClInclude Include="dep\raylib-cpp\Window.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game\main2D.h">
+    <ClInclude Include="src\Game\main2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game\main3D.h">
+    <ClInclude Include="src\Game\main3D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Utilities\DungeonGenerator.h">
+    <ClInclude Include="src\Game\Utilities\DungeonGenerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Utilities\Math.h">
+    <ClInclude Include="src\Game\Utilities\Math.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Utilities\Algorithms.h">
+    <ClInclude Include="src\Game\Utilities\Algorithms.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

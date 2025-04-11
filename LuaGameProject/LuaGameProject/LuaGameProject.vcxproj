@@ -97,7 +97,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(SolutionDir)LuaLib/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)LuaLib/src;$(ProjectDir);$(ProjectDir)pch;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -116,7 +116,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(SolutionDir)LuaLib/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)LuaLib/src;$(ProjectDir);$(ProjectDir)pch;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -135,7 +135,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(SolutionDir)LuaLib/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)LuaLib/src;$(ProjectDir);$(ProjectDir)pch;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -154,7 +154,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(SolutionDir)LuaLib/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)LuaLib/src;$(ProjectDir);$(ProjectDir)pch;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -167,45 +167,45 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Game\Utilities\Algorithms.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../../stdafx.h</PrecompiledHeaderFile>
+    <ClCompile Include="src\Game\Utilities\Algorithms.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="Game\Utilities\DungeonGenerator.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../../stdafx.h</PrecompiledHeaderFile>
+    <ClCompile Include="src\Game\Utilities\DungeonGenerator.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)pch/stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)pch/stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="Game\main3D.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../stdafx.h</PrecompiledHeaderFile>
+    <ClCompile Include="src\Game\main3D.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="Game\Utilities\Math.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../../stdafx.h</PrecompiledHeaderFile>
+    <ClCompile Include="src\Game\Utilities\Math.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="LuaConsole.cpp">
+    <ClCompile Include="src\LuaConsole.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="LuaUtils.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Game\main2D.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../stdafx.h</PrecompiledHeaderFile>
+    <ClCompile Include="src\LuaUtils.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Game\main2D.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="stdafx.cpp">
+    <ClCompile Include="pch\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -213,62 +213,62 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Components.h" />
-    <ClInclude Include="Components\RenderComponents.h" />
-    <ClInclude Include="Components\TransformComponents.h" />
-    <ClInclude Include="EnTT\entt.hpp" />
-    <ClInclude Include="Game\Utilities\Algorithms.h" />
-    <ClInclude Include="Game\Utilities\DungeonGenerator.h" />
-    <ClInclude Include="Game\main3D.h" />
-    <ClInclude Include="Game\Utilities\Math.h" />
-    <ClInclude Include="LuaConsole.h" />
-    <ClInclude Include="LuaUtils.h" />
-    <ClInclude Include="Game\main2D.h" />
-    <ClInclude Include="raylib-cpp\AudioDevice.hpp" />
-    <ClInclude Include="raylib-cpp\AudioStream.hpp" />
-    <ClInclude Include="raylib-cpp\AutomationEventList.hpp" />
-    <ClInclude Include="raylib-cpp\BoundingBox.hpp" />
-    <ClInclude Include="raylib-cpp\Camera2D.hpp" />
-    <ClInclude Include="raylib-cpp\Camera3D.hpp" />
-    <ClInclude Include="raylib-cpp\Color.hpp" />
-    <ClInclude Include="raylib-cpp\FileData.hpp" />
-    <ClInclude Include="raylib-cpp\FileText.hpp" />
-    <ClInclude Include="raylib-cpp\Font.hpp" />
-    <ClInclude Include="raylib-cpp\Functions.hpp" />
-    <ClInclude Include="raylib-cpp\Gamepad.hpp" />
-    <ClInclude Include="raylib-cpp\Image.hpp" />
-    <ClInclude Include="raylib-cpp\Keyboard.hpp" />
-    <ClInclude Include="raylib-cpp\Material.hpp" />
-    <ClInclude Include="raylib-cpp\Matrix.hpp" />
-    <ClInclude Include="raylib-cpp\Mesh.hpp" />
-    <ClInclude Include="raylib-cpp\MeshUnmanaged.hpp" />
-    <ClInclude Include="raylib-cpp\Model.hpp" />
-    <ClInclude Include="raylib-cpp\ModelAnimation.hpp" />
-    <ClInclude Include="raylib-cpp\Mouse.hpp" />
-    <ClInclude Include="raylib-cpp\Music.hpp" />
-    <ClInclude Include="raylib-cpp\Ray.hpp" />
-    <ClInclude Include="raylib-cpp\RayCollision.hpp" />
-    <ClInclude Include="raylib-cpp\raylib-cpp-utils.hpp" />
-    <ClInclude Include="raylib-cpp\raylib-cpp.hpp" />
-    <ClInclude Include="raylib-cpp\raylib.hpp" />
-    <ClInclude Include="raylib-cpp\RaylibException.hpp" />
-    <ClInclude Include="raylib-cpp\raymath.hpp" />
-    <ClInclude Include="raylib-cpp\Rectangle.hpp" />
-    <ClInclude Include="raylib-cpp\RenderTexture.hpp" />
-    <ClInclude Include="raylib-cpp\Shader.hpp" />
-    <ClInclude Include="raylib-cpp\ShaderUnmanaged.hpp" />
-    <ClInclude Include="raylib-cpp\Sound.hpp" />
-    <ClInclude Include="raylib-cpp\Text.hpp" />
-    <ClInclude Include="raylib-cpp\Texture.hpp" />
-    <ClInclude Include="raylib-cpp\TextureUnmanaged.hpp" />
-    <ClInclude Include="raylib-cpp\Touch.hpp" />
-    <ClInclude Include="raylib-cpp\Vector2.hpp" />
-    <ClInclude Include="raylib-cpp\Vector3.hpp" />
-    <ClInclude Include="raylib-cpp\Vector4.hpp" />
-    <ClInclude Include="raylib-cpp\VrStereoConfig.hpp" />
-    <ClInclude Include="raylib-cpp\Wave.hpp" />
-    <ClInclude Include="raylib-cpp\Window.hpp" />
-    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="src\Components.h" />
+    <ClInclude Include="src\Components\RenderComponents.h" />
+    <ClInclude Include="src\Components\TransformComponents.h" />
+    <ClInclude Include="dep\EnTT\entt.hpp" />
+    <ClInclude Include="src\Game\Utilities\Algorithms.h" />
+    <ClInclude Include="src\Game\Utilities\DungeonGenerator.h" />
+    <ClInclude Include="src\Game\main3D.h" />
+    <ClInclude Include="src\Game\Utilities\Math.h" />
+    <ClInclude Include="src\LuaConsole.h" />
+    <ClInclude Include="src\LuaUtils.h" />
+    <ClInclude Include="src\Game\main2D.h" />
+    <ClInclude Include="dep\raylib-cpp\AudioDevice.hpp" />
+    <ClInclude Include="dep\raylib-cpp\AudioStream.hpp" />
+    <ClInclude Include="dep\raylib-cpp\AutomationEventList.hpp" />
+    <ClInclude Include="dep\raylib-cpp\BoundingBox.hpp" />
+    <ClInclude Include="dep\raylib-cpp\Camera2D.hpp" />
+    <ClInclude Include="dep\raylib-cpp\Camera3D.hpp" />
+    <ClInclude Include="dep\raylib-cpp\Color.hpp" />
+    <ClInclude Include="dep\raylib-cpp\FileData.hpp" />
+    <ClInclude Include="dep\raylib-cpp\FileText.hpp" />
+    <ClInclude Include="dep\raylib-cpp\Font.hpp" />
+    <ClInclude Include="dep\raylib-cpp\Functions.hpp" />
+    <ClInclude Include="dep\raylib-cpp\Gamepad.hpp" />
+    <ClInclude Include="dep\raylib-cpp\Image.hpp" />
+    <ClInclude Include="dep\raylib-cpp\Keyboard.hpp" />
+    <ClInclude Include="dep\raylib-cpp\Material.hpp" />
+    <ClInclude Include="dep\raylib-cpp\Matrix.hpp" />
+    <ClInclude Include="dep\raylib-cpp\Mesh.hpp" />
+    <ClInclude Include="dep\raylib-cpp\MeshUnmanaged.hpp" />
+    <ClInclude Include="dep\raylib-cpp\Model.hpp" />
+    <ClInclude Include="dep\raylib-cpp\ModelAnimation.hpp" />
+    <ClInclude Include="dep\raylib-cpp\Mouse.hpp" />
+    <ClInclude Include="dep\raylib-cpp\Music.hpp" />
+    <ClInclude Include="dep\raylib-cpp\Ray.hpp" />
+    <ClInclude Include="dep\raylib-cpp\RayCollision.hpp" />
+    <ClInclude Include="dep\raylib-cpp\raylib-cpp-utils.hpp" />
+    <ClInclude Include="dep\raylib-cpp\raylib-cpp.hpp" />
+    <ClInclude Include="dep\raylib-cpp\raylib.hpp" />
+    <ClInclude Include="dep\raylib-cpp\RaylibException.hpp" />
+    <ClInclude Include="dep\raylib-cpp\raymath.hpp" />
+    <ClInclude Include="dep\raylib-cpp\Rectangle.hpp" />
+    <ClInclude Include="dep\raylib-cpp\RenderTexture.hpp" />
+    <ClInclude Include="dep\raylib-cpp\Shader.hpp" />
+    <ClInclude Include="dep\raylib-cpp\ShaderUnmanaged.hpp" />
+    <ClInclude Include="dep\raylib-cpp\Sound.hpp" />
+    <ClInclude Include="dep\raylib-cpp\Text.hpp" />
+    <ClInclude Include="dep\raylib-cpp\Texture.hpp" />
+    <ClInclude Include="dep\raylib-cpp\TextureUnmanaged.hpp" />
+    <ClInclude Include="dep\raylib-cpp\Touch.hpp" />
+    <ClInclude Include="dep\raylib-cpp\Vector2.hpp" />
+    <ClInclude Include="dep\raylib-cpp\Vector3.hpp" />
+    <ClInclude Include="dep\raylib-cpp\Vector4.hpp" />
+    <ClInclude Include="dep\raylib-cpp\VrStereoConfig.hpp" />
+    <ClInclude Include="dep\raylib-cpp\Wave.hpp" />
+    <ClInclude Include="dep\raylib-cpp\Window.hpp" />
+    <ClInclude Include="pch\stdafx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

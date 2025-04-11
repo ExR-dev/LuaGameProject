@@ -1,7 +1,7 @@
 #pragma once
 
-#include "raylib-cpp/raylib-cpp.hpp"
-#include "EnTT/entt.hpp"
+#include "dep/raylib-cpp/raylib-cpp.hpp"
+#include "dep/EnTT/entt.hpp"
 
 namespace Component
 {
