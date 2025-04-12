@@ -28,6 +28,11 @@ struct Point
 	{
 		return x == other.x && y == other.y;
 	}
+
+	inline bool operator<(const Point &other) const
+	{
+		return (x < other.x) || (x == other.x && y < other.y);
+	}
 };
 
 struct Line

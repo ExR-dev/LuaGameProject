@@ -140,6 +140,9 @@ void DungeonGenerator::GenerateGraph()
 			if (!found)
 				_graph.push_back(edge);
 		}
+
+	_graph = Kruskal(_graph);
+
 }
 
 void DungeonGenerator::Draw()

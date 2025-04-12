@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Algorithms.h"
 
+#include <map>
+
 using namespace Math;
 
 Math::Triangle SuperTriangle(const std::vector<Point> &points)
@@ -121,5 +123,66 @@ std::vector<int> Prim(const std::vector<std::vector<float>> &graph)
 			res.push_back(i);
 
 	return res;
+}
+
+int UnionFind(int u, std::vector<int> &parent)
+{
+    if (parent[u] != u)
+        parent[u] = UnionFind(parent[u], parent);
+    return parent[u];
+}
+
+bool UnionUnite(int u, int v, std::vector<int> &parent, std::vector<int> &rank)
+{
+    int pu = UnionFind(u, parent), pv = UnionFind(v, parent);
+    if (pu == pv)
+        return false;
+
+    if (rank[pu] < rank[pv])
+        parent[pu] = pv;
+    else
+    {
+        parent[pv] = pu;
+        if (rank[pu] == rank[pv])
+            rank[pu]++;
+    }
+
+    return true;
+}
+
+std::vector<Line> Kruskal(const std::vector<Line> graph)
+{
+    std::vector<Line> sorted(graph);
+    std::sort(sorted.begin(), sorted.end(), [](const Line &l1, const Line &l2) {
+        return l1.weight() < l2.weight();
+    });
+
+    std::map<Point, int> pointIds;
+    int uniquePoints = 0;
+
+    for (const auto &line : sorted)
+    {
+        if (pointIds.find(line.p1) == pointIds.end())
+            pointIds[line.p1] = uniquePoints++;
+        if (pointIds.find(line.p2) == pointIds.end())
+            pointIds[line.p2] = uniquePoints++;
+    }
+
+    std::vector<int> parent(uniquePoints), rank(uniquePoints, 0);
+    for (int i = 0; i < uniquePoints; i++)
+        parent[i] = i;
+
+
+    std::vector<Line> mst;
+    for (const auto &line : sorted)
+    {
+        int id1 = pointIds[line.p1],
+            id2 = pointIds[line.p2];
+
+        if (UnionUnite(id1, id2, parent, rank))
+            mst.push_back(line);
+    }
+
+    return mst;
 }
 
