@@ -8,6 +8,8 @@
 //------------------------------------------------------------------------------------
 int main()
 {
+	srand(time(NULL));
+
 	std::cout << "Input game type (2/3): ";
 	std::string gameType;
 	std::cin >> gameType;

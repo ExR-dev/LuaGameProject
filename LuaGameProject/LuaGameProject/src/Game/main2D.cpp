@@ -184,9 +184,6 @@ namespace Main2D
     //------------------------------------------------------------------------------------
     int Run()
     {
-        entt::registry registry;
-
-        srand(time(NULL));
 
         lua_State *L = luaL_newstate();
         luaL_openlibs(L);
