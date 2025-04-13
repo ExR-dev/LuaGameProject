@@ -1,9 +1,0 @@
-C:\Users\xterm\Desktop\LuaGameProject\LuaGameProject\LuaGameProject\bin\raylib.dll
-C:\Users\xterm\Desktop\LuaGameProject\LuaGameProject\LuaGameProject\bin\glfw3.dll
-C:\Users\xterm\Desktop\LuaGameProject\LuaGameProject\LuaGameProject\inc\LuaGameP.BD3BB0EF.Up2Date
-D:\program\Programming\_Projects\C++\Graphics\LuaGameProject\LuaGameProject\LuaGameProject\bin\raylib.dll
-D:\program\Programming\_Projects\C++\Graphics\LuaGameProject\LuaGameProject\LuaGameProject\bin\glfw3.dll
-D:\program\Programming\_Projects\C++\Graphics\LuaGameProject\LuaGameProject\LuaGameProject\inc\LuaGameP.BD3BB0EF.Up2Date
-C:\Dev\LuaGameProject\LuaGameProject\LuaGameProject\bin\raylib.dll
-C:\Dev\LuaGameProject\LuaGameProject\LuaGameProject\bin\glfw3.dll
-C:\Dev\LuaGameProject\LuaGameProject\LuaGameProject\inc\LuaGameP.BD3BB0EF.Up2Date
