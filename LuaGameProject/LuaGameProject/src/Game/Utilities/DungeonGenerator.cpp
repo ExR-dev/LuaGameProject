@@ -111,7 +111,7 @@ void DungeonGenerator::RoomSelection()
 	const float nRooms = _rooms.size();
 	const float avgArea = totalArea / nRooms;
 
-	const float selectionThreshold = 1.25f;
+	const float selectionThreshold = 1.5f;
 
 	for (int i = 0; i < _rooms.size(); i++)
 		if ((_rooms[i].size.x * _rooms[i].size.y) > selectionThreshold * avgArea)
@@ -141,15 +141,18 @@ void DungeonGenerator::GenerateGraph()
 				_graph.push_back(edge);
 		}
 
+	// TODO: Add some of the removed lines
 	_graph = Kruskal(_graph);
 
 }
 
 void DungeonGenerator::Draw()
 {
+	const float padding = 4;
 	for (const auto &room : _rooms)
 	{
-		DrawRectangle(room.pos.x - room.size.x/2, room.pos.y - room.size.y/2, room.size.x, room.size.y, room.color);
+		DrawRectangle(room.pos.x - room.size.x/2, room.pos.y - room.size.y/2, room.size.x, room.size.y, {255, 255, 255, 255});
+		DrawRectangle(room.pos.x - (room.size.x-padding)/2, room.pos.y - (room.size.y-padding)/2, room.size.x - padding, room.size.y - padding, {0, 0, 255, 255});
 		//DrawRectangle(room.pos.x, room.pos.y, room.size.x, room.size.y, room.color);
 		DrawCircle(room.pos.x, room.pos.y, 3, { 255, 0, 0, 255 });
 	}
@@ -161,7 +164,7 @@ void DungeonGenerator::Draw()
 	}
 
 	for (const auto &edge : _graph)
-		DrawLine(edge.p1.x, edge.p1.y, edge.p2.x, edge.p2.y, { 0, 0, 255, 255 });
+		DrawLine(edge.p1.x, edge.p1.y, edge.p2.x, edge.p2.y, { 0, 255, 0, 255 });
 }
 
 
