@@ -270,6 +270,9 @@
     <ClInclude Include="dep\raylib-cpp\Window.hpp" />
     <ClInclude Include="pch\stdafx.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="src\Lua\Script.lua" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

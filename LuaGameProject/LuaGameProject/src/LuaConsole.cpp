@@ -5,6 +5,10 @@
 #include <format>
 #include "LuaUtils.h"
 
+#define FILE_CMD std::string("F:")
+#define FILE_PATH std::string("src\\Lua\\")
+#define FILE_EXT std::string(".lua")
+
 void ConsoleThreadFunction(lua_State *L)
 {
 	std::string input;
@@ -14,9 +18,27 @@ void ConsoleThreadFunction(lua_State *L)
 		std::cout << "> ";
 		std::getline(std::cin, input);
 
-		if (luaL_dostring(L, input.c_str()) != LUA_OK)
+		if (input.starts_with(FILE_CMD)) // File command
 		{
-			DumpLuaError(L);
+			input = input.substr(FILE_CMD.size());
+			input = FILE_PATH + input + FILE_EXT;
+
+			LuaDoFile(input.c_str());
+
+
+			if (luaL_dofile(L, input.c_str()) != LUA_OK) 
+				DumpLuaError(L);
+
+			if ((luaL_loadfile(L, input.c_str()) || lua_pcall(L, 0, LUA_MULTRET, 0)) != LUA_OK)
+				DumpLuaError(L);
+
+
 		}
+		else // String command
+		{
+			LuaDoString(input.c_str());
+		}
+
+		std::cout << std::endl;
 	}
 }

@@ -191,15 +191,12 @@ namespace Main2D
         lua_State *L = luaL_newstate();
         luaL_openlibs(L);
 
-        if (luaL_dostring(L, "print('Hello from Lua!')") != LUA_OK)
-        {
-            DumpLuaError(L);
-        }
+        LuaDoString("print('To run a .lua file, begin input with \"F:\" followed by the file name.')")
 
         // Initialization
         //--------------------------------------------------------------------------------------
-        const int screenWidth = 800;
-        const int screenHeight = 450;
+        const int screenWidth = 1280;
+        const int screenHeight = 720;
 
         InitWindow(screenWidth, screenHeight, "raylib [core] example - 2d camera");
 
