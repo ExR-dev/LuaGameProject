@@ -24,15 +24,6 @@ void ConsoleThreadFunction(lua_State *L)
 			input = FILE_PATH + input + FILE_EXT;
 
 			LuaDoFile(input.c_str());
-
-
-			if (luaL_dofile(L, input.c_str()) != LUA_OK) 
-				DumpLuaError(L);
-
-			if ((luaL_loadfile(L, input.c_str()) || lua_pcall(L, 0, LUA_MULTRET, 0)) != LUA_OK)
-				DumpLuaError(L);
-
-
 		}
 		else // String command
 		{
