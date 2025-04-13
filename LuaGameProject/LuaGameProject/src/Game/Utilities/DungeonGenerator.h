@@ -50,7 +50,7 @@ public:
 	void AddRoom(const Room &room);
 
 	void Generate(float radius);
-	void SeperateRooms();
+	void SeparateRooms();
 	void RoomSelection();
 	void GenerateGraph();
 

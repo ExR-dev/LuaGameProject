@@ -47,10 +47,11 @@ void DungeonGenerator::Generate(float radius)
 		room.pos = Vector2Add(_position, Math::RandomGridPointCircle(radius, _tileSize));
 }
 
-void DungeonGenerator::SeperateRooms()
+void DungeonGenerator::SeparateRooms()
 {
 	bool foundIntersection = true;
 
+	// Separate all rooms
 	while (foundIntersection)
 	{
 		foundIntersection = false;
@@ -80,7 +81,6 @@ void DungeonGenerator::SeperateRooms()
 						room.pos.y += dir * _tileSize;
 						other.pos.y -= dir * _tileSize;
 					}
-
 				}
 			}
 		}
@@ -95,6 +95,7 @@ void DungeonGenerator::SeperateRooms()
 	if (foundIntersection)
 		return;
 
+	// TODO: Move to "Generate"
 	RoomSelection();
 	GenerateGraph();
 }
@@ -104,6 +105,7 @@ void DungeonGenerator::RoomSelection()
 	if (_selectedRooms.size() > 0)
 		_selectedRooms.clear();
 
+	// Compute total area
 	float totalArea = 0;
 	for (const auto &room : _rooms)
 		totalArea += (room.size.x * room.size.y);
@@ -113,6 +115,7 @@ void DungeonGenerator::RoomSelection()
 
 	const float selectionThreshold = 1.5f;
 
+	// Select main-rooms based on area
 	for (int i = 0; i < _rooms.size(); i++)
 		if ((_rooms[i].size.x * _rooms[i].size.y) > selectionThreshold * avgArea)
 			_selectedRooms.push_back(i);
@@ -125,8 +128,10 @@ void DungeonGenerator::GenerateGraph()
 	for (const auto &room : _selectedRooms)
 		points.push_back(_rooms[room].pos);
 
+	// Do Delaunay Triangulation
 	std::vector<Triangle> triangles = BowyerWatson(points);
 
+	// Get lines
 	bool found;
 	for (const auto &triangle : triangles)
 		for (int e = 0; e < 3; e++)
@@ -141,8 +146,16 @@ void DungeonGenerator::GenerateGraph()
 				_graph.push_back(edge);
 		}
 
-	// TODO: Add some of the removed lines
+	// Create MST
+	std::vector<Line> oldGraph(_graph);
 	_graph = Kruskal(_graph);
+
+	// Add some of the removed lines back
+	const float addBackRate = 0.15;
+	for (int i = 0; i < oldGraph.size(); i++)
+		if (std::find(_graph.begin(), _graph.end(), oldGraph[i]) == _graph.end())
+			if (Random01f() < addBackRate)
+				_graph.push_back(oldGraph[i]);
 
 }
 

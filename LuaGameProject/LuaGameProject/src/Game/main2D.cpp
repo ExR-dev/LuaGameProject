@@ -296,7 +296,7 @@ namespace Main2D
                 dungeon.Generate(100);
             }
 
-            if (IsKeyPressed(KEY_Y)) dungeon.SeperateRooms();
+				if (IsKeyPressed(KEY_Y)) dungeon.SeparateRooms();
 
             if (IsKeyPressed(KEY_C)) cameraOption = (cameraOption + 1) % cameraUpdatersLength;
 
