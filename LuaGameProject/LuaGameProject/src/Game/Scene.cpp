@@ -2,7 +2,7 @@
 #include "Scene.h"
 
 #pragma region General
-Scene::Scene()
+Scene::Scene(lua_State *L)
 {
 }
 
@@ -59,4 +59,61 @@ void Scene::UpdateSystems(float delta)
 #pragma endregion
 
 #pragma region Lua
+void Scene::lua_openscene(lua_State *L, Scene *scene)
+{
+	lua_newtable(L);
+
+	luaL_Reg methods[] = {
+	//  { "MethodNameInLua",	FunctionNameInCpp	},
+		{ "CreateEntity",		lua_CreateEntity	},
+		{ "SetComponent",		lua_SetComponent	},
+		{ NULL,					NULL				}
+	};
+
+	lua_pushlightuserdata(L, scene);
+	luaL_setfuncs(L, methods, 1); // 1 : one upvalue (lightuserdata)
+
+	lua_setglobal(L, "scene");
+}
+
+int Scene::lua_CreateEntity(lua_State *L)
+{
+	// TODO: Implement
+	return 0;
+}
+int Scene::lua_SetComponent(lua_State *L)
+{
+	// TODO: Implement
+	return 0;
+}
+int Scene::lua_GetEntityCount(lua_State *L)
+{
+	// TODO: Implement
+	return 0;
+}
+int Scene::lua_IsEntity(lua_State *L)
+{
+	// TODO: Implement
+	return 0;
+}
+int Scene::lua_RemoveEntity(lua_State *L)
+{
+	// TODO: Implement
+	return 0;
+}
+int Scene::lua_HasComponent(lua_State *L)
+{
+	// TODO: Implement
+	return 0;
+}
+int Scene::lua_GetComponent(lua_State *L)
+{
+	// TODO: Implement
+	return 0;
+}
+int Scene::lua_RemoveComponent(lua_State *L)
+{
+	// TODO: Implement
+	return 0;
+}
 #pragma endregion

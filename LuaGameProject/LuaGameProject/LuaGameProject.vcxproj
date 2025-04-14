@@ -99,6 +99,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <AdditionalIncludeDirectories>$(SolutionDir)LuaLib/src;$(ProjectDir);$(ProjectDir)pch;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName)_d.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -137,6 +138,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <AdditionalIncludeDirectories>$(SolutionDir)LuaLib/src;$(ProjectDir);$(ProjectDir)pch;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName)_d.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -215,6 +217,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Components\Components.h" />
     <ClInclude Include="src\Game\Scene.h" />
     <ClInclude Include="src\Components.h" />
     <ClInclude Include="src\Components\RenderComponents.h" />
@@ -225,6 +228,7 @@
     <ClInclude Include="src\Game\Utilities\DungeonGenerator.h" />
     <ClInclude Include="src\Game\main3D.h" />
     <ClInclude Include="src\Game\Utilities\Math.h" />
+    <ClInclude Include="src\Game\Utilities\Time.h" />
     <ClInclude Include="src\LuaConsole.h" />
     <ClInclude Include="src\LuaUtils.h" />
     <ClInclude Include="src\Game\main2D.h" />
