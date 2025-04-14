@@ -12,6 +12,9 @@
 #include "dep/EnTT/entt.hpp"
 #include "lua.hpp"
 
+#include "dep/tracy-0.11.1/public/tracy/Tracy.hpp"
+#include "dep/tracy-0.11.1/public/tracy/TracyOpenGL.hpp"
+
 #include "LuaUtils.h"
 #include "Components.h"
 #include "Game/Utilities/Time.h"

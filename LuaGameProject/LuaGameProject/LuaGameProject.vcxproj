@@ -171,6 +171,8 @@
   <ItemGroup>
     <ClCompile Include="src\Game\Scene.cpp" />
     <ClCompile Include="src\Game\Systems\System.cpp" />
+    <ClCompile Include="src\Game\Tools\ErrMsg.cpp" />
+    <ClCompile Include="src\Game\Tools\TrackedAlloc.cpp" />
     <ClCompile Include="src\Game\Utilities\Algorithms.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdafx.h</PrecompiledHeaderFile>
@@ -224,6 +226,9 @@
     <ClInclude Include="src\Components\TransformComponents.h" />
     <ClInclude Include="dep\EnTT\entt.hpp" />
     <ClInclude Include="src\Game\Systems\System.h" />
+    <ClInclude Include="src\Game\Tools\ConstRand.h" />
+    <ClInclude Include="src\Game\Tools\ErrMsg.h" />
+    <ClInclude Include="src\Game\Tools\TrackedAlloc.h" />
     <ClInclude Include="src\Game\Utilities\Algorithms.h" />
     <ClInclude Include="src\Game\Utilities\DungeonGenerator.h" />
     <ClInclude Include="src\Game\main3D.h" />
