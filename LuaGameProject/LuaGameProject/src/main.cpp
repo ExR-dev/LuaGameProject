@@ -24,6 +24,4 @@ int main()
 		std::cout << "Running 2D game..." << std::endl;
 		Main2D::Run();
 	}
-
-    return 1;
 }

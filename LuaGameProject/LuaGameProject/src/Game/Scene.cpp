@@ -19,25 +19,19 @@ Scene::~Scene()
 #pragma region Entities
 int Scene::GetEntityCount()
 {
-	// TODO: Implement
-	return 0;
+	return m_registry.view<entt::entity>().size();
 }
-
 int Scene::CreateEntity()
 {
-	// TODO: Implement
-	return 0;
+	return static_cast<int>(m_registry.create());
 }
-
 bool Scene::IsEntity(int entity)
 {
-	// TODO: Implement
-	return false;
+	return m_registry.valid(static_cast<entt::entity>(entity));
 }
-
 void Scene::RemoveEntity(int entity)
 {
-	// TODO: Implement
+	m_registry.destroy(static_cast<entt::entity>(entity));
 }
 #pragma endregion
 
