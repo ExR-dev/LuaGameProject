@@ -3,7 +3,10 @@
 #include <iostream>
 #include <string>
 #include <format>
+#include <filesystem>
 #include "LuaUtils.h"
+
+namespace fs = std::filesystem;
 
 #define FILE_EXT std::string(".lua")
 #define FILE_PATH std::string("src/Lua/")
@@ -11,6 +14,10 @@
 
 void ConsoleThreadFunction(lua_State *L)
 {
+	// Add lua require path
+	std::string luaScriptPath = std::format("{}/{}?{}", fs::current_path().generic_string(), FILE_PATH, FILE_EXT);
+	LuaDoString(std::format("package.path = \"{};\" .. package.path", luaScriptPath).c_str());
+
 	LuaDoString(std::format(
 		"print('To run a \"{}\" file located in \"{}\", begin your command with \"{}\" followed by the file name.')", 
 						FILE_EXT,			   FILE_PATH,					   FILE_CMD
@@ -34,6 +41,8 @@ void ConsoleThreadFunction(lua_State *L)
 		{
 			LuaDoString(input.c_str());
 		}
+
+		DumpStack(L);
 
 		std::cout << std::endl;
 	}

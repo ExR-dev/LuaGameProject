@@ -5,3 +5,5 @@
 #define LuaDoFile(str) if (luaL_dofile(L, str) != LUA_OK) DumpLuaError(L);
 
 void DumpLuaError(lua_State *L);
+
+void DumpStack(lua_State *L);
