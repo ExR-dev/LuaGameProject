@@ -5,6 +5,11 @@
 #include "Utilities/DungeonGenerator.h"
 #include "Scene.h"
 
+#include <filesystem>
+
+
+namespace fs = std::filesystem;
+
 namespace Main2D
 {
     constexpr float G = 981.0f;
@@ -48,6 +53,10 @@ namespace Main2D
 
         Scene scene(L);
         Scene::lua_openscene(L, &scene);
+
+        // Add lua require path
+        std::string luaScriptPath = fs::current_path().generic_string() + "/src/Lua/?.lua";
+        luaL_dostring(L, std::format("package.path = \"{};\" .. package.path", luaScriptPath).c_str());
 
         Time::Instance();
         //--------------------------------------------------------------------------------------
