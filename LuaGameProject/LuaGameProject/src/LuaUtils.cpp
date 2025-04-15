@@ -1,7 +1,7 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "LuaUtils.h"
 
-void DumpLuaError(lua_State *L)
+void LuaDumpError(lua_State *L)
 {
 	if (lua_gettop(L) && lua_isstring(L, -1))
 	{
@@ -10,28 +10,68 @@ void DumpLuaError(lua_State *L)
 	}
 }
 
-std::string GetValueString(lua_State *L, int i)
+void LuaDumpStack(lua_State *L)
 {
-	switch (lua_type(L, i))
-	{
-	case LUA_TNIL:			return "nil";
-	case LUA_TBOOLEAN:		return lua_toboolean(L, i) ? "true" : "false";
-	case LUA_TNUMBER:		return std::to_string(lua_tonumber(L, i));
-	case LUA_TSTRING:		return lua_tostring(L, i);
-	default:				return "";
-	}
-}
+	const char separator = ' ';
+	const int indexWidth = 2;
+	const int nameWidth = 8;
+	const int valWidth = 16;
 
-void DumpStack(lua_State *L)
-{
-	int size = lua_gettop(L);
-	std::cout << "--- STACK BEGIN ---" << std::endl;
-	for (int i = size; i > 0; i--)
-		std::cout << i
-				  << "\t"
-				  << lua_typename(L, lua_type(L, i))
-				  << "\t\t"
-				  << GetValueString(L, i)
-				  << std::endl;
-	std::cout << "---- STACK END ----" << std::endl;
+	std::cout << "------------ STACK BEGIN ------------" << std::endl;
+	int top = lua_gettop(L);
+	for (int i = top; i > 0; --i)
+	{
+		int type = lua_type(L, i);
+
+		std::cout << std::left << std::setw(indexWidth) << std::setfill(separator) << i;
+		std::cout << " | ";
+		std::cout << std::left << std::setw(nameWidth) << std::setfill(separator) << lua_typename(L, type);
+		#define fmt  std::right << std::setw(valWidth) << std::setfill(separator)
+		switch (type)
+		{
+		case LUA_TNIL:
+			std::cout << fmt << "nil";
+			break;
+
+		case LUA_TBOOLEAN:
+			std::cout << fmt << (lua_toboolean(L, i) ? "true" : "false");
+			break;
+
+		case LUA_TLIGHTUSERDATA:
+			std::cout << fmt << "¯\\_(ツ)_/¯";
+			break;
+
+		case LUA_TNUMBER:
+			std::cout << fmt << lua_tonumber(L, i);
+			break;
+
+		case LUA_TSTRING:
+			std::cout << fmt << std::format("\"{}\"", lua_tostring(L, i)).c_str();
+			break;
+
+		case LUA_TTABLE:
+			std::cout << fmt << "¯\\_(ツ)_/¯";
+			break;
+
+		case LUA_TFUNCTION:
+			std::cout << fmt << lua_topointer(L, i);
+			break;
+
+		case LUA_TUSERDATA:
+			std::cout << fmt << "¯\\_(ツ)_/¯";
+			break;
+
+		case LUA_TTHREAD:
+			std::cout << fmt << "¯\\_(ツ)_/¯";
+			break;
+
+		default:
+			std::cout << fmt << "ERROR";
+			break;
+		}
+		std::cout << " | ";
+		std::cout << std::right << std::setw(indexWidth) << std::setfill(separator) << i - 6;
+		std::cout << std::endl;
+	}
+	std::cout << "------------- STACK END -------------" << std::endl;
 }
