@@ -42,8 +42,6 @@ void ConsoleThreadFunction(lua_State *L)
 			LuaDoString(input.c_str());
 		}
 
-		DumpStack(L);
-
 		std::cout << std::endl;
 	}
 }
