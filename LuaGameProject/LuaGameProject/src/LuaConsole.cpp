@@ -12,6 +12,42 @@ namespace fs = std::filesystem;
 #define FILE_PATH std::string("src/Lua/")
 #define FILE_CMD std::string("f:")
 
+struct Vector2
+{
+	float p_x, p_y;
+	Vector2(float x = 0.0f, float y = 0.0f) :
+		p_x(x), p_y(y) {}
+};
+
+Vector2 lua_tovector(lua_State *L, int index)
+{
+	Vector2 v;
+
+	lua_getfield(L, -1, "x");
+	v.p_x = lua_tonumber(L, -1);
+	lua_pop(L, 1);
+
+	lua_getfield(L, -1, "y");
+	v.p_y = lua_tonumber(L, -1);
+	lua_pop(L, 1);
+
+	lua_pop(L, 1);
+
+	return v;
+}
+
+static int PrintVector(lua_State *L)
+{
+	LuaDumpStack(L);
+
+	Vector2 v = lua_tovector(L, 1);
+	std::cout << "(" << v.p_x << ", " << v.p_y << ")" << std::endl;
+
+	LuaDumpStack(L);
+
+	return 0;
+}
+
 void ConsoleThreadFunction(lua_State *L)
 {
 	// Add lua require path
@@ -24,6 +60,9 @@ void ConsoleThreadFunction(lua_State *L)
 	).c_str());
 
 	std::string input;
+	
+	lua_pushcfunction(L, PrintVector);
+	lua_setglobal(L, "PrintVector");
 
 	while (GetConsoleWindow())
 	{
