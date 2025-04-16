@@ -30,9 +30,6 @@
     <ClCompile Include="src\Game\main2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Game\main3D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Game\Utilities\DungeonGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -66,15 +63,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\LuaUtils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Components.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Components\RenderComponents.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Components\TransformComponents.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="dep\raylib-cpp\AudioDevice.hpp">
@@ -212,9 +200,6 @@
     <ClInclude Include="src\Game\main2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Game\main3D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Game\Utilities\DungeonGenerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -228,9 +213,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Game\Systems\System.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Components\Components.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Game\Utilities\Time.h">

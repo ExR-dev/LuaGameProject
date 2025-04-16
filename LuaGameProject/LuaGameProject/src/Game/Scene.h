@@ -4,29 +4,18 @@
 
 class Scene
 {
-#pragma region General
 public:
 	Scene(lua_State *L);
 	~Scene();
 
-private:
-	entt::registry m_registry;
-
-#pragma endregion
-
-#pragma region Entities
-public:
 	int GetEntityCount();
+
 	int CreateEntity();
+
 	bool IsEntity(int entity);
+
 	void RemoveEntity(int entity);
 
-private:
-
-#pragma endregion
-
-#pragma region Components
-public:
 	template<typename...Args>
 	bool HasComponents(int entity);
 
@@ -42,28 +31,20 @@ public:
 	template<typename T>
 	void RemoveComponent(int entity);
 
-private:
-
-#pragma endregion
-
-#pragma region Systems
-public:
 	template<typename T, typename...Args>
 	void CreateSystem(Args...args);
 
 	void UpdateSystems(float delta);
 
-private:
-	std::vector<System *> m_systems;
-
-#pragma endregion
-
-#pragma region Lua
-public:
 	static void lua_openscene(lua_State *L, Scene *scene);
 
+
 private:
+	entt::registry m_registry;
+	std::vector<System *> m_systems;
+
 	static int lua_CreateEntity(lua_State *L);
+
 	static int lua_SetComponent(lua_State *L);
 
 	// Aguments: none
@@ -90,14 +71,9 @@ private:
 	// Arguments: entity (int), component type (string)
 	// Returns: none
 	static int lua_RemoveComponent(lua_State *L);
-#pragma endregion
 };
 
 
-#pragma region Entities
-#pragma endregion
-
-#pragma region Components
 template<typename...Args>
 bool Scene::HasComponents(int entity)
 {
@@ -127,12 +103,9 @@ void Scene::RemoveComponent(int entity)
 {
 	m_registry.remove<T>((entt::entity)entity);
 }
-#pragma endregion
 
-#pragma region Systems
 template<typename T, typename...Args>
 void Scene::CreateSystem(Args...args)
 {
 	m_systems.emplace_back(new T(args...));
 }
-#pragma endregion

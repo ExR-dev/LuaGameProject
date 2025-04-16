@@ -38,11 +38,11 @@ namespace Main2D
     void UpdateFreeCamera(raylib::Camera2D *camera, Player *player, EnvItem *envItems, int envItemsLength, float delta, int width, int height);
 
     //------------------------------------------------------------------------------------
-    // Game loop
+    // Game
     //------------------------------------------------------------------------------------
     int Run()
     {
-        // Object creation
+        // Construction
         //--------------------------------------------------------------------------------------
         lua_State *L = luaL_newstate();
         luaL_openlibs(L);

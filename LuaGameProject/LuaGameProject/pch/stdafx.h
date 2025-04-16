@@ -17,5 +17,4 @@
 
 //#include "Game/Tools/ErrMsg.h"
 #include "LuaUtils.h"
-#include "Components.h"
 #include "Game/Utilities/Time.h"

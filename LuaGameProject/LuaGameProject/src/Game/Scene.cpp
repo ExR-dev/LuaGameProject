@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Scene.h"
 
-#pragma region General
 Scene::Scene(lua_State *L)
 {
 }
@@ -14,31 +13,27 @@ Scene::~Scene()
 		it = m_systems.erase(it);
 	}
 }
-#pragma endregion
 
-#pragma region Entities
 int Scene::GetEntityCount()
 {
 	return m_registry.view<entt::entity>().size();
 }
+
 int Scene::CreateEntity()
 {
 	return static_cast<int>(m_registry.create());
 }
+
 bool Scene::IsEntity(int entity)
 {
 	return m_registry.valid(static_cast<entt::entity>(entity));
 }
+
 void Scene::RemoveEntity(int entity)
 {
 	m_registry.destroy(static_cast<entt::entity>(entity));
 }
-#pragma endregion
 
-#pragma region Components
-#pragma endregion
-
-#pragma region Systems
 void Scene::UpdateSystems(float delta)
 {
 	for (auto it = m_systems.begin(); it != m_systems.end(); it++)
@@ -50,9 +45,7 @@ void Scene::UpdateSystems(float delta)
 		}
 	}
 }
-#pragma endregion
 
-#pragma region Lua
 void Scene::lua_openscene(lua_State *L, Scene *scene)
 {
 	lua_newtable(L);
@@ -61,6 +54,12 @@ void Scene::lua_openscene(lua_State *L, Scene *scene)
 	//  { "MethodNameInLua",	FunctionNameInCpp	},
 		{ "CreateEntity",		lua_CreateEntity	},
 		{ "SetComponent",		lua_SetComponent	},
+		{ "GetEntityCount",		lua_GetEntityCount	},
+		{ "IsEntity",			lua_IsEntity		},
+		{ "RemoveEntity",		lua_RemoveEntity	},
+		{ "HasComponent",		lua_HasComponent	},
+		{ "GetComponent",		lua_GetComponent	},
+		{ "RemoveComponent",	lua_RemoveComponent	},
 		{ NULL,					NULL				}
 	};
 
@@ -72,42 +71,50 @@ void Scene::lua_openscene(lua_State *L, Scene *scene)
 
 int Scene::lua_CreateEntity(lua_State *L)
 {
+	Scene *scene = (Scene *)lua_topointer(L, lua_upvalueindex(1));
+
 	// TODO: Implement
 	return 0;
 }
+
 int Scene::lua_SetComponent(lua_State *L)
 {
 	// TODO: Implement
 	return 0;
 }
+
 int Scene::lua_GetEntityCount(lua_State *L)
 {
 	// TODO: Implement
 	return 0;
 }
+
 int Scene::lua_IsEntity(lua_State *L)
 {
 	// TODO: Implement
 	return 0;
 }
+
 int Scene::lua_RemoveEntity(lua_State *L)
 {
 	// TODO: Implement
 	return 0;
 }
+
 int Scene::lua_HasComponent(lua_State *L)
 {
 	// TODO: Implement
 	return 0;
 }
+
 int Scene::lua_GetComponent(lua_State *L)
 {
 	// TODO: Implement
 	return 0;
 }
+
 int Scene::lua_RemoveComponent(lua_State *L)
 {
 	// TODO: Implement
 	return 0;
 }
-#pragma endregion
