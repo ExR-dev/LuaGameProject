@@ -1,5 +1,6 @@
 #pragma once
 #include "dep/EnTT/entt.hpp"
+#include "Components/Components.h"
 #include "Systems/System.h"
 
 class Scene
@@ -43,6 +44,8 @@ private:
 	entt::registry m_registry;
 	std::vector<System *> m_systems;
 
+	// Aguments: none
+	// Returns: entity (int)
 	static int lua_CreateEntity(lua_State *L);
 
 	static int lua_SetComponent(lua_State *L);
@@ -81,13 +84,13 @@ bool Scene::HasComponents(int entity)
 }
 
 template<typename T>
-T& Scene::GetComponent(int entity) 
+T &Scene::GetComponent(int entity)
 {
 	return m_registry.get<T>((entt::entity)entity);
 }
 
 template<typename T>
-void Scene::SetComponent(int entity, const T &component) 
+void Scene::SetComponent(int entity, const T &component)
 {
 	m_registry.emplace_or_replace<T>((entt::entity)entity, component);
 }

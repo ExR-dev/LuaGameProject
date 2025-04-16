@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Scene.h"
 
+#define lua_GetSceneUpValue(L) (Scene *)lua_topointer(L, lua_upvalueindex(1))
+
 Scene::Scene(lua_State *L)
 {
 }
@@ -40,7 +42,7 @@ void Scene::UpdateSystems(float delta)
 	{
 		if ((*it)->OnUpdate(m_registry, delta))
 		{
-			delete(*it);
+			delete (*it);
 			it = m_systems.erase(it);
 		}
 	}
@@ -71,50 +73,160 @@ void Scene::lua_openscene(lua_State *L, Scene *scene)
 
 int Scene::lua_CreateEntity(lua_State *L)
 {
-	Scene *scene = (Scene *)lua_topointer(L, lua_upvalueindex(1));
-
-	// TODO: Implement
-	return 0;
+	Scene *scene = lua_GetSceneUpValue(L);
+	int entity = scene->CreateEntity();
+	lua_pushinteger(L, entity);
+	return 1;
 }
 
 int Scene::lua_SetComponent(lua_State *L)
 {
-	// TODO: Implement
-	return 0;
+	Scene *scene = lua_GetSceneUpValue(L);
+	int entity = lua_tointeger(L, 1);
+	std::string type = lua_tostring(L, 2);
+	
+	if (type == "Health") 
+	{
+		// TODO
+	}
+	else if (type == "Transform") 
+	{
+		// TODO
+	}
+	else if (type == "Behaviour")
+	{
+		if (scene->HasComponents<ECS::Behaviour>(entity))
+			scene->RemoveComponent<ECS::Behaviour>(entity);
+		
+		const char *path = lua_tostring(L, 3);
+		
+		// Returns the behaviour table on top of the stack
+		luaL_dofile(L, path);
+		
+		// luaL_ref pops the value of the stack, so we push the table again before luaL_ref
+		lua_pushvalue(L, -1);
+		int ref = luaL_ref(L, LUA_REGISTRYINDEX);
+		
+		// Populate the behaviour table with the information the behaviour should know about
+		lua_pushinteger(L, entity);
+		lua_setfield(L, -2, "ID");
+		
+		lua_pushstring(L, path);
+		lua_setfield(L, -2, "path");
+		
+		// Let the behaviour construct itself. It may be good
+		// practice to check if the method exists before calling it
+		lua_getfield(L, -1, "OnCreate");
+		lua_pushvalue(L, -2); // Push the table as argument
+		lua_pcall(L, 1, 0, 0);
+		
+		scene->SetComponent<ECS::Behaviour>(entity, path, ref);
+		return 1;
+	}
 }
 
 int Scene::lua_GetEntityCount(lua_State *L)
 {
-	// TODO: Implement
-	return 0;
+	Scene *scene = lua_GetSceneUpValue(L);
+	int count = scene->GetEntityCount();
+	lua_pushinteger(L, count);
+	return 1;
 }
 
 int Scene::lua_IsEntity(lua_State *L)
 {
-	// TODO: Implement
-	return 0;
+	Scene *scene = lua_GetSceneUpValue(L);
+	int entity = lua_tointeger(L, 1);
+	bool alive = scene->IsEntity(entity);
+	lua_pushboolean(L, alive);
+	return 1;
 }
 
 int Scene::lua_RemoveEntity(lua_State *L)
 {
-	// TODO: Implement
+	Scene *scene = lua_GetSceneUpValue(L);
+	int entity = lua_tointeger(L, 1);
+	scene->RemoveEntity(entity);
 	return 0;
 }
 
 int Scene::lua_HasComponent(lua_State *L)
 {
-	// TODO: Implement
-	return 0;
+	Scene *scene = lua_GetSceneUpValue(L);
+	int entity = lua_tointeger(L, 1);
+	std::string type = lua_tostring(L, 2);
+	
+	bool hasComponent = true;
+	
+	if (type == "Health")
+	{
+		hasComponent = scene->HasComponents<ECS::Health>(entity);
+	}
+	else if (type == "Transform")
+	{
+		hasComponent = scene->HasComponents<ECS::Transform>(entity);
+	}
+	// else if...
+		
+	lua_pushboolean(L, hasComponent);
+	return 1;
 }
 
 int Scene::lua_GetComponent(lua_State *L)
 {
-	// TODO: Implement
-	return 0;
+	Scene *scene = lua_GetSceneUpValue(L);
+	
+	if (!lua_isinteger(L, 1) || !lua_isstring(L, 2))
+	{
+		lua_pushnil(L);
+		return 1;
+	}
+	
+	int entity = lua_tointeger(L, 1);
+	std::string type = lua_tostring(L, 2);
+	
+	// Sanity check that the entity exist
+	if (!scene->IsEntity(entity))
+	{
+		lua_pushnil(L);
+		return 1;
+	}
+
+	if (type == "Health" && scene->HasComponents<ECS::Health>(entity))
+	{
+		ECS::Health &health = scene->GetComponent<ECS::Health>(entity);
+		lua_pushnumber(L, health.Value); // Maybe push a "component" table?
+		return 1;
+	}
+	else if (type == "Transform" && scene->HasComponents<ECS::Transform>(entity))
+	{
+		ECS::Transform &transform = scene->GetComponent<ECS::Transform>(entity);
+		// TODO: lua_pushtransform(L, transform);
+		return 1;
+	}
+	// else if...
+	
+	// Name or component not found
+	lua_pushnil(L);
+	return 1;
 }
 
 int Scene::lua_RemoveComponent(lua_State *L)
 {
-	// TODO: Implement
+	Scene *scene = lua_GetSceneUpValue(L);
+
+	int entity = lua_tointeger(L, 1);
+	std::string type = lua_tostring(L, 2);
+
+	if (type == "Health" && scene->HasComponents<ECS::Health>(entity))
+	{
+		scene->RemoveComponent<ECS::Health>(entity);
+	}
+	else if (type == "Transform" && scene->HasComponents<ECS::Transform>(entity))
+	{
+		scene->RemoveComponent<ECS::Transform>(entity);
+	}
+	// else if...
+
 	return 0;
 }

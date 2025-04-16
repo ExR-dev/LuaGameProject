@@ -213,6 +213,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Game\Components\Components.h" />
     <ClInclude Include="src\Game\Scene.h" />
     <ClInclude Include="dep\EnTT\entt.hpp" />
     <ClInclude Include="src\Game\Systems\System.h" />

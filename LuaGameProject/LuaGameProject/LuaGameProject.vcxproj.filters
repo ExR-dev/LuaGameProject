@@ -227,6 +227,9 @@
     <ClInclude Include="src\Game\Tools\TrackedAlloc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Game\Components\Components.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Lua\Script.lua" />
