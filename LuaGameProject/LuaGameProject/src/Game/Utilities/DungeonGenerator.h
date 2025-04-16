@@ -29,6 +29,8 @@ private:
 	const int _id;
 };
 
+#define MAX_ITERATIONS 1000
+
 class DungeonGenerator
 {
 private:
@@ -50,7 +52,11 @@ public:
 	void AddRoom(const Room &room);
 
 	void Generate(float radius);
+
 	void SeparateRooms();
+	bool GridSeparation();
+	bool PhysicalSeparation();
+
 	void RoomSelection();
 	void GenerateGraph();
 

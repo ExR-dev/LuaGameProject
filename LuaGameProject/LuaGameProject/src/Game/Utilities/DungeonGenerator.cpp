@@ -49,10 +49,26 @@ void DungeonGenerator::Generate(float radius)
 
 void DungeonGenerator::SeparateRooms()
 {
+	//bool roomsSeparated = GridSeparation();
+	bool roomsSeparated = PhysicalSeparation();
+	
+	if (roomsSeparated)
+	{
+		TRACELOG(LOG_ERROR, "Failed genrating dungeon: Intersections still exists!");
+		return;
+	}
+
+	// TODO: Move to "Generate"
+	RoomSelection();
+	GenerateGraph();
+}
+
+bool DungeonGenerator::GridSeparation()
+{
 	bool foundIntersection = true;
 
 	// Separate all rooms
-	while (foundIntersection)
+	for (int i = 0; i < MAX_ITERATIONS && foundIntersection; i++)
 	{
 		foundIntersection = false;
 		for (auto &room : _rooms)
@@ -92,12 +108,48 @@ void DungeonGenerator::SeparateRooms()
 		}
 	}
 
-	if (foundIntersection)
-		return;
+	return foundIntersection;
+}
 
-	// TODO: Move to "Generate"
-	RoomSelection();
-	GenerateGraph();
+bool DungeonGenerator::PhysicalSeparation()
+{
+	bool foundIntersection = true;
+
+	std::vector<std::pair<Room*, Vector2>> resolutions;
+	resolutions.reserve(_rooms.size());
+
+	// Separate all rooms
+	for (int i = 0; i < MAX_ITERATIONS && foundIntersection; i++)
+	{
+		foundIntersection = false;
+		resolutions.clear();
+
+		for (auto &room : _rooms)
+		{
+			for (auto &other : _rooms)
+			{
+				if (room != other && Intersecting(room, other))
+				{
+					foundIntersection = true;
+
+					Vector2 normal = Vector2Normalize(Vector2Subtract(room.pos, other.pos));
+					auto existing = std::find_if(resolutions.begin(), 
+												 resolutions.end(), 
+												 [&room](std::pair<Room *, Vector2> p) {return p.first == &room; });
+
+					if (existing != resolutions.end())
+						existing->second = Vector2Normalize(Vector2Add(existing->second, normal));
+					else
+						resolutions.push_back({ &room, normal });
+				}
+			}
+		}
+
+		for (auto &pairs : resolutions)
+			pairs.first->pos = Vector2Add(pairs.first->pos, pairs.second);
+	}
+
+	return foundIntersection;
 }
 
 void DungeonGenerator::RoomSelection()
