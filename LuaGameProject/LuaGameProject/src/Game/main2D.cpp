@@ -109,7 +109,7 @@ namespace Main2D
         DisableCursor();                    
         bool cursorEnabled = false;
 
-        //SetTargetFPS(144);
+        SetTargetFPS(144);
 
         // Start Lua console thread
         std::thread consoleThread(ConsoleThreadFunction, L);

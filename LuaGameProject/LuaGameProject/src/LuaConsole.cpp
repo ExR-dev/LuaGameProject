@@ -54,10 +54,10 @@ void ConsoleThreadFunction(lua_State *L)
 	std::string luaScriptPath = std::format("{}/{}?{}", fs::current_path().generic_string(), FILE_PATH, FILE_EXT);
 	LuaDoString(std::format("package.path = \"{};\" .. package.path", luaScriptPath).c_str());
 
-	LuaDoString(std::format(
-		"print('To run a \"{}\" file located in \"{}\", begin your command with \"{}\" followed by the file name.')", 
-						FILE_EXT,			   FILE_PATH,					   FILE_CMD
-	).c_str());
+	std::cout << std::endl << std::format(
+		"To run a \"{}\" file located in \"{}\", begin your command with \"{}\" followed by the file name.", 
+				 FILE_EXT,			    FILE_PATH,					    FILE_CMD
+	) << std::endl;
 
 	std::string input;
 	
