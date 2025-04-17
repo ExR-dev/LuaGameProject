@@ -233,5 +233,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Lua\Script.lua" />
+    <None Include="src\Lua\Transform.lua" />
+    <None Include="src\Lua\Vector.lua" />
+    <None Include="src\Lua\VectorDemo.lua" />
   </ItemGroup>
 </Project>

@@ -38,7 +38,7 @@ void LuaDumpStack(lua_State *L)
 			break;
 
 		case LUA_TLIGHTUSERDATA:
-			std::cout << fmt << "¯\\_(ツ)_/¯";
+			std::cout << fmt << lua_topointer(L, i);
 			break;
 
 		case LUA_TNUMBER:

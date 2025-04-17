@@ -5,7 +5,9 @@ namespace ECS
 {
 	struct Transform
 	{
-		float _;
+		float Position[3];
+		float Rotation[3];
+		float Scale[3];
 	};
 
 	struct Health
