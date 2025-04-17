@@ -28,9 +28,6 @@ namespace Main2D
     void UpdatePlayer(Player *player, EnvItem *envItems, int envItemsLength, float delta);
     void UpdateCameraCenter(raylib::Camera2D *camera, Player *player, EnvItem *envItems, int envItemsLength, float delta, int width, int height);
     void UpdateCameraCenterInsideMap(raylib::Camera2D *camera, Player *player, EnvItem *envItems, int envItemsLength, float delta, int width, int height);
-    void UpdateCameraCenterSmoothFollow(raylib::Camera2D *camera, Player *player, EnvItem *envItems, int envItemsLength, float delta, int width, int height);
-    void UpdateCameraEvenOutOnLanding(raylib::Camera2D *camera, Player *player, EnvItem *envItems, int envItemsLength, float delta, int width, int height);
-    void UpdateCameraPlayerBoundsPush(raylib::Camera2D *camera, Player *player, EnvItem *envItems, int envItemsLength, float delta, int width, int height);
     void UpdateFreeCamera(raylib::Camera2D *camera, Player *player, EnvItem *envItems, int envItemsLength, float delta, int width, int height);
 
     //------------------------------------------------------------------------------------
@@ -59,7 +56,6 @@ namespace Main2D
         Player player = { 0 };
         player.position = raylib::Vector2{ 400, 280 };
         player.speed = 0;
-        //player.canJump = false;
         EnvItem envItems[] = {
             {{ 0, 0, 1000, 400 }, 0, false, LIGHTGRAY }, // Player
             {{ 0, 400, 1000, 200 }, 1, false, GRAY }, // Floor
@@ -83,10 +79,7 @@ namespace Main2D
         void (*cameraUpdaters[])(raylib::Camera2D *, Player *, EnvItem *, int, float, int, int) = {
             UpdateCameraCenter,
             UpdateFreeCamera,
-            UpdateCameraCenterInsideMap,
-            UpdateCameraCenterSmoothFollow,
-            UpdateCameraEvenOutOnLanding,
-            UpdateCameraPlayerBoundsPush
+            UpdateCameraCenterInsideMap
         };
 
         int cameraOption = 0;
@@ -95,10 +88,7 @@ namespace Main2D
         const char *cameraDescriptions[] = {
             "Follow player center",
             "Free camera movement",
-            "Follow player center, but clamp to map edges",
-            "Follow player center; smoothed",
-            "Follow player center horizontally; update player center vertically after landing",
-            "Player push camera on getting too close to screen edge"
+            "Follow player center, but clamp to map edges"
         };
         
         // Limit cursor to relative movement inside the window
@@ -273,79 +263,6 @@ namespace Main2D
         if (max.y < height) camera->offset.y = height - (max.y - height / 2);
         if (min.x > 0) camera->offset.x = width / 2 - min.x;
         if (min.y > 0) camera->offset.y = height / 2 - min.y;
-    }
-
-    void UpdateCameraCenterSmoothFollow(raylib::Camera2D *camera, Player *player, EnvItem *envItems, int envItemsLength, float delta, int width, int height)
-    {
-        static float minSpeed = 30;
-        static float minEffectLength = 10;
-        static float fractionSpeed = 0.8f;
-
-        camera->offset = raylib::Vector2{ width / 2.0f, height / 2.0f };
-        raylib::Vector2 diff = Vector2Subtract(player->position, camera->target);
-        float length = Vector2Length(diff);
-
-        if (length > minEffectLength)
-        {
-            float speed = fmaxf(fractionSpeed * length, minSpeed);
-            camera->target = Vector2Add(camera->target, Vector2Scale(diff, speed * delta / length));
-        }
-    }
-
-    void UpdateCameraEvenOutOnLanding(raylib::Camera2D *camera, Player *player, EnvItem *envItems, int envItemsLength, float delta, int width, int height)
-    {
-        static float evenOutSpeed = 700;
-        static int eveningOut = false;
-        static float evenOutTarget;
-
-        camera->offset = raylib::Vector2{ width / 2.0f, height / 2.0f };
-        camera->target.x = player->position.x;
-
-        if (eveningOut)
-        {
-            if (evenOutTarget > camera->target.y)
-            {
-                camera->target.y += evenOutSpeed * delta;
-
-                if (camera->target.y > evenOutTarget)
-                {
-                    camera->target.y = evenOutTarget;
-                    eveningOut = 0;
-                }
-            }
-            else
-            {
-                camera->target.y -= evenOutSpeed * delta;
-
-                if (camera->target.y < evenOutTarget)
-                {
-                    camera->target.y = evenOutTarget;
-                    eveningOut = 0;
-                }
-            }
-        }
-        else
-        {
-            if (/*player->canJump && */(player->speed == 0) && (player->position.y != camera->target.y))
-            {
-                eveningOut = 1;
-                evenOutTarget = player->position.y;
-            }
-        }
-    }
-
-    void UpdateCameraPlayerBoundsPush(raylib::Camera2D *camera, Player *player, EnvItem *envItems, int envItemsLength, float delta, int width, int height)
-    {
-        static raylib::Vector2 bbox = { 0.2f, 0.2f };
-
-        raylib::Vector2 bboxWorldMin = GetScreenToWorld2D(raylib::Vector2{ (1 - bbox.x) * 0.5f * width, (1 - bbox.y) * 0.5f * height }, *camera);
-        raylib::Vector2 bboxWorldMax = GetScreenToWorld2D(raylib::Vector2{ (1 + bbox.x) * 0.5f * width, (1 + bbox.y) * 0.5f * height }, *camera);
-        camera->offset = raylib::Vector2{ (1 - bbox.x) * 0.5f * width, (1 - bbox.y) * 0.5f * height };
-
-        if (player->position.x < bboxWorldMin.x) camera->target.x = player->position.x;
-        if (player->position.y < bboxWorldMin.y) camera->target.y = player->position.y;
-        if (player->position.x > bboxWorldMax.x) camera->target.x = bboxWorldMin.x + (player->position.x - bboxWorldMax.x);
-        if (player->position.y > bboxWorldMax.y) camera->target.y = bboxWorldMin.y + (player->position.y - bboxWorldMax.y);
     }
 
     void UpdateFreeCamera(raylib::Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height)
