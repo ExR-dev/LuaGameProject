@@ -35,7 +35,6 @@ function transform.__eq(a, b)
     return a.position==b.position and a.rotation==b.rotation and a.scale==b.scale
 end
 
--- Wrap up and send :)
 transform.new = new
 transform.istransform = istransform
 return setmetatable(transform, {

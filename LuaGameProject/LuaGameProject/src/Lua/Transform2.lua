@@ -1,0 +1,43 @@
+local transform2 = {}
+transform2.__index = transform2
+
+local vec2 = require("Vec2")
+
+local function new(p, r, s)
+    local t = {
+        position = p or vec2(),
+        rotation = r or 0.0,
+        scale = s or vec2()
+    }
+    return setmetatable(t, transform2)
+end
+
+local function istransform2(t)
+    return getmetatable(t) == transform2
+end
+
+-- Meta events
+function transform2:__newindex(k, v)
+    print("transform2 - not possible to assign new fields")
+end
+
+function transform2:__tostring()
+    return "(p: "..self.position:__tostring()..
+           ", r: "..tostring(self.rotation)..
+           ", s: "..self.scale:__tostring()..")"
+end
+
+-- Meta logic operators
+function transform2.__eq(a, b)
+    assert(istransform2(a) and istransform2(b), "transform2 eq - expected args: transform2, transform2")
+    return (a.position == b.position) and
+           (a.rotation == b.rotation) and
+           (a.scale == b.scale)
+end
+
+transform2.new = new
+transform2.istransform2 = istransform2
+return setmetatable(transform2, {
+    __call = function(_, ...) 
+    return transform2.new(...) end
+})

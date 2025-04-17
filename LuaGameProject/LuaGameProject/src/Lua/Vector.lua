@@ -22,12 +22,13 @@ function vector.__tostring(t)
     return "("..t.x..", "..t.y..", "..t.z..")"
 end
 
+-- Meta logic operators
 function vector.__unm(t)
     assert(vector.isvector(t), "vector unm - expected args: vector")
     return vector.new(-t.x, -t.y, -t.z)
 end
 
-function vector.__add(a, t2)
+function vector.__add(a, b)
     assert(vector.isvector(a) and vector.isvector(b), "vector add - expected args: vector, vector")
     return vector.new(a.x+b.x, a.y+b.y, a.z+b.z)
 end
@@ -70,10 +71,6 @@ function vector:length()
 end
 
 return setmetatable(vector, {
-    -- Called by vector(x, y, z)
-    -- _ is the table ’vector’,
-    -- ... is the rest of the (variadic) arguments that
-    -- we can pass along to the vector.new method.
     __call = function(_, ...)
         return vector.new(...)
     end
