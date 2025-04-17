@@ -105,7 +105,7 @@ void CallLuaFunction(lua_State *L, const char *functionName, const char *sig, ..
 			break;
 		default:
 			TraceLog(LOG_ERROR, "Invalid option");
-			break;
+			return;
 		}
 	}
 	endargs:
@@ -125,7 +125,10 @@ void CallLuaFunction(lua_State *L, const char *functionName, const char *sig, ..
 			int isnum;
 			double n = lua_tonumberx(L, nres, &isnum);
 			if (!isnum)
+			{
 				TraceLog(LOG_ERROR, "Incorrect return type");
+				return;
+			}
 			*va_arg(vl, double*) = n;
 			break;
 		}
@@ -133,20 +136,26 @@ void CallLuaFunction(lua_State *L, const char *functionName, const char *sig, ..
 			int isnum;
 			int n = lua_tointegerx(L, nres, &isnum);
 			if (!isnum)
+			{
 				TraceLog(LOG_ERROR, "Incorrect return type");
+				return;
+			}
 			*va_arg(vl, int*) = n;
 			break;
 		}
 		case 's': {
 			const char *s = lua_tostring(L, nres);
 			if (s == NULL)
+			{
 				TraceLog(LOG_ERROR, "Incorrect return type");
+				return;
+			}
 			*va_arg(vl, const char**) = s;
 			break;
 		}
 		default:
 			TraceLog(LOG_ERROR, "Invalid option");
-			break;
+			return;
 		}
 		nres++;
 	}
