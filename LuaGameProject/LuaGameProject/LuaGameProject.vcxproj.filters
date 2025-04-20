@@ -237,7 +237,8 @@
     <None Include="src\Lua\Vector.lua" />
     <None Include="src\Lua\VectorDemo.lua" />
     <None Include="src\Lua\Vec2.lua" />
-    <None Include="src\Lua\Demo.lua" />
     <None Include="src\Lua\Transform2.lua" />
+    <None Include="src\Lua\Tests\Transform2Test.lua" />
+    <None Include="src\Lua\Tests\Vec2Test.lua" />
   </ItemGroup>
 </Project>

@@ -9,3 +9,6 @@
 void LuaDumpError(lua_State *L);
 
 void LuaDumpStack(lua_State *L);
+
+
+void LuaRunTests(lua_State *L, const std::string &testDir);

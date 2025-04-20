@@ -1,5 +1,8 @@
 ﻿#include "stdafx.h"
 #include "LuaUtils.h"
+#include <fstream>
+#include <iostream>
+#include <filesystem>
 
 void LuaDumpError(lua_State *L)
 {
@@ -74,4 +77,25 @@ void LuaDumpStack(lua_State *L)
 		std::cout << std::endl;
 	}
 	std::cout << "------------- STACK END -------------" << std::endl;
+}
+
+
+void LuaRunTests(lua_State *L, const std::string &testDir)
+{
+	std::string ext(".lua");
+
+	std::vector<std::string> testFiles;
+
+	for (auto &p : std::filesystem::recursive_directory_iterator(testDir))
+	{
+		if (p.path().extension() == ext)
+		{
+			testFiles.push_back(p.path().stem().string());
+		}
+	}
+
+	for (auto &t : testFiles)
+	{
+		LuaDoFile((testDir + t + ".lua").c_str());
+	}
 }
