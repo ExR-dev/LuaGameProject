@@ -1,6 +1,9 @@
-Location of all lua tests. New files are detected and ran automatically. Test scripts must follow a specific format, as described below:
-A test script must consist of a local function, containing all tests. The result of calling the function must then be returned at the end of the script.
-The local function must return two values, the total amount of tests and the amount passed.
+Location of all lua tests. New files are detected and ran automatically. Test scripts should follow a specific format, as described below:
+A test script consists of a local function which performs all tests.
+The function must return two values (in the given order): 
+	1. The total amount of tests done.
+	2. The amount of tests passed.
+The result of calling the function must be returned at the end of the script.
 
 
 Test Template:

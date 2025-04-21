@@ -79,7 +79,6 @@ void LuaDumpStack(lua_State *L)
 	std::cout << "------------- STACK END -------------" << std::endl;
 }
 
-
 void LuaRunTests(lua_State *L, const std::string &testDir)
 {
 	std::string ext(".lua");

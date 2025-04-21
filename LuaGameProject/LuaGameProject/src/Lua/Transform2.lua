@@ -35,6 +35,22 @@ function transform2.__eq(a, b)
            (a.scale == b.scale)
 end
 
+function transform2:getForward()
+    return vec2(math.cos(math.rad(self.rotation)), math.sin(math.rad(self.rotation)))
+end
+
+function transform2:getRight()
+    return vec2(math.cos(math.rad(self.rotation - 90.0)), math.sin(math.rad(self.rotation - 90.0)))
+end
+
+function transform2:moveRelative(movement)
+    assert(vec2.isvec2(movement), "transform2 moveRelative : expected args: vec2")
+    local fwd = self:getForward()
+    local right = self:getRight()
+    local relativeMovement = (fwd * movement.x) + (right * movement.y) -- TODO: Should X or Y axis be forward?
+    self.position = self.position + relativeMovement
+end
+
 transform2.new = new
 transform2.istransform2 = istransform2
 return setmetatable(transform2, {
