@@ -3,6 +3,10 @@
 
 #include "../LuaConsole.h"
 #include "Utilities/DungeonGenerator.h"
+#include "Scene.h"
+
+#include "Utilities/InputHandler.h"
+
 
 namespace Main2D
 {
@@ -84,7 +88,18 @@ namespace Main2D
         // Toggle mouse
         if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
         {
-            if (m_cursorEnabled)
+            // Update
+            //----------------------------------------------------------------------------------
+            Time::Update();
+
+            Input::UpdateInput();
+
+            // Update all systems
+            scene.UpdateSystems(Time::DeltaTime());
+
+
+            // Toggle mouse
+            if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
             {
                 DisableCursor();
                 m_cursorEnabled = false;
@@ -208,12 +223,10 @@ namespace Main2D
 
     void Main2D::UpdatePlayer()
     {
-		float delta = Time::DeltaTime();
-
-        if (IsKeyDown(KEY_A)) m_player.position.x -= PLAYER_HOR_SPD * delta;
-        if (IsKeyDown(KEY_D)) m_player.position.x += PLAYER_HOR_SPD * delta;
-        if (IsKeyDown(KEY_W)) m_player.position.y -= PLAYER_HOR_SPD * delta;
-        if (IsKeyDown(KEY_S)) m_player.position.y += PLAYER_HOR_SPD * delta;
+        if (Input::CheckKeyHeld(Input::GAME_KEY_A)) player->position.x -= PLAYER_HOR_SPD * delta;
+        if (Input::CheckKeyHeld(Input::GAME_KEY_D)) player->position.x += PLAYER_HOR_SPD * delta;
+        if (Input::CheckKeyHeld(Input::GAME_KEY_W)) player->position.y -= PLAYER_HOR_SPD * delta;
+        if (Input::CheckKeyHeld(Input::GAME_KEY_S)) player->position.y += PLAYER_HOR_SPD * delta;
 
         m_player.position.y += m_player.speed * delta;
     }
@@ -227,8 +240,8 @@ namespace Main2D
         float delta = Time::DeltaTime();
 
         raylib::Vector2 move(
-            IsKeyDown(KEY_RIGHT) - IsKeyDown(KEY_LEFT),
-            IsKeyDown(KEY_DOWN)  - IsKeyDown(KEY_UP)
+            Input::CheckKeyHeld(Input::GAME_KEY_RIGHT) - Input::CheckKeyHeld(Input::GAME_KEY_LEFT),
+            Input::CheckKeyHeld(Input::GAME_KEY_DOWN)  - Input::CheckKeyHeld(Input::GAME_KEY_UP)
         );
 
         move = Vector2Normalize(move);

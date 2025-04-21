@@ -6,6 +6,7 @@
 #include <atomic>
 #include <thread>
 #include <execution>
+#include <unordered_map>
 
 #include "dep/raylib-cpp/raylib-cpp.hpp"
 #include "dep/rcamera.h"
