@@ -240,5 +240,6 @@
     <None Include="src\Lua\Transform2.lua" />
     <None Include="src\Lua\Tests\Transform2Test.lua" />
     <None Include="src\Lua\Tests\Vec2Test.lua" />
+    <None Include="src\Lua\Components\Sprite.lua" />
   </ItemGroup>
 </Project>

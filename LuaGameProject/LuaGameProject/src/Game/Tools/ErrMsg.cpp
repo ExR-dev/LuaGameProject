@@ -18,5 +18,4 @@ void WarningMessage(const std::string &msg, const std::string &filePath, int lin
 void DebugMessage(const std::string &msg)
 {
     std::cout << msg << std::endl;
-    DebugMessage(msg.c_str());
 }

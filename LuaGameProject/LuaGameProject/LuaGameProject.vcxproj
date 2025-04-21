@@ -274,6 +274,7 @@
     <ClInclude Include="pch\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="src\Lua\Components\Sprite.lua" />
     <None Include="src\Lua\Script.lua" />
     <None Include="src\Lua\Tests\Transform2Test.lua" />
     <None Include="src\Lua\Tests\Vec2Test.lua" />

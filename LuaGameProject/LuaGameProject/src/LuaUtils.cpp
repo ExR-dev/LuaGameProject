@@ -53,7 +53,7 @@ void LuaDumpStack(lua_State *L)
 			break;
 
 		case LUA_TTABLE:
-			std::cout << fmt << "¯\\_(ツ)_/¯";
+			std::cout << fmt << "Unsupported";
 			break;
 
 		case LUA_TFUNCTION:
@@ -61,11 +61,11 @@ void LuaDumpStack(lua_State *L)
 			break;
 
 		case LUA_TUSERDATA:
-			std::cout << fmt << "¯\\_(ツ)_/¯";
+			std::cout << fmt << "Unsupported";
 			break;
 
 		case LUA_TTHREAD:
-			std::cout << fmt << "¯\\_(ツ)_/¯";
+			std::cout << fmt << "Unsupported";
 			break;
 
 		default:
@@ -111,8 +111,8 @@ void LuaRunTests(lua_State *L, const std::string &testDir)
 			}
 		}
 
-		int passedTests = lua_tointeger(L, -1);
-		int totalTests = lua_tointeger(L, -2);
+		int passedTests = static_cast<int>(lua_tointeger(L, -1));
+		int totalTests = static_cast<int>(lua_tointeger(L, -2));
 
 		std::cout << std::format("======== Tests Passed: {} / {}\n", passedTests, totalTests);
 		std::cout << "================================================================================\n";
