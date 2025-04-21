@@ -8,6 +8,8 @@
 #include <thread>
 #include "LuaUtils.h"
 
+#include "Game/Utilities/LuaInput.h"
+
 namespace fs = std::filesystem;
 
 struct Vector2
@@ -64,6 +66,8 @@ void ConsoleThreadFunction(lua_State *L)
 	lua_pushcfunction(L, PrintVector);
 	lua_setglobal(L, "PrintVector");
 
+	BindLuaInput(L);
+
 	while (GetConsoleWindow())
 	{
 		std::cout << "> ";
@@ -86,6 +90,9 @@ void ConsoleThreadFunction(lua_State *L)
 		{
 			LuaDoString(input.c_str());
 		}
+
+		lua_getglobal(L, "UpdateInput");
+		lua_pcall(L, 0, 0, 0);
 
 		std::cout << std::endl;
 	}

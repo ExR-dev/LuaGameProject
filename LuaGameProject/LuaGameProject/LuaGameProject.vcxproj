@@ -186,6 +186,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\Game\Utilities\InputHandler.cpp" />
+    <ClCompile Include="src\Game\Utilities\LuaInput.cpp" />
     <ClCompile Include="src\Game\Utilities\Math.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdafx.h</PrecompiledHeaderFile>
@@ -230,6 +231,7 @@
     <ClInclude Include="src\Game\Utilities\Algorithms.h" />
     <ClInclude Include="src\Game\Utilities\DungeonGenerator.h" />
     <ClInclude Include="src\Game\Utilities\InputHandler.h" />
+    <ClInclude Include="src\Game\Utilities\LuaInput.h" />
     <ClInclude Include="src\Game\Utilities\Math.h" />
     <ClInclude Include="src\Game\Utilities\Time.h" />
     <ClInclude Include="src\Game\Utilities\WindowsWrapped.h" />
