@@ -96,6 +96,26 @@ void LuaRunTests(lua_State *L, const std::string &testDir)
 
 	for (auto &t : testFiles)
 	{
-		LuaDoFile((testDir + t + ".lua").c_str());
+		const std::string testScript(testDir + t + ".lua");
+
+		std::cout << "\n================================================================================\n";
+		std::cout << std::format("================ Running {}\n\n", t);
+
+		if (luaL_dofile(L, testScript.c_str()) != LUA_OK) 
+		{
+			if (lua_gettop(L) && lua_isstring(L, -1))
+			{
+				std::cout << "Test Failed with the Error:\n" << lua_tostring(L, -1) << "\n";
+				lua_pop(L, 1);
+				std::cout << "================================================================================\n";
+				continue;
+			}
+		}
+
+		int passedTests = lua_tointeger(L, -1);
+		int totalTests = lua_tointeger(L, -2);
+
+		std::cout << std::format("======== Tests Passed: {} / {}\n", passedTests, totalTests);
+		std::cout << "================================================================================\n";
 	}
 }
