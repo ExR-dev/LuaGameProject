@@ -46,6 +46,7 @@ private:
 
 public:
 	DungeonGenerator(Vector2 pos);
+	DungeonGenerator(raylib::Vector2 pos);
 
 	void Initialize();
 

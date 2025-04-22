@@ -31,26 +31,3 @@ bool BehaviourSystem::OnUpdate(entt::registry &registry, float delta)
 	// false -> Do not destroy the system
 	return true;
 }
-
-bool DrawSpriteSystem::OnUpdate(entt::registry &registry, float delta)
-{
-	auto spriteView = registry.view<ECS::Sprite, ECS::Transform>();
-	std::cout << "Drawing " << spriteView.size_hint() << " sprites..." << std::endl;
-	
-	spriteView.each([&](const ECS::Sprite &sprite, const ECS::Transform &transform) {
-		
-		// Draw the sprite at the location defined by the transform.
-
-		const float posX = transform.Position[0];
-		const float posY = transform.Position[1];
-
-		const float sclX = transform.Scale[0];
-		const float sclY = transform.Scale[1];
-
-		raylib::Color color(*(raylib::Vector4 *)(&(sprite.Color)));
-
-		DrawRectangle((int)posX, (int)posX, (int)posX, (int)posX, color);
-	});
-
-	return false;
-}

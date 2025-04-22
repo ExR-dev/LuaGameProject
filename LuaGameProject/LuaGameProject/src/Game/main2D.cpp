@@ -1,187 +1,192 @@
 ﻿#include "stdafx.h"
 #include "main2D.h"
+
 #include "../LuaConsole.h"
-
 #include "Utilities/DungeonGenerator.h"
-#include "Scene.h"
-
 
 namespace Main2D
 {
-    constexpr float PLAYER_HOR_SPD = 200.0f;
-
-    typedef struct Player {
-        raylib::Vector2 position;
-        float speed;
-    } Player;
-
-    typedef struct EnvItem {
-        raylib::Rectangle rect;
-        int blocking;
-        bool platform;
-        raylib::Color color;
-    } EnvItem;
-
-    //------------------------------------------------------------------------------------
-	// Forward declaration
-    //------------------------------------------------------------------------------------
-    void UpdatePlayer(Player *player, EnvItem *envItems, int envItemsLength, float delta);
-    void UpdateCameraCenter(raylib::Camera2D *camera, Player *player, EnvItem *envItems, int envItemsLength, float delta, int width, int height);
-    void UpdateCameraCenterInsideMap(raylib::Camera2D *camera, Player *player, EnvItem *envItems, int envItemsLength, float delta, int width, int height);
-    void UpdateFreeCamera(raylib::Camera2D *camera, Player *player, EnvItem *envItems, int envItemsLength, float delta, int width, int height);
-
-    //------------------------------------------------------------------------------------
-    // Game
-    //------------------------------------------------------------------------------------
-    int Run()
+    Main2D::~Main2D()
     {
-        // Construction
-        //--------------------------------------------------------------------------------------
-        lua_State *L = luaL_newstate();
+		if (m_dungeon)
+		{
+			delete m_dungeon;
+			m_dungeon = nullptr;
+		}
+    }
+
+    int Main2D::Run()
+    {
+        Start();
+
+        while (!WindowShouldClose())
+        {
+            Time::Update();
+
+			Update();
+
+			Render();
+        }
+
+        CloseWindow();
+        return 0;
+    }
+
+
+    int Main2D::Start()
+    {
+        L = luaL_newstate();
         luaL_openlibs(L);
 
-        Scene scene(L);
-        Scene::lua_openscene(L, &scene);
+        Scene::lua_openscene(L, &m_scene);
 
         Time::Instance();
-        //--------------------------------------------------------------------------------------
 
-        // Initialization
-        //--------------------------------------------------------------------------------------
-        const int screenWidth = 1280;
-        const int screenHeight = 720;
+        InitWindow(m_screenWidth, m_screenHeight, "Lua Game");
 
-        InitWindow(screenWidth, screenHeight, "raylib [core] example - 2d camera");
+        m_player = { 0 };
+        m_player.position = raylib::Vector2(400, 280);
+        m_player.speed = 0;
 
-        Player player = { 0 };
-        player.position = raylib::Vector2{ 400, 280 };
-        player.speed = 0;
-        EnvItem envItems[] = {
-            {{ 0, 0, 1000, 400 }, 0, false, LIGHTGRAY }, // Player
-            {{ 0, 400, 1000, 200 }, 1, false, GRAY }, // Floor
-            {{ 300, 200, 400, 10 }, 1, true, GRAY }, // Platform
-            {{ 250, 300, 100, 10 }, 1, true, GRAY }, // Platform
-            {{ 650, 300, 100, 10 }, 1, true, GRAY } // Platform
-        };
+        m_camera = {};
+        m_camera.target = m_player.position;
+        m_camera.offset = raylib::Vector2(m_screenWidth / 2.0f, m_screenHeight / 2.0f);
+        m_camera.rotation = 0.0f;
+        m_camera.zoom = 1.0f;
 
-        int envItemsLength = sizeof(envItems) / sizeof(envItems[0]);
+        m_dungeon = new DungeonGenerator(raylib::Vector2(200, 200));
+        m_dungeon->Generate(100);
 
-        raylib::Camera2D camera = {};
-        camera.target = player.position;
-        camera.offset = raylib::Vector2{ screenWidth / 2.0f, screenHeight / 2.0f };
-        camera.rotation = 0.0f;
-        camera.zoom = 1.0f;
+		m_cameraUpdater = std::bind(&Main2D::UpdateCameraCenter, this);
+		m_cameraOption = 0;
 
-        DungeonGenerator dungeon = DungeonGenerator({ 200, 200 });
-        dungeon.Generate(100);
-
-        // Store pointers to the multiple update camera functions
-        void (*cameraUpdaters[])(raylib::Camera2D *, Player *, EnvItem *, int, float, int, int) = {
-            UpdateCameraCenter,
-            UpdateFreeCamera,
-            UpdateCameraCenterInsideMap
-        };
-
-        int cameraOption = 0;
-        int cameraUpdatersLength = sizeof(cameraUpdaters) / sizeof(cameraUpdaters[0]);
-
-        const char *cameraDescriptions[] = {
-            "Follow player center",
-            "Free camera movement",
-            "Follow player center, but clamp to map edges"
-        };
-        
         // Limit cursor to relative movement inside the window
-        DisableCursor();                    
-        bool cursorEnabled = false;
+        DisableCursor();
+		m_cursorEnabled = false;
 
         SetTargetFPS(144);
 
         // Start Lua console thread
         std::thread consoleThread(ConsoleThreadFunction, L);
         consoleThread.detach();
-        std::this_thread::sleep_for(std::chrono::milliseconds(16)); // Wait for the console thread to start
-        //--------------------------------------------------------------------------------------
+        std::this_thread::sleep_for(std::chrono::milliseconds(50)); // Wait for the console thread to start
 
-        std::cout << "Scene entity count: " << scene.GetEntityCount() << std::endl;
-
-        scene.CreateSystem<DrawSpriteSystem>();
+        m_scene.InitializeSystems();
 
         LuaDoFile(LuaFilePath("InitDevScene")) // Creates entities
 
-        std::cout << "Scene entity count: " << scene.GetEntityCount() << std::endl;
+        return 1;
+    }
 
-        // Main game loop
-        while (!WindowShouldClose())
+    int Main2D::Update()
+    {
+        // Toggle mouse
+        if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
         {
-            // Update
-            //----------------------------------------------------------------------------------
-            Time::Update();
-
-            // Toggle mouse
-            if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
+            if (m_cursorEnabled)
             {
-                if (cursorEnabled)
-                {
-                    DisableCursor();
-                    cursorEnabled = false;
-                }
-                else
-                {
-                    EnableCursor();
-                    cursorEnabled = true;
-                }
+                DisableCursor();
+                m_cursorEnabled = false;
             }
-
-            UpdatePlayer(&player, envItems, envItemsLength, Time::DeltaTime());
-
-            camera.zoom += ((float)GetMouseWheelMove() * 0.05f);
-
-            if (camera.zoom > 3.0f) camera.zoom = 3.0f;
-            else if (camera.zoom < 0.25f) camera.zoom = 0.25f;
-
-            if (IsKeyPressed(KEY_R))
+            else
             {
-                camera.zoom = 1.0f;
-                player.position = raylib::Vector2{ 400, 280 };
+                EnableCursor();
+                m_cursorEnabled = true;
             }
+        }
 
-            if (IsKeyPressed(KEY_T))
+        UpdatePlayer();
+
+        m_camera.zoom += ((float)GetMouseWheelMove() * 0.05f);
+
+        if (m_camera.zoom > 3.0f) m_camera.zoom = 3.0f;
+        else if (m_camera.zoom < 0.25f) m_camera.zoom = 0.25f;
+
+        if (IsKeyPressed(KEY_R))
+        {
+            m_camera.zoom = 1.0f;
+            m_player.position = raylib::Vector2(400, 280);
+        }
+
+        if (IsKeyPressed(KEY_T))
+        {
+            m_dungeon->Initialize();
+            m_dungeon->Generate(100);
+        }
+
+        if (IsKeyPressed(KEY_Y)) 
+            m_dungeon->SeparateRooms();
+
+        if (IsKeyPressed(KEY_C)) 
+        {
+            m_cameraOption = (m_cameraOption + 1) % CAMERA_OPTIONS;
+
+            switch (m_cameraOption)
             {
-                dungeon.Initialize();
-                dungeon.Generate(100);
+            case 0: default:
+                m_cameraUpdater = std::bind(&Main2D::UpdateCameraCenter, this);
+                break;
+
+			case 1:
+                m_cameraUpdater = std::bind(&Main2D::UpdateCameraFree, this);
+                break;
             }
+        }
 
-				if (IsKeyPressed(KEY_Y)) dungeon.SeparateRooms();
+        // Call update camera function by its pointer
+        m_cameraUpdater();
 
-            if (IsKeyPressed(KEY_C)) cameraOption = (cameraOption + 1) % cameraUpdatersLength;
+        // Update systems
+        m_scene.UpdateSystems(Time::DeltaTime());
 
-            // Call update camera function by its pointer
-            cameraUpdaters[cameraOption](&camera, &player, envItems, envItemsLength, Time::DeltaTime(), screenWidth, screenHeight);
-            //----------------------------------------------------------------------------------
+        return 0;
+    }
 
-            // Draw
-            //----------------------------------------------------------------------------------
-            BeginDrawing();
+    int Main2D::Render()
+    {
+        BeginDrawing();
+        ClearBackground(LIGHTGRAY);
 
-            ClearBackground(LIGHTGRAY);
+        // Scene
+        {
+            BeginMode2D(m_camera);
 
-            BeginMode2D(camera);
+            // Draw entities
+            std::function<void(entt::registry &registry)> drawSystem = [](entt::registry &registry) {
+                auto view = registry.view<ECS::Sprite, ECS::Transform>();
+                view.use<ECS::Sprite>();
 
-            for (int i = 0; i < envItemsLength; i++) 
-                DrawRectangleRec(envItems[i].rect, envItems[i].color);
+                view.each([&](const ECS::Sprite &sprite, const ECS::Transform &transform) {
+                    // Draw the sprite at the location defined by the transform.
 
-            raylib::Rectangle playerRect = { player.position.x - 20, player.position.y - 40, 40.0f, 40.0f };
-            DrawRectangleRec(playerRect, RED);
+                    const float posX = transform.Position[0];
+                    const float posY = transform.Position[1];
 
-            DrawCircleV(player.position, 5.0f, GOLD);
+                    const float sclX = transform.Scale[0];
+                    const float sclY = transform.Scale[1];
 
-            dungeon.Draw();
+                    raylib::Color color(*(raylib::Vector4 *)(&(sprite.Color)));
 
-            // Update all systems
-            scene.UpdateSystems(Time::DeltaTime());
+                    DrawRectangle((int)posX, (int)posY, (int)sclX, (int)sclY, color);
+                });
+            };
+			m_scene.RunSystem(drawSystem);
+
+			// Draw the dungeon
+            m_dungeon->Draw();
+
+			// Draw the player
+			DrawCircle((int)m_player.position.x, (int)m_player.position.y, 15, raylib::Color(raylib::Vector4(0.5f, 0.8f, 0.2f, 1.0f)));
 
             EndMode2D();
+        }
+
+        // UI
+        {
+            static const char *cameraDescriptions[CAMERA_OPTIONS] = {
+                "Follow player center",
+                "Free camera movement",
+            };
 
             DrawText("Controls:", 20, 20, 10, BLACK);
             DrawText("- A/D to move", 40, 40, 10, DARKGRAY);
@@ -189,92 +194,37 @@ namespace Main2D
             DrawText("- Mouse Wheel to Zoom in-out, R to reset zoom", 40, 80, 10, DARKGRAY);
             DrawText("- C to change camera mode", 40, 100, 10, DARKGRAY);
             DrawText("Current camera mode:", 20, 120, 10, BLACK);
-            DrawText(cameraDescriptions[cameraOption], 40, 140, 10, DARKGRAY);
+            DrawText(cameraDescriptions[m_cameraOption], 40, 140, 10, DARKGRAY);
 
             DrawFPS(340, 10);
-
-            EndDrawing();
-            //----------------------------------------------------------------------------------
         }
 
-        // De-Initialization
-        //--------------------------------------------------------------------------------------
-        CloseWindow();        // Close window and OpenGL context
-        //--------------------------------------------------------------------------------------
+        EndDrawing();
 
-        return 0;
+		return 1;
     }
 
-    //------------------------------------------------------------------------------------
-    // Module functions declaration
-    //------------------------------------------------------------------------------------
-    void UpdatePlayer(Player *player, EnvItem *envItems, int envItemsLength, float delta)
+
+    void Main2D::UpdatePlayer()
     {
-        if (IsKeyDown(KEY_A)) player->position.x -= PLAYER_HOR_SPD * delta;
-        if (IsKeyDown(KEY_D)) player->position.x += PLAYER_HOR_SPD * delta;
-        if (IsKeyDown(KEY_W)) player->position.y -= PLAYER_HOR_SPD * delta;
-        if (IsKeyDown(KEY_S)) player->position.y += PLAYER_HOR_SPD * delta;
+		float delta = Time::DeltaTime();
 
-        bool hitObstacle = false;
-        /*for (int i = 0; i < envItemsLength; i++)
-        {
-            EnvItem *ei = envItems + i;
-            raylib::Vector2 *p = &(player->position);
-            if (ei->blocking &&
-                ei->rect.x <= p->x &&
-                ei->rect.x + ei->rect.width >= p->x &&
-                ei->rect.y >= p->y &&
-                ei->rect.y <= p->y + player->speed * delta)
-            {
-                hitObstacle = true;
-                player->speed = 0.0f;
-                p->y = ei->rect.y;
-                break;
-            }
-        }*/
+        if (IsKeyDown(KEY_A)) m_player.position.x -= PLAYER_HOR_SPD * delta;
+        if (IsKeyDown(KEY_D)) m_player.position.x += PLAYER_HOR_SPD * delta;
+        if (IsKeyDown(KEY_W)) m_player.position.y -= PLAYER_HOR_SPD * delta;
+        if (IsKeyDown(KEY_S)) m_player.position.y += PLAYER_HOR_SPD * delta;
 
-        if (!hitObstacle)
-        {
-            player->position.y += player->speed * delta;
-            //player->speed += G * delta;
-            //player->canJump = false;
-        }
-        /*else 
-            player->canJump = true;*/
+        m_player.position.y += m_player.speed * delta;
     }
-
-    void UpdateCameraCenter(raylib::Camera2D *camera, Player *player, EnvItem *envItems, int envItemsLength, float delta, int width, int height)
+    void Main2D::UpdateCameraCenter()
     {
-        camera->offset = raylib::Vector2{ width / 2.0f, height / 2.0f };
-        camera->target = player->position;
+        m_camera.offset = raylib::Vector2{ m_screenWidth / 2.0f, m_screenHeight / 2.0f };
+        m_camera.target = m_player.position;
     }
-
-    void UpdateCameraCenterInsideMap(raylib::Camera2D *camera, Player *player, EnvItem *envItems, int envItemsLength, float delta, int width, int height)
+    void Main2D::UpdateCameraFree()
     {
-        camera->target = player->position;
-        camera->offset = raylib::Vector2{ width / 2.0f, height / 2.0f };
-        float minX = 1000, minY = 1000, maxX = -1000, maxY = -1000;
+        float delta = Time::DeltaTime();
 
-        for (int i = 0; i < envItemsLength; i++)
-        {
-            EnvItem *ei = envItems + i;
-            minX = fminf(ei->rect.x, minX);
-            maxX = fmaxf(ei->rect.x + ei->rect.width, maxX);
-            minY = fminf(ei->rect.y, minY);
-            maxY = fmaxf(ei->rect.y + ei->rect.height, maxY);
-        }
-
-        raylib::Vector2 max = GetWorldToScreen2D(raylib::Vector2{ maxX, maxY }, *camera);
-        raylib::Vector2 min = GetWorldToScreen2D(raylib::Vector2{ minX, minY }, *camera);
-
-        if (max.x < width) camera->offset.x = width - (max.x - width / 2);
-        if (max.y < height) camera->offset.y = height - (max.y - height / 2);
-        if (min.x > 0) camera->offset.x = width / 2 - min.x;
-        if (min.y > 0) camera->offset.y = height / 2 - min.y;
-    }
-
-    void UpdateFreeCamera(raylib::Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height)
-    {
         raylib::Vector2 move(
             IsKeyDown(KEY_RIGHT) - IsKeyDown(KEY_LEFT),
             IsKeyDown(KEY_DOWN)  - IsKeyDown(KEY_UP)
@@ -284,7 +234,6 @@ namespace Main2D
 
         const static float moveSpeed = 100;
 
-        camera->target = Vector2Add(camera->target, Vector2Scale(move, moveSpeed * delta));
+        m_camera.target = Vector2Add(m_camera.target, Vector2Scale(move, moveSpeed * delta));
     }
-
 }

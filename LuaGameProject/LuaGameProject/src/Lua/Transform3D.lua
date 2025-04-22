@@ -1,7 +1,7 @@
 local transform = {}
 transform.__index = transform
 
-local vector = require("Vector")
+local vector = require("Vector3D")
 
 local function new(p, r, s)
     assert(p == nil or vector.isvector(p), "transform new - expected args: vector or nil")

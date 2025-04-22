@@ -18,13 +18,3 @@ public:
 private:
 	lua_State *L;
 };
-
-class DrawSpriteSystem : public System
-{
-public:
-	DrawSpriteSystem() {}
-
-	bool OnUpdate(entt::registry &registry, float delta) final;
-
-private:
-};

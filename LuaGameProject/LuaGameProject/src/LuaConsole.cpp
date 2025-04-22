@@ -4,6 +4,8 @@
 #include <string>
 #include <format>
 #include <filesystem>
+#include <chrono>
+#include <thread>
 #include "LuaUtils.h"
 
 namespace fs = std::filesystem;
@@ -55,7 +57,7 @@ void ConsoleThreadFunction(lua_State *L)
 				 FILE_EXT,			    FILE_PATH,					    FILE_CMD
 	) << std::endl;
 	std::cout << "To run all tests located in the tests folder, type \"[T/t]est\"." << std::endl;
-	std::cout << "To dump the lua stackm type \"DumpStack\"." << std::endl;
+	std::cout << "To dump the lua stack type \"DumpStack\"." << std::endl;
 
 	std::string input;
 	

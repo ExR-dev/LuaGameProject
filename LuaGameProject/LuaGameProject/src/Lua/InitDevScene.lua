@@ -1,22 +1,28 @@
 
-local vector = require("Vector")
-local transform = require("Transform")
+local vec2 = require("Vec2")
+local transform = require("Transform2")
+local color = require("Color")
+local sprite = require("Components/Sprite")
 
 print("Initiating dev scene from lua...")
 
-for _ = 1, 25 do
+for _ = 1, 1000 do
 	local entity = scene.CreateEntity()
 
 	local t = transform(
-		vector(math.random() + math.random(0, 200), math.random() + math.random(0, 100), 0.0), 
-		vector(0.0, 0.0, 0.0),
-		vector(math.random() + math.random(0, 20), math.random() + math.random(0, 20), 1.0)
+		vec2(math.random() + math.random(500, 1200), math.random() + math.random(-150, 550)), 
+		0.0,
+		vec2(math.random() + math.random(1, 100), math.random() + math.random(1, 100))
 	)
-	local s = "Maxwell.png"
 
-	scene.SetComponent(entity, "transform", t)
-	scene.SetComponent(entity, "sprite", s)
-	print("Spawned entity with trasform: "..tostring(t))
+	local col = color(math.random(), math.random(), math.random(), math.random())
+	local s = sprite("Maxwell.png", col)
+
+	scene.SetComponent(entity, "Transform", t)
+	scene.SetComponent(entity, "Sprite", s)
+	print("  Spawned entity with")
+	print("    transform: "..tostring(t))
+	print("    sprite: "..tostring(s))
 end
 
-print("Dev scene initialized")
+print("Dev scene initialized.")
