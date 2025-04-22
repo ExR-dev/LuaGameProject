@@ -72,7 +72,7 @@ namespace Main2D
         SetTargetFPS(144);
 
         // Start Lua console thread
-        std::thread consoleThread(ConsoleThreadFunction, L);
+        std::thread consoleThread(ConsoleThreadFunction);
         consoleThread.detach();
         std::this_thread::sleep_for(std::chrono::milliseconds(50)); // Wait for the console thread to start
 
@@ -96,7 +96,6 @@ namespace Main2D
 
             // Update all systems
             scene.UpdateSystems(Time::DeltaTime());
-
 
             // Toggle mouse
             if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
@@ -216,6 +215,10 @@ namespace Main2D
         }
 
         EndDrawing();
+        // De-Initialization
+        //--------------------------------------------------------------------------------------
+        CloseWindow();        // Close window and OpenGL context
+        //--------------------------------------------------------------------------------------
 
 		return 1;
     }

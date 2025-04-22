@@ -48,8 +48,11 @@ static int PrintVector(lua_State *L)
 	return 0;
 }
 
-void ConsoleThreadFunction(lua_State *L)
+void ConsoleThreadFunction()
 {
+	lua_State *L = luaL_newstate();
+	luaL_openlibs(L);
+
 	// Add lua require path
 	std::string luaScriptPath = std::format("{}/{}?{}", fs::current_path().generic_string(), FILE_PATH, FILE_EXT);
 	LuaDoString(std::format("package.path = \"{};\" .. package.path", luaScriptPath).c_str());
@@ -96,4 +99,6 @@ void ConsoleThreadFunction(lua_State *L)
 
 		std::cout << std::endl;
 	}
+
+	lua_close(L);
 }
