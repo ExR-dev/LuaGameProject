@@ -54,6 +54,7 @@ namespace Main2D
         m_camera.rotation = 0.0f;
         m_camera.zoom = 1.0f;
 
+        Assert(!m_dungeon, "m_dungeon is not nullptr!");
         m_dungeon = new DungeonGenerator(raylib::Vector2(200, 200));
         m_dungeon->Generate(100);
 

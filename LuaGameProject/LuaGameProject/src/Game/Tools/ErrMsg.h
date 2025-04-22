@@ -2,13 +2,13 @@
 #include <iostream>
 #include <string>
 #include <format>
-//#include <windows.h>
+#include "Game/Utilities/WindowsWrapped.h"
 #include <intrin.h>
 
 #define CUSTOM_ASSERT(expr, file, line) \
     do { \
         if (!(expr)) { \
-            if (IsDebuggerPresent()) { \
+            if (Windows::IsDebuggerPresentW()) { \
                 __debugbreak(); \
             } else { \
                 char msg[1024]; \
@@ -16,11 +16,10 @@
                     "Assertion failed: %s\n\nFile: %s\nLine: %d\n\n" \
                     "Press Retry to debug, Ignore to continue, Abort to exit", \
                     #expr, file, line); \
-                int result = MessageBoxA(NULL, msg, "Assertion Failed", \
-                    MB_ABORTRETRYIGNORE | MB_ICONERROR); \
-                if (result == IDRETRY) { \
+                int result = Windows::MessageBoxAW(msg, "Assertion Failed"); \
+                if (result == Windows::IDRETRYW()) { \
                     __debugbreak(); \
-                } else if (result == IDABORT) { \
+                } else if (result == Windows::IDABORTW()) { \
                     exit(1); \
                 } \
             } \
