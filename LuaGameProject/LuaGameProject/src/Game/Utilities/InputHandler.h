@@ -175,5 +175,6 @@ std::string GetUnicodeInput();
 
 void UpdateInput();
 
+std::string GetKeyName(GameKey key);
 
 }
