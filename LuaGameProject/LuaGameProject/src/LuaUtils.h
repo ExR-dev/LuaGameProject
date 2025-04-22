@@ -7,8 +7,7 @@
 #define LuaChk(ret) {if (ret != LUA_OK) LuaDumpError(L);}
 
 void LuaDumpError(lua_State *L);
-
 void LuaDumpStack(lua_State *L);
 
-
 void LuaRunTests(lua_State *L, const std::string &testDir);
+bool LuaRunTest(lua_State *L, const std::string &fullPath, const std::string &testName);

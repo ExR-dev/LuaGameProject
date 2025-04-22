@@ -96,25 +96,30 @@ void LuaRunTests(lua_State *L, const std::string &testDir)
 	for (auto &t : testFiles)
 	{
 		const std::string testScript(testDir + t + ".lua");
-
-		std::cout << "\n================================================================================\n";
-		std::cout << std::format("================ Running {}\n\n", t);
-
-		if (luaL_dofile(L, testScript.c_str()) != LUA_OK) 
-		{
-			if (lua_gettop(L) && lua_isstring(L, -1))
-			{
-				std::cout << "Test Failed with the Error:\n" << lua_tostring(L, -1) << "\n";
-				lua_pop(L, 1);
-				std::cout << "================================================================================\n";
-				continue;
-			}
-		}
-
-		int passedTests = static_cast<int>(lua_tointeger(L, -1));
-		int totalTests = static_cast<int>(lua_tointeger(L, -2));
-
-		std::cout << std::format("======== Tests Passed: {} / {}\n", passedTests, totalTests);
-		std::cout << "================================================================================\n";
+		LuaRunTest(L, testScript, t);
 	}
+}
+
+bool LuaRunTest(lua_State *L, const std::string &fullPath, const std::string &testName)
+{
+	std::cout << "\n================================================================================\n";
+	std::cout << std::format("================ Running {}\n\n", testName);
+
+	if (luaL_dofile(L, fullPath.c_str()) != LUA_OK) 
+	{
+		if (lua_gettop(L) && lua_isstring(L, -1))
+		{
+			std::cout << "Test Failed with the Error:\n" << lua_tostring(L, -1) << "\n";
+			lua_pop(L, 1);
+			std::cout << "================================================================================\n";
+			return false;
+		}
+	}
+
+	int passedTests = static_cast<int>(lua_tointeger(L, -1));
+	int totalTests = static_cast<int>(lua_tointeger(L, -2));
+
+	std::cout << std::format("================ Tests Passed: {} / {}\n", passedTests, totalTests);
+	std::cout << "================================================================================\n";
+	return passedTests == totalTests;
 }
