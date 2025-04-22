@@ -288,16 +288,16 @@ std::string Input::GetKeyName(GameKey key)
 	case Input::GAME_KEY_BACKSLASH					:		return "KEY_"; 
 	case Input::GAME_KEY_GRAVE						:		return "KEY_"; 
 	case Input::GAME_KEY_SPACE						:		return "KEY_"; 
-	case Input::GAME_KEY_ESCAPE						:		return "KEY_"; 
-	case Input::GAME_KEY_ENTER						:		return "KEY_"; 
-	case Input::GAME_KEY_TAB						:		return "KEY_"; 
+	case Input::GAME_KEY_ESCAPE						:		return "KEY_ESCAPE"; 
+	case Input::GAME_KEY_ENTER						:		return "KEY_ENTER"; 
+	case Input::GAME_KEY_TAB						:		return "KEY_TAB"; 
 	case Input::GAME_KEY_BACKSPACE					:		return "KEY_"; 
 	case Input::GAME_KEY_INSERT						:		return "KEY_"; 
 	case Input::GAME_KEY_DELETE						:		return "KEY_"; 
-	case Input::GAME_KEY_RIGHT						:		return "KEY_"; 
-	case Input::GAME_KEY_LEFT						:		return "KEY_"; 
-	case Input::GAME_KEY_DOWN						:		return "KEY_"; 
-	case Input::GAME_KEY_UP							:		return "KEY_"; 
+	case Input::GAME_KEY_RIGHT						:		return "KEY_RIGHT"; 
+	case Input::GAME_KEY_LEFT						:		return "KEY_LEFT"; 
+	case Input::GAME_KEY_DOWN						:		return "KEY_DOWN"; 
+	case Input::GAME_KEY_UP							:		return "KEY_UP"; 
 	case Input::GAME_KEY_PAGE_UP					:		return "KEY_"; 
 	case Input::GAME_KEY_PAGE_DOWN					:		return "KEY_"; 
 	case Input::GAME_KEY_HOME						:		return "KEY_"; 
@@ -345,6 +345,7 @@ std::string Input::GetKeyName(GameKey key)
 	case Input::GAME_KEY_NP_ADD						:		return "KEY_"; 
 	case Input::GAME_KEY_NP_ENTER					:		return "KEY_"; 
 	case Input::GAME_KEY_NP_EQUAL					:		return "KEY_"; 
+
 	case Input::GAME_KEY_COUNT						:		return "ERROR"; 
 	default											:		return "Error";
 	}
