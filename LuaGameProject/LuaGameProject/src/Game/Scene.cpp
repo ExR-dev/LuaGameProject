@@ -93,6 +93,10 @@ int Scene::lua_SetComponent(lua_State *L)
 	{
 		// TODO
 	}
+	else if (type == "Sprite") 
+	{
+		// TODO
+	}
 	else if (type == "Behaviour")
 	{
 		if (scene->HasComponents<ECS::Behaviour>(entity))
@@ -166,6 +170,10 @@ int Scene::lua_HasComponent(lua_State *L)
 	{
 		hasComponent = scene->HasComponents<ECS::Transform>(entity);
 	}
+	else if (type == "Sprite")
+	{
+		hasComponent = scene->HasComponents<ECS::Sprite>(entity);
+	}
 	// else if...
 		
 	lua_pushboolean(L, hasComponent);
@@ -204,6 +212,12 @@ int Scene::lua_GetComponent(lua_State *L)
 		// TODO: lua_pushtransform(L, transform);
 		return 1;
 	}
+	else if (type == "Sprite" && scene->HasComponents<ECS::Sprite>(entity))
+	{
+		ECS::Sprite &sprite = scene->GetComponent<ECS::Sprite>(entity);
+		// TODO: lua_pushsprite(L, sprite);
+		return 1;
+	}
 	// else if...
 	
 	// Name or component not found
@@ -225,6 +239,10 @@ int Scene::lua_RemoveComponent(lua_State *L)
 	else if (type == "Transform" && scene->HasComponents<ECS::Transform>(entity))
 	{
 		scene->RemoveComponent<ECS::Transform>(entity);
+	}
+	else if (type == "Sprite" && scene->HasComponents<ECS::Sprite>(entity))
+	{
+		scene->RemoveComponent<ECS::Sprite>(entity);
 	}
 	// else if...
 

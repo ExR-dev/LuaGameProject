@@ -1,5 +1,8 @@
 ﻿#include "stdafx.h"
 #include "LuaUtils.h"
+#include <fstream>
+#include <iostream>
+#include <filesystem>
 
 void LuaDumpError(lua_State *L)
 {
@@ -38,7 +41,7 @@ void LuaDumpStack(lua_State *L)
 			break;
 
 		case LUA_TLIGHTUSERDATA:
-			std::cout << fmt << "¯\\_(ツ)_/¯";
+			std::cout << fmt << lua_topointer(L, i);
 			break;
 
 		case LUA_TNUMBER:
@@ -50,7 +53,7 @@ void LuaDumpStack(lua_State *L)
 			break;
 
 		case LUA_TTABLE:
-			std::cout << fmt << "¯\\_(ツ)_/¯";
+			std::cout << fmt << "Unsupported";
 			break;
 
 		case LUA_TFUNCTION:
@@ -58,11 +61,11 @@ void LuaDumpStack(lua_State *L)
 			break;
 
 		case LUA_TUSERDATA:
-			std::cout << fmt << "¯\\_(ツ)_/¯";
+			std::cout << fmt << "Unsupported";
 			break;
 
 		case LUA_TTHREAD:
-			std::cout << fmt << "¯\\_(ツ)_/¯";
+			std::cout << fmt << "Unsupported";
 			break;
 
 		default:
@@ -161,4 +164,49 @@ void CallLuaFunction(lua_State *L, const char *functionName, const char *sig, ..
 	}
 
 	va_end(vl);
+}
+
+void LuaRunTests(lua_State *L, const std::string &testDir)
+{
+	std::string ext(".lua");
+
+	std::vector<std::string> testFiles;
+
+	for (auto &p : std::filesystem::recursive_directory_iterator(testDir))
+	{
+		if (p.path().extension() == ext)
+		{
+			testFiles.push_back(p.path().stem().string());
+		}
+	}
+
+	for (auto &t : testFiles)
+	{
+		const std::string testScript(testDir + t + ".lua");
+		LuaRunTest(L, testScript, t);
+	}
+}
+
+bool LuaRunTest(lua_State *L, const std::string &fullPath, const std::string &testName)
+{
+	std::cout << "\n================================================================================\n";
+	std::cout << std::format("================ Running {}\n\n", testName);
+
+	if (luaL_dofile(L, fullPath.c_str()) != LUA_OK) 
+	{
+		if (lua_gettop(L) && lua_isstring(L, -1))
+		{
+			std::cout << "Test Failed with the Error:\n" << lua_tostring(L, -1) << "\n";
+			lua_pop(L, 1);
+			std::cout << "================================================================================\n";
+			return false;
+		}
+	}
+
+	int passedTests = static_cast<int>(lua_tointeger(L, -1));
+	int totalTests = static_cast<int>(lua_tointeger(L, -2));
+
+	std::cout << std::format("================ Tests Passed: {} / {}\n", passedTests, totalTests);
+	std::cout << "================================================================================\n";
+	return passedTests == totalTests;
 }

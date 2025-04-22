@@ -8,8 +8,9 @@
 
 namespace fs = std::filesystem;
 
-#define FILE_EXT std::string(".lua")
+#define TEST_PATH std::string("src/Lua/Tests/")
 #define FILE_PATH std::string("src/Lua/")
+#define FILE_EXT std::string(".lua")
 #define FILE_CMD std::string("f:")
 
 struct Vector2
@@ -58,6 +59,7 @@ void ConsoleThreadFunction(lua_State *L)
 		"To run a \"{}\" file located in \"{}\", begin your command with \"{}\" followed by the file name.", 
 				 FILE_EXT,			    FILE_PATH,					    FILE_CMD
 	) << std::endl;
+	std::cout << "To run all tests located in the tests folder, type \"[T/t]est\"." << std::endl;
 
 	std::string input;
 	
@@ -69,7 +71,11 @@ void ConsoleThreadFunction(lua_State *L)
 		std::cout << "> ";
 		std::getline(std::cin, input);
 
-		if (input.starts_with(FILE_CMD)) // File command
+		if (input == "Test" || input == "test") // Run all tests
+		{
+			LuaRunTests(L, TEST_PATH);
+		}
+		else if (input.starts_with(FILE_CMD)) // File command
 		{
 			input = input.substr(FILE_CMD.size());
 			input = FILE_PATH + input + FILE_EXT;
