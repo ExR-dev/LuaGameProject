@@ -1,5 +1,5 @@
 
-local vector = require("Vector")
+local vector = require("Vector3D")
 
 local v1 = vector.new(1, 2, 3)
 local v2 = vector.new(4, 5, 6)

@@ -20,6 +20,11 @@ DungeonGenerator::DungeonGenerator(Vector2 pos):
 {
 	Initialize();
 }
+DungeonGenerator::DungeonGenerator(raylib::Vector2 pos)
+{
+	_position = Vector2(pos.x, pos.y);
+	Initialize();
+}
 
 void DungeonGenerator::Initialize()
 {

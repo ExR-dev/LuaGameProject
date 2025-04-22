@@ -31,18 +31,3 @@ bool BehaviourSystem::OnUpdate(entt::registry &registry, float delta)
 	// false -> Do not destroy the system
 	return true;
 }
-
-bool DrawSpriteSystem::OnUpdate(entt::registry &registry, float delta)
-{
-	auto view = registry.view<ECS::Sprite, ECS::Transform>();
-
-	view.each([&](ECS::Sprite &sprite, ECS::Transform &transform) {
-		// TODO: Retrieve the sprite name
-
-		// TODO: Retrieve the transform
-
-		// TODO: Draw the sprite at the transform position
-	});
-
-	return false;
-}

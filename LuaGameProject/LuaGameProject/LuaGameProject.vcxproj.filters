@@ -51,6 +51,9 @@
     <ClCompile Include="src\Game\Tools\TrackedAlloc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Game\Utilities\WindowsWrapped.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch\stdafx.h">
@@ -230,16 +233,22 @@
     <ClInclude Include="src\Game\Components\Components.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Game\Utilities\WindowsWrapped.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Lua\Script.lua" />
-    <None Include="src\Lua\Transform.lua" />
-    <None Include="src\Lua\Vector.lua" />
+    <None Include="src\Lua\Transform3D.lua" />
+    <None Include="src\Lua\Vector3D.lua" />
     <None Include="src\Lua\VectorDemo.lua" />
     <None Include="src\Lua\Vec2.lua" />
     <None Include="src\Lua\Transform2.lua" />
     <None Include="src\Lua\Tests\Transform2Test.lua" />
     <None Include="src\Lua\Tests\Vec2Test.lua" />
     <None Include="src\Lua\Components\Sprite.lua" />
+    <None Include="src\Lua\InitDevScene.lua" />
+    <None Include="src\Lua\Color.lua" />
+    <None Include="src\Lua\Components\Health.lua" />
   </ItemGroup>
 </Project>

@@ -3,16 +3,11 @@
 
 #define lua_GetSceneUpValue(L) (Scene *)lua_topointer(L, lua_upvalueindex(1))
 
-Scene::Scene(lua_State *L)
-{
-}
-
 Scene::~Scene()
 {
-	for (auto it = m_systems.begin(); it != m_systems.end(); it++)
+	for (int i = 0; i < m_systems.size(); i++)
 	{
-		delete(*it);
-		it = m_systems.erase(it);
+		delete m_systems[i];
 	}
 }
 
@@ -34,6 +29,13 @@ bool Scene::IsEntity(int entity)
 void Scene::RemoveEntity(int entity)
 {
 	m_registry.destroy(static_cast<entt::entity>(entity));
+}
+
+void Scene::InitializeSystems()
+{
+	// Must be done for all systems that are managed automatically by the scene
+	// Ex: CreateSystem<DrawSpriteSystem>();
+
 }
 
 void Scene::UpdateSystems(float delta)
@@ -85,17 +87,36 @@ int Scene::lua_SetComponent(lua_State *L)
 	int entity = lua_tointeger(L, 1);
 	std::string type = lua_tostring(L, 2);
 	
-	if (type == "Health") 
+	if (type == "Transform") 
 	{
-		// TODO
+		scene->TryRemoveComponent<ECS::Transform>(entity);
+
+		ECS::Transform transform{};
+		transform.LuaPull(L, 3);
+
+		scene->SetComponent<ECS::Transform>(entity, transform);
+		return 1;
 	}
-	else if (type == "Transform") 
+	else if (type == "Health") 
 	{
-		// TODO
+		scene->TryRemoveComponent<ECS::Health>(entity);
+
+		ECS::Health health{};
+		health.LuaPull(L, 3);
+
+		scene->SetComponent<ECS::Health>(entity, health);
+		return 1;
 	}
 	else if (type == "Sprite") 
 	{
-		// TODO
+		if (scene->HasComponents<ECS::Sprite>(entity))
+			scene->RemoveComponent<ECS::Sprite>(entity);
+
+		ECS::Sprite sprite;
+		sprite.LuaPull(L, 3);
+
+		scene->SetComponent<ECS::Sprite>(entity, sprite);
+		return 1;
 	}
 	else if (type == "Behaviour")
 	{
@@ -118,8 +139,7 @@ int Scene::lua_SetComponent(lua_State *L)
 		lua_pushstring(L, path);
 		lua_setfield(L, -2, "path");
 		
-		// Let the behaviour construct itself. It may be good
-		// practice to check if the method exists before calling it
+		// Let the behaviour construct itself. It may be good practice to check if the method exists before calling it
 		lua_getfield(L, -1, "OnCreate");
 		lua_pushvalue(L, -2); // Push the table as argument
 		lua_pcall(L, 1, 0, 0);
@@ -162,13 +182,13 @@ int Scene::lua_HasComponent(lua_State *L)
 	
 	bool hasComponent = true;
 	
-	if (type == "Health")
-	{
-		hasComponent = scene->HasComponents<ECS::Health>(entity);
-	}
-	else if (type == "Transform")
+	if (type == "Transform")
 	{
 		hasComponent = scene->HasComponents<ECS::Transform>(entity);
+	}
+	else if (type == "Health")
+	{
+		hasComponent = scene->HasComponents<ECS::Health>(entity);
 	}
 	else if (type == "Sprite")
 	{
@@ -199,23 +219,23 @@ int Scene::lua_GetComponent(lua_State *L)
 		lua_pushnil(L);
 		return 1;
 	}
-
-	if (type == "Health" && scene->HasComponents<ECS::Health>(entity))
-	{
-		ECS::Health &health = scene->GetComponent<ECS::Health>(entity);
-		lua_pushnumber(L, health.Value); // Maybe push a "component" table?
-		return 1;
-	}
-	else if (type == "Transform" && scene->HasComponents<ECS::Transform>(entity))
+	
+	if (type == "Transform" && scene->HasComponents<ECS::Transform>(entity))
 	{
 		ECS::Transform &transform = scene->GetComponent<ECS::Transform>(entity);
-		// TODO: lua_pushtransform(L, transform);
+		transform.LuaPush(L);
+		return 1;
+	}
+	else if (type == "Health" && scene->HasComponents<ECS::Health>(entity))
+	{
+		ECS::Health &health = scene->GetComponent<ECS::Health>(entity);
+		health.LuaPush(L);
 		return 1;
 	}
 	else if (type == "Sprite" && scene->HasComponents<ECS::Sprite>(entity))
 	{
 		ECS::Sprite &sprite = scene->GetComponent<ECS::Sprite>(entity);
-		// TODO: lua_pushsprite(L, sprite);
+		sprite.LuaPush(L);
 		return 1;
 	}
 	// else if...
@@ -232,13 +252,13 @@ int Scene::lua_RemoveComponent(lua_State *L)
 	int entity = lua_tointeger(L, 1);
 	std::string type = lua_tostring(L, 2);
 
-	if (type == "Health" && scene->HasComponents<ECS::Health>(entity))
-	{
-		scene->RemoveComponent<ECS::Health>(entity);
-	}
-	else if (type == "Transform" && scene->HasComponents<ECS::Transform>(entity))
+	if (type == "Transform" && scene->HasComponents<ECS::Transform>(entity))
 	{
 		scene->RemoveComponent<ECS::Transform>(entity);
+	}
+	else if (type == "Health" && scene->HasComponents<ECS::Health>(entity))
+	{
+		scene->RemoveComponent<ECS::Health>(entity);
 	}
 	else if (type == "Sprite" && scene->HasComponents<ECS::Sprite>(entity))
 	{

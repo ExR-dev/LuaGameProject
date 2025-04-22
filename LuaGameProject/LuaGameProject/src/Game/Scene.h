@@ -2,11 +2,12 @@
 #include "dep/EnTT/entt.hpp"
 #include "Components/Components.h"
 #include "Systems/System.h"
+#include <functional>
 
 class Scene
 {
 public:
-	Scene(lua_State *L);
+	Scene() = default;
 	~Scene();
 
 	int GetEntityCount();
@@ -32,8 +33,18 @@ public:
 	template<typename T>
 	void RemoveComponent(int entity);
 
+	template<typename T>
+	void TryRemoveComponent(int entity);
+
 	template<typename T, typename...Args>
 	void CreateSystem(Args...args);
+
+	void RunSystem(std::function<void(entt::registry &registry)> system);
+
+	template<typename...Args>
+	void RunSystem(std::function<void(entt::registry &registry, Args...)> system, Args&&... args);
+
+	void InitializeSystems();
 
 	void UpdateSystems(float delta);
 
@@ -107,8 +118,26 @@ void Scene::RemoveComponent(int entity)
 	m_registry.remove<T>((entt::entity)entity);
 }
 
+template<typename T>
+inline void Scene::TryRemoveComponent(int entity)
+{
+	if (HasComponents<T>(entity))
+		m_registry.remove<T>((entt::entity)entity);
+}
+
 template<typename T, typename...Args>
 void Scene::CreateSystem(Args...args)
 {
 	m_systems.emplace_back(new T(args...));
+}
+
+inline void Scene::RunSystem(std::function<void(entt::registry &registry)> system)
+{
+	system(m_registry);
+}
+
+template<typename...Args>
+inline void Scene::RunSystem(std::function<void(entt::registry &registry, Args...)> system, Args&&... args)
+{
+	system(m_registry, std::forward<Args>(args)...);
 }

@@ -9,5 +9,6 @@ int main()
 {
 	srand(time(NULL));
 
-	Main2D::Run();
+	Main2D::Main2D main2D;
+	main2D.Run();
 }

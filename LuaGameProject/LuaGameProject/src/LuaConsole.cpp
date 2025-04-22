@@ -4,14 +4,11 @@
 #include <string>
 #include <format>
 #include <filesystem>
+#include <chrono>
+#include <thread>
 #include "LuaUtils.h"
 
 namespace fs = std::filesystem;
-
-#define TEST_PATH std::string("src/Lua/Tests/")
-#define FILE_PATH std::string("src/Lua/")
-#define FILE_EXT std::string(".lua")
-#define FILE_CMD std::string("f:")
 
 struct Vector2
 {
@@ -60,6 +57,7 @@ void ConsoleThreadFunction(lua_State *L)
 				 FILE_EXT,			    FILE_PATH,					    FILE_CMD
 	) << std::endl;
 	std::cout << "To run all tests located in the tests folder, type \"[T/t]est\"." << std::endl;
+	std::cout << "To dump the lua stack type \"DumpStack\"." << std::endl;
 
 	std::string input;
 	
@@ -75,12 +73,14 @@ void ConsoleThreadFunction(lua_State *L)
 		{
 			LuaRunTests(L, TEST_PATH);
 		}
+		else if (input == "DumpStack")
+		{
+			LuaDumpStack(L);
+		}
 		else if (input.starts_with(FILE_CMD)) // File command
 		{
 			input = input.substr(FILE_CMD.size());
-			input = FILE_PATH + input + FILE_EXT;
-
-			LuaDoFile(input.c_str());
+			LuaDoFile(LuaFilePath(input));
 		}
 		else // String command
 		{

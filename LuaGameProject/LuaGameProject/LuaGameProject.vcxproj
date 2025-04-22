@@ -191,6 +191,12 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="src\Game\Utilities\WindowsWrapped.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\LuaConsole.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
@@ -224,6 +230,7 @@
     <ClInclude Include="src\Game\Utilities\DungeonGenerator.h" />
     <ClInclude Include="src\Game\Utilities\Math.h" />
     <ClInclude Include="src\Game\Utilities\Time.h" />
+    <ClInclude Include="src\Game\Utilities\WindowsWrapped.h" />
     <ClInclude Include="src\LuaConsole.h" />
     <ClInclude Include="src\LuaUtils.h" />
     <ClInclude Include="src\Game\main2D.h" />
@@ -274,14 +281,17 @@
     <ClInclude Include="pch\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="src\Lua\Color.lua" />
+    <None Include="src\Lua\Components\Health.lua" />
     <None Include="src\Lua\Components\Sprite.lua" />
+    <None Include="src\Lua\InitDevScene.lua" />
     <None Include="src\Lua\Script.lua" />
     <None Include="src\Lua\Tests\Transform2Test.lua" />
     <None Include="src\Lua\Tests\Vec2Test.lua" />
-    <None Include="src\Lua\Transform.lua" />
+    <None Include="src\Lua\Transform3D.lua" />
     <None Include="src\Lua\Transform2.lua" />
     <None Include="src\Lua\Vec2.lua" />
-    <None Include="src\Lua\Vector.lua" />
+    <None Include="src\Lua\Vector3D.lua" />
     <None Include="src\Lua\VectorDemo.lua" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

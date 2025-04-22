@@ -1,11 +1,17 @@
 local sprite = {}
 sprite.__index = sprite
 
-local function new(name)
-    assert(name == nil or type(name) == "string", "sprite new - expected args: string or nil")
+local Color = require("Color")
+
+local function new(n, c, p)
+    assert(n == nil or type(n) == "string", "sprite new - expected args: (string or nil, color or nil, number or nil)")
+    assert(c == nil or Color.iscolor(c), "sprite new - expected args: (string or nil, color or nil, number or nil)")
+    assert(p == nil or type(p) == "numer", "sprite new - expected args: (string or nil, color or nil, number or nil)")
     
     local s = {
-        spriteName = name or "Fallback"
+        spriteName = name or "Fallback.png",
+        color = c or Color(),
+        priority = p or 0,
     }
     return setmetatable(s, sprite)
 end
@@ -20,7 +26,7 @@ function sprite:__newindex(k)
 end
 
 function sprite:__tostring()
-    return "sprite("..self.spriteName..")"
+    return "(n: "..self.spriteName..", c: "..self.color:__tostring()..", p: "..tostring(self.priority)..")"
 end
 
 sprite.new = new
