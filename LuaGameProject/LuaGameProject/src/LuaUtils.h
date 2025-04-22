@@ -9,5 +9,10 @@
 void LuaDumpError(lua_State *L);
 void LuaDumpStack(lua_State *L);
 
+void LuaDumpStack(lua_State *L);
+
+// Inspiration from: Programming in Lua, Roberto Ierusalimsch
+void CallLuaFunction(lua_State * L, const char *functionName, const char *sig, ...);
+
 void LuaRunTests(lua_State *L, const std::string &testDir);
 bool LuaRunTest(lua_State *L, const std::string &fullPath, const std::string &testName);

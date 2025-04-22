@@ -79,6 +79,93 @@ void LuaDumpStack(lua_State *L)
 	std::cout << "------------- STACK END -------------" << std::endl;
 }
 
+void CallLuaFunction(lua_State *L, const char *functionName, const char *sig, ...)
+{
+	va_list vl;
+	int narg, nres;
+
+	va_start(vl, sig);
+	lua_getglobal(L, functionName);
+
+	// Push arguments
+	for (narg = 0; *sig; narg++)
+	{
+		luaL_checkstack(L, 1, "too many arguments");
+
+		switch (*sig++)
+		{
+		case 'd':
+			lua_pushnumber(L, va_arg(vl, double));
+			break;
+		case 'i':
+			lua_pushinteger(L, va_arg(vl, int));
+			break;
+		case 's':
+			lua_pushstring(L, va_arg(vl, char *));
+			break;
+		case '>':
+			goto endargs;
+			break;
+		default:
+			TraceLog(LOG_ERROR, "Invalid option");
+			return;
+		}
+	}
+	endargs:
+
+	nres = strlen(sig);
+
+	if (lua_pcall(L, narg, nres, 0) != LUA_OK)
+		TraceLog(LOG_ERROR, "Error calling function");
+
+	// Retrive results
+	nres = -nres;
+	while (*sig)
+	{
+		switch (*sig++)
+		{
+		case 'd': {
+			int isnum;
+			double n = lua_tonumberx(L, nres, &isnum);
+			if (!isnum)
+			{
+				TraceLog(LOG_ERROR, "Incorrect return type");
+				return;
+			}
+			*va_arg(vl, double*) = n;
+			break;
+		}
+		case 'i': {
+			int isnum;
+			int n = lua_tointegerx(L, nres, &isnum);
+			if (!isnum)
+			{
+				TraceLog(LOG_ERROR, "Incorrect return type");
+				return;
+			}
+			*va_arg(vl, int*) = n;
+			break;
+		}
+		case 's': {
+			const char *s = lua_tostring(L, nres);
+			if (s == NULL)
+			{
+				TraceLog(LOG_ERROR, "Incorrect return type");
+				return;
+			}
+			*va_arg(vl, const char**) = s;
+			break;
+		}
+		default:
+			TraceLog(LOG_ERROR, "Invalid option");
+			return;
+		}
+		nres++;
+	}
+
+	va_end(vl);
+}
+
 void LuaRunTests(lua_State *L, const std::string &testDir)
 {
 	std::string ext(".lua");
