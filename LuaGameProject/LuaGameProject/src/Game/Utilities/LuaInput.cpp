@@ -68,9 +68,9 @@ static int LuaCheckKeyReleased(lua_State *L)
 
 void BindLuaInput(lua_State *L)
 {
-	const unsigned int nTableElements = GAME_KEY_COUNT + 3;
+	const unsigned int nFunctions = 3;
 
-	lua_createtable(L, 0, nTableElements);
+	lua_createtable(L, 0, nFunctions);
 
 	// Set Input Function
 	lua_pushcfunction(L, LuaCheckKeyHeld);
@@ -83,11 +83,13 @@ void BindLuaInput(lua_State *L)
 	lua_setfield(L, -2, "KeyReleased");
 
 	// Set Input Keys
+	lua_createtable(L, 0, GAME_KEY_COUNT);
 	for (int key = 0; key < GAME_KEY_COUNT; key++)
 	{
 		lua_pushnumber(L, key);
 		lua_setfield(L, -2, GetKeyName((GameKey)key).c_str());
 	}
+	lua_setfield(L, -2, "Key");
 
 	lua_setglobal(L, "Input");
 }

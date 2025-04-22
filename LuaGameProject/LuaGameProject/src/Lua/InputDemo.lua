@@ -1,17 +1,18 @@
 
 local function UpdateInput()
-    if (Input.KeyPressed(Input.KEY_W) == true) then
+    if (Input.KeyPressed(Input.Key.KEY_W) == true) then
         print("W - Pressed")
     end
-    if (Input.KeyPressed(Input.KEY_A) == true) then
+    if (Input.KeyPressed(Input.Key.KEY_A) == true) then
         print("A - Pressed")
     end
-    if (Input.KeyPressed(Input.KEY_S) == true) then
+    if (Input.KeyPressed(Input.Key.KEY_S) == true) then
         print("S - Pressed")
     end
-    if (Input.KeyPressed(Input.KEY_D) == true) then
+    if (Input.KeyPressed(Input.Key.KEY_D) == true) then
         print("D - Pressed")
     end
+    --[[
     if (Input.KeyHeld(Input.KEY_W) == true) then
         print("W - Held")
     end
@@ -36,6 +37,7 @@ local function UpdateInput()
     if (Input.KeyReleased(Input.KEY_D) == true) then
         print("D - Released")
     end
+    --]]
 end
 
 return UpdateInput

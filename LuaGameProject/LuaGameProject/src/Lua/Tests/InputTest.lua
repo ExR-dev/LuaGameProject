@@ -13,11 +13,12 @@ local function test()
     local timeLimit = 7.0
 
     local testKeys = {
-        W = Input.KEY_W,
-        H = Input.KEY_H,
-        Up_Arrow = Input.KEY_UP,
-        Enter = Input.KEY_ENTER,
-        Tab = Input.KEY_TAB
+        W = Input.Key.KEY_W,
+        H = Input.Key.KEY_H,
+        Up_Arrow = Input.Key.KEY_UP,
+        Enter = Input.Key.KEY_ENTER,
+        Tab = Input.Key.KEY_TAB,
+        Minus = Input.Key.KEY_MINUS
     }
 
 	-- Meta events
