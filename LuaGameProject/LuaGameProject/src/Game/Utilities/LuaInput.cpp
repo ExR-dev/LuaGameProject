@@ -66,21 +66,87 @@ static int LuaCheckKeyReleased(lua_State *L)
 	return 1;
 }
 
+
+
+/*
+	--- CheckMouseHeld ---
+
+	arg1: Button
+
+	ret : boolean value based on key state
+*/
+static int LuaCheckMouseHeld(lua_State *L)
+{
+	const int btnValue = lua_tonumber(L, -1);
+	lua_pop(L, 1);
+
+	const bool state = CheckMouseHeld((GameMouse)btnValue);
+
+	lua_pushboolean(L, state);
+
+	return 1;
+}
+
+/*
+	--- CheckMousePressed ---
+
+	arg1: Button
+
+	ret : boolean value based on key state
+*/
+static int LuaCheckMousePressed(lua_State *L)
+{
+	const int btnValue = lua_tonumber(L, -1);
+	lua_pop(L, 1);
+
+	const bool state = CheckMousePressed((GameMouse)btnValue);
+
+	lua_pushboolean(L, state);
+
+	return 1;
+}
+
+/*
+	--- CheckMouseReleased ---
+
+	arg1: Button
+
+	ret : boolean value based on key state
+*/
+static int LuaCheckMouseReleased(lua_State *L)
+{
+	const int btnValue = lua_tonumber(L, -1);
+	lua_pop(L, 1);
+
+	const bool state = CheckMouseReleased((GameMouse)btnValue);
+
+	lua_pushboolean(L, state);
+
+	return 1;
+}
+
 void BindLuaInput(lua_State *L)
 {
-	const unsigned int nFunctions = 3;
+	const unsigned int nFunctions = 6;
 
 	lua_createtable(L, 0, nFunctions);
 
+	const std::pair<const char*, lua_CFunction> functions[nFunctions]{
+		{"KeyHeld"			,	LuaCheckKeyHeld		  },
+		{"KeyPressed"		,	LuaCheckKeyPressed	  },
+		{"KeyReleased"		,	LuaCheckKeyReleased	  },
+
+		{"MouseHeld"		,	LuaCheckMouseHeld	  },
+		{"MousePressed"		,	LuaCheckMousePressed  },
+		{"MouseReleased"	,	LuaCheckMouseReleased },
+	};
+
 	// Set Input Function
-	lua_pushcfunction(L, LuaCheckKeyHeld);
-	lua_setfield(L, -2, "KeyHeld");
-
-	lua_pushcfunction(L, LuaCheckKeyPressed);
-	lua_setfield(L, -2, "KeyPressed");
-
-	lua_pushcfunction(L, LuaCheckKeyReleased);
-	lua_setfield(L, -2, "KeyReleased");
+	for (int i = 0; i < nFunctions; i++)
+	{
+		lua_pushcfunction(L, functions[i].second);
+		lua_setfield(L, -2, functions[i].first);
+	}
 
 	// Set Input Keys
 	lua_createtable(L, 0, GAME_KEY_COUNT);
@@ -91,5 +157,15 @@ void BindLuaInput(lua_State *L)
 	}
 	lua_setfield(L, -2, "Key");
 
+	// Set Mouse Buttons
+	lua_createtable(L, 0, GAME_MOUSE_COUNT);
+	for (int btn = 0; btn < GAME_MOUSE_COUNT; btn++)
+	{
+		lua_pushnumber(L, btn);
+		lua_setfield(L, -2, GetMouseName((GameMouse)btn).c_str());
+	}
+	lua_setfield(L, -2, "Mouse");
+
+	// Set Input Table
 	lua_setglobal(L, "Input");
 }

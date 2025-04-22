@@ -345,7 +345,24 @@ std::string Input::GetKeyName(GameKey key)
 	case Input::GAME_KEY_NP_ENTER					:		return "KEY_NP_ENTER"; 
 	case Input::GAME_KEY_NP_EQUAL					:		return "KEY_NP_EQUAL"; 
 
-	case Input::GAME_KEY_COUNT						:		return "ERROR"; 
-	default											:		return "Error";
+	case Input::GAME_KEY_COUNT						:		return "KEY_ERROR"; 
+	default											:		return "KEY_ERROR";
+	}
+}
+
+std::string Input::GetMouseName(GameMouse btn)
+{
+	switch (btn)
+	{
+	case Input::GAME_MOUSE_LEFT						:		return "MOUSE_LEFT";
+	case Input::GAME_MOUSE_RIGHT					:		return "MOUSE_RIGHT";
+	case Input::GAME_MOUSE_MIDDLE					:		return "MOUSE_MIDDLE";
+	case Input::GAME_MOUSE_SIDE						:		return "MOUSE_SIDE";
+	case Input::GAME_MOUSE_EXTRA					:		return "MOUSE_EXTRA";
+	case Input::GAME_MOUSE_FORWARD					:		return "MOUSE_FORWARD";
+	case Input::GAME_MOUSE_BACK						:		return "MOUSE_BACK";
+
+	case Input::GAME_MOUSE_COUNT					:		return "MOUSE_ERROR";
+	default											:		return "MOUSE_ERROR";
 	}
 }
