@@ -47,7 +47,7 @@ function transform2:moveRelative(movement)
     assert(vec2.isvec2(movement), "transform2 moveRelative : expected args: vec2")
     local fwd = self:getForward()
     local right = self:getRight()
-    local relativeMovement = (fwd * movement.x) + (right * movement.y) -- TODO: Should X or Y axis be forward?
+    local relativeMovement = (fwd * movement.y) + (right * movement.x)
     self.position = self.position + relativeMovement
 end
 

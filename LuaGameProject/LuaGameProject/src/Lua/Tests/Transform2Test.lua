@@ -85,10 +85,10 @@ local function test()
 	print("")
 
 	totalTestsTracker = totalTestsTracker + 1
-	print("Moving t1 in local space by vector (1, 1).")
-	print("t1:moveRelative(vec2(1, 1))")
-	t1:moveRelative(vec2(1, 1))
-	expectedVal = transform2(vec2(2.0, 1.0), 0, vec2(1, 1))
+	print("Moving t1 in local space by vector (0, 3).")
+	print("t1:moveRelative(vec2(0, 3))")
+	t1:moveRelative(vec2(0, 3))
+	expectedVal = transform2(vec2(4.0, 2.0), 0, vec2(1, 1))
 	resultVal = t1
 	print("Expected:	"..tostring(expectedVal))
 	print("Result:		"..tostring(resultVal))
@@ -101,9 +101,9 @@ local function test()
 	print("")
 
 	totalTestsTracker = totalTestsTracker + 1
-	print("Moving t2 in local space by vector (0, -2.0).")
-	print("t2:moveRelative(vec2(0, -2.0))")
-	t2:moveRelative(vec2(0, -2.0))
+	print("Moving t2 in local space by vector (-2.0, 0).")
+	print("t2:moveRelative(vec2(-2.0, 0))")
+	t2:moveRelative(vec2(-2.0, 0))
 	expectedVal = transform2(vec2(3.0 + (-2.0 * math.cos(math.rad(-45.0))), -4.0 + (-2.0 * math.sin(math.rad(-45.0)))), 45.0, vec2(1, 1.5))
 	resultVal = t2
 	print("Expected:	"..tostring(expectedVal))
