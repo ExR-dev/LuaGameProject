@@ -125,9 +125,56 @@ static int LuaCheckMouseReleased(lua_State *L)
 	return 1;
 }
 
+/*
+	--- GetMouseInfo ---
+
+	ret : table with the following structure
+			{
+				position = {
+					x = [mouseX],
+					y = [mouseY]
+				},
+				delta = {
+					x = [deltaX],
+					y = [deltaY]
+				},
+				scroll = [scroll amount]
+			}
+*/
+static int LuaGetMouseInfo(lua_State *L)
+{
+	// TODO: Set mouse info as vectors?
+	// Get mouse info
+	MouseInfo mi = GetMouseInfo();
+
+	lua_createtable(L, 0, 3);
+
+	// Set mouse position
+	lua_createtable(L, 0, 2);
+	lua_pushnumber(L, mi.position.x);
+	lua_setfield(L, -2, "x");
+	lua_pushnumber(L, mi.position.y);
+	lua_setfield(L, -2, "y");
+	lua_setfield(L, -2, "Position");
+
+	// Set mouse delta
+	lua_createtable(L, 0, 2);
+	lua_pushnumber(L, mi.delta.x);
+	lua_setfield(L, -2, "x");
+	lua_pushnumber(L, mi.delta.y);
+	lua_setfield(L, -2, "y");
+	lua_setfield(L, -2, "Delta");
+
+	// Set mouse scroll
+	lua_pushnumber(L, mi.scroll);
+	lua_setfield(L, -2, "Scroll");
+
+	return 1;
+}
+
 void BindLuaInput(lua_State *L)
 {
-	const unsigned int nFunctions = 6;
+	const unsigned int nFunctions = 7;
 
 	lua_createtable(L, 0, nFunctions);
 
@@ -139,6 +186,7 @@ void BindLuaInput(lua_State *L)
 		{"MouseHeld"		,	LuaCheckMouseHeld	  },
 		{"MousePressed"		,	LuaCheckMousePressed  },
 		{"MouseReleased"	,	LuaCheckMouseReleased },
+		{"GetMouseInfo"		,	LuaGetMouseInfo		  }
 	};
 
 	// Set Input Function
@@ -156,6 +204,7 @@ void BindLuaInput(lua_State *L)
 		lua_setfield(L, -2, GetKeyName((GameKey)key).c_str());
 	}
 	lua_setfield(L, -2, "Key");
+
 
 	// Set Mouse Buttons
 	lua_createtable(L, 0, GAME_MOUSE_COUNT);
