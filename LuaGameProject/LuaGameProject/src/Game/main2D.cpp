@@ -6,7 +6,7 @@
 #include "Scene.h"
 
 #include "Utilities/InputHandler.h"
-
+#include "Utilities/LuaInput.h"
 
 namespace Main2D
 {
@@ -66,8 +66,10 @@ namespace Main2D
 		m_cameraOption = 0;
 
         // Limit cursor to relative movement inside the window
-        DisableCursor();
-		m_cursorEnabled = false;
+        DisableCursor();                    
+        bool cursorEnabled = false;
+        
+        BindLuaInput(L);
 
         SetTargetFPS(144);
 
