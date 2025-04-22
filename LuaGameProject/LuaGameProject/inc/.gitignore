@@ -1,0 +1,10 @@
+*.recipe
+*.ilk
+*.iobj
+*.ipdb
+*.obj
+*.pch
+*.log
+*.idb
+*.pdb
+*.FileListAbsolute.txt
