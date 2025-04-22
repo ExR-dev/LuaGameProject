@@ -100,7 +100,16 @@ namespace Main2D
         // Start Lua console thread
         std::thread consoleThread(ConsoleThreadFunction, L);
         consoleThread.detach();
+        std::this_thread::sleep_for(std::chrono::milliseconds(16)); // Wait for the console thread to start
         //--------------------------------------------------------------------------------------
+
+        std::cout << "Scene entity count: " << scene.GetEntityCount() << std::endl;
+
+        scene.CreateSystem<DrawSpriteSystem>();
+
+        LuaDoFile(LuaFilePath("InitDevScene")) // Creates entities
+
+        std::cout << "Scene entity count: " << scene.GetEntityCount() << std::endl;
 
         // Main game loop
         while (!WindowShouldClose())
@@ -108,10 +117,6 @@ namespace Main2D
             // Update
             //----------------------------------------------------------------------------------
             Time::Update();
-
-            // Update all systems
-            scene.UpdateSystems(Time::DeltaTime());
-
 
             // Toggle mouse
             if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
@@ -172,6 +177,9 @@ namespace Main2D
             DrawCircleV(player.position, 5.0f, GOLD);
 
             dungeon.Draw();
+
+            // Update all systems
+            scene.UpdateSystems(Time::DeltaTime());
 
             EndMode2D();
 

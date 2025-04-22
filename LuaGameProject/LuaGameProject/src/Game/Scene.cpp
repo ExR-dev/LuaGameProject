@@ -9,10 +9,9 @@ Scene::Scene(lua_State *L)
 
 Scene::~Scene()
 {
-	for (auto it = m_systems.begin(); it != m_systems.end(); it++)
+	for (int i = 0; i < m_systems.size(); i++)
 	{
-		delete(*it);
-		it = m_systems.erase(it);
+		delete m_systems[i];
 	}
 }
 
@@ -40,6 +39,7 @@ void Scene::UpdateSystems(float delta)
 {
 	for (auto it = m_systems.begin(); it != m_systems.end(); it++)
 	{
+		std::cout << "Updating system..." << std::endl;
 		if ((*it)->OnUpdate(m_registry, delta))
 		{
 			delete (*it);
@@ -87,15 +87,35 @@ int Scene::lua_SetComponent(lua_State *L)
 	
 	if (type == "Health") 
 	{
+		if (scene->HasComponents<ECS::Health>(entity))
+			scene->RemoveComponent<ECS::Health>(entity);
+
+		int value = lua_tonumber(L, 3);
+
 		// TODO
 	}
 	else if (type == "Transform") 
 	{
-		// TODO
+		if (scene->HasComponents<ECS::Transform>(entity))
+			scene->RemoveComponent<ECS::Transform>(entity);
+
+		ECS::Transform transform{};
+
+		transform.LuaPull(L, 3);
+
 	}
 	else if (type == "Sprite") 
 	{
+		if (scene->HasComponents<ECS::Sprite>(entity))
+			scene->RemoveComponent<ECS::Sprite>(entity);
+
+		const char *spriteName = lua_tostring(L, 3);
+		const float color[4] = {0, 0, 0, 1}; // TODO: implement
+
 		// TODO
+
+		scene->SetComponent<ECS::Sprite>(entity, spriteName, color);
+		return 1;
 	}
 	else if (type == "Behaviour")
 	{
@@ -118,8 +138,7 @@ int Scene::lua_SetComponent(lua_State *L)
 		lua_pushstring(L, path);
 		lua_setfield(L, -2, "path");
 		
-		// Let the behaviour construct itself. It may be good
-		// practice to check if the method exists before calling it
+		// Let the behaviour construct itself. It may be good practice to check if the method exists before calling it
 		lua_getfield(L, -1, "OnCreate");
 		lua_pushvalue(L, -2); // Push the table as argument
 		lua_pcall(L, 1, 0, 0);
@@ -209,7 +228,7 @@ int Scene::lua_GetComponent(lua_State *L)
 	else if (type == "Transform" && scene->HasComponents<ECS::Transform>(entity))
 	{
 		ECS::Transform &transform = scene->GetComponent<ECS::Transform>(entity);
-		// TODO: lua_pushtransform(L, transform);
+		transform.LuaPush(L);
 		return 1;
 	}
 	else if (type == "Sprite" && scene->HasComponents<ECS::Sprite>(entity))

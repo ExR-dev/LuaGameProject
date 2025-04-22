@@ -8,17 +8,6 @@ public:
 };
 
 
-class DrawSpriteSystem : public System
-{
-public:
-	DrawSpriteSystem(lua_State *L) : L(L) {}
-
-	bool OnUpdate(entt::registry &registry, float delta) final;
-
-private:
-	lua_State *L;
-};
-
 class BehaviourSystem : public System
 {
 public:
@@ -28,4 +17,14 @@ public:
 
 private:
 	lua_State *L;
+};
+
+class DrawSpriteSystem : public System
+{
+public:
+	DrawSpriteSystem() {}
+
+	bool OnUpdate(entt::registry &registry, float delta) final;
+
+private:
 };
