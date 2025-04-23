@@ -3,7 +3,6 @@
 
 #include "../LuaConsole.h"
 #include "Utilities/DungeonGenerator.h"
-#include "Scene.h"
 
 #include "Utilities/InputHandler.h"
 #include "Utilities/LuaInput.h"
