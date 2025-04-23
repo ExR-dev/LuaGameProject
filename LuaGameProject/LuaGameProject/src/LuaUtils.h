@@ -15,6 +15,7 @@
 
 void LuaDumpError(lua_State *L);
 void LuaDumpStack(lua_State *L);
+void LuaDumpTable(lua_State *L, int i);
 
 // Inspiration from: Programming in Lua, Roberto Ierusalimsch
 void CallLuaFunction(lua_State * L, const char *functionName, const char *sig, ...);

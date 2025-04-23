@@ -262,5 +262,7 @@
     <None Include="src\Lua\InitDevScene.lua" />
     <None Include="src\Lua\Color.lua" />
     <None Include="src\Lua\Components\Health.lua" />
+    <None Include="src\Lua\Behaviours\Enemy.lua" />
+    <None Include="src\Lua\PrintTable.lua" />
   </ItemGroup>
 </Project>

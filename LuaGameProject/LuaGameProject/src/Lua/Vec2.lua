@@ -2,12 +2,15 @@ local vec2 = {}
 vec2.__index = vec2
 
 function vec2.new(x, y)
-    local t = {
-        x = x or 0,
-        y = y or 0
-    }
-
-    return setmetatable(t, vec2)
+    if type(x) == "table" then
+        return setmetatable(x, vec2)
+    else
+        local t = {
+            x = x or 0,
+            y = y or 0
+        }
+        return setmetatable(t, vec2)
+    end
 end
 
 function vec2.isvec2(t)

@@ -54,6 +54,7 @@ void LuaDumpStack(lua_State *L)
 
 		case LUA_TTABLE:
 			std::cout << fmt << "Unsupported";
+
 			break;
 
 		case LUA_TFUNCTION:
@@ -77,6 +78,26 @@ void LuaDumpStack(lua_State *L)
 		std::cout << std::endl;
 	}
 	std::cout << "------------- STACK END -------------" << std::endl;
+}
+
+void LuaDumpTable(lua_State *L, int i)
+{
+	int type = lua_type(L, i);
+
+	std::cout << std::format("({}, {}) {}:", i, i-6, lua_typename(L, type)) << std::endl;
+
+	if (type == LUA_TTABLE)
+	{
+		LuaDoFile(LuaFilePath("PrintTable"));
+		// Run the global lua function PrintTable(table)
+		lua_pushvalue(L, i); // Push the table to the top of the stack
+		lua_getglobal(L, "PrintTable");
+		lua_pushvalue(L, -2); // Push the table again as an argument
+		LuaChk(lua_pcall(L, 1, 0, 0)); // Call the function with 1 argument and no return values
+		lua_pop(L, 1); // Pop the table from the stack
+	}
+
+	std::cout << std::endl;
 }
 
 void CallLuaFunction(lua_State *L, const char *functionName, const char *sig, ...)

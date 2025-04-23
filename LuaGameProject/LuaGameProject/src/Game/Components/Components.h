@@ -1,20 +1,65 @@
 #pragma once
 #include <cstring>
+#include "lua.hpp"
+#include "LuaUtils.h"
 
 namespace ECS
 {
 	struct Behaviour
 	{
+	public:
 		static const int SCRIPT_PATH_LENGTH = 64;
 		char ScriptPath[SCRIPT_PATH_LENGTH];
 		int LuaRef;
 
 		// Create a constructor in order to initialize the char array.
-		Behaviour(const char *path, int luaRef) : LuaRef(luaRef)
+		Behaviour(const char *path, int entity, lua_State *L) : m_refState(L)
 		{
+			// Returns the behaviour table on top of the stack
+			LuaDoFile(LuaFilePath(path));
+
+			// luaL_ref pops the value of the stack, so we push the table again before luaL_ref
+			lua_pushvalue(L, -1);
+			LuaRef = luaL_ref(L, LUA_REGISTRYINDEX);
+
+			// Populate the behaviour table with the information the behaviour should know about
+			lua_pushinteger(L, entity);
+			lua_setfield(L, -2, "ID");
+
+			lua_pushstring(L, path);
+			lua_setfield(L, -2, "path");
+
+			// Let the behaviour construct itself.
+			lua_getfield(L, -1, "OnCreate");
+
+			// Check if the method exists before calling it
+			if (lua_isnil(L, -1))
+			{
+				lua_pop(L, 1); // Pop nil
+			}
+			else
+			{
+				lua_pushvalue(L, -2); // Push the table as argument
+				LuaChk(lua_pcall(L, 1, 0, 0))
+			}
+
 			memset(ScriptPath, '\0', SCRIPT_PATH_LENGTH);
 			strcpy_s(ScriptPath, path);
 		}
+		~Behaviour()
+		{
+			// Remove the reference to the behaviour table
+			luaL_unref(m_refState, LUA_REGISTRYINDEX, LuaRef);
+		}
+
+		void LuaPush(lua_State *L) const
+		{
+			// Retrieve the behaviour table to the top of the stack
+			lua_rawgeti(L, LUA_REGISTRYINDEX, LuaRef);
+		}
+
+	private:
+		lua_State *m_refState = nullptr;
 	};
 
 	struct Transform
@@ -46,7 +91,7 @@ namespace ECS
 			lua_pushnumber(L, Scale[1]);
 			lua_setfield(L, -2, "y");
 			lua_setfield(L, -2, "scale");  // Add Scale to main table
-
+			
 			// The main transform table is now at the top of the stack
 		}
 		void LuaPull(lua_State* L, int index)

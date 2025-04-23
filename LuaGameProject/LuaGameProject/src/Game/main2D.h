@@ -5,10 +5,6 @@
 constexpr float PLAYER_HOR_SPD = 200.0f;
 constexpr int CAMERA_OPTIONS = 2;
 
-/*class raylib::Camera2D;
-class raylib::Rectangle;
-class raylib::Color;*/
-
 class DungeonGenerator;
 
 struct Player

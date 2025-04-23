@@ -31,15 +31,17 @@ void Scene::RemoveEntity(int entity)
 	m_registry.destroy(static_cast<entt::entity>(entity));
 }
 
-void Scene::InitializeSystems()
+void Scene::InitializeSystems(lua_State *L)
 {
 	// Must be done for all systems that are managed automatically by the scene
-	// Ex: CreateSystem<DrawSpriteSystem>();
-
+	CreateSystem<BehaviourSystem>(L);
 }
 
 void Scene::UpdateSystems(float delta)
 {
+	if (m_systems.empty())
+		return;
+
 	for (auto it = m_systems.begin(); it != m_systems.end(); it++)
 	{
 		if ((*it)->OnUpdate(m_registry, delta))
@@ -125,26 +127,7 @@ int Scene::lua_SetComponent(lua_State *L)
 		
 		const char *path = lua_tostring(L, 3);
 		
-		// Returns the behaviour table on top of the stack
-		luaL_dofile(L, path);
-		
-		// luaL_ref pops the value of the stack, so we push the table again before luaL_ref
-		lua_pushvalue(L, -1);
-		int ref = luaL_ref(L, LUA_REGISTRYINDEX);
-		
-		// Populate the behaviour table with the information the behaviour should know about
-		lua_pushinteger(L, entity);
-		lua_setfield(L, -2, "ID");
-		
-		lua_pushstring(L, path);
-		lua_setfield(L, -2, "path");
-		
-		// Let the behaviour construct itself. It may be good practice to check if the method exists before calling it
-		lua_getfield(L, -1, "OnCreate");
-		lua_pushvalue(L, -2); // Push the table as argument
-		lua_pcall(L, 1, 0, 0);
-		
-		scene->SetComponent<ECS::Behaviour>(entity, path, ref);
+		scene->SetComponent<ECS::Behaviour>(entity, path, entity, L);
 		return 1;
 	}
 }
@@ -226,16 +209,22 @@ int Scene::lua_GetComponent(lua_State *L)
 		transform.LuaPush(L);
 		return 1;
 	}
+	else if (type == "Sprite" && scene->HasComponents<ECS::Sprite>(entity))
+	{
+		ECS::Sprite &sprite = scene->GetComponent<ECS::Sprite>(entity);
+		sprite.LuaPush(L);
+		return 1;
+	}
 	else if (type == "Health" && scene->HasComponents<ECS::Health>(entity))
 	{
 		ECS::Health &health = scene->GetComponent<ECS::Health>(entity);
 		health.LuaPush(L);
 		return 1;
 	}
-	else if (type == "Sprite" && scene->HasComponents<ECS::Sprite>(entity))
+	else if (type == "Behaviour" && scene->HasComponents<ECS::Behaviour>(entity))
 	{
-		ECS::Sprite &sprite = scene->GetComponent<ECS::Sprite>(entity);
-		sprite.LuaPush(L);
+		ECS::Behaviour &behaviour = scene->GetComponent<ECS::Behaviour>(entity);
+		behaviour.LuaPush(L);
 		return 1;
 	}
 	// else if...
@@ -263,6 +252,10 @@ int Scene::lua_RemoveComponent(lua_State *L)
 	else if (type == "Sprite" && scene->HasComponents<ECS::Sprite>(entity))
 	{
 		scene->RemoveComponent<ECS::Sprite>(entity);
+	}
+	else if (type == "Behaviour" && scene->HasComponents<ECS::Behaviour>(entity))
+	{
+		scene->RemoveComponent<ECS::Behaviour>(entity);
 	}
 	// else if...
 

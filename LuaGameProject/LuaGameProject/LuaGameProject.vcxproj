@@ -285,11 +285,13 @@
     <ClInclude Include="pch\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="src\Lua\Behaviours\Enemy.lua" />
     <None Include="src\Lua\Color.lua" />
     <None Include="src\Lua\Components\Health.lua" />
     <None Include="src\Lua\Components\Sprite.lua" />
     <None Include="src\Lua\InitDevScene.lua" />
     <None Include="src\Lua\InputDemo.lua" />
+    <None Include="src\Lua\PrintTable.lua" />
     <None Include="src\Lua\Script.lua" />
     <None Include="src\Lua\Tests\Transform2Test.lua" />
     <None Include="src\Lua\Tests\Vec2Test.lua" />

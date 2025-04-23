@@ -44,7 +44,7 @@ public:
 	template<typename...Args>
 	void RunSystem(std::function<void(entt::registry &registry, Args...)> system, Args&&... args);
 
-	void InitializeSystems();
+	void InitializeSystems(lua_State *L);
 
 	void UpdateSystems(float delta);
 

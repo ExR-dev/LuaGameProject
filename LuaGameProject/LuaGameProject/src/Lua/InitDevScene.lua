@@ -6,7 +6,8 @@ local sprite = require("Components/Sprite")
 
 print("Initiating dev scene from lua...")
 
-for _ = 1, 1000 do
+-- Create walls
+for _ = 1, 100 do
 	local entity = scene.CreateEntity()
 
 	local t = transform(
@@ -23,6 +24,28 @@ for _ = 1, 1000 do
 	print("  Spawned entity with")
 	print("    transform: "..tostring(t))
 	print("    sprite: "..tostring(s))
+end
+
+-- Create enemies
+for _ = 1, 25 do
+	local entity = scene.CreateEntity()
+
+	local t = transform(
+		vec2(math.random() + math.random(500, 1200), math.random() + math.random(-150, 550)), 
+		0.0,
+		vec2(math.random() + math.random(15, 30), math.random() + math.random(15, 30))
+	)
+
+	local col = color(math.random(), math.random() * 0.25, math.random() * 0.25, 1.0)
+	local s = sprite("Maxwell.png", col)
+
+	scene.SetComponent(entity, "Transform", t)
+	scene.SetComponent(entity, "Sprite", s)
+	scene.SetComponent(entity, "Behaviour", "Behaviours/Enemy")
+	print("  Spawned entity with")
+	print("    transform: "..tostring(t))
+	print("    sprite: "..tostring(s))
+	print("    Behaviour: Behaviours/Enemy")
 end
 
 print("Dev scene initialized.")

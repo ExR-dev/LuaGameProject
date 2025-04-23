@@ -4,12 +4,21 @@ transform2.__index = transform2
 local vec2 = require("Vec2")
 
 local function new(p, r, s)
-    local t = {
-        position = p or vec2(),
-        rotation = r or 0.0,
-        scale = s or vec2()
-    }
-    return setmetatable(t, transform2)
+    if not vec2.isvec2(p) and type(p) == "table" then
+        local t = {
+            position = vec2(p.position),
+            rotation = p.rotation,
+            scale = vec2(p.scale)
+        }
+        return setmetatable(t, transform2)
+    else
+        local t = {
+            position = p or vec2(),
+            rotation = r or 0.0,
+            scale = s or vec2()
+        }
+        return setmetatable(t, transform2)
+    end
 end
 
 local function istransform2(t)
