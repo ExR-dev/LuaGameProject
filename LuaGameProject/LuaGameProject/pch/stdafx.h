@@ -7,6 +7,8 @@
 #include <thread>
 #include <execution>
 #include <unordered_map>
+#include <filesystem>
+namespace fs = std::filesystem;
 
 #include "dep/raylib-cpp/raylib-cpp.hpp"
 #include "dep/rcamera.h"

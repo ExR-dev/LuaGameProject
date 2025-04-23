@@ -73,6 +73,12 @@ namespace Main2D
 
         SetTargetFPS(144);
 
+	    // Add lua require path
+	    std::string luaScriptPath = std::format("{}/{}?{}", fs::current_path().generic_string(), FILE_PATH, FILE_EXT);
+	    LuaDoString(std::format("package.path = \"{};\" .. package.path", luaScriptPath).c_str());
+        
+        //--------------------------------------------------------------------------------------
+
         // Start Lua console thread
         std::thread consoleThread(ConsoleThreadFunction);
         consoleThread.detach();
@@ -87,20 +93,13 @@ namespace Main2D
 
     int Main2D::Update()
     {
+        Input::UpdateInput();
+
         // Toggle mouse
-        if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
+        if (Input::CheckMousePressed(Input::GAME_MOUSE_RIGHT))
         {
-            // Update
-            //----------------------------------------------------------------------------------
-            Time::Update();
-
-            Input::UpdateInput();
-
-            // Update all systems
-            scene.UpdateSystems(Time::DeltaTime());
-
             // Toggle mouse
-            if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
+            if (m_cursorEnabled == true)
             {
                 DisableCursor();
                 m_cursorEnabled = false;
@@ -228,12 +227,12 @@ namespace Main2D
 
     void Main2D::UpdatePlayer()
     {
-        if (Input::CheckKeyHeld(Input::GAME_KEY_A)) player->position.x -= PLAYER_HOR_SPD * delta;
-        if (Input::CheckKeyHeld(Input::GAME_KEY_D)) player->position.x += PLAYER_HOR_SPD * delta;
-        if (Input::CheckKeyHeld(Input::GAME_KEY_W)) player->position.y -= PLAYER_HOR_SPD * delta;
-        if (Input::CheckKeyHeld(Input::GAME_KEY_S)) player->position.y += PLAYER_HOR_SPD * delta;
+        if (Input::CheckKeyHeld(Input::GAME_KEY_A)) m_player.position.x -= PLAYER_HOR_SPD * Time::DeltaTime();
+        if (Input::CheckKeyHeld(Input::GAME_KEY_D)) m_player.position.x += PLAYER_HOR_SPD * Time::DeltaTime();
+        if (Input::CheckKeyHeld(Input::GAME_KEY_W)) m_player.position.y -= PLAYER_HOR_SPD * Time::DeltaTime();
+        if (Input::CheckKeyHeld(Input::GAME_KEY_S)) m_player.position.y += PLAYER_HOR_SPD * Time::DeltaTime();
 
-        m_player.position.y += m_player.speed * delta;
+        m_player.position.y += m_player.speed * Time::DeltaTime();
     }
     void Main2D::UpdateCameraCenter()
     {
