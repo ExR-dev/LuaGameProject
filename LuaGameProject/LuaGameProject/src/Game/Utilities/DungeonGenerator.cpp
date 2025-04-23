@@ -143,7 +143,7 @@ bool DungeonGenerator::PhysicalSeparation()
 												 [&room](std::pair<Room *, Vector2> p) {return p.first == &room; });
 
 					if (existing != resolutions.end())
-						existing->second = Vector2Normalize(Vector2Add(existing->second, normal));
+						existing->second = Vector2Add(existing->second, normal); // Handle overlap with multiple
 					else
 						resolutions.push_back({ &room, normal });
 				}
@@ -151,7 +151,7 @@ bool DungeonGenerator::PhysicalSeparation()
 		}
 
 		for (auto &pairs : resolutions)
-			pairs.first->pos = Vector2Add(pairs.first->pos, pairs.second);
+			pairs.first->pos = Vector2Add(pairs.first->pos, Vector2Add(pairs.second, Vector2(Math::Random01f()/100, Math::Random01f()/100)));
 	}
 
 	return foundIntersection;

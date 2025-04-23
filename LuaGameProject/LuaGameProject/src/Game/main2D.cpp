@@ -4,6 +4,9 @@
 #include "../LuaConsole.h"
 #include "Utilities/DungeonGenerator.h"
 
+#include "Utilities/InputHandler.h"
+#include "Utilities/LuaInput.h"
+
 namespace Main2D
 {
     Main2D::~Main2D()
@@ -62,13 +65,21 @@ namespace Main2D
 		m_cameraOption = 0;
 
         // Limit cursor to relative movement inside the window
-        DisableCursor();
-		m_cursorEnabled = false;
+        DisableCursor();                    
+        bool cursorEnabled = false;
+        
+        BindLuaInput(L);
 
         SetTargetFPS(144);
 
+	    // Add lua require path
+	    std::string luaScriptPath = std::format("{}/{}?{}", fs::current_path().generic_string(), FILE_PATH, FILE_EXT);
+	    LuaDoString(std::format("package.path = \"{};\" .. package.path", luaScriptPath).c_str());
+        
+        //--------------------------------------------------------------------------------------
+
         // Start Lua console thread
-        std::thread consoleThread(ConsoleThreadFunction, L);
+        std::thread consoleThread(ConsoleThreadFunction);
         consoleThread.detach();
         std::this_thread::sleep_for(std::chrono::milliseconds(50)); // Wait for the console thread to start
 
@@ -81,10 +92,13 @@ namespace Main2D
 
     int Main2D::Update()
     {
+        Input::UpdateInput();
+
         // Toggle mouse
-        if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
+        if (Input::CheckMousePressed(Input::GAME_MOUSE_RIGHT))
         {
-            if (m_cursorEnabled)
+            // Toggle mouse
+            if (m_cursorEnabled == true)
             {
                 DisableCursor();
                 m_cursorEnabled = false;
@@ -201,6 +215,10 @@ namespace Main2D
         }
 
         EndDrawing();
+        // De-Initialization
+        //--------------------------------------------------------------------------------------
+        CloseWindow();        // Close window and OpenGL context
+        //--------------------------------------------------------------------------------------
 
 		return 1;
     }
@@ -208,14 +226,12 @@ namespace Main2D
 
     void Main2D::UpdatePlayer()
     {
-		float delta = Time::DeltaTime();
+        if (Input::CheckKeyHeld(Input::GAME_KEY_A)) m_player.position.x -= PLAYER_HOR_SPD * Time::DeltaTime();
+        if (Input::CheckKeyHeld(Input::GAME_KEY_D)) m_player.position.x += PLAYER_HOR_SPD * Time::DeltaTime();
+        if (Input::CheckKeyHeld(Input::GAME_KEY_W)) m_player.position.y -= PLAYER_HOR_SPD * Time::DeltaTime();
+        if (Input::CheckKeyHeld(Input::GAME_KEY_S)) m_player.position.y += PLAYER_HOR_SPD * Time::DeltaTime();
 
-        if (IsKeyDown(KEY_A)) m_player.position.x -= PLAYER_HOR_SPD * delta;
-        if (IsKeyDown(KEY_D)) m_player.position.x += PLAYER_HOR_SPD * delta;
-        if (IsKeyDown(KEY_W)) m_player.position.y -= PLAYER_HOR_SPD * delta;
-        if (IsKeyDown(KEY_S)) m_player.position.y += PLAYER_HOR_SPD * delta;
-
-        m_player.position.y += m_player.speed * delta;
+        m_player.position.y += m_player.speed * Time::DeltaTime();
     }
     void Main2D::UpdateCameraCenter()
     {
@@ -227,8 +243,8 @@ namespace Main2D
         float delta = Time::DeltaTime();
 
         raylib::Vector2 move(
-            IsKeyDown(KEY_RIGHT) - IsKeyDown(KEY_LEFT),
-            IsKeyDown(KEY_DOWN)  - IsKeyDown(KEY_UP)
+            Input::CheckKeyHeld(Input::GAME_KEY_RIGHT) - Input::CheckKeyHeld(Input::GAME_KEY_LEFT),
+            Input::CheckKeyHeld(Input::GAME_KEY_DOWN)  - Input::CheckKeyHeld(Input::GAME_KEY_UP)
         );
 
         move = Vector2Normalize(move);

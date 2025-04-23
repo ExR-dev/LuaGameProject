@@ -8,6 +8,8 @@
 #include <thread>
 #include "LuaUtils.h"
 
+#include "Game/Utilities/LuaInput.h"
+
 namespace fs = std::filesystem;
 
 struct Vector2
@@ -46,8 +48,11 @@ static int PrintVector(lua_State *L)
 	return 0;
 }
 
-void ConsoleThreadFunction(lua_State *L)
+void ConsoleThreadFunction()
 {
+	lua_State *L = luaL_newstate();
+	luaL_openlibs(L);
+
 	// Add lua require path
 	std::string luaScriptPath = std::format("{}/{}?{}", fs::current_path().generic_string(), FILE_PATH, FILE_EXT);
 	LuaDoString(std::format("package.path = \"{};\" .. package.path", luaScriptPath).c_str());
@@ -63,6 +68,8 @@ void ConsoleThreadFunction(lua_State *L)
 	
 	lua_pushcfunction(L, PrintVector);
 	lua_setglobal(L, "PrintVector");
+
+	BindLuaInput(L);
 
 	while (GetConsoleWindow())
 	{
@@ -87,6 +94,11 @@ void ConsoleThreadFunction(lua_State *L)
 			LuaDoString(input.c_str());
 		}
 
+		lua_getglobal(L, "UpdateInput");
+		lua_pcall(L, 0, 0, 0);
+
 		std::cout << std::endl;
 	}
+
+	lua_close(L);
 }
