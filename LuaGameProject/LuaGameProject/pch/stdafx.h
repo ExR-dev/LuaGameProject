@@ -25,3 +25,4 @@ namespace fs = std::filesystem;
 #include "Game/Utilities/Time.h"
 #include "Game/Utilities/WindowsWrapped.h"
 #include "Game/Tools/ConstRand.h"
+#include "Game/ResourceManager.h"

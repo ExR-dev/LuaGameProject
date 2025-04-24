@@ -5,9 +5,9 @@ local transform = require("Transform2")
 local color = require("Color")
 local sprite = require("Components/Sprite")
 
-tracy.ZoneBeginN("Lua InitDevScene Create Walls")
 -- Create walls
-for _ = 1, 1000 do
+tracy.ZoneBeginN("Lua InitDevScene Create Walls")
+for _ = 1, 50 do
 	local entity = scene.CreateEntity()
 
 	local t = transform(
@@ -17,37 +17,31 @@ for _ = 1, 1000 do
 	)
 
 	local col = color(math.random(), math.random(), math.random(), math.random())
-	local s = sprite("Maxwell.png", col)
+	local s = sprite("", col)
 
 	scene.SetComponent(entity, "Transform", t)
 	scene.SetComponent(entity, "Sprite", s)
-	-- print("  Spawned entity with")
-	-- print("    transform: "..tostring(t))
-	-- print("    sprite: "..tostring(s))
 end
 tracy.ZoneEnd()
 
-tracy.ZoneBeginN("Lua InitDevScene Create Enemies")
 -- Create enemies
-for _ = 1, 100 do
+tracy.ZoneBeginN("Lua InitDevScene Create Enemies")
+for _ = 1, 10 do
 	local entity = scene.CreateEntity()
 
 	local t = transform(
 		vec2(math.random() + math.random(500, 1200), math.random() + math.random(-150, 550)), 
 		0.0,
-		vec2(math.random() + math.random(15, 30), math.random() + math.random(15, 30))
+		vec2(math.random() + math.random(40, 60), math.random() + math.random(40, 60))
 	)
 
-	local col = color(math.random(), math.random() * 0.25, math.random() * 0.25, 1.0)
-	local s = sprite("Maxwell.png", col)
+	--local col = color(math.random(), math.random() * 0.5, math.random() * 0.5, 1.0)
+	--local s = sprite("Maxwell.png", col)
+	local s = sprite("Maxwell.png")
 
 	scene.SetComponent(entity, "Transform", t)
 	scene.SetComponent(entity, "Sprite", s)
 	scene.SetComponent(entity, "Behaviour", "Behaviours/Enemy")
-	-- print("  Spawned entity with")
-	-- print("    transform: "..tostring(t))
-	-- print("    sprite: "..tostring(s))
-	-- print("    Behaviour: Behaviours/Enemy")
 end
 tracy.ZoneEnd()
 

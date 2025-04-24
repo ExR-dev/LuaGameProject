@@ -186,6 +186,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\Game\ResourceManager.cpp" />
     <ClCompile Include="src\Game\Scene.cpp" />
     <ClCompile Include="src\Game\Systems\System.cpp" />
     <ClCompile Include="src\Game\Tools\ErrMsg.cpp" />
@@ -241,6 +242,7 @@
     <ClInclude Include="src\Game\Components\Components.h" />
     <ClInclude Include="src\Game\EngineSettings.h" />
     <ClInclude Include="src\Game\Game.h" />
+    <ClInclude Include="src\Game\ResourceManager.h" />
     <ClInclude Include="src\Game\Scene.h" />
     <ClInclude Include="dep\EnTT\entt.hpp" />
     <ClInclude Include="src\Game\Systems\System.h" />
@@ -305,6 +307,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Lua\Behaviours\Enemy.lua" />
+    <None Include="src\Lua\Cmd.lua" />
     <None Include="src\Lua\Color.lua" />
     <None Include="src\Lua\Components\Health.lua" />
     <None Include="src\Lua\Components\Sprite.lua" />

@@ -17,8 +17,8 @@ function enemy:OnCreate()
 	tracy.ZoneBeginN("Lua enemy:OnCreate")
 	local t = transform(scene.GetComponent(self.ID, "Transform"))
 
-	self.wanderPoint = t.position + vec(math.random(-50, 50), math.random(-50, 50));
-	self.speed = math.random(10, 35)
+	self.wanderPoint = t.position + vec(math.random(-75, 75), math.random(-75, 75));
+	self.speed = math.random(20, 50)
 	tracy.ZoneEnd()
 end
 
@@ -33,8 +33,8 @@ function enemy:OnUpdate(delta)
 	local lengthSqr = toGoal:lengthSqr()
 	toGoal:normalize()
 
-	if lengthSqr < 1.0 then
-		self.wanderPoint = t.position + vec(math.random(-50, 50), math.random(-50, 50));
+	if lengthSqr < 2.0 then
+		self.wanderPoint = t.position + vec(math.random(-75, 75), math.random(-75, 75));
 	else
 		t.position = t.position + toGoal * (self.speed * delta)
 	end

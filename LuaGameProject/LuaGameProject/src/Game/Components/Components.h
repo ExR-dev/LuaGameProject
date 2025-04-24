@@ -162,7 +162,6 @@ namespace ECS
 			memset(Color, 1.0f, sizeof(float) * 4);
 
 			memset(SpriteName, '\0', SPRITE_NAME_LENGTH);
-			strcpy_s(SpriteName, "Fallback.png");
 		}
 		Sprite(const char *name, const float color[4], const int priority) : Priority(priority)
 		{

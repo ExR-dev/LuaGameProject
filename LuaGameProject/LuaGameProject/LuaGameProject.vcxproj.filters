@@ -63,6 +63,9 @@
     <ClCompile Include="dep\tracy-0.11.1\public\TracyClient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Game\ResourceManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch\stdafx.h">
@@ -257,6 +260,9 @@
     <ClInclude Include="src\Game\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Game\ResourceManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Lua\Script.lua" />
@@ -274,5 +280,6 @@
     <None Include="src\Lua\Behaviours\Enemy.lua" />
     <None Include="src\Lua\PrintTable.lua" />
     <None Include="src\Lua\InputDemo.lua" />
+    <None Include="src\Lua\Cmd.lua" />
   </ItemGroup>
 </Project>

@@ -9,7 +9,7 @@ local function new(n, c, p)
     assert(p == nil or type(p) == "numer", "sprite new - expected args: (string or nil, color or nil, number or nil)")
     
     local s = {
-        spriteName = name or "Fallback.png",
+        spriteName = n or "",
         color = c or Color(),
         priority = p or 0,
     }

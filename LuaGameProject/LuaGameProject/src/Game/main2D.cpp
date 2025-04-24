@@ -65,9 +65,10 @@ int Main2D::Main2D::Start()
     luaL_openlibs(consoleL);
     Scene::lua_openscene(consoleL, &m_scene);
 
-    Time::Instance();
-
     InitWindow(m_screenWidth, m_screenHeight, "Lua Game");
+
+    Time::Instance();
+	ResourceManager::Instance().LoadResources();
 
     m_player = { 0 };
     m_player.position = raylib::Vector2(400, 280);
@@ -197,22 +198,43 @@ int Main2D::Main2D::Render()
             view.each([&](const ECS::Sprite &sprite, const ECS::Transform &transform) {
                 ZoneNamedNC(drawSpriteZone, "Lambda Draw Sprite", RandomUniqueColor(), true);
 
-                // Draw the sprite at the location defined by the transform.
-                /*const float posX = transform.Position[0];
-                const float posY = transform.Position[1];
-
-                const float sclX = transform.Scale[0];
-                const float sclY = transform.Scale[1];
-
-                raylib::Color color(*(raylib::Vector4 *)(&(sprite.Color)));*/
-
-                DrawRectangle(
-                    (int)transform.Position[0], 
-                    (int)transform.Position[1], 
-                    (int)transform.Scale[0], 
-                    (int)transform.Scale[1], 
-                    raylib::Color(*(raylib::Vector4 *)(&(sprite.Color)))
+				raylib::Color color(*(raylib::Vector4 *)(&(sprite.Color)));
+                raylib::Rectangle rect(
+                    (int)transform.Position[0],
+                    (int)transform.Position[1],
+                    (int)transform.Scale[0],
+                    (int)transform.Scale[1]
                 );
+
+				std::string textureName = sprite.SpriteName;
+				const raylib::Texture2D *texture = ResourceManager::Instance().GetTexture(textureName);
+
+                if (textureName != "" && !texture)
+                {
+					ResourceManager::Instance().LoadTexture(textureName);
+					texture = ResourceManager::Instance().GetTexture(textureName);
+                }
+
+				if (texture)
+				{
+					DrawTexturePro(
+						*texture,
+						raylib::Rectangle(0, 0, texture->width, texture->height),
+                        rect,
+						raylib::Vector2(0, 0),
+						transform.Rotation,
+                        color
+					);
+				}
+                else
+                {
+                    DrawRectanglePro(
+                        rect, 
+                        raylib::Vector2(0, 0), 
+                        transform.Rotation, 
+                        color
+                    );
+                }
             });
         };
 		m_scene.RunSystem(drawSystem);

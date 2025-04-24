@@ -3,9 +3,9 @@ color.__index = color
 
 function color.new(r, g, b, a)
     local t = {
-        r = r or 0.0,
-        g = g or 0.0,
-        b = b or 0.0,
+        r = r or 1.0,
+        g = g or 1.0,
+        b = b or 1.0,
         a = a or 1.0
     }
     return setmetatable(t, color)
