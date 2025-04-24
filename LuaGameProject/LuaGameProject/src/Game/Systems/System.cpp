@@ -4,6 +4,7 @@
 
 bool BehaviourSystem::OnUpdate(entt::registry &registry, float delta)
 {
+	ZoneScopedC(RandomUniqueColor());
 	// Retrieve all entitites with a behaviour component
 	auto view = registry.view<ECS::Behaviour>();
 

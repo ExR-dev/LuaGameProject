@@ -13,8 +13,14 @@
 
 #define LuaChk(ret) {if (ret != LUA_OK) LuaDumpError(L);}
 
+// Reads file and returns the content as a string
+std::string LuaLoadFile(lua_State *L, const char *path);
+
+void LuaDoFileCleaned(lua_State *L, const char *str);
+
 void LuaDumpError(lua_State *L);
 void LuaDumpStack(lua_State *L);
+void LuaDumpEnv(lua_State *L);
 void LuaDumpTable(lua_State *L, int i);
 
 // Inspiration from: Programming in Lua, Roberto Ierusalimsch

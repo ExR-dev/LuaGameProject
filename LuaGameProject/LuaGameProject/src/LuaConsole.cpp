@@ -8,7 +8,13 @@
 #include <thread>
 #include "LuaUtils.h"
 
+#include "Game/Game.h"
 #include "Game/Utilities/LuaInput.h"
+
+#define WINDOWS_DEF
+#include <dep/tracy-0.11.1/public/tracy/Tracy.hpp>
+#include <dep/tracy-0.11.1/public/tracy/TracyLua.hpp>
+#undef WINDOWS_DEF
 
 namespace fs = std::filesystem;
 
@@ -19,7 +25,7 @@ struct Vector2
 		p_x(x), p_y(y) {}
 };
 
-Vector2 lua_tovector(lua_State *L, int index)
+static Vector2 lua_tovector(lua_State *L, int index)
 {
 	Vector2 v;
 
@@ -48,11 +54,8 @@ static int PrintVector(lua_State *L)
 	return 0;
 }
 
-void ConsoleThreadFunction()
+void ConsoleThreadFunction(lua_State *L)
 {
-	lua_State *L = luaL_newstate();
-	luaL_openlibs(L);
-
 	// Add lua require path
 	std::string luaScriptPath = std::format("{}/{}?{}", fs::current_path().generic_string(), FILE_PATH, FILE_EXT);
 	LuaDoString(std::format("package.path = \"{};\" .. package.path", luaScriptPath).c_str());
@@ -62,7 +65,8 @@ void ConsoleThreadFunction()
 				 FILE_EXT,			    FILE_PATH,					    FILE_CMD
 	) << std::endl;
 	std::cout << "To run all tests located in the tests folder, type \"[T/t]est\"." << std::endl;
-	std::cout << "To dump the lua stack type \"DumpStack\"." << std::endl;
+	std::cout << "To dump the lua stack, type \"DumpStack\"." << std::endl;
+	std::cout << "To dump the lua environment, type \"DumpEnv\"." << std::endl;
 
 	std::string input;
 	
@@ -76,6 +80,8 @@ void ConsoleThreadFunction()
 		std::cout << "> ";
 		std::getline(std::cin, input);
 
+		while (Game::UpdateConsole)
+
 		if (input == "Test" || input == "test") // Run all tests
 		{
 			LuaRunTests(L, TEST_PATH);
@@ -84,10 +90,14 @@ void ConsoleThreadFunction()
 		{
 			LuaDumpStack(L);
 		}
+		else if (input == "DumpEnv")
+		{
+			LuaDumpEnv(L);
+		}
 		else if (input.starts_with(FILE_CMD)) // File command
 		{
 			input = input.substr(FILE_CMD.size());
-			LuaDoFile(LuaFilePath(input));
+			LuaDoFileCleaned(L, LuaFilePath(input));
 		}
 		else // String command
 		{

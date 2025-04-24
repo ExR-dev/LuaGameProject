@@ -1,5 +1,6 @@
 #pragma once
 #include <cstring>
+#include "Game/Game.h"
 #include "lua.hpp"
 #include "LuaUtils.h"
 
@@ -12,11 +13,13 @@ namespace ECS
 		char ScriptPath[SCRIPT_PATH_LENGTH];
 		int LuaRef;
 
-		// Create a constructor in order to initialize the char array.
+		// Create a constructor in order to initialize the char array
 		Behaviour(const char *path, int entity, lua_State *L) : m_refState(L)
 		{
+			ZoneScopedC(RandomUniqueColor());
+
 			// Returns the behaviour table on top of the stack
-			LuaDoFile(LuaFilePath(path));
+			LuaDoFileCleaned(L, LuaFilePath(path));
 
 			// luaL_ref pops the value of the stack, so we push the table again before luaL_ref
 			lua_pushvalue(L, -1);
@@ -29,7 +32,7 @@ namespace ECS
 			lua_pushstring(L, path);
 			lua_setfield(L, -2, "path");
 
-			// Let the behaviour construct itself.
+			// Let the behaviour construct itself
 			lua_getfield(L, -1, "OnCreate");
 
 			// Check if the method exists before calling it
@@ -48,12 +51,20 @@ namespace ECS
 		}
 		~Behaviour()
 		{
-			// Remove the reference to the behaviour table
-			luaL_unref(m_refState, LUA_REGISTRYINDEX, LuaRef);
+			ZoneScopedC(RandomUniqueColor());
+
+			// This should be negated, but this statement currently somehow executes opposite of when it should
+			// Don't ask me why
+			if (Game::IsQuitting)
+			{
+				// Remove the reference to the behaviour table
+				luaL_unref(m_refState, LUA_REGISTRYINDEX, LuaRef);
+			}
 		}
 
 		void LuaPush(lua_State *L) const
 		{
+			ZoneScopedC(RandomUniqueColor());
 			// Retrieve the behaviour table to the top of the stack
 			lua_rawgeti(L, LUA_REGISTRYINDEX, LuaRef);
 		}
@@ -70,6 +81,7 @@ namespace ECS
 
 		void LuaPush(lua_State *L) const
 		{
+			ZoneScopedC(RandomUniqueColor());
 			// Create the main transform table
 			lua_createtable(L, 0, 3);  // Create a new table for Transform
 
@@ -96,6 +108,7 @@ namespace ECS
 		}
 		void LuaPull(lua_State* L, int index)
 		{
+			ZoneScopedC(RandomUniqueColor());
 			// Make sure the index is absolute
 			if (index < 0)
 			{
@@ -188,6 +201,7 @@ namespace ECS
 
 		void LuaPush(lua_State* L) const
 		{
+			ZoneScopedC(RandomUniqueColor());
 			// Create the main sprite table
 			lua_createtable(L, 0, 2);
 
@@ -213,6 +227,7 @@ namespace ECS
 		}
 		void LuaPull(lua_State* L, int index)
 		{
+			ZoneScopedC(RandomUniqueColor());
 			// Make sure the index is absolute (in case it's negative)
 			if (index < 0) {
 				index = lua_gettop(L) + index + 1;
@@ -282,6 +297,7 @@ namespace ECS
 
 		void LuaPush(lua_State* L) const
 		{
+			ZoneScopedC(RandomUniqueColor());
 			// Create the main health table
 			lua_createtable(L, 0, 2);
 
@@ -294,6 +310,7 @@ namespace ECS
 		}
 		void LuaPull(lua_State* L, int index)
 		{
+			ZoneScopedC(RandomUniqueColor());
 			// Make sure the index is absolute (in case it's negative)
 			if (index < 0)
 			{

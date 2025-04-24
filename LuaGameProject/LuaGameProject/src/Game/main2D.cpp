@@ -9,16 +9,27 @@
 
 Main2D::Main2D::~Main2D()
 {
+    ZoneScopedC(RandomUniqueColor());
+
+	Game::IsQuitting = true;
+
 	if (m_dungeon)
 	{
 		delete m_dungeon;
 		m_dungeon = nullptr;
+	}
+
+	if (L)
+	{
+		lua_close(L);
+		L = nullptr;
 	}
 }
 
 int Main2D::Main2D::Run()
 {
     Start();
+    FrameMark;
 
     while (!WindowShouldClose())
     {
@@ -28,19 +39,28 @@ int Main2D::Main2D::Run()
 		Update();
 
 		Render();
+        FrameMark;
     }
 
     CloseWindow();
+    FrameMark;
     return 0;
 }
 
 
 int Main2D::Main2D::Start()
 {
+    ZoneScopedC(RandomUniqueColor());
+
+    // Create internal lua state
     L = luaL_newstate();
     luaL_openlibs(L);
-
     Scene::lua_openscene(L, &m_scene);
+
+    // Create console-bound lua state
+    lua_State *consoleL = luaL_newstate();
+    luaL_openlibs(consoleL);
+    Scene::lua_openscene(consoleL, &m_scene);
 
     Time::Instance();
 
@@ -74,20 +94,21 @@ int Main2D::Main2D::Start()
 	LuaDoString(std::format("package.path = \"{};\" .. package.path", luaScriptPath).c_str());
     
     // Start Lua console thread
-    std::thread consoleThread(ConsoleThreadFunction);
+    std::thread consoleThread(ConsoleThreadFunction, consoleL);
     consoleThread.detach();
     std::this_thread::sleep_for(std::chrono::milliseconds(50)); // Wait for the console thread to start
 
 	// Initialize Lua
     m_scene.InitializeSystems(L);
 
-    LuaDoFile(LuaFilePath("InitDevScene")) // Creates entities
+    LuaDoFileCleaned(L, LuaFilePath("InitDevScene")); // Creates entities
 
     return 1;
 }
 
 int Main2D::Main2D::Update()
 {
+    ZoneScopedC(RandomUniqueColor());
     // Toggle mouse
     if (Input::CheckMousePressed(Input::GAME_MOUSE_RIGHT))
     {
@@ -152,30 +173,42 @@ int Main2D::Main2D::Update()
 
 int Main2D::Main2D::Render()
 {
+    ZoneScopedC(RandomUniqueColor());
+
     BeginDrawing();
     ClearBackground(LIGHTGRAY);
 
     // Scene
     {
+        ZoneNamedNC(renderSceneZone, "Render Scene", RandomUniqueColor(), true);
         BeginMode2D(m_camera);
 
-        // Draw entities
+        // Draw sprites
         std::function<void(entt::registry &registry)> drawSystem = [](entt::registry &registry) {
+            ZoneNamedNC(drawSpritesZone, "Lambda Draw Sprites", RandomUniqueColor(), true);
+
             auto view = registry.view<ECS::Sprite, ECS::Transform>();
             view.use<ECS::Sprite>();
 
             view.each([&](const ECS::Sprite &sprite, const ECS::Transform &transform) {
-                // Draw the sprite at the location defined by the transform.
+                ZoneNamedNC(drawSpriteZone, "Lambda Draw Sprite", RandomUniqueColor(), true);
 
-                const float posX = transform.Position[0];
+                // Draw the sprite at the location defined by the transform.
+                /*const float posX = transform.Position[0];
                 const float posY = transform.Position[1];
 
                 const float sclX = transform.Scale[0];
                 const float sclY = transform.Scale[1];
 
-                raylib::Color color(*(raylib::Vector4 *)(&(sprite.Color)));
+                raylib::Color color(*(raylib::Vector4 *)(&(sprite.Color)));*/
 
-                DrawRectangle((int)posX, (int)posY, (int)sclX, (int)sclY, color);
+                DrawRectangle(
+                    (int)transform.Position[0], 
+                    (int)transform.Position[1], 
+                    (int)transform.Scale[0], 
+                    (int)transform.Scale[1], 
+                    raylib::Color(*(raylib::Vector4 *)(&(sprite.Color)))
+                );
             });
         };
 		m_scene.RunSystem(drawSystem);
@@ -191,6 +224,7 @@ int Main2D::Main2D::Render()
 
     // UI
     {
+        ZoneNamedNC(main2DRenderScene, "Render UI", RandomUniqueColor(), true);
         static const char *cameraDescriptions[CAMERA_OPTIONS] = {
             "Follow player center",
             "Free camera movement",
@@ -214,6 +248,8 @@ int Main2D::Main2D::Render()
 
 void Main2D::Main2D::UpdatePlayer()
 {
+    ZoneScopedC(RandomUniqueColor());
+
 	float delta = Time::DeltaTime();
 
     if (Input::CheckKeyHeld(Input::GAME_KEY_A)) m_player.position.x -= PLAYER_HOR_SPD * delta;
@@ -223,11 +259,15 @@ void Main2D::Main2D::UpdatePlayer()
 }
 void Main2D::Main2D::UpdateCameraCenter()
 {
+    ZoneScopedC(RandomUniqueColor());
+
     m_camera.offset = raylib::Vector2{ m_screenWidth / 2.0f, m_screenHeight / 2.0f };
     m_camera.target = m_player.position;
 }
 void Main2D::Main2D::UpdateCameraFree()
 {
+    ZoneScopedC(RandomUniqueColor());
+
     float delta = Time::DeltaTime();
     raylib::Vector2 move(
         Input::CheckKeyHeld(Input::GAME_KEY_RIGHT) - Input::CheckKeyHeld(Input::GAME_KEY_LEFT),

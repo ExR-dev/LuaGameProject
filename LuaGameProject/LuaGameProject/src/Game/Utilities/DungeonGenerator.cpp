@@ -28,6 +28,8 @@ DungeonGenerator::DungeonGenerator(raylib::Vector2 pos)
 
 void DungeonGenerator::Initialize()
 {
+	ZoneScopedC(RandomUniqueColor());
+
 	if (_rooms.size() > 0)
 	{
 		_rooms.clear();
@@ -47,6 +49,8 @@ void DungeonGenerator::AddRoom(const Room &room)
 
 void DungeonGenerator::Generate(float radius)
 {
+	ZoneScopedC(RandomUniqueColor());
+
 	// Set room positions
 	for (auto &room : _rooms)
 		room.pos = Vector2Add(_position, Math::RandomGridPointCircle(radius, _tileSize));
@@ -54,6 +58,8 @@ void DungeonGenerator::Generate(float radius)
 
 void DungeonGenerator::SeparateRooms()
 {
+	ZoneScopedC(RandomUniqueColor());
+
 	//bool roomsSeparated = GridSeparation();
 	bool roomsSeparated = PhysicalSeparation();
 	
@@ -70,6 +76,8 @@ void DungeonGenerator::SeparateRooms()
 
 bool DungeonGenerator::GridSeparation()
 {
+	ZoneScopedC(RandomUniqueColor());
+
 	bool foundIntersection = true;
 
 	// Separate all rooms
@@ -118,6 +126,8 @@ bool DungeonGenerator::GridSeparation()
 
 bool DungeonGenerator::PhysicalSeparation()
 {
+	ZoneScopedC(RandomUniqueColor());
+
 	bool foundIntersection = true;
 
 	std::vector<std::pair<Room*, Vector2>> resolutions;
@@ -159,6 +169,8 @@ bool DungeonGenerator::PhysicalSeparation()
 
 void DungeonGenerator::RoomSelection()
 {
+	ZoneScopedC(RandomUniqueColor());
+
 	if (_selectedRooms.size() > 0)
 		_selectedRooms.clear();
 
@@ -180,6 +192,8 @@ void DungeonGenerator::RoomSelection()
 
 void DungeonGenerator::GenerateGraph()
 {
+	ZoneScopedC(RandomUniqueColor());
+
 	std::vector<Point> points;
 	
 	for (const auto &room : _selectedRooms)
@@ -218,6 +232,8 @@ void DungeonGenerator::GenerateGraph()
 
 void DungeonGenerator::Draw()
 {
+	ZoneScopedC(RandomUniqueColor());
+
 	const float padding = 4;
 	for (const auto &room : _rooms)
 	{

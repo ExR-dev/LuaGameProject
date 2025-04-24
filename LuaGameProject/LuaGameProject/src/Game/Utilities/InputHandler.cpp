@@ -205,6 +205,8 @@ std::string Input::GetUnicodeInput()
 
 void Input::UpdateInput()
 {
+	ZoneScopedC(RandomUniqueColor());
+
 	// Update key states
 	KeyState oldState;
 	for (int keyCode = 0; keyCode < (int)GAME_KEY_COUNT; keyCode++)

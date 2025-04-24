@@ -1,13 +1,13 @@
+tracy.ZoneBeginN("Lua InitDevScene.lua")
 
 local vec2 = require("Vec2")
 local transform = require("Transform2")
 local color = require("Color")
 local sprite = require("Components/Sprite")
 
-print("Initiating dev scene from lua...")
-
+tracy.ZoneBeginN("Lua InitDevScene Create Walls")
 -- Create walls
-for _ = 1, 100 do
+for _ = 1, 1000 do
 	local entity = scene.CreateEntity()
 
 	local t = transform(
@@ -21,13 +21,15 @@ for _ = 1, 100 do
 
 	scene.SetComponent(entity, "Transform", t)
 	scene.SetComponent(entity, "Sprite", s)
-	print("  Spawned entity with")
-	print("    transform: "..tostring(t))
-	print("    sprite: "..tostring(s))
+	-- print("  Spawned entity with")
+	-- print("    transform: "..tostring(t))
+	-- print("    sprite: "..tostring(s))
 end
+tracy.ZoneEnd()
 
+tracy.ZoneBeginN("Lua InitDevScene Create Enemies")
 -- Create enemies
-for _ = 1, 25 do
+for _ = 1, 100 do
 	local entity = scene.CreateEntity()
 
 	local t = transform(
@@ -42,10 +44,11 @@ for _ = 1, 25 do
 	scene.SetComponent(entity, "Transform", t)
 	scene.SetComponent(entity, "Sprite", s)
 	scene.SetComponent(entity, "Behaviour", "Behaviours/Enemy")
-	print("  Spawned entity with")
-	print("    transform: "..tostring(t))
-	print("    sprite: "..tostring(s))
-	print("    Behaviour: Behaviours/Enemy")
+	-- print("  Spawned entity with")
+	-- print("    transform: "..tostring(t))
+	-- print("    sprite: "..tostring(s))
+	-- print("    Behaviour: Behaviours/Enemy")
 end
+tracy.ZoneEnd()
 
-print("Dev scene initialized.")
+tracy.ZoneEnd()

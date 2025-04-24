@@ -190,7 +190,11 @@ static tracy_force_inline void SendLuaCallstack( lua_State* L, uint32_t depth )
 
 static inline void LuaShortenSrc( char* dst, const char* src )
 {
-    size_t l = std::min( (size_t)255, strlen( src ) );
+#ifdef WINDOWS_DEF
+    size_t l = min( (size_t)255, strlen( src ) );
+#else
+    size_t l = std::min((size_t)255, strlen(src));
+#endif
     memcpy( dst, src, l );
     dst[l] = 0;
 }

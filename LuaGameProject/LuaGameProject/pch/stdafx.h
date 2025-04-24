@@ -16,9 +16,11 @@ namespace fs = std::filesystem;
 #include "lua.hpp"
 
 #include "dep/tracy-0.11.1/public/tracy/Tracy.hpp"
-#include "dep/tracy-0.11.1/public/tracy/TracyOpenGL.hpp"
+#include "dep/tracy-0.11.1/public/tracy/TracyLua.hpp"
 
+#include "Game/Game.h"
 #include "Game/Tools/ErrMsg.h"
 #include "LuaUtils.h"
 #include "Game/Utilities/Time.h"
 #include "Game/Utilities/WindowsWrapped.h"
+#include "Game/Tools/ConstRand.h"

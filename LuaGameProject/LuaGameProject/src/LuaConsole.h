@@ -1,4 +1,4 @@
 #pragma once
 #include "lua.hpp"
 
-void ConsoleThreadFunction();
+void ConsoleThreadFunction(lua_State *L);

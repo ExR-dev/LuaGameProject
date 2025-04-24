@@ -84,7 +84,9 @@ end
 
 function vec2:normalize()
     local len = self:length()
-    assert(len > 0, "vec2 normalize - cannot normalize a vector of length 0")
+    if len == 0 then
+        return self
+    end
 
     self.x = self.x / len
     self.y = self.y / len

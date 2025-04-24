@@ -4,8 +4,45 @@
 #include <iostream>
 #include <filesystem>
 
+std::string LuaLoadFile(lua_State *L, const char *path)
+{
+	std::ifstream file(path);
+	if (!file.is_open())
+	{
+		std::cerr << "Failed to open file: " << path << std::endl;
+		return "";
+	}
+
+	std::string content((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+	file.close();
+
+	return content;
+}
+
+void LuaDoFileCleaned(lua_State *L, const char *str)
+{
+#ifdef TRACY_ENABLE 
+	// Do not remove tracy commands before loading
+	LuaDoFile(str);
+#else 
+	// Remove tracy commands before loading
+	std::string content(LuaLoadFile(L, str));
+
+	size_t len = strlen(content.c_str());
+	char *cleanedContent = new char[len + 1];
+
+	memcpy_s(cleanedContent, len + 1, content.c_str(), len + 1);
+	tracy::LuaRemove(cleanedContent);
+
+	LuaDoString(cleanedContent);
+	delete[] cleanedContent;
+#endif
+}
+
 void LuaDumpError(lua_State *L)
 {
+	ZoneScopedC(RandomUniqueColor());
+
 	if (lua_gettop(L) && lua_isstring(L, -1))
 	{
 		std::cout << std::format("Lua Error: {}", lua_tostring(L, -1)) << std::endl;
@@ -15,6 +52,8 @@ void LuaDumpError(lua_State *L)
 
 void LuaDumpStack(lua_State *L)
 {
+	ZoneScopedC(RandomUniqueColor());
+
 	const char separator = ' ';
 	const int indexWidth = 2;
 	const int nameWidth = 8;
@@ -80,15 +119,26 @@ void LuaDumpStack(lua_State *L)
 	std::cout << "------------- STACK END -------------" << std::endl;
 }
 
+void LuaDumpEnv(lua_State *L)
+{
+	ZoneScopedC(RandomUniqueColor());
+
+	std::cout << "------------- ENV BEGIN -------------" << std::endl;
+	LuaDoString("for k,v in pairs(_G) do print(k,v) end");
+	std::cout << "-------------- ENV END --------------" << std::endl;
+}
+
 void LuaDumpTable(lua_State *L, int i)
 {
+	ZoneScopedC(RandomUniqueColor());
+
 	int type = lua_type(L, i);
 
 	std::cout << std::format("({}, {}) {}:", i, i-6, lua_typename(L, type)) << std::endl;
 
 	if (type == LUA_TTABLE)
 	{
-		LuaDoFile(LuaFilePath("PrintTable"));
+		LuaDoFileCleaned(L, LuaFilePath("PrintTable"));
 		// Run the global lua function PrintTable(table)
 		lua_pushvalue(L, i); // Push the table to the top of the stack
 		lua_getglobal(L, "PrintTable");
@@ -102,6 +152,8 @@ void LuaDumpTable(lua_State *L, int i)
 
 void CallLuaFunction(lua_State *L, const char *functionName, const char *sig, ...)
 {
+	ZoneScopedC(RandomUniqueColor());
+
 	va_list vl;
 	int narg, nres;
 
@@ -189,6 +241,8 @@ void CallLuaFunction(lua_State *L, const char *functionName, const char *sig, ..
 
 void LuaRunTests(lua_State *L, const std::string &testDir)
 {
+	ZoneScopedC(RandomUniqueColor());
+
 	std::string ext(".lua");
 
 	std::vector<std::string> testFiles;
@@ -210,6 +264,8 @@ void LuaRunTests(lua_State *L, const std::string &testDir)
 
 bool LuaRunTest(lua_State *L, const std::string &fullPath, const std::string &testName)
 {
+	ZoneScopedC(RandomUniqueColor());
+
 	std::cout << "\n================================================================================\n";
 	std::cout << std::format("================ Running {}\n\n", testName);
 
