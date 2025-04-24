@@ -54,7 +54,7 @@ static int PrintVector(lua_State *L)
 	return 0;
 }
 
-void ConsoleThreadFunction(lua_State *L)
+void ConsoleThreadFunction(lua_State *L, std::vector<std::string> *cmdList, std::atomic_bool *pauseCmdInput)
 {
 	// Add lua require path
 	std::string luaScriptPath = std::format("{}/{}?{}", fs::current_path().generic_string(), FILE_PATH, FILE_EXT);
@@ -77,10 +77,31 @@ void ConsoleThreadFunction(lua_State *L)
 
 	while (GetConsoleWindow())
 	{
+		// Wait for the command list to be empty
+		while (pauseCmdInput->load())
+			std::this_thread::sleep_for(std::chrono::milliseconds(50));
+
 		std::cout << "> ";
 		std::getline(std::cin, input);
 
-		while (Game::UpdateConsole)
+		cmdList->push_back(input);
+
+		// Pause console input until the command list is executed
+		pauseCmdInput->store(true);
+	}
+
+	lua_close(L);
+}
+
+void ExecuteCommandList(lua_State *L, std::vector<std::string> *cmdList, std::atomic_bool *pauseCmdInput)
+{
+	if (!pauseCmdInput->load())
+		return;
+
+	// Execute all commands in the command list
+	while (!cmdList->empty())
+	{
+		std::string input = (*cmdList)[0];
 
 		if (input == "Test" || input == "test") // Run all tests
 		{
@@ -104,11 +125,12 @@ void ConsoleThreadFunction(lua_State *L)
 			LuaDoString(input.c_str());
 		}
 
-		lua_getglobal(L, "UpdateInput");
-		lua_pcall(L, 0, 0, 0);
+		//lua_getglobal(L, "UpdateInput");
+		//lua_pcall(L, 0, 0, 0);
 
 		std::cout << std::endl;
+		cmdList->erase(cmdList->begin());
 	}
 
-	lua_close(L);
+	pauseCmdInput->store(false); // Allow console input again
 }

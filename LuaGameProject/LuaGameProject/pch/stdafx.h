@@ -6,6 +6,7 @@
 #include <atomic>
 #include <thread>
 #include <execution>
+#include <mutex>
 #include <unordered_map>
 #include <filesystem>
 namespace fs = std::filesystem;

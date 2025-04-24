@@ -1,6 +1,7 @@
 #pragma once
 #include "dep/raylib-cpp/raylib-cpp.hpp"
 #include "Scene.h"
+#include <atomic>
 
 constexpr float PLAYER_HOR_SPD = 200.0f;
 constexpr int CAMERA_OPTIONS = 2;
@@ -39,6 +40,9 @@ namespace Main2D
 
         int m_screenWidth = 1280;
         int m_screenHeight = 720;
+
+        std::vector<std::string> m_cmdList;
+        std::atomic_bool m_pauseCmdInput = false;
 
         int Start();
         int Update();

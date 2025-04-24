@@ -39,6 +39,9 @@ int Main2D::Main2D::Run()
 		Update();
 
 		Render();
+
+		ExecuteCommandList(L, &m_cmdList, &m_pauseCmdInput);
+
         FrameMark;
     }
 
@@ -94,7 +97,8 @@ int Main2D::Main2D::Start()
 	LuaDoString(std::format("package.path = \"{};\" .. package.path", luaScriptPath).c_str());
     
     // Start Lua console thread
-    std::thread consoleThread(ConsoleThreadFunction, consoleL);
+	m_cmdList.clear();
+    std::thread consoleThread(ConsoleThreadFunction, consoleL, &m_cmdList, &m_pauseCmdInput);
     consoleThread.detach();
     std::this_thread::sleep_for(std::chrono::milliseconds(50)); // Wait for the console thread to start
 
