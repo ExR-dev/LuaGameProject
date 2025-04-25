@@ -42,7 +42,7 @@ namespace Main2D
         int m_screenWidth = 1280;
         int m_screenHeight = 720;
 
-        std::vector<std::string> m_cmdList;
+        std::string m_cmdList;
         std::atomic_bool m_pauseCmdInput = false;
 
         int Start();

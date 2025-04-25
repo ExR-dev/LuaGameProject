@@ -62,8 +62,7 @@ scene.SetComponent(cEnt, "CameraData", cD)
 scene.SetComponent(cEnt, "Behaviour", "Behaviours/PlayerCamera")
 
 -- Get the camera and set the tracked entity
-local cam = scene.GetComponent(cEnt, "Behaviour")
-cam:SetTrackedEntity(pEnt)
+GetPlayerCamera():SetTrackedEntity(pEnt)
 
 tracy.ZoneEnd()
 --------------------------------
