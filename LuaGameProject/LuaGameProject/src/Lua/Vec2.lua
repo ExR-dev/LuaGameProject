@@ -79,7 +79,11 @@ end
 
 function vec2:normalized()
     local len = self:length()
-    return self / len
+    if len == 0 then
+        return self
+    end
+
+    return vec2(self.x / len, self.y / len)
 end
 
 function vec2:normalize()

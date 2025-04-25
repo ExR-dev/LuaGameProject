@@ -5,8 +5,9 @@ local transform = require("Transform2")
 local color = require("Color")
 local sprite = require("Components/Sprite")
 
--- Create walls
-tracy.ZoneBeginN("Lua InitDevScene Create Walls")
+
+-- Create Walls ----------------
+tracy.ZoneBeginN("Lua Create Walls")
 for _ = 1, 50 do
 	local entity = scene.CreateEntity()
 
@@ -18,14 +19,37 @@ for _ = 1, 50 do
 
 	local col = color(math.random(), math.random(), math.random(), math.random())
 	local s = sprite("", col)
+	s.priority = math.random(10, 100)
 
 	scene.SetComponent(entity, "Transform", t)
 	scene.SetComponent(entity, "Sprite", s)
 end
 tracy.ZoneEnd()
+--------------------------------
 
--- Create enemies
-tracy.ZoneBeginN("Lua InitDevScene Create Enemies")
+
+-- Create Player ---------------
+tracy.ZoneBeginN("Lua Create Player")
+local pEnt = scene.CreateEntity()
+
+local pT = transform(
+	vec2(600, 300), 
+	0.0,
+	vec2(100, 100)
+)
+
+local pS = sprite("Transparent2.png")
+pS.priority = 500
+
+scene.SetComponent(pEnt, "Transform", pT)
+scene.SetComponent(pEnt, "Sprite", pS)
+scene.SetComponent(pEnt, "Behaviour", "Behaviours/Player")
+tracy.ZoneEnd()
+--------------------------------
+
+
+-- Create Enemies --------------
+tracy.ZoneBeginN("Lua Create Enemies")
 for _ = 1, 10 do
 	local entity = scene.CreateEntity()
 
@@ -44,5 +68,7 @@ for _ = 1, 10 do
 	scene.SetComponent(entity, "Behaviour", "Behaviours/Enemy")
 end
 tracy.ZoneEnd()
+--------------------------------
+
 
 tracy.ZoneEnd()

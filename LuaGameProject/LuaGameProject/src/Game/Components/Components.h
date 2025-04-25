@@ -171,32 +171,11 @@ namespace ECS
 			strcpy_s(SpriteName, name);
 		}
 
-		// Comparison operators for sorting draw order
-		bool operator==(const Sprite &other) const
+		// Comparison function for sorting draw order by priority
+		inline static bool Compare(const Sprite &left, const Sprite &right) 
 		{
-			return (Priority == other.Priority);
+			return left.Priority < right.Priority;
 		}
-		bool operator!=(const Sprite &other) const
-		{
-			return !(*this == other);
-		}
-		bool operator<(const Sprite &other) const
-		{
-			return (Priority < other.Priority);
-		}
-		bool operator>(const Sprite &other) const
-		{
-			return (Priority > other.Priority);
-		}
-		bool operator<=(const Sprite &other) const
-		{
-			return (Priority <= other.Priority);
-		}
-		bool operator>=(const Sprite &other) const
-		{
-			return (Priority >= other.Priority);
-		}
-
 
 		void LuaPush(lua_State* L) const
 		{

@@ -281,5 +281,9 @@
     <None Include="src\Lua\PrintTable.lua" />
     <None Include="src\Lua\InputDemo.lua" />
     <None Include="src\Lua\Cmd.lua" />
+    <None Include="src\Lua\Behaviours\Player.lua" />
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="raylib.dll" />
   </ItemGroup>
 </Project>

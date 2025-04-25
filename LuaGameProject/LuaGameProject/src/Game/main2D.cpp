@@ -198,9 +198,9 @@ int Main2D::Main2D::Render()
             view.each([&](const ECS::Sprite &sprite, const ECS::Transform &transform) {
                 ZoneNamedNC(drawSpriteZone, "Lambda Draw Sprite", RandomUniqueColor(), true);
 
-				int flip = transform.Scale[1] > 0 ? 1 : -1;
+                int flip = transform.Scale[1] > 0 ? 1 : -1;
 
-				raylib::Color color(*(raylib::Vector4 *)(&(sprite.Color)));
+                raylib::Color color(*(raylib::Vector4 *)(&(sprite.Color)));
                 raylib::Rectangle rect(
                     (int)transform.Position[0],
                     (int)transform.Position[1],
@@ -208,31 +208,31 @@ int Main2D::Main2D::Render()
                     (int)transform.Scale[1] * flip
                 );
 
-				std::string textureName = sprite.SpriteName;
-				const raylib::Texture2D *texture = ResourceManager::Instance().GetTexture(textureName);
+                std::string textureName = sprite.SpriteName;
+                const raylib::Texture2D *texture = ResourceManager::Instance().GetTexture(textureName);
 
-				raylib::Vector2 origin(
-					(int)(transform.Scale[0] / 2),
-					(int)(transform.Scale[1] / 2) * flip
+                raylib::Vector2 origin(
+                    (int)(transform.Scale[0] / 2),
+                    (int)(transform.Scale[1] / 2) * flip
                 );
 
                 if (textureName != "" && !texture)
                 {
-					ResourceManager::Instance().LoadTexture(textureName);
-					texture = ResourceManager::Instance().GetTexture(textureName);
+                    ResourceManager::Instance().LoadTexture(textureName);
+                    texture = ResourceManager::Instance().GetTexture(textureName);
                 }
 
-				if (texture)
-				{
-					DrawTexturePro(
-						*texture,
-						raylib::Rectangle(0, 0, texture->width, texture->height * flip),
+                if (texture)
+                {
+                    DrawTexturePro(
+                        *texture,
+                        raylib::Rectangle(0, 0, texture->width, texture->height * flip),
                         rect,
                         origin,
-						transform.Rotation,
+                        transform.Rotation,
                         color
-					);
-				}
+                    );
+                }
                 else
                 {
                     DrawRectanglePro(

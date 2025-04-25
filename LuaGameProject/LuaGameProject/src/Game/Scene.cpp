@@ -137,6 +137,9 @@ int Scene::lua_SetComponent(lua_State *L)
 		sprite.LuaPull(L, 3);
 
 		scene->SetComponent<ECS::Sprite>(entity, sprite);
+
+		// Update the sprite sort order
+		scene->m_registry.sort<ECS::Sprite>(ECS::Sprite::Compare);
 		return 1;
 	}
 	else if (type == "Behaviour")
