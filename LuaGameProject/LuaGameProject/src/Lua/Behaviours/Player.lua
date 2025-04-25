@@ -7,7 +7,7 @@ local transform = require("Transform2")
 function player:OnCreate()
 	tracy.ZoneBeginN("Lua player:OnCreate")
 	
-	self.speed = 250.0
+	self.speed = 200.0
 
 	tracy.ZoneEnd()
 end
@@ -34,7 +34,7 @@ function player:OnUpdate(delta)
 		move.x = move.x - 1.0
     end
 
-	move:normalize()
+	--move:normalize()
 	t.position = t.position + (move * (self.speed * delta))
 
 	scene.SetComponent(self.ID, "Transform", t)
