@@ -4,6 +4,11 @@ local player = {}
 local vec = require("Vec2")
 local transform = require("Transform2")
 
+-- Global player getter
+function GetPlayer()
+	return player
+end
+
 function player:OnCreate()
 	tracy.ZoneBeginN("Lua player:OnCreate")
 	

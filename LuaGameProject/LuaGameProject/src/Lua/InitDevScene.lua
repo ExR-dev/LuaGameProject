@@ -4,6 +4,8 @@ local vec2 = require("Vec2")
 local transform = require("Transform2")
 local color = require("Color")
 local sprite = require("Components/Sprite")
+local cameraData = require("Components/CameraData")
+--local playerCamera = require("Behaviours/PlayerCamera")
 
 
 -- Create Walls ----------------
@@ -44,6 +46,25 @@ pS.priority = 500
 scene.SetComponent(pEnt, "Transform", pT)
 scene.SetComponent(pEnt, "Sprite", pS)
 scene.SetComponent(pEnt, "Behaviour", "Behaviours/Player")
+tracy.ZoneEnd()
+--------------------------------
+
+
+-- Create Camera ---------------
+tracy.ZoneBeginN("Lua Create Camera")
+local cEnt = scene.CreateEntity()
+
+local cT = pT
+local cD = cameraData()
+
+scene.SetComponent(cEnt, "Transform", cT)
+scene.SetComponent(cEnt, "CameraData", cD)
+scene.SetComponent(cEnt, "Behaviour", "Behaviours/PlayerCamera")
+
+-- Get the camera and set the tracked entity
+local cam = scene.GetComponent(cEnt, "Behaviour")
+cam:SetTrackedEntity(pEnt)
+
 tracy.ZoneEnd()
 --------------------------------
 

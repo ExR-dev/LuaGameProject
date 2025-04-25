@@ -69,6 +69,14 @@ function vec2.__eq(a, b)
     return a.x == b.x and a.y == b.y
 end
 
+function vec2.lerp(a, b, t)
+    assert(vec2.isvec2(a) and vec2.isvec2(b) and type(t) == "number", "vec2 lerp - expected args: (vec2, vec2, number)")
+    return vec2.new(
+        a.x + (b.x - a.x) * t, 
+        a.y + (b.y - a.y) * t
+    )
+end
+
 function vec2:lengthSqr()
     return (self.x * self.x) + (self.y * self.y)
 end

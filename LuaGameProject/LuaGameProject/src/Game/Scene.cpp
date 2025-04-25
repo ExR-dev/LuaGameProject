@@ -14,6 +14,11 @@ Scene::~Scene()
 	}
 }
 
+entt::registry &Scene::GetRegistry()
+{
+	return m_registry;
+}
+
 int Scene::GetEntityCount()
 {
 	return m_registry.view<entt::entity>().size();
@@ -26,16 +31,22 @@ int Scene::CreateEntity()
 	return static_cast<int>(m_registry.create());
 }
 
+bool Scene::IsEntity(entt::entity entity)
+{
+	return m_registry.valid(entity);
+}
 bool Scene::IsEntity(int entity)
 {
-	return m_registry.valid(static_cast<entt::entity>(entity));
+	return IsEntity(static_cast<entt::entity>(entity));
 }
 
+void Scene::RemoveEntity(entt::entity entity)
+{
+	m_registry.destroy(entity);
+}
 void Scene::RemoveEntity(int entity)
 {
-	ZoneScopedC(RandomUniqueColor());
-
-	m_registry.destroy(static_cast<entt::entity>(entity));
+	RemoveEntity(static_cast<entt::entity>(entity));
 }
 
 void Scene::InitializeSystems(lua_State *L)
@@ -118,6 +129,16 @@ int Scene::lua_SetComponent(lua_State *L)
 		scene->SetComponent<ECS::Transform>(entity, transform);
 		return 1;
 	}
+	else if (type == "Behaviour")
+	{
+		if (scene->HasComponents<ECS::Behaviour>(entity))
+			scene->RemoveComponent<ECS::Behaviour>(entity);
+		
+		const char *path = lua_tostring(L, 3);
+		
+		scene->SetComponent<ECS::Behaviour>(entity, path, entity, L);
+		return 1;
+	}
 	else if (type == "Health") 
 	{
 		scene->TryRemoveComponent<ECS::Health>(entity);
@@ -133,7 +154,7 @@ int Scene::lua_SetComponent(lua_State *L)
 		if (scene->HasComponents<ECS::Sprite>(entity))
 			scene->RemoveComponent<ECS::Sprite>(entity);
 
-		ECS::Sprite sprite;
+		ECS::Sprite sprite{};
 		sprite.LuaPull(L, 3);
 
 		scene->SetComponent<ECS::Sprite>(entity, sprite);
@@ -142,14 +163,15 @@ int Scene::lua_SetComponent(lua_State *L)
 		scene->m_registry.sort<ECS::Sprite>(ECS::Sprite::Compare);
 		return 1;
 	}
-	else if (type == "Behaviour")
+	else if (type == "CameraData") 
 	{
-		if (scene->HasComponents<ECS::Behaviour>(entity))
-			scene->RemoveComponent<ECS::Behaviour>(entity);
-		
-		const char *path = lua_tostring(L, 3);
-		
-		scene->SetComponent<ECS::Behaviour>(entity, path, entity, L);
+		if (scene->HasComponents<ECS::CameraData>(entity))
+			scene->RemoveComponent<ECS::CameraData>(entity);
+
+		ECS::CameraData cameraData{};
+		cameraData.LuaPull(L, 3);
+
+		scene->SetComponent<ECS::CameraData>(entity, cameraData);
 		return 1;
 	}
 }
@@ -203,11 +225,18 @@ int Scene::lua_HasComponent(lua_State *L)
 	{
 		hasComponent = scene->HasComponents<ECS::Health>(entity);
 	}
+	else if (type == "Behaviour")
+	{
+		hasComponent = scene->HasComponents<ECS::Behaviour>(entity);
+	}
 	else if (type == "Sprite")
 	{
 		hasComponent = scene->HasComponents<ECS::Sprite>(entity);
 	}
-	// else if...
+	else if (type == "CameraData")
+	{
+		hasComponent = scene->HasComponents<ECS::CameraData>(entity);
+	}
 		
 	lua_pushboolean(L, hasComponent);
 	return 1;
@@ -228,7 +257,6 @@ int Scene::lua_GetComponent(lua_State *L)
 	int entity = lua_tointeger(L, 1);
 	std::string type = lua_tostring(L, 2);
 	
-	// Sanity check that the entity exist
 	if (!scene->IsEntity(entity))
 	{
 		lua_pushnil(L);
@@ -241,10 +269,10 @@ int Scene::lua_GetComponent(lua_State *L)
 		transform.LuaPush(L);
 		return 1;
 	}
-	else if (type == "Sprite" && scene->HasComponents<ECS::Sprite>(entity))
+	else if (type == "Behaviour" && scene->HasComponents<ECS::Behaviour>(entity))
 	{
-		ECS::Sprite &sprite = scene->GetComponent<ECS::Sprite>(entity);
-		sprite.LuaPush(L);
+		ECS::Behaviour &behaviour = scene->GetComponent<ECS::Behaviour>(entity);
+		behaviour.LuaPush(L);
 		return 1;
 	}
 	else if (type == "Health" && scene->HasComponents<ECS::Health>(entity))
@@ -253,13 +281,18 @@ int Scene::lua_GetComponent(lua_State *L)
 		health.LuaPush(L);
 		return 1;
 	}
-	else if (type == "Behaviour" && scene->HasComponents<ECS::Behaviour>(entity))
+	else if (type == "CameraData" && scene->HasComponents<ECS::CameraData>(entity))
 	{
-		ECS::Behaviour &behaviour = scene->GetComponent<ECS::Behaviour>(entity);
-		behaviour.LuaPush(L);
+		ECS::CameraData &cameraData = scene->GetComponent<ECS::CameraData>(entity);
+		cameraData.LuaPush(L);
 		return 1;
 	}
-	// else if...
+	else if (type == "Sprite" && scene->HasComponents<ECS::Sprite>(entity))
+	{
+		ECS::Sprite &sprite = scene->GetComponent<ECS::Sprite>(entity);
+		sprite.LuaPush(L);
+		return 1;
+	}
 	
 	// Name or component not found
 	lua_pushnil(L);
@@ -275,7 +308,11 @@ int Scene::lua_RemoveComponent(lua_State *L)
 	int entity = lua_tointeger(L, 1);
 	std::string type = lua_tostring(L, 2);
 
-	if (type == "Transform" && scene->HasComponents<ECS::Transform>(entity))
+	if (type == "Behaviour" && scene->HasComponents<ECS::Behaviour>(entity))
+	{
+		scene->RemoveComponent<ECS::Behaviour>(entity);
+	}
+	else if (type == "Transform" && scene->HasComponents<ECS::Transform>(entity))
 	{
 		scene->RemoveComponent<ECS::Transform>(entity);
 	}
@@ -287,9 +324,9 @@ int Scene::lua_RemoveComponent(lua_State *L)
 	{
 		scene->RemoveComponent<ECS::Sprite>(entity);
 	}
-	else if (type == "Behaviour" && scene->HasComponents<ECS::Behaviour>(entity))
+	else if (type == "CameraData" && scene->HasComponents<ECS::CameraData>(entity))
 	{
-		scene->RemoveComponent<ECS::Behaviour>(entity);
+		scene->RemoveComponent<ECS::CameraData>(entity);
 	}
 	// else if...
 

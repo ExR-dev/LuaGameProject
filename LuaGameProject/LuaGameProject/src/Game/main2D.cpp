@@ -70,22 +70,21 @@ int Main2D::Main2D::Start()
     Time::Instance();
 	ResourceManager::Instance().LoadResources();
 
-    m_player = { 0 };
-    m_player.position = raylib::Vector2(400, 280);
-    m_player.speed = 0;
+    m_freeCam.speed = 350;
+    m_freeCam.position = raylib::Vector2(400, 280);
 
-    m_camera = {};
-    m_camera.target = m_player.position;
+    m_camera.target = m_freeCam.position;
     m_camera.offset = raylib::Vector2(m_screenWidth / 2.0f, m_screenHeight / 2.0f);
     m_camera.rotation = 0.0f;
     m_camera.zoom = 1.0f;
+
+	m_cameraUpdater = std::bind(&Main2D::UpdatePlayerCamera, this);
+	m_cameraOption = 0;
 
     Assert(!m_dungeon, "m_dungeon is not nullptr!");
     m_dungeon = new DungeonGenerator(raylib::Vector2(200, 200));
     m_dungeon->Generate(100);
 
-	m_cameraUpdater = std::bind(&Main2D::UpdateCameraCenter, this);
-	m_cameraOption = 0;
     // Limit cursor to relative movement inside the window
     DisableCursor();
 	m_cursorEnabled = false;
@@ -93,6 +92,7 @@ int Main2D::Main2D::Start()
     BindLuaInput(L);
 
     SetTargetFPS(144);
+    
 	// Add lua require path
 	std::string luaScriptPath = std::format("{}/{}?{}", fs::current_path().generic_string(), FILE_PATH, FILE_EXT);
 	LuaDoString(std::format("package.path = \"{};\" .. package.path", luaScriptPath).c_str());
@@ -129,8 +129,6 @@ int Main2D::Main2D::Update()
         }
     }
 
-    UpdatePlayer();
-
     m_camera.zoom += ((float)GetMouseWheelMove() * 0.05f);
 
     if (m_camera.zoom > 3.0f) m_camera.zoom = 3.0f;
@@ -139,7 +137,7 @@ int Main2D::Main2D::Update()
     if (Input::CheckKeyPressed(Input::GAME_KEY_R))
     {
         m_camera.zoom = 1.0f;
-        m_player.position = raylib::Vector2(400, 280);
+        m_freeCam.position = raylib::Vector2(400, 280);
     }
 
     if (Input::CheckKeyPressed(Input::GAME_KEY_T))
@@ -158,11 +156,11 @@ int Main2D::Main2D::Update()
         switch (m_cameraOption)
         {
         case 0: default:
-            m_cameraUpdater = std::bind(&Main2D::UpdateCameraCenter, this);
+            m_cameraUpdater = std::bind(&Main2D::UpdatePlayerCamera, this);
             break;
 
 		case 1:
-            m_cameraUpdater = std::bind(&Main2D::UpdateCameraFree, this);
+            m_cameraUpdater = std::bind(&Main2D::UpdateFreeCamera, this);
             break;
         }
     }
@@ -249,9 +247,6 @@ int Main2D::Main2D::Render()
 		// Draw the dungeon
         m_dungeon->Draw();
 
-		// Draw the player
-		DrawCircle((int)m_player.position.x, (int)m_player.position.y, 15, raylib::Color(raylib::Vector4(0.5f, 0.8f, 0.2f, 1.0f)));
-
         EndMode2D();
     }
 
@@ -279,29 +274,37 @@ int Main2D::Main2D::Render()
 	return 1;
 }
 
-void Main2D::Main2D::UpdatePlayer()
+void Main2D::Main2D::UpdatePlayerCamera()
 {
     ZoneScopedC(RandomUniqueColor());
 
-	float delta = Time::DeltaTime();
+    if (!m_scene.IsEntity(m_cameraEntity))
+    {
+		bool found = false;
 
-    if (Input::CheckKeyHeld(Input::GAME_KEY_A)) m_player.position.x -= PLAYER_HOR_SPD * delta;
-    if (Input::CheckKeyHeld(Input::GAME_KEY_D)) m_player.position.x += PLAYER_HOR_SPD * delta;
-    if (Input::CheckKeyHeld(Input::GAME_KEY_W)) m_player.position.y -= PLAYER_HOR_SPD * delta;
-    if (Input::CheckKeyHeld(Input::GAME_KEY_S)) m_player.position.y += PLAYER_HOR_SPD * delta;
-}
-void Main2D::Main2D::UpdateCameraCenter()
-{
-    ZoneScopedC(RandomUniqueColor());
+        // Find camera entity by CameraData component
+		auto view = m_scene.GetRegistry().view<ECS::CameraData>();
+		for (entt::entity entity : view)
+		{
+			// Set the active camera to the first camera entity found
+			found = true;
+			m_cameraEntity = entity; 
+			break;
+		}
+
+        if (!found)
+			return; // No camera entity found, nowhere to move the camera position to
+    }
+
+	ECS::Transform &transform = m_scene.GetComponent<ECS::Transform>(m_cameraEntity);
 
     m_camera.offset = raylib::Vector2{ m_screenWidth / 2.0f, m_screenHeight / 2.0f };
-    m_camera.target = m_player.position;
+    m_camera.target = raylib::Vector2(transform.Position[0], transform.Position[1]);
 }
-void Main2D::Main2D::UpdateCameraFree()
+void Main2D::Main2D::UpdateFreeCamera()
 {
     ZoneScopedC(RandomUniqueColor());
-
-    float delta = Time::DeltaTime();
+    
     raylib::Vector2 move(
         Input::CheckKeyHeld(Input::GAME_KEY_RIGHT) - Input::CheckKeyHeld(Input::GAME_KEY_LEFT),
         Input::CheckKeyHeld(Input::GAME_KEY_DOWN)  - Input::CheckKeyHeld(Input::GAME_KEY_UP)
@@ -309,7 +312,11 @@ void Main2D::Main2D::UpdateCameraFree()
 
     move = Vector2Normalize(move);
 
-    const static float moveSpeed = 100;
-
-    m_camera.target = Vector2Add(m_camera.target, Vector2Scale(move, moveSpeed * delta));
+    float deltaSpeed = m_freeCam.speed * Time::DeltaTime();
+    m_freeCam.position = Vector2Add(
+        m_freeCam.position, 
+        Vector2Scale(move, deltaSpeed)
+    );
+    
+	m_camera.target = m_freeCam.position;
 }

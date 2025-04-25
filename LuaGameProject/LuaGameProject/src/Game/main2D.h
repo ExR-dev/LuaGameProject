@@ -8,7 +8,7 @@ constexpr int CAMERA_OPTIONS = 2;
 
 class DungeonGenerator;
 
-struct Player
+struct FreeCam
 {
     raylib::Vector2 position;
     float speed;
@@ -25,16 +25,17 @@ namespace Main2D
         int Run();
 
     private:
-        lua_State *L = nullptr; // Not m_ because "m_L" feels wrong.
+        lua_State *L = nullptr; // No m_ because "m_L" feels wrong.
         Scene m_scene{};
 
-		Player m_player;
-		raylib::Camera2D m_camera;
+        FreeCam m_freeCam{};
+        raylib::Camera2D m_camera{};
 
         DungeonGenerator *m_dungeon = nullptr;
 
         bool m_cursorEnabled = false;
 
+        entt::entity m_cameraEntity = entt::null;
 		int m_cameraOption = 0;
 		std::function<void(void)> m_cameraUpdater;
 
@@ -48,8 +49,7 @@ namespace Main2D
         int Update();
         int Render();
 
-        void UpdatePlayer();
-        void UpdateCameraCenter();
-        void UpdateCameraFree();
+        void UpdatePlayerCamera();
+        void UpdateFreeCamera();
     };
 }

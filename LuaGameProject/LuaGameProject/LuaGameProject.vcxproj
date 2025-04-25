@@ -309,14 +309,17 @@
     <CopyFileToFolders Include="raylib.dll">
       <FileType>Document</FileType>
     </CopyFileToFolders>
+    <None Include="src\Lua\Behaviours\PlayerCamera.lua" />
     <None Include="src\Lua\Behaviours\Enemy.lua" />
     <None Include="src\Lua\Behaviours\Player.lua" />
     <None Include="src\Lua\Cmd.lua" />
     <None Include="src\Lua\Color.lua" />
+    <None Include="src\Lua\Components\CameraData.lua" />
     <None Include="src\Lua\Components\Health.lua" />
     <None Include="src\Lua\Components\Sprite.lua" />
     <None Include="src\Lua\InitDevScene.lua" />
     <None Include="src\Lua\InputDemo.lua" />
+    <None Include="src\Lua\GameMath.lua" />
     <None Include="src\Lua\PrintTable.lua" />
     <None Include="src\Lua\Script.lua" />
     <None Include="src\Lua\Tests\Transform2Test.lua" />

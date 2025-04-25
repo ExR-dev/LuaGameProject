@@ -181,7 +181,7 @@ namespace ECS
 		{
 			ZoneScopedC(RandomUniqueColor());
 			// Create the main sprite table
-			lua_createtable(L, 0, 2);
+			lua_createtable(L, 0, 3);
 
 			// Add spriteName to the sprite table
 			lua_pushstring(L, SpriteName);
@@ -267,7 +267,7 @@ namespace ECS
 			lua_pop(L, 1); // Remove the priority value from stack
 		}
 	};
-
+	
 	struct Health
 	{
 		float Current;
@@ -317,6 +317,49 @@ namespace ECS
 				Max = (float)lua_tonumber(L, -1);
 			}
 			lua_pop(L, 1); // Remove the max value from stack
+		}
+	};
+
+	struct CameraData
+	{
+		int Size[2];
+
+		void LuaPush(lua_State* L) const
+		{
+			ZoneScopedC(RandomUniqueColor());
+			// Create the main CameraData table
+			lua_createtable(L, 0, 1);
+
+			lua_createtable(L, 0, 2);  // Create a new table for Size
+			lua_pushnumber(L, Size[0]);
+			lua_setfield(L, -2, "x");
+			lua_pushnumber(L, Size[1]);
+			lua_setfield(L, -2, "y");
+			lua_setfield(L, -2, "size");  // Add Size to main table
+		}
+		void LuaPull(lua_State* L, int index)
+		{
+			ZoneScopedC(RandomUniqueColor());
+			// Make sure the index is absolute
+			if (index < 0)
+			{
+				index = lua_gettop(L) + index + 1;
+			}
+
+			// Get Size subtable
+			lua_getfield(L, index, "size");
+			if (lua_istable(L, -1))
+			{
+				lua_getfield(L, -1, "x");
+				Size[0] = (float)lua_tonumber(L, -1);
+				lua_pop(L, 1);
+
+				lua_getfield(L, -1, "y");
+				Size[1] = (float)lua_tonumber(L, -1);
+				lua_pop(L, 1);
+			}
+			lua_pop(L, 1); // Pop Size table
+
 		}
 	};
 }
