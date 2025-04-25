@@ -97,6 +97,15 @@ function vec2.dot(a, b)
     return (a.x * b.x) + (a.y * b.y)
 end
 
+function vec2:angle()
+    local norm = self:normalized()
+    local angle = math.atan(norm.y, norm.x)
+    if angle < 0 then
+        angle = angle + (2 * math.pi)
+    end
+    return angle
+end
+
 return setmetatable(vec2, {
     __call = function(_, ...)
         return vec2.new(...)

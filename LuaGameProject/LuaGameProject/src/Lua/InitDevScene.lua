@@ -32,7 +32,7 @@ for _ = 1, 10 do
 	local t = transform(
 		vec2(math.random() + math.random(500, 1200), math.random() + math.random(-150, 550)), 
 		0.0,
-		vec2(math.random() + math.random(40, 60), math.random() + math.random(40, 60))
+		vec2(math.random() + math.random(55, 65), math.random() + math.random(55, 65))
 	)
 
 	--local col = color(math.random(), math.random() * 0.5, math.random() * 0.5, 1.0)

@@ -18,7 +18,7 @@ function enemy:OnCreate()
 	local t = transform(scene.GetComponent(self.ID, "Transform"))
 
 	self.wanderPoint = t.position + vec(math.random(-75, 75), math.random(-75, 75));
-	self.speed = math.random(20, 50)
+	self.speed = math.random(15, 35)
 	tracy.ZoneEnd()
 end
 
@@ -33,10 +33,21 @@ function enemy:OnUpdate(delta)
 	local lengthSqr = toGoal:lengthSqr()
 	toGoal:normalize()
 
+	-- If the distance to the goal is small, pick a new random point, otherwise move towards it
 	if lengthSqr < 2.0 then
 		self.wanderPoint = t.position + vec(math.random(-75, 75), math.random(-75, 75));
 	else
 		t.position = t.position + toGoal * (self.speed * delta)
+	end
+
+	-- Set the rotation of the transform to face the goal
+	t.rotation = toGoal:angle() * 180.0 / math.pi
+
+	-- Negate the Y scale if facing left
+	if t.rotation > 90.0 and t.rotation < 270.0 then
+		t.scale.y = -math.abs(t.scale.y)
+	else
+		t.scale.y = math.abs(t.scale.y)
 	end
 
 	scene.SetComponent(self.ID, "Transform", t)
