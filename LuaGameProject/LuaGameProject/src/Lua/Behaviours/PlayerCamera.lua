@@ -17,6 +17,8 @@ function playerCamera:OnCreate()
 	self.trackingStrength = 10
 	self.trackingOffset = vec2(0.0, 0.0)
 
+	self.camT = transform(scene.GetComponent(self.ID, "Transform"))
+
 	tracy.ZoneEnd()
 end
 
@@ -37,17 +39,17 @@ function playerCamera:OnUpdate(delta)
 		return
 	end
 
-	local camT = transform(scene.GetComponent(self.ID, "Transform"))
+	self.camT = transform(scene.GetComponent(self.ID, "Transform"))
 	
 	-- Interpolate camera position towards tracked entity + offset
-	camT.position = gameMath.expDecay(
-		camT.position,
+	self.camT.position = gameMath.expDecay(
+		self.camT.position,
 		(entT.position + self.trackingOffset),
 		self.trackingStrength,
 		delta
 	)
 
-	scene.SetComponent(self.ID, "Transform", camT)
+	scene.SetComponent(self.ID, "Transform", self.camT)
 	tracy.ZoneEnd()
 end
 

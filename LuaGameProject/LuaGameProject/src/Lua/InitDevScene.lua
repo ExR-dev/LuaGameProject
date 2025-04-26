@@ -68,6 +68,19 @@ tracy.ZoneEnd()
 --------------------------------
 
 
+-- Create Cursor ---------------
+tracy.ZoneBeginN("Lua Create Cursor")
+local cursorEnt = scene.CreateEntity()
+
+local cursorT = transform(vec2(0, 0), 0, vec2(30, 30))
+scene.SetComponent(cursorEnt, "Transform", cursorT)
+scene.SetComponent(cursorEnt, "Sprite", sprite("Cursor.png"))
+scene.SetComponent(cursorEnt, "Behaviour", "Behaviours/Cursor")
+
+tracy.ZoneEnd()
+--------------------------------
+
+
 -- Create Enemies --------------
 tracy.ZoneBeginN("Lua Create Enemies")
 for _ = 1, 10 do
