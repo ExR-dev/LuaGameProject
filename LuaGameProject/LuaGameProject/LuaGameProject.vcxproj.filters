@@ -268,7 +268,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\Lua\Script.lua" />
     <None Include="src\Lua\Transform3D.lua" />
     <None Include="src\Lua\Vector3D.lua" />
     <None Include="src\Lua\VectorDemo.lua" />
@@ -287,7 +286,9 @@
     <None Include="src\Lua\Behaviours\Player.lua" />
     <None Include="src\Lua\Components\CameraData.lua" />
     <None Include="src\Lua\Behaviours\PlayerCamera.lua" />
-    <None Include="src\Lua\GameMath.lua" />
+    <None Include="src\Lua\Utility\GameMath.lua" />
+    <None Include="src\Lua\Behaviours\Cursor.lua" />
+    <None Include="src\Lua\Tests\InputTest.lua" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="raylib.dll" />

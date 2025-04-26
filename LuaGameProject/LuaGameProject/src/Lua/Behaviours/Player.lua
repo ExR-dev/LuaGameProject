@@ -23,21 +23,21 @@ function player:OnUpdate(delta)
 	
 	local move = vec(0.0, 0.0)
 
-    if (Input.KeyHeld(Input.Key.KEY_W) == true) then
+	if (Input.KeyHeld(Input.Key.KEY_W) == true) then
 		move.y = move.y - 1.0
-    end
+	end
 
-    if (Input.KeyHeld(Input.Key.KEY_S) == true) then
+	if (Input.KeyHeld(Input.Key.KEY_S) == true) then
 		move.y = move.y + 1.0
-    end
+	end
 
-    if (Input.KeyHeld(Input.Key.KEY_D) == true) then
+	if (Input.KeyHeld(Input.Key.KEY_D) == true) then
 		move.x = move.x + 1.0
-    end
+	end
 
-    if (Input.KeyHeld(Input.Key.KEY_A) == true) then
+	if (Input.KeyHeld(Input.Key.KEY_A) == true) then
 		move.x = move.x - 1.0
-    end
+	end
 
 	--move:normalize()
 	t.position = t.position + (move * (self.speed * delta))

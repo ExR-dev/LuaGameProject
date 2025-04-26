@@ -1,3 +1,4 @@
+-- Should probably replace c-side zoom
 local cameraData = {}
 cameraData.__index = cameraData
 
@@ -7,7 +8,7 @@ local function new(s)
     assert(s == nil or vec2.isvec2(s), "cameraData new - expected args: (vec2 or nil)")
     
     local c = {
-        size = s or vec2(1280, 720),
+        size = s or vec2(1280, 720), -- Unused as of now
         offset = vec2(0.0, 0.0)
     }
     return setmetatable(c, cameraData)

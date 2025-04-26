@@ -1,37 +1,46 @@
+-- Sprite component
+--[[
+	Causes an entity to be drawn as a sprite. Placement & size is determined by the Transform component.
+	It contains the sprite name, color, and priority.
+	spriteName - the name of the image file to be used as the sprite, relative to the texture folder. Drawn as rectangle if left undefined.
+	color - the tint applied to the sprite.
+	priority - used to determine the order in which sprites are drawn. Higher is drawn on top. >1000 is reserved for UI.
+]]
+
 local sprite = {}
 sprite.__index = sprite
 
 local Color = require("Color")
 
 local function new(n, c, p)
-    assert(n == nil or type(n) == "string", "sprite new - expected args: (string or nil, color or nil, number or nil)")
-    assert(c == nil or Color.iscolor(c), "sprite new - expected args: (string or nil, color or nil, number or nil)")
-    assert(p == nil or type(p) == "numer", "sprite new - expected args: (string or nil, color or nil, number or nil)")
-    
-    local s = {
-        spriteName = n or "",
-        color = c or Color(),
-        priority = p or 0,
-    }
-    return setmetatable(s, sprite)
+	assert(n == nil or type(n) == "string", "sprite new - expected args: (string or nil, color or nil, number or nil)")
+	assert(c == nil or Color.iscolor(c), "sprite new - expected args: (string or nil, color or nil, number or nil)")
+	assert(p == nil or type(p) == "numer", "sprite new - expected args: (string or nil, color or nil, number or nil)")
+	
+	local s = {
+		spriteName = n or "",
+		color = c or Color(),
+		priority = p or 0,
+	}
+	return setmetatable(s, sprite)
 end
 
 local function issprite(s)
-    return getmetatable(s) == sprite
+	return getmetatable(s) == sprite
 end
 
 -- Meta events
 function sprite:__newindex(k)
-    print("sprite - not possible to assign new fields")
+	print("sprite - not possible to assign new fields")
 end
 
 function sprite:__tostring()
-    return "(n: "..self.spriteName..", c: "..self.color:__tostring()..", p: "..tostring(self.priority)..")"
+	return "(n: "..self.spriteName..", c: "..self.color:__tostring()..", p: "..tostring(self.priority)..")"
 end
 
 sprite.new = new
 sprite.issprite = issprite
 return setmetatable(sprite, {
-    __call = function(_, ...) 
-    return sprite.new(...) end
+	__call = function(_, ...) 
+	return sprite.new(...) end
 })

@@ -3,7 +3,7 @@ local playerCamera = {}
 
 local vec2 = require("Vec2")
 local transform = require("Transform2")
-local gameMath = require("GameMath")
+local gameMath = require("Utility/GameMath")
 
 -- Global player camera getter
 function GetPlayerCamera()
@@ -14,8 +14,8 @@ function playerCamera:OnCreate()
 	tracy.ZoneBeginN("Lua playerCamera:OnCreate")
 	
 	self.trackedEntity = -1
-	self.trackingStrength = 10
-	self.trackingOffset = vec2(0.0, 0.0)
+	self.trackingStrength = 10 -- How fast the camera corrects its position
+	self.trackingOffset = vec2(0.0, 0.0) -- For aiming, camera shake, etc.
 
 	self.camT = transform(scene.GetComponent(self.ID, "Transform"))
 

@@ -4,7 +4,7 @@ local cursor = {}
 
 local vec2 = require("Vec2")
 local transform = require("Transform2")
-local gameMath = require("GameMath")
+local gameMath = require("Utility/GameMath")
 
 function cursor:OnCreate()
 	tracy.ZoneBeginN("Lua cursor:OnCreate")
@@ -17,7 +17,6 @@ end
 function cursor:OnUpdate(delta)
 	tracy.ZoneBeginN("Lua cursor:OnUpdate")
 
-    -- TODO: make cursor alway render on top
     self.transform.position = GetPlayerCamera().camT.position + vec2(Input.GetMouseInfo().Position) - vec2(Window.width/2, Window.height/2);
 	scene.SetComponent(self.ID, "Transform", self.transform)
 

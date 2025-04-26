@@ -32,37 +32,37 @@ tracy.ZoneEnd()
 
 -- Create Player ---------------
 tracy.ZoneBeginN("Lua Create Player")
-local pEnt = scene.CreateEntity()
+local playerEnt = scene.CreateEntity()
 
-local pT = transform(
+local playerT = transform(
 	vec2(600, 300), 
 	0.0,
 	vec2(100, 100)
 )
 
-local pS = sprite("Transparent2.png")
-pS.priority = 500
+local playerS = sprite("Transparent2.png")
+playerS.priority = 500
 
-scene.SetComponent(pEnt, "Transform", pT)
-scene.SetComponent(pEnt, "Sprite", pS)
-scene.SetComponent(pEnt, "Behaviour", "Behaviours/Player")
+scene.SetComponent(playerEnt, "Transform", playerT)
+scene.SetComponent(playerEnt, "Sprite", playerS)
+scene.SetComponent(playerEnt, "Behaviour", "Behaviours/Player")
 tracy.ZoneEnd()
 --------------------------------
 
 
 -- Create Camera ---------------
 tracy.ZoneBeginN("Lua Create Camera")
-local cEnt = scene.CreateEntity()
+local camEnt = scene.CreateEntity()
 
-local cT = pT
-local cD = cameraData()
+local camT = playerT
+local camD = cameraData()
 
-scene.SetComponent(cEnt, "Transform", cT)
-scene.SetComponent(cEnt, "CameraData", cD)
-scene.SetComponent(cEnt, "Behaviour", "Behaviours/PlayerCamera")
+scene.SetComponent(camEnt, "Transform", camT)
+scene.SetComponent(camEnt, "CameraData", camD)
+scene.SetComponent(camEnt, "Behaviour", "Behaviours/PlayerCamera")
 
 -- Get the camera and set the tracked entity
-GetPlayerCamera():SetTrackedEntity(pEnt)
+GetPlayerCamera():SetTrackedEntity(playerEnt)
 
 tracy.ZoneEnd()
 --------------------------------
@@ -72,9 +72,12 @@ tracy.ZoneEnd()
 tracy.ZoneBeginN("Lua Create Cursor")
 local cursorEnt = scene.CreateEntity()
 
+local cursorS = sprite("Cursor.png")
+cursorS.priority = 1000
+
 local cursorT = transform(vec2(0, 0), 0, vec2(30, 30))
 scene.SetComponent(cursorEnt, "Transform", cursorT)
-scene.SetComponent(cursorEnt, "Sprite", sprite("Cursor.png"))
+scene.SetComponent(cursorEnt, "Sprite", cursorS)
 scene.SetComponent(cursorEnt, "Behaviour", "Behaviours/Cursor")
 
 tracy.ZoneEnd()

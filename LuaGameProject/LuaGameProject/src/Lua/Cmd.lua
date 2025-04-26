@@ -1,4 +1,5 @@
--- Script for executing console commands
+-- Transient script for executing various one-off console commands through 'f:Cmd'.
+-- Modify as desired, no matter it's current contents; If it's anything worth keeping, it doesn't belong in here.
 
 local vec2 = require("Vec2")
 local transform = require("Transform2")
