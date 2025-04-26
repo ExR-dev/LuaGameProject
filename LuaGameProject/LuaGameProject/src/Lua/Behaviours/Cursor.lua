@@ -17,8 +17,8 @@ end
 function cursor:OnUpdate(delta)
 	tracy.ZoneBeginN("Lua cursor:OnUpdate")
 
-    -- TODO: Offset by half screen size
-    self.transform.position = GetPlayerCamera().camT.position + vec2(Input.GetMouseInfo().Position);
+    -- TODO: make cursor alway render on top
+    self.transform.position = GetPlayerCamera().camT.position + vec2(Input.GetMouseInfo().Position) - vec2(Window.width/2, Window.height/2);
 	scene.SetComponent(self.ID, "Transform", self.transform)
 
 	tracy.ZoneEnd()

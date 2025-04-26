@@ -256,6 +256,7 @@
     <ClInclude Include="src\Game\Utilities\Math.h" />
     <ClInclude Include="src\Game\Utilities\Time.h" />
     <ClInclude Include="src\Game\Utilities\WindowsWrapped.h" />
+    <ClInclude Include="src\Game\Utilities\WindowInfo.h" />
     <ClInclude Include="src\LuaConsole.h" />
     <ClInclude Include="src\LuaUtils.h" />
     <ClInclude Include="src\Game\main2D.h" />

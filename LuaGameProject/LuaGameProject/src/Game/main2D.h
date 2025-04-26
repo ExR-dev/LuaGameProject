@@ -3,6 +3,8 @@
 #include "Scene.h"
 #include <atomic>
 
+#include "Utilities/WindowInfo.h"
+
 constexpr float PLAYER_HOR_SPD = 200.0f;
 constexpr int CAMERA_OPTIONS = 2;
 
@@ -39,8 +41,7 @@ namespace Main2D
 		int m_cameraOption = 0;
 		std::function<void(void)> m_cameraUpdater;
 
-        int m_screenWidth = 1280;
-        int m_screenHeight = 720;
+        WindowInfo m_windowInfo;
 
         std::string m_cmdList;
         std::atomic_bool m_pauseCmdInput = false;

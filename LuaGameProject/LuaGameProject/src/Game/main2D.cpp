@@ -58,6 +58,9 @@ int Main2D::Main2D::Start()
     // Create internal lua state
     L = luaL_newstate();
     luaL_openlibs(L);
+
+    m_windowInfo.BindLuaWindow(L);
+
     Scene::lua_openscene(L, &m_scene);
 
     // Create console-bound lua state
@@ -65,7 +68,7 @@ int Main2D::Main2D::Start()
     luaL_openlibs(consoleL);
     Scene::lua_openscene(consoleL, &m_scene);
 
-    InitWindow(m_screenWidth, m_screenHeight, "Lua Game");
+    InitWindow(m_windowInfo.p_screenWidth, m_windowInfo.p_screenHeight, "Lua Game");
 
     Time::Instance();
 	ResourceManager::Instance().LoadResources();
@@ -74,7 +77,7 @@ int Main2D::Main2D::Start()
     m_freeCam.position = raylib::Vector2(400, 280);
 
     m_camera.target = m_freeCam.position;
-    m_camera.offset = raylib::Vector2(m_screenWidth / 2.0f, m_screenHeight / 2.0f);
+    m_camera.offset = raylib::Vector2(m_windowInfo.p_screenWidth / 2.0f, m_windowInfo.p_screenHeight / 2.0f);
     m_camera.rotation = 0.0f;
     m_camera.zoom = 1.0f;
 
@@ -298,7 +301,7 @@ void Main2D::Main2D::UpdatePlayerCamera()
 
 	ECS::Transform &transform = m_scene.GetComponent<ECS::Transform>(m_cameraEntity);
 
-    m_camera.offset = raylib::Vector2{ m_screenWidth / 2.0f, m_screenHeight / 2.0f };
+    m_camera.offset = raylib::Vector2{ m_windowInfo.p_screenWidth / 2.0f, m_windowInfo.p_screenHeight / 2.0f };
     m_camera.target = raylib::Vector2(transform.Position[0], transform.Position[1]);
 }
 void Main2D::Main2D::UpdateFreeCamera()
