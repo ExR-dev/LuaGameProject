@@ -94,7 +94,7 @@ int Main2D::Main2D::Start()
 
     BindLuaInput(L);
 
-    SetTargetFPS(144);
+    //SetTargetFPS(144);
     
 	// Add lua require path
 	std::string luaScriptPath = std::format("{}/{}?{}", fs::current_path().generic_string(), FILE_PATH, FILE_EXT);
@@ -107,7 +107,7 @@ int Main2D::Main2D::Start()
     std::this_thread::sleep_for(std::chrono::milliseconds(50)); // Wait for the console thread to start
 
 	// Initialize Lua
-    m_scene.InitializeSystems(L);
+    m_scene.SystemsInitialize(L);
 
     LuaDoFileCleaned(L, LuaFilePath("InitDevScene")); // Creates entities
 
@@ -168,11 +168,11 @@ int Main2D::Main2D::Update()
         }
     }
 
+    // Update systems
+    m_scene.SystemsOnUpdate(Time::DeltaTime());
+
     // Call update camera function by its pointer
     m_cameraUpdater();
-
-    // Update systems
-    m_scene.UpdateSystems(Time::DeltaTime());
 
     return 0;
 }
@@ -183,6 +183,9 @@ int Main2D::Main2D::Render()
 
     BeginDrawing();
     ClearBackground(LIGHTGRAY);
+
+    // Update systems
+    m_scene.SystemsOnRender(Time::DeltaTime());
 
     // Scene
     {
@@ -203,18 +206,18 @@ int Main2D::Main2D::Render()
 
                 raylib::Color color(*(raylib::Vector4 *)(&(sprite.Color)));
                 raylib::Rectangle rect(
-                    (int)transform.Position[0],
-                    (int)transform.Position[1],
-                    (int)transform.Scale[0],
-                    (int)transform.Scale[1] * flip
+                    transform.Position[0],
+                    transform.Position[1],
+                    transform.Scale[0],
+                    transform.Scale[1] * flip
                 );
 
                 std::string textureName = sprite.SpriteName;
                 const raylib::Texture2D *texture = ResourceManager::Instance().GetTexture(textureName);
 
                 raylib::Vector2 origin(
-                    (int)(transform.Scale[0] / 2),
-                    (int)(transform.Scale[1] / 2) * flip
+                    (transform.Scale[0] / 2),
+                    (transform.Scale[1] / 2) * flip
                 );
 
                 if (textureName != "" && !texture)
@@ -300,6 +303,9 @@ void Main2D::Main2D::UpdatePlayerCamera()
     }
 
 	ECS::Transform &transform = m_scene.GetComponent<ECS::Transform>(m_cameraEntity);
+	ECS::CameraData &cameraData = m_scene.GetComponent<ECS::CameraData>(m_cameraEntity);
+
+	m_camera.zoom = cameraData.Zoom;
 
     m_camera.offset = raylib::Vector2{ m_windowInfo.p_screenWidth / 2.0f, m_windowInfo.p_screenHeight / 2.0f };
     m_camera.target = raylib::Vector2(transform.Position[0], transform.Position[1]);

@@ -60,9 +60,10 @@ public:
 	template<typename...Args>
 	void RunSystem(std::function<void(entt::registry &registry, Args...)> system, Args&&... args);
 
-	void InitializeSystems(lua_State *L);
+	void SystemsInitialize(lua_State *L);
 
-	void UpdateSystems(float delta);
+	void SystemsOnUpdate(float delta);
+	void SystemsOnRender(float delta);
 
 	static void lua_openscene(lua_State *L, Scene *scene);
 

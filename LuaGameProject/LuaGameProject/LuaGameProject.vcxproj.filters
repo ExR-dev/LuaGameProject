@@ -289,6 +289,7 @@
     <None Include="src\Lua\Utility\GameMath.lua" />
     <None Include="src\Lua\Behaviours\Cursor.lua" />
     <None Include="src\Lua\Tests\InputTest.lua" />
+    <None Include="src\Lua\Tests\GameMathTest.lua" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="raylib.dll" />

@@ -323,12 +323,13 @@ namespace ECS
 	struct CameraData
 	{
 		int Size[2];
+		float Zoom;
 
 		void LuaPush(lua_State* L) const
 		{
 			ZoneScopedC(RandomUniqueColor());
 			// Create the main CameraData table
-			lua_createtable(L, 0, 1);
+			lua_createtable(L, 0, 2);
 
 			lua_createtable(L, 0, 2);  // Create a new table for Size
 			lua_pushnumber(L, Size[0]);
@@ -336,6 +337,9 @@ namespace ECS
 			lua_pushnumber(L, Size[1]);
 			lua_setfield(L, -2, "y");
 			lua_setfield(L, -2, "size");  // Add Size to main table
+
+			lua_pushnumber(L, Zoom);
+			lua_setfield(L, -2, "zoom");
 		}
 		void LuaPull(lua_State* L, int index)
 		{
@@ -360,6 +364,13 @@ namespace ECS
 			}
 			lua_pop(L, 1); // Pop Size table
 
+			// Get Zoom field
+			lua_getfield(L, index, "zoom");
+			if (lua_isnumber(L, -1))
+			{
+				Zoom = (float)lua_tonumber(L, -1);
+			}
+			lua_pop(L, 1); // Remove the zoom value from stack
 		}
 	};
 }

@@ -49,7 +49,7 @@ void Scene::RemoveEntity(int entity)
 	RemoveEntity(static_cast<entt::entity>(entity));
 }
 
-void Scene::InitializeSystems(lua_State *L)
+void Scene::SystemsInitialize(lua_State *L)
 {
 	ZoneScopedC(RandomUniqueColor());
 
@@ -57,7 +57,7 @@ void Scene::InitializeSystems(lua_State *L)
 	CreateSystem<BehaviourSystem>(L);
 }
 
-void Scene::UpdateSystems(float delta)
+void Scene::SystemsOnUpdate(float delta)
 {
 	ZoneScopedC(RandomUniqueColor());
 
@@ -67,6 +67,23 @@ void Scene::UpdateSystems(float delta)
 	for (auto it = m_systems.begin(); it != m_systems.end(); it++)
 	{
 		if ((*it)->OnUpdate(m_registry, delta))
+		{
+			delete (*it);
+			it = m_systems.erase(it);
+		}
+	}
+}
+
+void Scene::SystemsOnRender(float delta)
+{
+	ZoneScopedC(RandomUniqueColor());
+
+	if (m_systems.empty())
+		return;
+
+	for (auto it = m_systems.begin(); it != m_systems.end(); it++)
+	{
+		if ((*it)->OnRender(m_registry, delta))
 		{
 			delete (*it);
 			it = m_systems.erase(it);

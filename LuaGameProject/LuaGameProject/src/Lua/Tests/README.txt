@@ -62,6 +62,8 @@ Full Example File:
 		print("Including Example")
 		local example = require("Example")
 
+		print("")
+
 		-- Initialize
 		print("Setting e1 to 1.")
 		print("e1 = example(1)")

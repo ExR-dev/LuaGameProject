@@ -39,7 +39,7 @@ function player:OnUpdate(delta)
 		move.x = move.x - 1.0
 	end
 
-	--move:normalize()
+	move:normalize()
 	t.position = t.position + (move * (self.speed * delta))
 
 	scene.SetComponent(self.ID, "Transform", t)
