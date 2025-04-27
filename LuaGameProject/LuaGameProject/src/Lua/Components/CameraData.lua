@@ -23,7 +23,7 @@ function cameraData:__newindex(k)
 end
 
 function cameraData:__tostring()
-	return "cameraData(size: "..self.size..")"
+	return "cameraData("..self.size..", "..self.zoom..")"
 end
 
 cameraData.new = new

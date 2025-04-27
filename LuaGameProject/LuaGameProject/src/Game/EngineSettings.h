@@ -1,4 +1,4 @@
 #pragma once
 
-#undef TRACY_ENABLE
+//#undef TRACY_ENABLE
 //#define TRACY_VERBOSE

@@ -207,6 +207,21 @@ local function test()
 	print("")
 	
 	totalTestsTracker = totalTestsTracker + 1
+	print("Getting dot product of v1 and (3.7, -2.25) using instance method.")
+	print("v1:dot(vec2(3.7, -2.25))")
+	expectedVal = 1.05
+	resultVal = v1:dot(vec2(3.7, -2.25))
+	print("Expected:	"..tostring(expectedVal))
+	print("Result:		"..tostring(resultVal))
+	if gameMath.approx(expectedVal, resultVal) then
+		print("Passed!")
+		passedTestsTracker = passedTestsTracker + 1
+	else
+		print("Failed!")
+	end
+	print("")
+	
+	totalTestsTracker = totalTestsTracker + 1
 	print("Getting v1 as normalized vector.")
 	print("v1:normalized()")
 	expectedVal = vec2(0.6, 0.8)
@@ -256,7 +271,7 @@ local function test()
 	print("Getting angle of v1.")
 	print("v1:angle()")
 	print(tostring(v1))
-	expectedVal = 0.9272952180016
+	expectedVal = math.deg(0.9272952180016)
 	resultVal = v1:angle()
 	print("Expected:	"..tostring(expectedVal))
 	print("Result:		"..tostring(resultVal))

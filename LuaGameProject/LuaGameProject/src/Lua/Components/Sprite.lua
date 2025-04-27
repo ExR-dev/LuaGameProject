@@ -13,9 +13,12 @@ sprite.__index = sprite
 local Color = require("Color")
 
 local function new(n, c, p)
-	assert(n == nil or type(n) == "string", "sprite new - expected args: (string or nil, color or nil, number or nil)")
-	assert(c == nil or Color.iscolor(c), "sprite new - expected args: (string or nil, color or nil, number or nil)")
-	assert(p == nil or type(p) == "numer", "sprite new - expected args: (string or nil, color or nil, number or nil)")
+	assert(
+		(n == nil or type(n) == "string") and 
+		(c == nil or Color.iscolor(c)) and 
+		(p == nil or type(p) == "number"), 
+		"sprite new - expected args: (string or nil, color or nil, number or nil)"
+	)
 	
 	local s = {
 		spriteName = n or "",
@@ -35,7 +38,7 @@ function sprite:__newindex(k)
 end
 
 function sprite:__tostring()
-	return "(n: "..self.spriteName..", c: "..self.color:__tostring()..", p: "..tostring(self.priority)..")"
+	return "sprite("..self.spriteName..", "..self.color:__tostring()..", "..tostring(self.priority)..")"
 end
 
 sprite.new = new

@@ -314,10 +314,12 @@
     <None Include="src\Lua\Behaviours\PlayerCamera.lua" />
     <None Include="src\Lua\Behaviours\Enemy.lua" />
     <None Include="src\Lua\Behaviours\Player.lua" />
+    <None Include="src\Lua\Behaviours\Projectile.lua" />
     <None Include="src\Lua\Cmd.lua" />
     <None Include="src\Lua\Color.lua" />
     <None Include="src\Lua\Components\CameraData.lua" />
     <None Include="src\Lua\Components\Health.lua" />
+    <None Include="src\Lua\Components\HitboxCircle.lua" />
     <None Include="src\Lua\Components\Sprite.lua" />
     <None Include="src\Lua\InitDevScene.lua" />
     <None Include="src\Lua\InputDemo.lua" />

@@ -22,7 +22,7 @@ function health:__newindex(k)
 end
 
 function health:__tostring()
-    return "("..tostring(self.current).."/"..tostring(self.max)..")"
+    return "health("..tostring(self.current).."/"..tostring(self.max)..")"
 end
 
 health.new = new

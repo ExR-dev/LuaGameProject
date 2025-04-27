@@ -290,6 +290,8 @@
     <None Include="src\Lua\Behaviours\Cursor.lua" />
     <None Include="src\Lua\Tests\InputTest.lua" />
     <None Include="src\Lua\Tests\GameMathTest.lua" />
+    <None Include="src\Lua\Behaviours\Projectile.lua" />
+    <None Include="src\Lua\Components\HitboxCircle.lua" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="raylib.dll" />

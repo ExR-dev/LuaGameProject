@@ -20,7 +20,7 @@ function color.__newindex(t, k, v)
 end
 
 function color.__tostring(t)
-    return "("..t.r..", "..t.g..", "..t.b..", "..t.a..")"
+    return "color("..t.r..", "..t.g..", "..t.b..", "..t.a..")"
 end
 
 -- Meta logic operators

@@ -1,3 +1,5 @@
+-- Rotation is in degrees
+
 local transform2 = {}
 transform2.__index = transform2
 
@@ -31,25 +33,30 @@ function transform2:__newindex(k, v)
 end
 
 function transform2:__tostring()
-    return "(p: "..self.position:__tostring()..
-           ", r: "..tostring(self.rotation)..
-           ", s: "..self.scale:__tostring()..")"
+    return "transform2("..self.position:__tostring()..
+           ", "..tostring(self.rotation)..
+           ", "..self.scale:__tostring()..")"
 end
 
 -- Meta logic operators
 function transform2.__eq(a, b)
-    assert(istransform2(a) and istransform2(b), "transform2 eq - expected args: transform2, transform2")
     return (a.position == b.position) and
            (a.rotation == b.rotation) and
            (a.scale == b.scale)
 end
 
 function transform2:getForward()
-    return vec2(math.cos(math.rad(self.rotation)), math.sin(math.rad(self.rotation)))
+    return vec2(
+        math.cos(math.rad(self.rotation)), 
+        math.sin(math.rad(self.rotation))
+    )
 end
 
 function transform2:getRight()
-    return vec2(math.cos(math.rad(self.rotation - 90.0)), math.sin(math.rad(self.rotation - 90.0)))
+    return vec2(
+        math.cos(math.rad(self.rotation - 90.0)), 
+        math.sin(math.rad(self.rotation - 90.0))
+    )
 end
 
 function transform2:moveRelative(movement)

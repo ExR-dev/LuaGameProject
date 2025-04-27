@@ -5,7 +5,7 @@ local transform = require("Transform2")
 local color = require("Color")
 local sprite = require("Components/Sprite")
 local cameraData = require("Components/CameraData")
---local playerCamera = require("Behaviours/PlayerCamera")
+local playerCamera = require("Behaviours/PlayerCamera")
 
 
 -- Create Walls ----------------
@@ -21,7 +21,7 @@ for _ = 1, 50 do
 
 	local col = color(math.random(), math.random(), math.random(), math.random())
 	local s = sprite("", col)
-	s.priority = math.random(10, 100)
+	s.priority = math.random(50, 100)
 
 	scene.SetComponent(entity, "Transform", t)
 	scene.SetComponent(entity, "Sprite", s)
@@ -42,7 +42,7 @@ if GetPlayer == nil then
 	)
 
 	local playerS = sprite("Transparent2.png")
-	playerS.priority = 500
+	playerS.priority = 20
 
 	scene.SetComponent(playerEnt, "Transform", playerT)
 	scene.SetComponent(playerEnt, "Sprite", playerS)
@@ -97,9 +97,8 @@ for _ = 1, 10 do
 		vec2(math.random() + math.random(55, 65), math.random() + math.random(55, 65))
 	)
 
-	--local col = color(math.random(), math.random() * 0.5, math.random() * 0.5, 1.0)
-	--local s = sprite("Maxwell.png", col)
 	local s = sprite("Maxwell.png")
+	s.priority = 30
 
 	scene.SetComponent(entity, "Transform", t)
 	scene.SetComponent(entity, "Sprite", s)

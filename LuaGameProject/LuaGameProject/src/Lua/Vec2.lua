@@ -22,7 +22,7 @@ function vec2.__newindex(t, k)
 end
 
 function vec2.__tostring(t)
-	return "("..t.x..", "..t.y..")"
+	return "vec2("..t.x..", "..t.y..")"
 end
 
 -- Meta logic operators
@@ -105,17 +105,22 @@ function vec2:normalize()
 	return self
 end
 
+function vec2:dot(b)
+	return (self.x * b.x) + (self.y * b.y)
+end
+
 function vec2.dot(a, b)
 	return (a.x * b.x) + (a.y * b.y)
 end
 
+-- Get the angle of the vector in radians
 function vec2:angle()
 	local norm = self:normalized()
 	local angle = math.atan(norm.y, norm.x)
 	if angle < 0.0 then
 		angle = angle + (2.0 * math.pi)
 	end
-	return angle
+	return math.deg(angle)
 end
 
 return setmetatable(vec2, {

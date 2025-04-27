@@ -1,4 +1,3 @@
-
 tracy.ZoneBeginN("Lua Cursor.lua")
 local cursor = {}
 
@@ -6,10 +5,17 @@ local vec2 = require("Vec2")
 local transform = require("Transform2")
 local gameMath = require("Utility/GameMath")
 
+-- Global cursor getter
+function GetCursor()
+	return cursor
+end
+
 function cursor:OnCreate()
 	tracy.ZoneBeginN("Lua cursor:OnCreate")
-
-    self.transform = transform(scene.GetComponent(self.ID, "Transform"))
+	
+	-- TODO: Caching the transform means that any changes on the C++-side will be overwritten.
+	-- To be able to both cache transforms and modify them in C++, we would have to store them as lua references.
+    self.trans = transform(scene.GetComponent(self.ID, "Transform"))
 	self.baseSize = 48.0 -- Multiple of the cursor texture dimensions
 
 	tracy.ZoneEnd()
@@ -37,10 +43,10 @@ function cursor:OnRender(delta)
 	cursorPos = cursorPos * invZoom
 
 	local newSize = self.baseSize * invZoom
-	self.transform.scale = vec2(newSize, newSize)
+	self.trans.scale = vec2(newSize, newSize)
 
-    self.transform.position = playerCam.camT.position + cursorPos;
-	scene.SetComponent(self.ID, "Transform", self.transform)
+    self.trans.position = playerCam.camT.position + cursorPos;
+	scene.SetComponent(self.ID, "Transform", self.trans)
 
 	tracy.ZoneEnd()
 end

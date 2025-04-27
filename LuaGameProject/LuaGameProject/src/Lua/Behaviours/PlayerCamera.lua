@@ -16,9 +16,6 @@ function playerCamera:OnCreate()
 	self.trackedEntity = -1
 	self.trackingStrength = 10 -- How fast the camera corrects its position
 	self.trackingOffset = vec2(0.0, 0.0) -- For aiming, camera shake, etc.
-
-	-- TODO: Caching the transform means that any changes on the c-side will be overwritten.
-	-- To be able to both cache transforms and modify them in C, we would have to store them as lua references.
 	self.camT = transform(scene.GetComponent(self.ID, "Transform"))
 
 	tracy.ZoneEnd()

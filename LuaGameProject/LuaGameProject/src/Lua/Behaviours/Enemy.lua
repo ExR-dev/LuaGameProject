@@ -41,7 +41,7 @@ function enemy:OnUpdate(delta)
 	end
 
 	-- Set the rotation of the transform to face the goal
-	t.rotation = toGoal:angle() * 180.0 / math.pi
+	t.rotation = toGoal:angle()
 
 	-- Negate the Y scale if facing left
 	if t.rotation > 90.0 and t.rotation < 270.0 then
