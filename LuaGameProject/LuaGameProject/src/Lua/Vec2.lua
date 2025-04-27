@@ -113,7 +113,7 @@ function vec2.dot(a, b)
 	return (a.x * b.x) + (a.y * b.y)
 end
 
--- Get the angle of the vector in radians
+-- Get the angle of the vector in degrees
 function vec2:angle()
 	local norm = self:normalized()
 	local angle = math.atan(norm.y, norm.x)
@@ -121,6 +121,16 @@ function vec2:angle()
 		angle = angle + (2.0 * math.pi)
 	end
 	return math.deg(angle)
+end
+
+-- Rotate the vector by the given angle in degrees
+function vec2:rotate(angle)
+	angle = math.rad(angle)
+	local cosA = math.cos(angle)
+	local sinA = math.sin(angle)
+	local px = cosA * self.x - sinA * self.y
+	local py = sinA * self.x + cosA * self.y
+	return vec2(px, py)
 end
 
 return setmetatable(vec2, {

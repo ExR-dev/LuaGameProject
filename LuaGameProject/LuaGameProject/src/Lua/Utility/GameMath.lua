@@ -72,4 +72,18 @@ function gameMath.vecFromAngle(angle)
 	return vec2(math.cos(angle), math.sin(angle))
 end
 
+-- Remap a value from one range to another
+function gameMath.remap(val, aMin, aMax, bMin, bMax)
+	return (val - aMin) * (bMax - bMin) / (aMax - aMin) + bMin;
+end
+
+-- Interpolate between angles
+function rot_lerp(a, b, weight)
+	a = math.rad(a)
+	b = math.rad(b)
+    local pi2 = math.pi * 2
+    local shortest = ((a - b) + math.pi) % pi2 - math.pi
+    return math.deg(b + (shortest * weight) % pi2)
+end
+
 return gameMath
