@@ -50,6 +50,10 @@ function enemy:OnUpdate(delta)
 		t.scale.y = math.abs(t.scale.y)
 	end
 
+	if math.random(0, 50000) == 0 then
+		game.PlaySound("Maxwell Short.wav", 0.33)
+	end
+
 	scene.SetComponent(self.ID, "Transform", t)
 	tracy.ZoneEnd()
 end

@@ -206,8 +206,16 @@ int Main2D::Main2D::Render()
             auto view = registry.view<ECS::Sprite, ECS::Transform>();
             view.use<ECS::Sprite>();
 
-            view.each([&](const ECS::Sprite &sprite, const ECS::Transform &transform) {
+            view.each([&](const entt::entity entity, const ECS::Sprite &sprite, const ECS::Transform &transform) {
                 ZoneNamedNC(drawSpriteZone, "Lambda Draw Sprite", RandomUniqueColor(), true);
+
+                // If the entity has an active component, check if it is active
+                if (registry.all_of<ECS::Active>(entity))
+                {
+                    ECS::Active &active = registry.get<ECS::Active>(entity);
+                    if (!active.IsActive)
+						return; // Skip drawing if the entity is not active
+                }
 
                 int flip = transform.Scale[1] > 0 ? 1 : -1;
 

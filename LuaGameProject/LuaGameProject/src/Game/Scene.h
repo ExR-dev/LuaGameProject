@@ -22,6 +22,12 @@ public:
 	void RemoveEntity(entt::entity entity);
 	void RemoveEntity(int entity);
 
+	bool IsActive(entt::entity entity);
+	bool IsActive(int entity);
+
+	void SetActive(entt::entity entity, bool state);
+	void SetActive(int entity, bool state);
+
 	template<typename...Args>
 	bool HasComponents(entt::entity entity);
 	template<typename...Args>
@@ -102,6 +108,14 @@ private:
 	// Arguments: entity (int), component type (string)
 	// Returns: none
 	static int lua_RemoveComponent(lua_State *L);
+
+	// Arguments: entity (int)
+	// Returns: (bool)
+	static int lua_IsActive(lua_State *L);
+	
+	// Arguments: entity (int), state (bool)
+	// Returns: none
+	static int lua_SetActive(lua_State *L);
 };
 
 

@@ -49,6 +49,50 @@ void Scene::RemoveEntity(int entity)
 	RemoveEntity(static_cast<entt::entity>(entity));
 }
 
+bool Scene::IsActive(entt::entity entity)
+{
+	if (m_registry.all_of<ECS::Active>(entity))
+	{
+		ECS::Active &active = m_registry.get<ECS::Active>(entity);
+		return active.IsActive;
+	}
+	return true;
+}
+bool Scene::IsActive(int entity)
+{
+	return IsActive(static_cast<entt::entity>(entity));
+}
+
+void Scene::SetActive(entt::entity entity, bool state)
+{
+	ZoneScopedC(RandomUniqueColor());
+
+	// Check if entity has an active component.
+	if (HasComponents<ECS::Active>(entity))
+	{
+		// If it does, set the active state
+		ECS::Active &active = GetComponent<ECS::Active>(entity);
+
+		// Check if the active component is already in the desired state
+		if (active.IsActive == state)
+			return; // No need to change the state
+
+		active.IsActive = state;
+		SetComponent<ECS::Active>(entity, active);
+	}
+	else
+	{
+		// If not, create one and set the state
+		ECS::Active active{};
+		active.IsActive = state;
+		SetComponent<ECS::Active>(entity, active);
+	}
+}
+void Scene::SetActive(int entity, bool state)
+{
+	SetActive(static_cast<entt::entity>(entity), state);
+}
+
 void Scene::SystemsInitialize(lua_State *L)
 {
 	ZoneScopedC(RandomUniqueColor());
@@ -107,6 +151,8 @@ void Scene::lua_openscene(lua_State *L, Scene *scene)
 		{ "HasComponent",		lua_HasComponent	},
 		{ "GetComponent",		lua_GetComponent	},
 		{ "RemoveComponent",	lua_RemoveComponent	},
+		{ "IsActive",			lua_IsActive		},
+		{ "SetActive",			lua_SetActive		},
 		{ NULL,					NULL				}
 	};
 
@@ -373,4 +419,27 @@ int Scene::lua_RemoveComponent(lua_State *L)
 	// else if...
 
 	return 0;
+}
+
+int Scene::lua_IsActive(lua_State *L)
+{
+	ZoneScopedC(RandomUniqueColor());
+
+	Scene *scene = lua_GetScene(L);
+	int entity = lua_tointeger(L, 1);
+
+	lua_pushboolean(L, scene->IsActive(entity) ? 1 : 0);
+	return 1;
+}
+
+int Scene::lua_SetActive(lua_State *L)
+{
+	ZoneScopedC(RandomUniqueColor());
+
+	Scene *scene = lua_GetScene(L);
+	int entity = lua_tointeger(L, 1);
+	bool state = lua_toboolean(L, 2);
+
+	scene->SetActive(entity, state);
+	return 1;
 }
