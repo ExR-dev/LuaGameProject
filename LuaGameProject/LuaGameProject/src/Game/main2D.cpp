@@ -74,7 +74,7 @@ int Main2D::Main2D::Start()
     ZoneScopedC(RandomUniqueColor());
     
     // Setup Box2D
-    const float lengthUnitsPerMeter = 128.0f; //128 pixels per meter
+    const float lengthUnitsPerMeter = 1; //128 pixels per meter
     b2SetLengthUnitsPerMeter(lengthUnitsPerMeter);
 
     
@@ -82,9 +82,7 @@ int Main2D::Main2D::Start()
     worldDef.gravity.y = 9.81f * lengthUnitsPerMeter; // Disable gravity
     Game::p_worldId = b2CreateWorld(&worldDef);
 
-    if (b2World_IsValid(Game::p_worldId) == false)
-        return -1;
-
+    Assert(b2World_IsValid(Game::p_worldId), "Invalid Box2D world!");
   
     // Default
     {
@@ -249,14 +247,16 @@ int Main2D::Main2D::Update()
         auto view = registry.view<ECS::Rigidbody, ECS::Transform>();
         view.use<ECS::Rigidbody>();
 
-        view.each([&](ECS::Rigidbody& rigidbody, const ECS::Transform& transform) {
+        view.each([&](ECS::Rigidbody& rigidbody, ECS::Transform& transform) {
             ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
 
+            // Create body
             if (rigidbody.createBody)
             {
                 b2Polygon polygon = b2MakeBox(fabsf(transform.Scale[0]) / 2, fabsf(transform.Scale[1]) / 2);
 
                 b2BodyDef bodyDef = b2DefaultBodyDef();
+                bodyDef.type = b2_dynamicBody;
                 bodyDef.position = { transform.Position[0], transform.Position[1] };
 
                 rigidbody.bodyId = b2CreateBody(Game::p_worldId, &bodyDef);
@@ -267,6 +267,10 @@ int Main2D::Main2D::Update()
                 rigidbody.createBody = false;
             }
 
+            b2Vec2 pos = b2Body_GetWorldPoint(rigidbody.bodyId, { 0, 0 });
+
+            transform.Position[0] = pos.x;
+            transform.Position[1] = pos.y;
         });
     };
 
