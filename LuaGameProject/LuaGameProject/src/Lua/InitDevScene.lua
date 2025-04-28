@@ -140,6 +140,7 @@ for _ = 1, 10 do
 	scene.SetComponent(entity, "Transform", t)
 	scene.SetComponent(entity, "Sprite", s)
 	scene.SetComponent(entity, "Behaviour", "Behaviours/Enemy")
+	scene.SetComponent(entity, "Rigidbody")
 end
 tracy.ZoneEnd()
 --------------------------------

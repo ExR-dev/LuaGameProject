@@ -6,6 +6,8 @@
 #include "lua.hpp"
 #include "LuaUtils.h"
 
+#include "box2d/box2D.h"
+
 namespace ECS
 {
 	struct Active
@@ -211,10 +213,35 @@ namespace ECS
 		}
 	};
 
-	struct Collider
+	struct Rigidbody
 	{
-		b2Polygon collider;
+		b2BodyId bodyId;
+		b2Vec2 colliderSize;
 
+		void LuaPush(lua_State* L) const
+		{
+			ZoneScopedC(RandomUniqueColor());
+			luaL_error(L, "Can't push a rigidbody");
+		}
+		void LuaPull(lua_State* L, int index)
+		{
+			ZoneScopedC(RandomUniqueColor());
+			// Make sure the index is absolute (in case it's negative)
+			if (index < 0)
+			{
+				index = lua_gettop(L) + index + 1;
+			}
+
+			b2Polygon box = b2MakeBox(10, 10);
+
+			b2BodyDef bodyDef = b2DefaultBodyDef();
+			bodyDef.position = { 0, 0 };
+			b2BodyId boxid = b2CreateBody(Game::p_worldId, &bodyDef);
+
+			b2ShapeDef shapeDef = b2DefaultShapeDef();
+
+			b2CreatePolygonShape(boxid, &shapeDef, &box);
+		}
 	};
 
 	struct Sprite

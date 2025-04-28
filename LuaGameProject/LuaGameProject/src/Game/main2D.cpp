@@ -25,6 +25,9 @@ Main2D::Main2D::~Main2D()
 		L = nullptr;
 	}
 
+    if (b2World_IsValid(Game::p_worldId))
+        b2DestroyWorld(Game::p_worldId);
+
     ResourceManager::Instance().UnloadResources();
     CloseAudioDevice();
 }
@@ -53,10 +56,58 @@ int Main2D::Main2D::Run()
     return 0;
 }
 
+void Test()
+{
+    b2Polygon box = b2MakeBox(10, 10);
+
+    b2BodyDef bodyDef = b2DefaultBodyDef();
+    bodyDef.position = { 0, 0 };
+    b2BodyId boxid = b2CreateBody(Game::p_worldId, &bodyDef);
+
+    b2ShapeDef shapeDef = b2DefaultShapeDef();
+
+    b2CreatePolygonShape(boxid, &shapeDef, &box);
+}
 
 int Main2D::Main2D::Start()
 {
     ZoneScopedC(RandomUniqueColor());
+    
+    // Setup Box2D
+    const float lengthUnitsPerMeter = 128.0f; //128 pixels per meter
+    b2SetLengthUnitsPerMeter(lengthUnitsPerMeter);
+
+    
+    b2WorldDef worldDef = b2DefaultWorldDef();
+    worldDef.gravity.y = 9.81f * lengthUnitsPerMeter; // Disable gravity
+    Game::p_worldId = b2CreateWorld(&worldDef);
+
+    if (b2World_IsValid(Game::p_worldId) == false)
+        return -1;
+
+  
+    // Default
+    {
+        b2Polygon box = b2MakeBox(10, 10);
+
+        b2BodyDef bodyDef = b2DefaultBodyDef();
+        bodyDef.position = { 0, 0 };
+        b2BodyId boxid = b2CreateBody(Game::p_worldId, &bodyDef);
+
+        b2ShapeDef shapeDef = b2DefaultShapeDef();
+
+        b2CreatePolygonShape(boxid, &shapeDef, &box);
+    }
+
+    // Callback
+    {
+        std::function<void()> test = Test;
+
+        test();
+    }
+
+
+    // Setup Lua enviroment
 
     // Create internal lua state
     L = luaL_newstate();
@@ -121,25 +172,8 @@ int Main2D::Main2D::Start()
 
     LuaDoFileCleaned(L, LuaFilePath("InitDevScene")); // Creates entities
 
-    // Setup Box2D
-    const float lengthUnitsPerMeter = 128.0f; //128 pixels per meter
-    b2SetLengthUnitsPerMeter(lengthUnitsPerMeter);
-
-    b2WorldDef worldDef = b2DefaultWorldDef();
-    worldDef.gravity.y = 9.81f * lengthUnitsPerMeter; // Disable gravity
-
-    m_worldId = b2CreateWorld(&worldDef);
-
-    b2Polygon box1 = b2MakeBox(100, 100),
-              box2 = b2MakeBox(10, 10);
-
-    b2BodyDef bodyDef = b2DefaultBodyDef();
-    bodyDef.position = { 0, 0 };
-    m_box = b2CreateBody(m_worldId, &bodyDef);
-
-    b2ShapeDef shapeDef = b2DefaultShapeDef();
-
-    b2CreatePolygonShape(m_box, &shapeDef, &box1);
+  
+    
 
     return 1;
 }
@@ -198,7 +232,8 @@ int Main2D::Main2D::Update()
         }
     }
 
-    b2World_Step(m_worldId, Time::DeltaTime(), 4);
+    // Update Physics
+    b2World_Step(Game::p_worldId, Time::DeltaTime(), 4);
 
     // Update systems
     m_scene.SystemsOnUpdate(Time::DeltaTime());

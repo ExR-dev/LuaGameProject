@@ -184,7 +184,7 @@ int Scene::lua_SetComponent(lua_State *L)
 	
 	if		(type == "Transform") 
 	{
-		scene->TryRemoveComponent<ECS::Transform>(entity);
+		//scene->TryRemoveComponent<ECS::Transform>(entity);
 
 		ECS::Transform transform{};
 		transform.LuaPull(L, 3);
@@ -211,6 +211,16 @@ int Scene::lua_SetComponent(lua_State *L)
 		active.LuaPull(L, 3);
 		
 		scene->SetComponent<ECS::Active>(entity, active);
+		return 1;
+	}
+	else if (type == "Rigidbody")
+	{
+		//scene->TryRemoveComponent<ECS::Rigidbody>(entity);
+
+		ECS::Rigidbody rigidbody{};
+		rigidbody.LuaPull(L, 3);
+
+		scene->SetComponent<ECS::Rigidbody>(entity, rigidbody);
 		return 1;
 	}
 	else if (type == "Health") 
