@@ -79,7 +79,7 @@ int Main2D::Main2D::Start()
 
     
     b2WorldDef worldDef = b2DefaultWorldDef();
-    worldDef.gravity.y = 9.81f * lengthUnitsPerMeter; // Disable gravity
+    worldDef.gravity.y = 0; //9.81f * lengthUnitsPerMeter; // Disable gravity
     Game::p_worldId = b2CreateWorld(&worldDef);
 
     Assert(b2World_IsValid(Game::p_worldId), "Invalid Box2D world!");

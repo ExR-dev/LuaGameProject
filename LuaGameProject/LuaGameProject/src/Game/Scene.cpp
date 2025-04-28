@@ -215,7 +215,10 @@ int Scene::lua_SetComponent(lua_State *L)
 	}
 	else if (type == "Rigidbody")
 	{
-		//scene->TryRemoveComponent<ECS::Rigidbody>(entity);
+		scene->TryRemoveComponent<ECS::Rigidbody>(entity);
+
+		// TODO: Require Transform
+		// TODO: Require Collider?
 
 		ECS::Rigidbody rigidbody{};
 		rigidbody.LuaPull(L, 3);
@@ -308,6 +311,10 @@ int Scene::lua_HasComponent(lua_State *L)
 	else if (type == "Transform")
 	{
 		hasComponent = scene->HasComponents<ECS::Transform>(entity);
+	}
+	else if (type == "Rigidbody")
+	{
+		hasComponent = scene->HasComponents<ECS::Rigidbody>(entity);
 	}
 	else if (type == "Health")
 	{
@@ -413,6 +420,10 @@ int Scene::lua_RemoveComponent(lua_State *L)
 	else if (type == "Transform" && scene->HasComponents<ECS::Transform>(entity))
 	{
 		scene->RemoveComponent<ECS::Transform>(entity);
+	}
+	else if (type == "Rigidbody" && scene->HasComponents<ECS::Rigidbody>(entity))
+	{
+		scene->RemoveComponent<ECS::Rigidbody>(entity);
 	}
 	else if (type == "Health" && scene->HasComponents<ECS::Health>(entity))
 	{
