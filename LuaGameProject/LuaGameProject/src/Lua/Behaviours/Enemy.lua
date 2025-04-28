@@ -10,6 +10,7 @@ local enemy = {}
 
 local vec = require("Vec2")
 local transform = require("Transform2")
+local gameMath = require("Utility/GameMath")
 
 -- Guaranteed to be called before OnUpdate from the C environment.
 -- Can set up more fields in self.
@@ -50,8 +51,16 @@ function enemy:OnUpdate(delta)
 		t.scale.y = math.abs(t.scale.y)
 	end
 
-	if math.random(0, 50000) == 0 then
-		game.PlaySound("Maxwell Short.wav", 0.33)
+	if math.random(0, 100000) == 0 then
+		local listenerPos = GetPlayerCamera().camT.position
+		local soundPos = t.position
+		local soundDistSqr = ((listenerPos - soundPos) * gameMath.pixelsToMeters):lengthSqr()
+
+		local baseVolume = 0.5
+		local falloff = 1.5
+		local distScaler = 1.0 / (falloff * soundDistSqr + 1.0)
+
+		game.PlaySound("Maxwell Short.wav", baseVolume * distScaler)
 	end
 
 	scene.SetComponent(self.ID, "Transform", t)

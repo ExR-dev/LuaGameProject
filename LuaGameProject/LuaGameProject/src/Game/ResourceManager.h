@@ -1,12 +1,15 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <array>
 #include <map>
 #include "dep/raylib-cpp/raylib-cpp.hpp"
 
 #define RESOURCE_PATH std::string("./res/")
 #define TEXTURE_FOLDER std::string("Textures/")
 #define SOUND_FOLDER std::string("Sounds/")
+
+constexpr auto SOUND_POOL_SIZE = 6;
 
 namespace Resource
 {
@@ -45,7 +48,23 @@ namespace Resource
 	private:
 		T *resource;
 	};
+
+	struct SoundPool
+	{
+	public:
+		SoundPool() = default;
+		~SoundPool() = default;
+
+		bool Init(const std::string &name);
+
+		raylib::Sound *Pop();
+
+	private:
+		std::array<raylib::Sound, SOUND_POOL_SIZE> m_sounds;
+		int m_nextPop = 0;
+	};
 }
+
 
 class ResourceManager
 {
@@ -80,7 +99,7 @@ public:
 
 private:
 	std::map<std::string, Resource::ManagedResource<raylib::Texture2D>> m_textures;
-	std::map<std::string, Resource::ManagedResource<raylib::Sound>> m_sounds;
+	std::map<std::string, Resource::ManagedResource<Resource::SoundPool>> m_sounds;
 
 	template<typename T>
 	static T *GetResourceFromMap(const std::string &name, std::map<std::string, Resource::ManagedResource<T>> &map);

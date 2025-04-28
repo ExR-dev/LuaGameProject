@@ -1,4 +1,7 @@
-local gameMath = {}
+local gameMath = {
+	metersToPixels = 100.0,
+	pixelsToMeters = 0.01
+}
 
 local vec2 = require("Vec2")
 
