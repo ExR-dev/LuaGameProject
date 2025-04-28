@@ -22,7 +22,16 @@ bool BehaviourSystem::RunDeltaMethod(entt::registry &registry, float delta, cons
 	auto view = registry.view<ECS::Behaviour>();
 
 	// & is for capturing L and delta as a reference
-	view.each([&](ECS::Behaviour &script) {
+	view.each([&](entt::entity entity, ECS::Behaviour &script) {
+
+		// If the entity has an active component, check if it is active
+		if (registry.all_of<ECS::Active>(entity))
+		{
+			ECS::Active &active = registry.get<ECS::Active>(entity);
+			if (!active.IsActive)
+				return;
+		}
+
 		// Retrieve the behaviour table to the top of the stack
 		lua_rawgeti(L, LUA_REGISTRYINDEX, script.LuaRef);
 

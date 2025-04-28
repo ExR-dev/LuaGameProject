@@ -16,6 +16,17 @@ function player:OnCreate()
 	self.trans = transform(scene.GetComponent(self.ID, "Transform"))
 	self.speed = 200.0
 
+	-- For tracking held items like weapons
+	-- Idea: two-handed weapons could take up both hands, 
+	-- preventing the player from using healing items without first holstering the weapon.
+	-- Could act as an incentive to use weaker weapons like pistols, as they'd offer more flexible controls.
+	-- Also allows for akimbo, I guess. People seem to like that.
+	self.rHandEntity = -1
+	self.lHandEntity = -1
+
+	-- For holding items, like grenades
+	self.holsteredEntities = { }
+
 	self.shootFunc = self.OnShootDefault
 
 	tracy.ZoneEnd()

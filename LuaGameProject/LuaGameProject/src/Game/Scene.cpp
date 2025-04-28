@@ -156,6 +156,17 @@ int Scene::lua_SetComponent(lua_State *L)
 		scene->SetComponent<ECS::Behaviour>(entity, path, entity, L);
 		return 1;
 	}
+	else if (type == "Active")
+	{
+		if (scene->HasComponents<ECS::Active>(entity))
+			scene->RemoveComponent<ECS::Active>(entity);
+		
+		ECS::Active active{};
+		active.LuaPull(L, 3);
+		
+		scene->SetComponent<ECS::Active>(entity, active);
+		return 1;
+	}
 	else if (type == "Health") 
 	{
 		scene->TryRemoveComponent<ECS::Health>(entity);
@@ -234,7 +245,11 @@ int Scene::lua_HasComponent(lua_State *L)
 	
 	bool hasComponent = true;
 	
-	if (type == "Transform")
+	if (type == "Active")
+	{
+		hasComponent = scene->HasComponents<ECS::Active>(entity);
+	}
+	else if (type == "Transform")
 	{
 		hasComponent = scene->HasComponents<ECS::Transform>(entity);
 	}
@@ -280,7 +295,13 @@ int Scene::lua_GetComponent(lua_State *L)
 		return 1;
 	}
 	
-	if (type == "Transform" && scene->HasComponents<ECS::Transform>(entity))
+	if (type == "Active" && scene->HasComponents<ECS::Active>(entity))
+	{
+		ECS::Active &active = scene->GetComponent<ECS::Active>(entity);
+		active.LuaPush(L);
+		return 1;
+	}
+	else if (type == "Transform" && scene->HasComponents<ECS::Transform>(entity))
 	{
 		ECS::Transform &transform = scene->GetComponent<ECS::Transform>(entity);
 		transform.LuaPush(L);
@@ -325,7 +346,11 @@ int Scene::lua_RemoveComponent(lua_State *L)
 	int entity = lua_tointeger(L, 1);
 	std::string type = lua_tostring(L, 2);
 
-	if (type == "Behaviour" && scene->HasComponents<ECS::Behaviour>(entity))
+	if (type == "Active" && scene->HasComponents<ECS::Active>(entity))
+	{
+		scene->RemoveComponent<ECS::Active>(entity);
+	}
+	else if (type == "Behaviour" && scene->HasComponents<ECS::Behaviour>(entity))
 	{
 		scene->RemoveComponent<ECS::Behaviour>(entity);
 	}

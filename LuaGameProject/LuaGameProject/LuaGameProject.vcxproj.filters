@@ -66,6 +66,9 @@
     <ClCompile Include="src\Game\ResourceManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Game\Utilities\LuaGame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch\stdafx.h">
@@ -266,6 +269,9 @@
     <ClInclude Include="src\Game\Utilities\WindowInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Game\Utilities\LuaGame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Lua\Transform3D.lua" />
@@ -292,6 +298,8 @@
     <None Include="src\Lua\Tests\GameMathTest.lua" />
     <None Include="src\Lua\Behaviours\Projectile.lua" />
     <None Include="src\Lua\Components\HitboxCircle.lua" />
+    <None Include="src\Lua\Components\Active.lua" />
+    <None Include="src\Lua\Components\Tags.lua" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="raylib.dll" />

@@ -97,7 +97,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;TRACY_ENABLE;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(SolutionDir)LuaLib/src;$(ProjectDir);$(ProjectDir)pch;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)LuaLib/src;$(ProjectDir);$(ProjectDir)pch;$(SolutionDir)Box2D/src;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName)_d.pch</PrecompiledHeaderOutputFile>
       <ForcedIncludeFiles>$(ProjectDir)src/Game/EngineSettings.h</ForcedIncludeFiles>
@@ -106,8 +106,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)LuaLib/lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>LuaLib_d.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)LuaLib/lib;$(SolutionDir)Box2D/lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>LuaLib_d.lib;box2d_d.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -119,7 +119,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;TRACY_ENABLE;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(SolutionDir)LuaLib/src;$(ProjectDir);$(ProjectDir)pch;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)LuaLib/src;$(ProjectDir);$(ProjectDir)pch;$(SolutionDir)Box2D/src;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ForcedIncludeFiles>$(ProjectDir)src/Game/EngineSettings.h</ForcedIncludeFiles>
     </ClCompile>
@@ -128,8 +128,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)LuaLib/lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>LuaLib.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)LuaLib/lib;$(SolutionDir)Box2D/lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>LuaLib.lib;box2d.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -139,7 +139,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;TRACY_ENABLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(SolutionDir)LuaLib/src;$(ProjectDir);$(ProjectDir)pch;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)LuaLib/src;$(ProjectDir);$(ProjectDir)pch;$(SolutionDir)Box2D/src;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName)_d.pch</PrecompiledHeaderOutputFile>
       <ForcedIncludeFiles>$(ProjectDir)src/Game/EngineSettings.h</ForcedIncludeFiles>
@@ -153,8 +153,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)LuaLib/lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>LuaLib_d.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)LuaLib/lib;$(SolutionDir)Box2D/lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>LuaLib_d.lib;box2d_d.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -166,7 +166,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;TRACY_ENABLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(SolutionDir)LuaLib/src;$(ProjectDir);$(ProjectDir)pch;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)LuaLib/src;$(ProjectDir);$(ProjectDir)pch;$(SolutionDir)Box2D/src;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ForcedIncludeFiles>$(ProjectDir)src/Game/EngineSettings.h</ForcedIncludeFiles>
     </ClCompile>
@@ -175,8 +175,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)LuaLib/lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>LuaLib.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)LuaLib/lib;$(SolutionDir)Box2D/lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>LuaLib.lib;box2d.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -204,6 +204,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\Game\Utilities\InputHandler.cpp" />
+    <ClCompile Include="src\Game\Utilities\LuaGame.cpp" />
     <ClCompile Include="src\Game\Utilities\LuaInput.cpp" />
     <ClCompile Include="src\Game\Utilities\Math.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdafx.h</PrecompiledHeaderFile>
@@ -252,6 +253,7 @@
     <ClInclude Include="src\Game\Utilities\Algorithms.h" />
     <ClInclude Include="src\Game\Utilities\DungeonGenerator.h" />
     <ClInclude Include="src\Game\Utilities\InputHandler.h" />
+    <ClInclude Include="src\Game\Utilities\LuaGame.h" />
     <ClInclude Include="src\Game\Utilities\LuaInput.h" />
     <ClInclude Include="src\Game\Utilities\Math.h" />
     <ClInclude Include="src\Game\Utilities\Time.h" />
@@ -317,10 +319,12 @@
     <None Include="src\Lua\Behaviours\Projectile.lua" />
     <None Include="src\Lua\Cmd.lua" />
     <None Include="src\Lua\Color.lua" />
+    <None Include="src\Lua\Components\Active.lua" />
     <None Include="src\Lua\Components\CameraData.lua" />
     <None Include="src\Lua\Components\Health.lua" />
     <None Include="src\Lua\Components\HitboxCircle.lua" />
     <None Include="src\Lua\Components\Sprite.lua" />
+    <None Include="src\Lua\Components\Tags.lua" />
     <None Include="src\Lua\InitDevScene.lua" />
     <None Include="src\Lua\InputDemo.lua" />
     <None Include="src\Lua\Tests\GameMathTest.lua" />

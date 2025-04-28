@@ -24,6 +24,9 @@ Main2D::Main2D::~Main2D()
 		lua_close(L);
 		L = nullptr;
 	}
+
+    ResourceManager::Instance().UnloadResources();
+    CloseAudioDevice();
 }
 
 int Main2D::Main2D::Run()
@@ -63,12 +66,16 @@ int Main2D::Main2D::Start()
 
     Scene::lua_openscene(L, &m_scene);
 
+	m_luaGame = LuaGame::LuaGame(L, &m_scene);
+	LuaGame::LuaGame::lua_opengame(L, &m_luaGame);
+
     // Create console-bound lua state
     lua_State *consoleL = luaL_newstate();
     luaL_openlibs(consoleL);
     Scene::lua_openscene(consoleL, &m_scene);
 
     InitWindow(m_windowInfo.p_screenWidth, m_windowInfo.p_screenHeight, "Lua Game");
+    InitAudioDevice();
 
     Time::Instance();
 	ResourceManager::Instance().LoadResources();
@@ -212,18 +219,23 @@ int Main2D::Main2D::Render()
                     transform.Scale[1] * flip
                 );
 
-                std::string textureName = sprite.SpriteName;
-                const raylib::Texture2D *texture = ResourceManager::Instance().GetTexture(textureName);
-
                 raylib::Vector2 origin(
                     (transform.Scale[0] / 2),
                     (transform.Scale[1] / 2) * flip
                 );
 
-                if (textureName != "" && !texture)
+                std::string textureName = sprite.SpriteName;
+                const raylib::Texture2D *texture = nullptr;
+
+                if (textureName != "")
                 {
-                    ResourceManager::Instance().LoadTexture(textureName);
-                    texture = ResourceManager::Instance().GetTexture(textureName);
+                    texture = ResourceManager::Instance().GetTextureResource(textureName);
+
+                    if (!texture)
+                    {
+                        ResourceManager::Instance().LoadTextureResource(textureName);
+                        texture = ResourceManager::Instance().GetTextureResource(textureName);
+                    }
                 }
 
                 if (texture)

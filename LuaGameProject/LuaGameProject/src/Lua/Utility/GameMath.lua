@@ -79,11 +79,8 @@ end
 
 -- Interpolate between angles
 function rot_lerp(a, b, weight)
-	a = math.rad(a)
-	b = math.rad(b)
-    local pi2 = math.pi * 2
-    local shortest = ((a - b) + math.pi) % pi2 - math.pi
-    return math.deg(b + (shortest * weight) % pi2)
+    local shortest = ((a - b) + 90.0) % 270.0
+    return (b + (shortest * weight) % 360.0)
 end
 
 return gameMath

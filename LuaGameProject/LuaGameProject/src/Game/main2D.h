@@ -4,6 +4,7 @@
 #include <atomic>
 
 #include "Utilities/WindowInfo.h"
+#include "Utilities/LuaGame.h"
 
 constexpr float PLAYER_HOR_SPD = 200.0f;
 constexpr int CAMERA_OPTIONS = 2;
@@ -29,6 +30,7 @@ namespace Main2D
     private:
         lua_State *L = nullptr; // No m_ because "m_L" feels wrong.
         Scene m_scene{};
+        LuaGame::LuaGame m_luaGame;
 
         FreeCam m_freeCam{};
         raylib::Camera2D m_camera{};

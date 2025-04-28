@@ -15,6 +15,7 @@ namespace fs = std::filesystem;
 #include "dep/rcamera.h"
 #include "dep/EnTT/entt.hpp"
 #include "lua.hpp"
+#include "box2d/box2D.h"
 
 #include "dep/tracy-0.11.1/public/tracy/Tracy.hpp"
 #include "dep/tracy-0.11.1/public/tracy/TracyLua.hpp"

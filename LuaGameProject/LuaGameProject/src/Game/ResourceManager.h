@@ -37,13 +37,13 @@ namespace Resource
 			other.resource = nullptr;
 		}
 
-		operator const T *() const
+		operator T *()
 		{
 			return resource;
 		}
 
 	private:
-		const T *resource;
+		T *resource;
 	};
 }
 
@@ -62,29 +62,33 @@ public:
 	// Load all resources in the resource folder
 	void LoadResources();
 
+	void UnloadResources();
+
 	// Load a texture
-	void LoadTexture(const std::string &name);
+	void LoadTextureResource(const std::string &name);
 
 	// Load a sound
-	void LoadSound(const std::string &name);
+	void LoadSoundResource(const std::string &name);
 
 	// Get a texture by name
-	const raylib::Texture2D *GetTexture(const std::string &name) const;
+	const raylib::Texture2D *GetTextureResource(const std::string &name);
 
 	// Get a sound by name
-	const raylib::Sound *GetSound(const std::string &name) const;
+	raylib::Sound *GetSoundResource(const std::string &name);
+
+	const std::string GetSoundResourcePath(const std::string &name) const;
 
 private:
 	std::map<std::string, Resource::ManagedResource<raylib::Texture2D>> m_textures;
 	std::map<std::string, Resource::ManagedResource<raylib::Sound>> m_sounds;
 
 	template<typename T>
-	static const T *GetResourceFromMap(const std::string &name, const std::map<std::string, Resource::ManagedResource<T>> &map);
+	static T *GetResourceFromMap(const std::string &name, std::map<std::string, Resource::ManagedResource<T>> &map);
 };
 
 
 template<typename T>
-inline static const T *ResourceManager::GetResourceFromMap(const std::string &name, const std::map<std::string, Resource::ManagedResource<T>> &map)
+inline static T *ResourceManager::GetResourceFromMap(const std::string &name, std::map<std::string, Resource::ManagedResource<T>> &map)
 {
 	if (name == "")
 		return nullptr;

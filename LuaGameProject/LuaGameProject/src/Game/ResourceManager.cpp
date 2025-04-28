@@ -25,7 +25,7 @@ void ResourceManager::LoadResources()
 	// Load all textures
 	for (const auto &file : textureFiles)
 	{
-		LoadTexture(file);
+		LoadTextureResource(file);
 	}
 
 	// Find all sounds in the sound subfolder
@@ -43,11 +43,19 @@ void ResourceManager::LoadResources()
 	// Load all sounds
 	for (const auto &file : soundFiles)
 	{
-		LoadSound(file);
+		LoadSoundResource(file);
 	}
 }
 
-void ResourceManager::LoadTexture(const std::string &name)
+void ResourceManager::UnloadResources()
+{
+	ZoneScopedC(RandomUniqueColor());
+
+	m_textures.clear();
+	m_sounds.clear();
+}
+
+void ResourceManager::LoadTextureResource(const std::string &name)
 {
 	std::string filePath = RESOURCE_PATH + TEXTURE_FOLDER + name;
 	raylib::Texture2D *res = nullptr;
@@ -71,10 +79,9 @@ void ResourceManager::LoadTexture(const std::string &name)
 	}
 
 	m_textures.emplace(name, res);
-	//m_textures[name] = Resource::ManagedResource<raylib::Texture2D>(res);
 }
 
-void ResourceManager::LoadSound(const std::string &name)
+void ResourceManager::LoadSoundResource(const std::string &name)
 {
 	std::string filePath = RESOURCE_PATH + SOUND_FOLDER + name;
 	raylib::Sound *res = nullptr;
@@ -98,15 +105,19 @@ void ResourceManager::LoadSound(const std::string &name)
 	}
 
 	m_sounds.emplace(name, res);
-	//m_sounds[name] = Resource::ManagedResource<raylib::Sound>(res);
 }
 
-const raylib::Texture2D *ResourceManager::GetTexture(const std::string &name) const
+const raylib::Texture2D *ResourceManager::GetTextureResource(const std::string &name)
 {
 	return GetResourceFromMap(name, m_textures);
 }
 
-const raylib::Sound *ResourceManager::GetSound(const std::string &name) const
+raylib::Sound *ResourceManager::GetSoundResource(const std::string &name)
 {
 	return GetResourceFromMap(name, m_sounds);
+}
+
+const std::string ResourceManager::GetSoundResourcePath(const std::string &name) const
+{
+	return std::string(RESOURCE_PATH + SOUND_FOLDER + name);
 }

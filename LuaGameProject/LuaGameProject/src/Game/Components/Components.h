@@ -6,6 +6,46 @@
 
 namespace ECS
 {
+	struct Active
+	{
+		bool IsActive = true;
+
+		void LuaPush(lua_State *L) const
+		{
+			ZoneScopedC(RandomUniqueColor());
+			// Create the main active table
+			lua_createtable(L, 0, 1);
+
+			// Add IsActive to the active table
+			lua_pushnumber(L, IsActive);
+			lua_setfield(L, -2, "isActive");
+		}
+		void LuaPull(lua_State *L, int index)
+		{
+			ZoneScopedC(RandomUniqueColor());
+			// Make sure the index is absolute (in case it's negative)
+			if (index < 0)
+			{
+				index = lua_gettop(L) + index + 1;
+			}
+
+			// Verify that the value at the given index is a table
+			if (!lua_istable(L, index))
+			{
+				luaL_error(L, "Expected a table for Active");
+				return;
+			}
+
+			// Get Max field
+			lua_getfield(L, index, "isActive");
+			if (lua_isboolean(L, -1))
+			{
+				IsActive = lua_toboolean(L, -1);
+			}
+			lua_pop(L, 1); // Remove the isActive value from stack
+		}
+	};
+
 	struct Behaviour
 	{
 	public:
