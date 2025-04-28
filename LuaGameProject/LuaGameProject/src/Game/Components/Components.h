@@ -51,7 +51,7 @@ namespace ECS
 	struct Behaviour
 	{
 	public:
-		static const int SCRIPT_PATH_LENGTH = 64;
+		static const int SCRIPT_PATH_LENGTH = 65;
 		char ScriptPath[SCRIPT_PATH_LENGTH];
 		int LuaRef;
 
@@ -209,6 +209,12 @@ namespace ECS
 			}
 			lua_pop(L, 1); // Pop Scale table
 		}
+	};
+
+	struct Collider
+	{
+		b2Polygon collider;
+
 	};
 
 	struct Sprite

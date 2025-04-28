@@ -121,6 +121,26 @@ int Main2D::Main2D::Start()
 
     LuaDoFileCleaned(L, LuaFilePath("InitDevScene")); // Creates entities
 
+    // Setup Box2D
+    const float lengthUnitsPerMeter = 128.0f; //128 pixels per meter
+    b2SetLengthUnitsPerMeter(lengthUnitsPerMeter);
+
+    b2WorldDef worldDef = b2DefaultWorldDef();
+    worldDef.gravity.y = 9.81f * lengthUnitsPerMeter; // Disable gravity
+
+    m_worldId = b2CreateWorld(&worldDef);
+
+    b2Polygon box1 = b2MakeBox(100, 100),
+              box2 = b2MakeBox(10, 10);
+
+    b2BodyDef bodyDef = b2DefaultBodyDef();
+    bodyDef.position = { 0, 0 };
+    m_box = b2CreateBody(m_worldId, &bodyDef);
+
+    b2ShapeDef shapeDef = b2DefaultShapeDef();
+
+    b2CreatePolygonShape(m_box, &shapeDef, &box1);
+
     return 1;
 }
 
@@ -177,6 +197,8 @@ int Main2D::Main2D::Update()
             break;
         }
     }
+
+    b2World_Step(m_worldId, Time::DeltaTime(), 4);
 
     // Update systems
     m_scene.SystemsOnUpdate(Time::DeltaTime());

@@ -48,6 +48,9 @@ namespace Main2D
         std::string m_cmdList;
         std::atomic_bool m_pauseCmdInput = false;
 
+        b2WorldId m_worldId;
+        b2BodyId m_box, m_ground;
+
         int Start();
         int Update();
         int Render();
