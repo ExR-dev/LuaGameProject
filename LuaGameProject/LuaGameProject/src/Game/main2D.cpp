@@ -232,14 +232,45 @@ int Main2D::Main2D::Update()
         }
     }
 
-    // Update Physics
-    b2World_Step(Game::p_worldId, Time::DeltaTime(), 4);
 
     // Update systems
     m_scene.SystemsOnUpdate(Time::DeltaTime());
 
     // Call update camera function by its pointer
     m_cameraUpdater();
+
+
+    // Update Physics
+    b2World_Step(Game::p_worldId, Time::DeltaTime(), 4);
+
+    std::function<void(entt::registry& registry)> createPhysicsBodies = [](entt::registry& registry) {
+        ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+
+        auto view = registry.view<ECS::Rigidbody, ECS::Transform>();
+        view.use<ECS::Rigidbody>();
+
+        view.each([&](ECS::Rigidbody& rigidbody, const ECS::Transform& transform) {
+            ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+
+            if (rigidbody.createBody)
+            {
+                b2Polygon polygon = b2MakeBox(fabsf(transform.Scale[0]) / 2, fabsf(transform.Scale[1]) / 2);
+
+                b2BodyDef bodyDef = b2DefaultBodyDef();
+                bodyDef.position = { transform.Position[0], transform.Position[1] };
+
+                rigidbody.bodyId = b2CreateBody(Game::p_worldId, &bodyDef);
+
+                b2ShapeDef shapeDef = b2DefaultShapeDef();
+                b2CreatePolygonShape(rigidbody.bodyId, &shapeDef, &polygon);
+
+                rigidbody.createBody = false;
+            }
+
+        });
+    };
+
+    m_scene.RunSystem(createPhysicsBodies);
 
     return 0;
 }

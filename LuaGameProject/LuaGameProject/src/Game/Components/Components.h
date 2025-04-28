@@ -216,7 +216,7 @@ namespace ECS
 	struct Rigidbody
 	{
 		b2BodyId bodyId;
-		b2Vec2 colliderSize;
+		bool createBody = false;
 
 		void LuaPush(lua_State* L) const
 		{
@@ -231,16 +231,7 @@ namespace ECS
 			{
 				index = lua_gettop(L) + index + 1;
 			}
-
-			b2Polygon box = b2MakeBox(10, 10);
-
-			b2BodyDef bodyDef = b2DefaultBodyDef();
-			bodyDef.position = { 0, 0 };
-			b2BodyId boxid = b2CreateBody(Game::p_worldId, &bodyDef);
-
-			b2ShapeDef shapeDef = b2DefaultShapeDef();
-
-			b2CreatePolygonShape(boxid, &shapeDef, &box);
+			createBody = true;
 		}
 	};
 
