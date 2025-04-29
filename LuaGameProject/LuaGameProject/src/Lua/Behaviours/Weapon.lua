@@ -13,23 +13,20 @@ function weapon:OnCreate()
 	-- Heavily overengineered for now, simplify before implementing
 	self.stats = { -- Baseline stats. Could be affected by condition, bullet velocity, ammo type, etc.
 		handCount = 1,
-		caliber = "9mm", -- Ex: 9mm, 12ga, 5.56, 308,
+		caliber = "9mm", -- Ex: 9mm, 12ga, 5.56, 308
 		fireMode = "Semi", -- Semi, Auto
+		capacity = 12,
 		damage = 10.0,
 		fireRate = 4.0,
 		spread = 2.0,
 		recoil = 5.0, -- Added spread by firing, decaying over time
-		recovery = 8.0, -- Decay of recoil, see gameMath.expDecay().
-		capacity = 12
+		recovery = 8 -- Decay of recoil, see gameMath.expDecay().
 	}
 
 	self.ammoStats = { -- Stats for the currently loaded ammo
 		caliber = "9mm", -- For matching ammo to the weapon
 		ammoType = "FMJ", -- Ex: FMJ, HP, AP
 		damage = 5.0,
-		velocity = 0.0,
-		range = 0.0,
-		penetration = 0.0,
 		spread = 3.0,
 		recoil = 0.0,
 		burstSize = 1 -- For weapons that fire multiple rounds at once
