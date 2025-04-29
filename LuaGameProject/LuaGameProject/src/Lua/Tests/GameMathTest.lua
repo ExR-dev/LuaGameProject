@@ -1,4 +1,69 @@
 
+local function PrintBar(char, len, prefix, suffix)
+	local bar = prefix or ""
+
+	for i = 1, len do
+		bar = bar..char
+	end
+
+	bar = bar..(suffix or "")
+	print(bar)
+end
+
+local function TestRandomND()
+	local gMath = require("Utility/GameMath")
+
+	local ranges = { }
+	local bars = 15
+	local hBars = bars / 2.0
+	local fullBarLength = 30
+	local barMultiplier = 4.0
+
+	for i = 1, bars do
+		ranges[i] = 0
+	end
+
+	local samples = 500000
+	for i = 1, samples do
+		local val = gMath.randomND()
+		local index = math.floor(((val + 1.0) * hBars)) + 1
+		index = math.min(index, bars)
+		index = math.max(index, 1)
+		ranges[index] = ranges[index] + 1
+	end
+
+	local invSamples = 1.0 / samples
+
+	for i = 1, bars do
+		local barLengthUncut = invSamples * barMultiplier * fullBarLength * ranges[i]
+		local barLength = math.floor(barLengthUncut)
+		local rest = barLengthUncut - barLength
+
+		barLength = math.min(barLength, fullBarLength)
+		barLength = math.max(barLength, 0)
+
+		local prefix = tostring(i).."\t|"
+
+		local suffix = nil
+		if rest < 0.05 then
+			suffix = ""
+		elseif rest < 0.2 then
+			suffix = "."
+		elseif rest < 0.4 then
+			suffix = "+"
+		elseif rest < 0.6 then
+			suffix = "x"
+		elseif rest < 0.8 then
+			suffix = "X"
+		else
+			suffix = "#"
+		end
+
+		PrintBar("#", barLength, prefix, suffix)
+	end
+end
+
+
 local function test()
 	local totalTestsTracker = 0
 	local passedTestsTracker = 0
@@ -254,6 +319,12 @@ local function test()
 	else
 		print("Failed!")
 	end
+	print("")
+
+	-- Manual test
+	print("Testing distribution of randomND. Verify manually by observing curve.")
+	print("TestRandomND()")
+	TestRandomND()
 	print("")
 
 	-- TODO: Add tests for angleBetween and vecFromAngle

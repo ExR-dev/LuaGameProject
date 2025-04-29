@@ -300,6 +300,7 @@
     <None Include="src\Lua\Components\HitboxCircle.lua" />
     <None Include="src\Lua\Components\Active.lua" />
     <None Include="src\Lua\Components\Tags.lua" />
+    <None Include="src\Lua\Behaviours\Weapon.lua" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="raylib.dll" />

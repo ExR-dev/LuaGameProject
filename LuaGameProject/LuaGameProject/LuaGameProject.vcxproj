@@ -317,6 +317,7 @@
     <None Include="src\Lua\Behaviours\Enemy.lua" />
     <None Include="src\Lua\Behaviours\Player.lua" />
     <None Include="src\Lua\Behaviours\Projectile.lua" />
+    <None Include="src\Lua\Behaviours\Weapon.lua" />
     <None Include="src\Lua\Cmd.lua" />
     <None Include="src\Lua\Color.lua" />
     <None Include="src\Lua\Components\Active.lua" />

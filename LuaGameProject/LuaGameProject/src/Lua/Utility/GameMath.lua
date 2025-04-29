@@ -56,6 +56,15 @@ function gameMath.expDecay(a, b, d, dT)
 	end
 end
 
+-- Generate a random number with a normal distribution in the range [-1, 1]
+function gameMath.randomND()
+   local x
+   repeat
+      x = (math.sqrt(math.log(1 / math.random())) * math.cos(math.pi * math.random()) * 1.5) / 5.0
+   until x > -1.0 and x <= 1.0
+   return x
+end
+
 -- Angle between two vectors in radians
 function gameMath.angleBetween(a, b)
 	assert(vec2.isvec2(a) and vec2.isvec2(b), "gameMath angleBetween - expected args: (vec2, vec2)")
