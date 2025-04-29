@@ -1,5 +1,7 @@
 #pragma once
 #include <cstring>
+#include <string>
+#include <vector>
 #include "Game/Game.h"
 #include "lua.hpp"
 #include "LuaUtils.h"
@@ -109,8 +111,27 @@ namespace ECS
 			lua_rawgeti(L, LUA_REGISTRYINDEX, LuaRef);
 		}
 
+		// Check if name exists in the unowned methods, return false if it does
+		bool IsUnownedMethod(const std::string &name)
+		{
+			for (const auto &method : m_unownedMethods)
+			{
+				if (method == name)
+					return true;
+			}
+
+			return false;
+		}
+
+		void AddUnownedMethod(const std::string &name)
+		{
+			m_unownedMethods.push_back(name);
+		}
+
 	private:
 		lua_State *m_refState = nullptr;
+
+		std::vector<std::string> m_unownedMethods;
 	};
 
 	struct Transform

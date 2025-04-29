@@ -116,7 +116,8 @@ int Main2D::Main2D::Start()
 	// Initialize Lua
     m_scene.SystemsInitialize(L);
 
-    LuaDoFileCleaned(L, LuaFilePath("InitDevScene")); // Creates entities
+	for (int i = 0; i < 50; i++)
+        LuaDoFileCleaned(L, LuaFilePath("InitDevScene")); // Creates entities
 
     return 1;
 }
