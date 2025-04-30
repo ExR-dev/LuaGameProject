@@ -56,6 +56,11 @@ function gameMath.expDecay(a, b, d, dT)
 	end
 end
 
+-- Generate a random number in the range [-1, 1]
+function gameMath.randomSigned()
+	return (math.random() * 2.0) - 1.0
+end
+
 -- Generate a random number with a normal distribution in the range [-1, 1]
 function gameMath.randomND()
    local x

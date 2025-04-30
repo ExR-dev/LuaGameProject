@@ -52,7 +52,7 @@ function enemy:OnUpdate(delta)
 	end
 
 	if math.random(0, 100000) == 0 then
-		local listenerPos = GetPlayerCamera().camT.position
+		local listenerPos = game.GetPlayerCamera().camT.position
 		local soundPos = t.position
 		local soundDistSqr = ((listenerPos - soundPos) * gameMath.pixelsToMeters):lengthSqr()
 

@@ -114,6 +114,9 @@ int Main2D::Main2D::Start()
     std::this_thread::sleep_for(std::chrono::milliseconds(50)); // Wait for the console thread to start
 
 	// Initialize Lua
+    LuaDoFileCleaned(L, LuaFilePath("Data")); // Load data
+    // TODO: Reuse code for running tests to autmoatically run all lua files located in Data
+
     m_scene.SystemsInitialize(L);
 
     LuaDoFileCleaned(L, LuaFilePath("InitDevScene")); // Creates entities

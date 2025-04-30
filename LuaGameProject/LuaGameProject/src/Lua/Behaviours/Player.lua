@@ -6,9 +6,10 @@ local transform = require("Transform2")
 local gameMath = require("Utility/GameMath")
 
 -- Global player getter
-function GetPlayer()
+local function GetPlayer()
 	return player
 end
+game.GetPlayer = GetPlayer
 
 function player:OnCreate()
 	tracy.ZoneBeginN("Lua player:OnCreate")
@@ -21,13 +22,26 @@ function player:OnCreate()
 	-- preventing the player from using healing items without first holstering the weapon.
 	-- Could act as an incentive to use weaker weapons like pistols, as they'd offer more flexible controls.
 	-- Also allows for akimbo, I guess. People seem to like that.
-	self.rHandEntity = -1
-	self.lHandEntity = -1
+	self.rHandEntity = nil
+	self.lHandEntity = nil
 
-	-- For holding items, like grenades
+	-- Inventory of items that are holstered
 	self.holsteredEntities = { }
 
-	self.shootFunc = self.OnShootDefault
+	self.holdOffset = vec2(-18.0, 24.0) -- Invert x-axis for left hand
+
+	self.ammoReserve = {
+		["9mm"] = {
+			["FMJ"] = 90,
+			["HP"] = 36,
+			["AP"] = 18
+		},
+		["12ga"] = {
+			["Buck"] = 24,
+			["Slug"] = 16,
+			["Dart"] = 8
+		},
+	}
 
 	tracy.ZoneEnd()
 end
@@ -57,66 +71,58 @@ function player:OnUpdate(delta)
 	if not gameMath.approx(move:lengthSqr(), 0.0) then
 		move:normalize()
 		self.trans.position = self.trans.position + (move * (self.speed * delta))
-
-		scene.SetComponent(self.ID, "Transform", self.trans)
 	end
 
+	-- Rotate the player to face the cursor
+	local dir = game.GetCursor().trans.position - self.trans.position
+	self.trans.rotation = dir:angle()
 
-	if Input.KeyPressed(Input.Key.KEY_Q) then
-		if self.shootFunc == self.OnShootDefault then
-			self.shootFunc = self.OnShootBurst
-		else
-			self.shootFunc = self.OnShootDefault
+	scene.SetComponent(self.ID, "Transform", self.trans)
+
+	if self.rHandEntity ~= nil then
+		-- Update the transform of the entity in the players right hand
+		self:UpdateHeldItem(self.rHandEntity, self.holdOffset)
+	end
+
+	if (self.lHandEntity ~= nil) and (self.lHandEntity ~= self.rHandEntity) then
+		-- Update the transform of the entity in the players left hand
+		self:UpdateHeldItem(self.lHandEntity, (self.holdOffset * vec2(-1.0, 1.0)))
+	end
+
+	tracy.ZoneEnd()
+end
+
+function player:UpdateHeldItem(entID, localOffset)
+	tracy.ZoneBeginN("Lua player:UpdateHeldItem")
+	
+	local itemBehaviour = scene.GetComponent(entID, "Behaviour")
+	local itemTrans = transform(scene.GetComponent(entID, "Transform"))
+
+	itemTrans.position = self.trans.position
+	itemTrans.rotation = self.trans.rotation
+
+	itemTrans:moveRelative(localOffset)
+
+	-- Rotate the item to face the cursor
+	local dir = game.GetCursor().trans.position - itemTrans.position
+	itemTrans.rotation = dir:angle()
+
+	scene.SetComponent(entID, "Transform", itemTrans)
+
+	itemBehaviour.trans = itemTrans
+
+	if itemBehaviour.OnShoot ~= nil then
+		if Input.KeyPressed(Input.Key.KEY_SPACE) then
+			itemBehaviour:OnShoot()
 		end
 	end
 
-	if Input.KeyPressed(Input.Key.KEY_SPACE) then
-		self.shootFunc(self)
+	if itemBehaviour.OnReload ~= nil then
+		if Input.KeyPressed(Input.Key.KEY_R) then
+			itemBehaviour:OnReload(self.ammoReserve)
+		end
 	end
 
-	tracy.ZoneEnd()
-end
-
--- TODO: Temporary, this should be done by a weapon behaviour
-function player.OnShootDefault(self)
-	tracy.ZoneBeginN("Lua player:OnShootDefault")
-
-	local origin = self.trans.position
-	local dir = GetCursor().trans.position - origin
-
-	local offsetAngle = dir:angle() + ((math.random() - 0.5) * 2.0)
-
-	local projEnt = scene.CreateEntity()
-	local projT = transform(origin, offsetAngle, vec2(24, 6))
-
-	scene.SetComponent(projEnt, "Transform", projT)
-	scene.SetComponent(projEnt, "Behaviour", "Behaviours/Projectile")
-
-	tracy.ZoneEnd()
-end
-
-function player.OnShootBurst(self)
-	tracy.ZoneBeginN("Lua player:OnShootBurst")
-
-	local origin = self.trans.position
-	local dir = GetCursor().trans.position - origin
-
-	dir:normalize()
-	local angle = dir:angle()
-
-	local count = 5
-	local spread = 10.0
-
-	for i = 1, count do
-		local offsetAngle = angle + ((math.random() - 0.5) * spread)
-
-		local projEnt = scene.CreateEntity()
-		local projT = transform(origin, offsetAngle, vec2(18, 4))
-
-		scene.SetComponent(projEnt, "Transform", projT)
-		scene.SetComponent(projEnt, "Behaviour", "Behaviours/Projectile")
-	end
-	
 	tracy.ZoneEnd()
 end
 

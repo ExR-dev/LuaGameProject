@@ -48,7 +48,7 @@ tracy.ZoneEnd()
 --------------------------------
 
 -- Don't spawn player if already exists
-if GetPlayer == nil then
+if game.GetPlayer == nil then
 	-- Create Player ---------------
 	tracy.ZoneBeginN("Lua Create Player")
 	local playerEnt = scene.CreateEntity()
@@ -81,7 +81,7 @@ if GetPlayer == nil then
 	scene.SetComponent(camEnt, "Behaviour", "Behaviours/PlayerCamera")
 
 	-- Get the camera and set the tracked entity
-	GetPlayerCamera():SetTrackedEntity(playerEnt)
+	game.GetPlayerCamera():SetTrackedEntity(playerEnt)
 
 	tracy.ZoneEnd()
 	--------------------------------
@@ -99,6 +99,25 @@ if GetPlayer == nil then
 	scene.SetComponent(cursorEnt, "Transform", cursorT)
 	scene.SetComponent(cursorEnt, "Sprite", cursorS)
 	scene.SetComponent(cursorEnt, "Behaviour", "Behaviours/Cursor")
+
+	tracy.ZoneEnd()
+	--------------------------------
+
+
+	-- Create Weapon ---------------
+	tracy.ZoneBeginN("Lua Create Weapon")
+	local weaponEnt = scene.CreateEntity()
+
+	local weaponT = transform()
+	scene.SetComponent(weaponEnt, "Transform", weaponT)
+	scene.SetComponent(weaponEnt, "Behaviour", "Behaviours/Weapon")
+
+	-- Get the weapon behaviour to set the stats
+	local weaponBehaviour = scene.GetComponent(weaponEnt, "Behaviour")
+	weaponBehaviour:LoadType("Glock")
+
+	-- Pick it up
+	weaponBehaviour:TryPickUp()
 
 	tracy.ZoneEnd()
 	--------------------------------

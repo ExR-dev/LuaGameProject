@@ -279,8 +279,8 @@
     <None Include="src\Lua\VectorDemo.lua" />
     <None Include="src\Lua\Vec2.lua" />
     <None Include="src\Lua\Transform2.lua" />
-    <None Include="src\Lua\Tests\Transform2Test.lua" />
-    <None Include="src\Lua\Tests\Vec2Test.lua" />
+    <None Include="src\Lua\Tests\Math\Transform2Test.lua" />
+    <None Include="src\Lua\Tests\Math\Vec2Test.lua" />
     <None Include="src\Lua\Components\Sprite.lua" />
     <None Include="src\Lua\InitDevScene.lua" />
     <None Include="src\Lua\Color.lua" />
@@ -295,12 +295,15 @@
     <None Include="src\Lua\Utility\GameMath.lua" />
     <None Include="src\Lua\Behaviours\Cursor.lua" />
     <None Include="src\Lua\Tests\InputTest.lua" />
-    <None Include="src\Lua\Tests\GameMathTest.lua" />
+    <None Include="src\Lua\Tests\Math\GameMathTest.lua" />
     <None Include="src\Lua\Behaviours\Projectile.lua" />
     <None Include="src\Lua\Components\HitboxCircle.lua" />
     <None Include="src\Lua\Components\Active.lua" />
     <None Include="src\Lua\Components\Tags.lua" />
     <None Include="src\Lua\Behaviours\Weapon.lua" />
+    <None Include="src\Lua\Data\Ammo.lua" />
+    <None Include="src\Lua\Data.lua" />
+    <None Include="src\Lua\Data\Weapons.lua" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="raylib.dll" />

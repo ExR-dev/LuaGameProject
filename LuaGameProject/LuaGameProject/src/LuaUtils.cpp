@@ -251,14 +251,22 @@ void LuaRunTests(lua_State *L, const std::string &testDir)
 	{
 		if (p.path().extension() == ext)
 		{
-			testFiles.push_back(p.path().stem().string());
+			// Paths cannot contain ':', so we can use it as a separator
+			testFiles.push_back(p.path().string() + ":" + p.path().stem().string());
 		}
 	}
 
 	for (auto &t : testFiles)
 	{
-		const std::string testScript(testDir + t + ".lua");
-		LuaRunTest(L, testScript, t);
+		size_t pos = t.find(':');
+
+		// Everything before the ':' is the path
+		const std::string scriptPath = t.substr(0, pos);	
+
+		// Everything after the ':' is the name
+		const std::string scriptName = t.substr(pos + 1);
+
+		LuaRunTest(L, scriptPath, scriptName);
 	}
 }
 

@@ -6,9 +6,10 @@ local transform = require("Transform2")
 local gameMath = require("Utility/GameMath")
 
 -- Global player camera getter
-function GetPlayerCamera()
+local function GetPlayerCamera()
 	return playerCamera
 end
+game.GetPlayerCamera = GetPlayerCamera
 
 function playerCamera:OnCreate()
 	tracy.ZoneBeginN("Lua playerCamera:OnCreate")
