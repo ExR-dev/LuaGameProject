@@ -190,28 +190,25 @@ int Main2D::Main2D::Update()
     m_cameraUpdater();
 
     // Update Physics
-    m_physicsHandler.Update();
+    m_physicsHandler.Update(L);
 
     std::function<void(entt::registry& registry)> createPhysicsBodies = [&](entt::registry& registry) {
         ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
 
-        auto view = registry.view<ECS::Rigidbody, ECS::Transform>();
-        view.use<ECS::Rigidbody>();
+        auto view = registry.view<ECS::Collider, ECS::Transform>();
+        view.use<ECS::Collider>();
 
-        view.each([&](ECS::Rigidbody& rigidbody, ECS::Transform& transform) {
+        view.each([&](ECS::Collider& collider, ECS::Transform& transform) {
             ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
 
             // Create body
-            if (rigidbody.createBody)
+            if (collider.createBody)
             {
-                rigidbody.bodyId = m_physicsHandler.CreateRigidBody(transform);
-                rigidbody.createBody = false;
+                collider.bodyId = m_physicsHandler.CreateRigidBody(collider, transform);
+                collider.createBody = false;
             }
 
-            b2Vec2 pos = b2Body_GetWorldPoint(rigidbody.bodyId, { 0, 0 });
-
-            transform.Position[0] = pos.x;
-            transform.Position[1] = pos.y;
+            b2Body_SetTransform(collider.bodyId, { transform.Position[0], transform.Position[1] }, { 0, 1 });
         });
     };
 

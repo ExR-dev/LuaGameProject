@@ -23,7 +23,7 @@ void PhysicsHandler::Setup()
     Assert(b2World_IsValid(m_worldId), "Invalid Box2D world!");
 }
 
-void PhysicsHandler::Update()
+void PhysicsHandler::Update(lua_State* L)
 {
     b2World_Step(m_worldId, Time::DeltaTime(), 4);
 
@@ -32,8 +32,9 @@ void PhysicsHandler::Update()
     {
         const b2SensorBeginTouchEvent event = sensorEvents.beginEvents[i];
 
-        float* scale = (float*)b2Shape_GetUserData(event.sensorShapeId);
-        std::cout << "Collision: " << scale[0] << ", " << scale[1] << std::endl;
+        int luaCallback = (int)b2Shape_GetUserData(event.sensorShapeId);
+        lua_rawgeti(L, LUA_REGISTRYINDEX, luaCallback);
+        lua_pcall(L, 0, 0, 0);
     }
 }
 
@@ -42,7 +43,7 @@ b2WorldId PhysicsHandler::GetWorldId() const
     return m_worldId;
 }
 
-b2BodyId PhysicsHandler::CreateRigidBody(const ECS::Transform &transform)
+b2BodyId PhysicsHandler::CreateRigidBody(const ECS::Collider &collider, const ECS::Transform &transform)
 {
     b2BodyId bodyId;
 
@@ -56,7 +57,7 @@ b2BodyId PhysicsHandler::CreateRigidBody(const ECS::Transform &transform)
 
 	b2ShapeDef shapeDef = b2DefaultShapeDef();
     shapeDef.isSensor = true; // Disable automatic resolving
-    shapeDef.userData = (void*)transform.Scale;
+    shapeDef.userData = (void*)collider.luaRef;
     shapeDef.enableSensorEvents = true;
 	b2CreatePolygonShape(bodyId, &shapeDef, &polygon);
 

@@ -213,10 +213,11 @@ namespace ECS
 		}
 	};
 
-	struct Rigidbody
+	struct Collider
 	{
 		b2BodyId bodyId;
 		bool createBody = false;
+		int luaRef;
 
 		void LuaPush(lua_State* L) const
 		{
@@ -232,6 +233,8 @@ namespace ECS
 				index = lua_gettop(L) + index + 1;
 			}
 			createBody = true;
+
+			luaRef = luaL_ref(L, LUA_REGISTRYINDEX);
 		}
 	};
 

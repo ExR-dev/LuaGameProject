@@ -10,11 +10,11 @@ public:
 	~PhysicsHandler();
 
 	void Setup();
-	void Update();
+	void Update(lua_State* L);
 
 	b2WorldId GetWorldId() const;
 
-	b2BodyId CreateRigidBody(const ECS::Transform &transform);
+	b2BodyId CreateRigidBody(const ECS::Collider &collider, const ECS::Transform &transform);
 
 private:
 	b2WorldId m_worldId;
