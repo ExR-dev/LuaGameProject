@@ -41,6 +41,9 @@ function player:OnCreate()
 			["Slug"] = 16,
 			["Dart"] = 8
 		},
+		["5.56"] = {
+			["FMJ"] = 180,
+		},
 	}
 
 	tracy.ZoneEnd()

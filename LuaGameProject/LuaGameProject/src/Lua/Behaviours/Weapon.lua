@@ -67,9 +67,6 @@ function weapon:OnUpdate(delta)
 	tracy.ZoneBeginN("Lua weapon:OnUpdate")
 	
 	if self.isHeld then
-		if self.fireCooldown > 0.0 then
-			self.fireCooldown = self.fireCooldown - delta
-		end
 
 		if self.isReloading then
 			self.reloadTimer = self.reloadTimer - delta
@@ -77,6 +74,21 @@ function weapon:OnUpdate(delta)
 			if self.reloadTimer <= 0.0 then
 				self.reloadTimer = 0.0
 				self.isReloading = false
+				print("Done Reloading.")
+			end
+		end
+
+		if self.fireCooldown > 0.0 then
+			self.fireCooldown = self.fireCooldown - delta
+			
+			if self.fireCooldown <= 0.0 then
+				if self.stats.fireMode == "Auto" then
+					if Input.KeyHeld(Input.Key.KEY_SPACE) then
+						self:OnShoot()
+					end
+				else
+					self.fireCooldown = 0.0
+				end
 			end
 		end
 

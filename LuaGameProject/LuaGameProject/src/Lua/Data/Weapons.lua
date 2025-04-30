@@ -102,10 +102,10 @@ local weapons = {
 			capacity = 18,
 			damage = 10.0,
 			fireRate = 8.0,
-			reloadTime = 1.0,
+			reloadTime = 0.7,
 			spread = 2.0,
 			recoil = 2.0,
-			recovery = 6
+			recovery = 8
 		}
 	},
 
@@ -120,12 +120,32 @@ local weapons = {
 			caliber = "12ga",
 			fireMode = "Semi",
 			capacity = 8,
-			damage = 30.0,
+			damage = 40.0,
 			fireRate = 4.0,
 			reloadTime = 2.0,
 			spread = 2.0,
 			recoil = 7.0,
 			recovery = 2
+		}
+	},
+
+	["AR-15"] = {
+
+		sprite = nil,
+		width = 12,
+		length = 48,
+
+		stats = {
+			handCount = 2,
+			caliber = "5.56",
+			fireMode = "Auto",
+			capacity = 30,
+			damage = 35.0,
+			fireRate = 8.0,
+			reloadTime = 1.0,
+			spread = 0.8,
+			recoil = 1.75,
+			recovery = 6
 		}
 	},
 }

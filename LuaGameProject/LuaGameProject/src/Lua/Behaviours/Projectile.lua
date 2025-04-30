@@ -15,7 +15,7 @@ function projectile:OnCreate()
 	scene.SetComponent(self.ID, "Sprite", s)
 
 	self.trans = transform(scene.GetComponent(self.ID, "Transform"))
-	self.speed = 1337.0 * 2.0
+	self.speed = 1337.0 * 1.5
 	self.expiration = 5.0
 
 	self.stats = nil -- Set after spawning projectile using data.ammo.getStats()
