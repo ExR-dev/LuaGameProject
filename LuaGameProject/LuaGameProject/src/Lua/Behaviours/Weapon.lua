@@ -3,6 +3,7 @@ local weapon = {}
 
 local vec2 = require("Vec2")
 local transform = require("Transform2")
+local color = require("Color")
 local gameMath = require("Utility/GameMath")
 local sprite = require("Components/Sprite")
 
@@ -30,7 +31,7 @@ end
 function weapon:LoadType(type)
 	tracy.ZoneBeginN("Lua weapon:LoadType")
 
-	-- Try to get the type from data.weapons
+	-- Get the type from data.weapons
 	local weaponData = data.weapons[type]
 
 	if weaponData == nil then
@@ -38,15 +39,24 @@ function weapon:LoadType(type)
 		weaponData = data.weapons["Glock"]
 	end
 	
+	-- Set the sprite
 	local weaponSprite = sprite()
 	weaponSprite.priority = 21
 	weaponSprite.spriteName = weaponData.sprite
+
+	if weaponSprite.spriteName == nil then
+		weaponSprite.color = color(0.2, 0.175, 0.1, 1.0)
+	end
+
 	scene.SetComponent(self.ID, "Sprite", weaponSprite)
 
+	-- Set the size
 	self.trans.scale.x = weaponData.length
 	self.trans.scale.y = weaponData.width
+
 	scene.SetComponent(self.ID, "Transform", self.trans)
 
+	-- Set the stats
 	self.stats = weaponData.stats
 	self.loadedAmmoType = data.ammo.getCaliberDefaultType(self.stats.caliber)
 
@@ -170,6 +180,9 @@ function weapon:OnReload(reserve)
 	
 	self.isReloading = true
 	self.reloadTimer = self.stats.reloadTime
+
+	print("Reloading "..self.loadedAmmoType.." ammo: "..ammoTaken.." / "..ammoInReserve)
+	print("Reserve now: "..caliberReserve[self.loadedAmmoType])
 
 	return true
 end

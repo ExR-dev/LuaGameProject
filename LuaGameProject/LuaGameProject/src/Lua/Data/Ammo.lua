@@ -7,6 +7,8 @@ local calibers = {
 	["caliber"] = {
 		-- Caliber describes the bullets dimensions, and defines what weapons can fire it
 
+		default = "FMJ",
+
 		["type"] = {
 			-- Ammo type describes the bullets use case, and defines its stats
 			-- Common types are FMJ, HP, AP, whose use cases are described as
@@ -64,6 +66,8 @@ local calibers = {
 	--]]
 
 	["9mm"] = { -- Small arms
+		default = "FMJ",
+
 		["FMJ"] = { -- Default
 			damageMult = 1.0,
 			falloff = 0.95,
@@ -93,13 +97,15 @@ local calibers = {
 	},
 
 	["12ga"] = { -- Shotguns
+		default = "Buck",
+
 		["Buck"] = { -- Default
 			damageMult = 0.25,
 			falloff = 0.93,
 			penetration = 0.4,
-			spread = 8.0,
+			spread = 7.0,
 			recoil = 6.0,
-			burstSize = 8
+			burstSize = 6
 		},
 
 		["Slug"] = { -- Much better damage, falloff & spread, but much worse recoil, 
@@ -122,6 +128,8 @@ local calibers = {
 	},
 
 	["5.56"] = { -- Automatic rifles
+		default = "FMJ",
+
 		["FMJ"] = { -- Default
 			damageMult = 1.0,
 			falloff = 0.975,
@@ -133,6 +141,8 @@ local calibers = {
 	},
 
 	["308"] = { -- Bolt-action rifles
+		default = "FMJ",
+
 		["FMJ"] = { -- Default
 			damageMult = 1.0,
 			falloff = 0.985,
@@ -156,11 +166,17 @@ end
 -- Get the default ammo type of a specific caliber
 local function getCaliberDefaultType(caliber)
 	local caliberTable = data.ammo.calibers[caliber]
+
+	if caliberTable.default ~= nil then
+		return caliberTable.default
+	end
+
 	if caliberTable ~= nil then
 		for typeKey, _ in pairs(caliberTable) do
 			return typeKey
 		end
 	end
+
 	return nil
 end
 

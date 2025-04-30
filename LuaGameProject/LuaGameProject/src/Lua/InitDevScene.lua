@@ -114,7 +114,7 @@ if game.GetPlayer == nil then
 
 	-- Get the weapon behaviour to set the stats
 	local weaponBehaviour = scene.GetComponent(weaponEnt, "Behaviour")
-	weaponBehaviour:LoadType("Glock")
+	weaponBehaviour:LoadType("Spas-12")
 
 	-- Pick it up
 	weaponBehaviour:TryPickUp()

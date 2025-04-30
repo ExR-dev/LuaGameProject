@@ -92,8 +92,8 @@ local weapons = {
 	["Glock"] = {
 
 		sprite = nil,
-		width = 12,
-		length = 42,
+		width = 10,
+		length = 36,
 
 		stats = {
 			handCount = 1,
@@ -101,11 +101,31 @@ local weapons = {
 			fireMode = "Semi",
 			capacity = 18,
 			damage = 10.0,
-			fireRate = 6.0,
+			fireRate = 8.0,
 			reloadTime = 1.0,
 			spread = 2.0,
-			recoil = 5.0,
+			recoil = 2.0,
 			recovery = 6
+		}
+	},
+
+	["Spas-12"] = {
+
+		sprite = nil,
+		width = 14,
+		length = 64,
+
+		stats = {
+			handCount = 2,
+			caliber = "12ga",
+			fireMode = "Semi",
+			capacity = 8,
+			damage = 30.0,
+			fireRate = 4.0,
+			reloadTime = 2.0,
+			spread = 2.0,
+			recoil = 7.0,
+			recovery = 2
 		}
 	},
 }
