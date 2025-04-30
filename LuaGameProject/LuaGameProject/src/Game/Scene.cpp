@@ -217,7 +217,7 @@ int Scene::lua_SetComponent(lua_State *L)
 	{
 		scene->TryRemoveComponent<ECS::Collider>(entity);
 
-		ECS::Collider collider{};
+		ECS::Collider collider {entity};
 		collider.LuaPull(L, 3);
 
 		scene->SetComponent<ECS::Collider>(entity, collider);

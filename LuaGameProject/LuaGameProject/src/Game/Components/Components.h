@@ -218,6 +218,12 @@ namespace ECS
 		b2BodyId bodyId;
 		bool createBody = false;
 		int luaRef;
+		int entity;
+
+		Collider(int ent):
+			entity(ent)
+		{
+		}
 
 		void LuaPush(lua_State* L) const
 		{

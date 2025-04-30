@@ -204,7 +204,7 @@ int Main2D::Main2D::Update()
             // Create body
             if (collider.createBody)
             {
-                collider.bodyId = m_physicsHandler.CreateRigidBody(collider, transform);
+                collider.bodyId = m_physicsHandler.CreateRigidBody(0, collider, transform);
                 collider.createBody = false;
             }
 
