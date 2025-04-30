@@ -27,6 +27,14 @@ void PhysicsHandler::Update()
 {
     b2World_Step(m_worldId, Time::DeltaTime(), 4);
 
+    const b2SensorEvents sensorEvents = b2World_GetSensorEvents(m_worldId);
+    for (int i = 0; i < sensorEvents.beginCount; i++)
+    {
+        const b2SensorBeginTouchEvent event = sensorEvents.beginEvents[i];
+
+        float* scale = (float*)b2Shape_GetUserData(event.sensorShapeId);
+        std::cout << "Collision: " << scale[0] << ", " << scale[1] << std::endl;
+    }
 }
 
 b2WorldId PhysicsHandler::GetWorldId() const
@@ -47,6 +55,9 @@ b2BodyId PhysicsHandler::CreateRigidBody(const ECS::Transform &transform)
 	bodyId = b2CreateBody(m_worldId, &bodyDef);
 
 	b2ShapeDef shapeDef = b2DefaultShapeDef();
+    shapeDef.isSensor = true; // Disable automatic resolving
+    shapeDef.userData = (void*)transform.Scale;
+    shapeDef.enableSensorEvents = true;
 	b2CreatePolygonShape(bodyId, &shapeDef, &polygon);
 
     return bodyId;

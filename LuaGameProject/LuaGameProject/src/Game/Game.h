@@ -6,5 +6,4 @@
 namespace Game
 {
 	static bool IsQuitting = false;
-	//static b2WorldId p_worldId;
 }
