@@ -25,9 +25,6 @@ Main2D::Main2D::~Main2D()
 		L = nullptr;
 	}
 
-    if (b2World_IsValid(Game::p_worldId))
-        b2DestroyWorld(Game::p_worldId);
-
     ResourceManager::Instance().UnloadResources();
     CloseAudioDevice();
 }
@@ -56,54 +53,12 @@ int Main2D::Main2D::Run()
     return 0;
 }
 
-void Test()
-{
-    b2Polygon box = b2MakeBox(10, 10);
-
-    b2BodyDef bodyDef = b2DefaultBodyDef();
-    bodyDef.position = { 0, 0 };
-    b2BodyId boxid = b2CreateBody(Game::p_worldId, &bodyDef);
-
-    b2ShapeDef shapeDef = b2DefaultShapeDef();
-
-    b2CreatePolygonShape(boxid, &shapeDef, &box);
-}
-
 int Main2D::Main2D::Start()
 {
     ZoneScopedC(RandomUniqueColor());
     
     // Setup Box2D
-    const float lengthUnitsPerMeter = 1; //128 pixels per meter
-    b2SetLengthUnitsPerMeter(lengthUnitsPerMeter);
-
-    
-    b2WorldDef worldDef = b2DefaultWorldDef();
-    worldDef.gravity.y = 0; //9.81f * lengthUnitsPerMeter; // Disable gravity
-    Game::p_worldId = b2CreateWorld(&worldDef);
-
-    Assert(b2World_IsValid(Game::p_worldId), "Invalid Box2D world!");
-  
-    // Default
-    {
-        b2Polygon box = b2MakeBox(10, 10);
-
-        b2BodyDef bodyDef = b2DefaultBodyDef();
-        bodyDef.position = { 0, 0 };
-        b2BodyId boxid = b2CreateBody(Game::p_worldId, &bodyDef);
-
-        b2ShapeDef shapeDef = b2DefaultShapeDef();
-
-        b2CreatePolygonShape(boxid, &shapeDef, &box);
-    }
-
-    // Callback
-    {
-        std::function<void()> test = Test;
-
-        test();
-    }
-
+    m_physicsHandler.Setup();
 
     // Setup Lua enviroment
 
@@ -170,9 +125,6 @@ int Main2D::Main2D::Start()
 
     LuaDoFileCleaned(L, LuaFilePath("InitDevScene")); // Creates entities
 
-  
-    
-
     return 1;
 }
 
@@ -237,11 +189,10 @@ int Main2D::Main2D::Update()
     // Call update camera function by its pointer
     m_cameraUpdater();
 
-
     // Update Physics
-    b2World_Step(Game::p_worldId, Time::DeltaTime(), 4);
+    m_physicsHandler.Update();
 
-    std::function<void(entt::registry& registry)> createPhysicsBodies = [](entt::registry& registry) {
+    std::function<void(entt::registry& registry)> createPhysicsBodies = [&](entt::registry& registry) {
         ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
 
         auto view = registry.view<ECS::Rigidbody, ECS::Transform>();
@@ -253,17 +204,7 @@ int Main2D::Main2D::Update()
             // Create body
             if (rigidbody.createBody)
             {
-                b2Polygon polygon = b2MakeBox(fabsf(transform.Scale[0]) / 2, fabsf(transform.Scale[1]) / 2);
-
-                b2BodyDef bodyDef = b2DefaultBodyDef();
-                bodyDef.type = b2_dynamicBody;
-                bodyDef.position = { transform.Position[0], transform.Position[1] };
-
-                rigidbody.bodyId = b2CreateBody(Game::p_worldId, &bodyDef);
-
-                b2ShapeDef shapeDef = b2DefaultShapeDef();
-                b2CreatePolygonShape(rigidbody.bodyId, &shapeDef, &polygon);
-
+                rigidbody.bodyId = m_physicsHandler.CreateRigidBody(transform);
                 rigidbody.createBody = false;
             }
 
