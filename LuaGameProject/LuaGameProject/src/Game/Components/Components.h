@@ -222,8 +222,8 @@ namespace ECS
 		int entity;
 		char tag[MAX_TAG_LENGTH];
 
-		Collider(int ent):
-			entity(ent)
+		Collider(int ent, lua_State* L):
+			entity(ent), m_refState(L)
 		{
 		}
 
@@ -254,6 +254,10 @@ namespace ECS
 			strncpy_s(tag, tempTag, MAX_TAG_LENGTH - 1);
 			lua_pop(L, 1);
 		}
+
+	private:
+		lua_State* m_refState = nullptr;
+
 	};
 
 	struct Sprite

@@ -303,6 +303,29 @@ int Main2D::Main2D::Render()
         };
 		m_scene.RunSystem(drawSystem);
 
+
+		std::function<void(entt::registry& registry)> createPhysicsBodies = [&](entt::registry& registry) {
+			ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+
+			auto view = registry.view<ECS::Collider, ECS::Transform>();
+			view.use<ECS::Collider>();
+
+			view.each([&](ECS::Collider& collider, ECS::Transform& transform) {
+				ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+
+                const float w = fabsf(transform.Scale[0]),
+                            h = fabsf(transform.Scale[1]);
+                b2Vec2 p = b2Body_GetWorldPoint(collider.bodyId, { 0, 0});
+                b2Rot rotation = b2Body_GetRotation(collider.bodyId);
+                float radians = b2Rot_GetAngle(rotation);
+                //p = { transform.Position[0], transform.Position[1] };
+
+                DrawRectangle(p.x-w/2, p.y-w/2, w, h, GREEN);
+			});
+		};
+
+		m_scene.RunSystem(createPhysicsBodies);
+
 		// Draw the dungeon
         m_dungeon->Draw();
 

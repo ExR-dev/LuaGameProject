@@ -140,11 +140,7 @@ for _ = 1, 10 do
 	scene.SetComponent(entity, "Transform", t)
 	scene.SetComponent(entity, "Sprite", s)
 	scene.SetComponent(entity, "Behaviour", "Behaviours/Enemy")
-	scene.SetComponent(entity, "Collider", "Enemy", function(otherEnt) 
-		local o = scene.GetComponent(otherEnt, "Collider")
-		print("Collision with a " .. o.tag) 
-		scene.RemoveEntity(otherEnt)
-	end)
+	scene.SetComponent(entity, "Collider", "Enemy", function(otherEnt) end)
 end
 tracy.ZoneEnd()
 --------------------------------
