@@ -483,4 +483,8 @@ namespace ECS
 			lua_pop(L, 1); // Remove the zoom value from stack
 		}
 	};
+
+	struct Remove {
+		char _;
+	};
 }

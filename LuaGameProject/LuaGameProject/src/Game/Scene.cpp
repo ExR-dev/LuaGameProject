@@ -139,6 +139,28 @@ void Scene::SystemsOnRender(float delta)
 	}
 }
 
+void Scene::CleanUp()
+{	
+	std::function<void(entt::registry& registry)> cleanup = [&](entt::registry& registry) {
+		ZoneNamedNC(createPhysicsBodiesZone, "Lambda Remove Entities", RandomUniqueColor(), true);
+
+		auto view = registry.view<ECS::Remove>();
+		std::vector<entt::entity> entities_to_destroy;
+
+		view.each([&](entt::entity entity, ECS::Remove& collider) {
+			ZoneNamedNC(drawSpriteZone, "Lambda Remove Entities", RandomUniqueColor(), true);
+			entities_to_destroy.push_back(entity);
+		});
+
+		// Destroy entities after iteration
+		for (auto entity : entities_to_destroy) {
+			RemoveEntity(entity);
+		}
+	};
+
+	RunSystem(cleanup);
+}
+
 void Scene::lua_openscene(lua_State *L, Scene *scene)
 {
 	ZoneScopedC(RandomUniqueColor());
@@ -291,7 +313,8 @@ int Scene::lua_RemoveEntity(lua_State *L)
 
 	Scene *scene = lua_GetScene(L);
 	int entity = lua_tointeger(L, 1);
-	scene->RemoveEntity(entity);
+	//scene->RemoveEntity(entity);
+	scene->SetComponent<ECS::Remove>(entity);
 	return 0;
 }
 
@@ -360,7 +383,7 @@ int Scene::lua_GetComponent(lua_State *L)
 	}
 
 	
-	if		(type == "Active" && scene->HasComponents<ECS::Active>(entity))
+	if	(type == "Active" && scene->HasComponents<ECS::Active>(entity))
 	{
 		ECS::Active &active = scene->GetComponent<ECS::Active>(entity);
 		active.LuaPush(L);

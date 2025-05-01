@@ -214,6 +214,8 @@ int Main2D::Main2D::Update()
 
     m_scene.RunSystem(createPhysicsBodies);
 
+    m_scene.CleanUp();
+
     return 0;
 }
 
