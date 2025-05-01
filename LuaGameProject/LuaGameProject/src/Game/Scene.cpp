@@ -354,6 +354,7 @@ int Scene::lua_GetComponent(lua_State *L)
 		lua_pushnil(L);
 		return 1;
 	}
+
 	
 	if		(type == "Active" && scene->HasComponents<ECS::Active>(entity))
 	{
@@ -365,6 +366,12 @@ int Scene::lua_GetComponent(lua_State *L)
 	{
 		ECS::Transform &transform = scene->GetComponent<ECS::Transform>(entity);
 		transform.LuaPush(L);
+		return 1;
+	}
+	else if (type == "Collider" && scene->HasComponents<ECS::Collider>(entity))
+	{
+		ECS::Collider &collider = scene->GetComponent<ECS::Collider>(entity);
+		collider.LuaPush(L);
 		return 1;
 	}
 	else if (type == "Behaviour" && scene->HasComponents<ECS::Behaviour>(entity))

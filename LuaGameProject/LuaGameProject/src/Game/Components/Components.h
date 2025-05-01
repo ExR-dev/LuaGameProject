@@ -213,12 +213,14 @@ namespace ECS
 		}
 	};
 
+#define MAX_TAG_LENGTH 32
 	struct Collider
 	{
 		b2BodyId bodyId;
 		bool createBody = false;
 		int luaRef;
 		int entity;
+		char tag[MAX_TAG_LENGTH];
 
 		Collider(int ent):
 			entity(ent)
@@ -228,8 +230,13 @@ namespace ECS
 		void LuaPush(lua_State* L) const
 		{
 			ZoneScopedC(RandomUniqueColor());
-			luaL_error(L, "Can't push a rigidbody");
+
+			lua_createtable(L, 0, 1);
+
+			lua_pushstring(L, tag);
+			lua_setfield(L, -2, "tag");
 		}
+
 		void LuaPull(lua_State* L, int index)
 		{
 			ZoneScopedC(RandomUniqueColor());
@@ -241,6 +248,11 @@ namespace ECS
 			createBody = true;
 
 			luaRef = luaL_ref(L, LUA_REGISTRYINDEX);
+
+			const char* tempTag = lua_tostring(L, index);
+			memset(tag, '\0', MAX_TAG_LENGTH);
+			strncpy_s(tag, tempTag, MAX_TAG_LENGTH - 1);
+			lua_pop(L, 1);
 		}
 	};
 

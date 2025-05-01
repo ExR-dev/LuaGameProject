@@ -41,8 +41,10 @@ void PhysicsHandler::Update(lua_State* L)
         int luaCallback = ((ECS::Collider*)b2Shape_GetUserData(event.sensorShapeId))->luaRef;
         int otherEnt = ((ECS::Collider*)b2Shape_GetUserData(event.visitorShapeId))->entity;
 
+        // TODO: make sure colliding entities isn't the same
+
         lua_rawgeti(L, LUA_REGISTRYINDEX, luaCallback);
-        lua_pushnumber(L, otherEnt);
+        lua_pushinteger(L, otherEnt);
         lua_pcall(L, 1, 0, 0);
     }
 }
