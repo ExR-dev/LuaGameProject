@@ -312,7 +312,6 @@ int Main2D::Main2D::Render()
         };
 		m_scene.RunSystem(drawSystem);
 
-
 		std::function<void(entt::registry& registry)> createPhysicsBodies = [&](entt::registry& registry) {
 			ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
 
@@ -332,8 +331,12 @@ int Main2D::Main2D::Render()
                 float radians = b2Rot_GetAngle(rotation);
                 p = { transform.Position[0], transform.Position[1] };
 
-                Rectangle rect = { p.x - w / 2, p.y - w / 2, w, h };
+
+                Rectangle rect = { p.x, p.y , w, h };
                 DrawRectanglePro(rect, { w/2, h/2 }, radians*RAD2DEG, {0, 228, 46, 100});
+
+                DrawCircle(p.x, p.y, 2, { 255, 0, 0, 200 });
+                //
 			});
 		};
 
