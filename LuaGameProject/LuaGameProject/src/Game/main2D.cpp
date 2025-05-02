@@ -31,11 +31,15 @@ Main2D::Main2D::~Main2D()
 
 int Main2D::Main2D::Run()
 {
+    ZoneScopedC(RandomUniqueColor());
+
     Start();
     FrameMark;
 
     while (!WindowShouldClose())
     {
+        ZoneNamedNC(innerLoopZone, "Main2D::Main2D::Run Loop", RandomUniqueColor(), true);
+
 #ifdef LUA_DEBUG
         if (Game::Game::Instance().CmdStepMode)
         {
@@ -46,6 +50,8 @@ int Main2D::Main2D::Run()
 			else
 			{
                 ExecuteCommandList(L, &m_cmdList, &m_pauseCmdInput, m_scene.GetRegistry());
+                Windows::SleepW(16);
+                FrameMark;
                 continue;
 			}
         }
@@ -146,6 +152,7 @@ int Main2D::Main2D::Start()
 int Main2D::Main2D::Update()
 {
     ZoneScopedC(RandomUniqueColor());
+
     // Toggle mouse
     if (Input::CheckMousePressed(Input::GAME_MOUSE_RIGHT))
     {

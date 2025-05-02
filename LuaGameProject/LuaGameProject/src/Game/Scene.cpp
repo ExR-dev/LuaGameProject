@@ -319,7 +319,7 @@ int Scene::lua_RemoveEntity(lua_State *L)
 	int entity = lua_tointeger(L, 1);
 	//scene->RemoveEntity(entity);
 	scene->SetComponent<ECS::Remove>(entity);
-	return 0;
+	return 1;
 }
 
 int Scene::lua_HasComponent(lua_State *L)
@@ -479,7 +479,7 @@ int Scene::lua_RemoveComponent(lua_State *L)
 	}
 	// else if...
 
-	return 0;
+	return 1;
 }
 
 int Scene::lua_IsActive(lua_State *L)

@@ -13,12 +13,16 @@ PhysicsHandler::PhysicsHandler()
 
 PhysicsHandler::~PhysicsHandler()
 {
+    ZoneScopedC(RandomUniqueColor());
+
     if (b2World_IsValid(m_worldId))
         b2DestroyWorld(m_worldId);
 }
 
 void PhysicsHandler::Setup()
 {
+    ZoneScopedC(RandomUniqueColor());
+
     const float lengthUnitsPerMeter = 1; //128 pixels per meter
     b2SetLengthUnitsPerMeter(lengthUnitsPerMeter);
 
@@ -31,11 +35,15 @@ void PhysicsHandler::Setup()
 
 void PhysicsHandler::Update(lua_State* L)
 {
+    ZoneScopedC(RandomUniqueColor());
+
     b2World_Step(m_worldId, Time::DeltaTime(), 4);
 
     const b2SensorEvents sensorEvents = b2World_GetSensorEvents(m_worldId);
     for (int i = 0; i < sensorEvents.beginCount; i++)
     {
+        ZoneNamedNC(sensorEventZone, "PhysicsHandler::Update Sensor Event", RandomUniqueColor(), true);
+
         const b2SensorBeginTouchEvent event = sensorEvents.beginEvents[i];
 
         int luaCallback = ((ECS::Collider*)b2Shape_GetUserData(event.sensorShapeId))->luaRef;
@@ -56,6 +64,8 @@ b2WorldId PhysicsHandler::GetWorldId() const
 
 b2BodyId PhysicsHandler::CreateRigidBody(int entity, const ECS::Collider &collider, const ECS::Transform &transform)
 {
+    ZoneScopedC(RandomUniqueColor());
+
     b2BodyId bodyId;
 
     CallbackDef callbackDef = { collider.luaRef, entity };
