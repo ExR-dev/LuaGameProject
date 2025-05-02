@@ -145,16 +145,16 @@ void Scene::CleanUp()
 		ZoneNamedNC(createPhysicsBodiesZone, "Lambda Remove Entities", RandomUniqueColor(), true);
 
 		auto view = registry.view<ECS::Remove>();
-		std::vector<entt::entity> entities_to_destroy;
+		std::vector<entt::entity> entitiesToDestroy;
 
 		view.each([&](entt::entity entity, ECS::Remove& collider) {
 			ZoneNamedNC(drawSpriteZone, "Lambda Remove Entities", RandomUniqueColor(), true);
-			entities_to_destroy.push_back(entity);
+			entitiesToDestroy.push_back(entity);
 		});
 
 		// Destroy entities after iteration
-		for (auto entity : entities_to_destroy) {
-			RemoveEntity(entity);
+		for (int i = entitiesToDestroy.size() - 1; i >= 0; i--) {
+			RemoveEntity(entitiesToDestroy[i]);
 		}
 	};
 

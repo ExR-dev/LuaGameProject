@@ -198,18 +198,25 @@ int Main2D::Main2D::Update()
         auto view = registry.view<ECS::Collider, ECS::Transform>();
         view.use<ECS::Collider>();
 
+        std::vector<std::pair<ECS::Collider*, ECS::Transform*>> collidersToCreate;
+
         view.each([&](ECS::Collider& collider, ECS::Transform& transform) {
             ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
 
             // Create body
-            if (collider.createBody)
+            if (!collider.createBody)
             {
-                collider.bodyId = m_physicsHandler.CreateRigidBody(0, collider, transform);
-                collider.createBody = false;
+                b2Body_SetTransform(collider.bodyId, { transform.Position[0], transform.Position[1] }, { cosf(transform.Rotation * DEG2RAD), sinf(transform.Rotation * DEG2RAD) });
             }
-
-            b2Body_SetTransform(collider.bodyId, { transform.Position[0], transform.Position[1] }, { 0, 1 });
+            else
+                collidersToCreate.push_back({ &collider, &transform });
         });
+
+        for (auto& collider : collidersToCreate)
+        {
+			collider.first->bodyId = m_physicsHandler.CreateRigidBody(0, *collider.first, *collider.second);
+			collider.first->createBody = false;
+        }
     };
 
     m_scene.RunSystem(createPhysicsBodies);
@@ -318,11 +325,15 @@ int Main2D::Main2D::Render()
                 const float w = fabsf(transform.Scale[0]),
                             h = fabsf(transform.Scale[1]);
                 b2Vec2 p = b2Body_GetWorldPoint(collider.bodyId, { 0, 0});
+                //b2Body_GetTransform
+                b2Transform t;
+
                 b2Rot rotation = b2Body_GetRotation(collider.bodyId);
                 float radians = b2Rot_GetAngle(rotation);
-                //p = { transform.Position[0], transform.Position[1] };
+                p = { transform.Position[0], transform.Position[1] };
 
-                DrawRectangle(p.x-w/2, p.y-w/2, w, h, GREEN);
+                Rectangle rect = { p.x - w / 2, p.y - w / 2, w, h };
+                DrawRectanglePro(rect, { w/2, h/2 }, radians*RAD2DEG, {0, 228, 46, 100});
 			});
 		};
 

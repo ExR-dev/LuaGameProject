@@ -485,6 +485,6 @@ namespace ECS
 	};
 
 	struct Remove {
-		char _;
+		bool _ : 1; // Place holder
 	};
 }
