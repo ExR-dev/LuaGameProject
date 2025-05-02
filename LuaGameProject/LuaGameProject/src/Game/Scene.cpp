@@ -188,6 +188,10 @@ void Scene::lua_openscene(lua_State *L, Scene *scene)
 	lua_setglobal(L, "scene");
 
 	tracy::LuaRegister(L);
+
+#ifdef LUA_DEBUG
+	LuaDoFileCleaned(L, LuaFilePath("PrintTable"));
+#endif
 }
 
 int Scene::lua_CreateEntity(lua_State *L)

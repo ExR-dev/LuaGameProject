@@ -1,5 +1,6 @@
 #pragma once
 #include <chrono>
+#include "../Game.h"
 
 using ChronoClock = std::chrono::high_resolution_clock;
 
@@ -28,7 +29,7 @@ public:
 	// Returns the time since the last tick in seconds
 	[[nodiscard]] static float DeltaTime() noexcept
 	{
-		return Instance().m_deltaTime;
+		return Instance().m_deltaTime * Game::Game::Instance().TimeScale;
 	}
 
 private:

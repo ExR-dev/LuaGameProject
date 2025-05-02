@@ -310,6 +310,7 @@
     <None Include="src\Lua\Data\Ammo.lua" />
     <None Include="src\Lua\Data.lua" />
     <None Include="src\Lua\Data\Weapons.lua" />
+    <None Include="src\Lua\Utility\PrintEntity.lua" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="raylib.dll" />

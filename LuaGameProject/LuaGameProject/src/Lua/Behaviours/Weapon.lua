@@ -60,6 +60,8 @@ function weapon:LoadType(type)
 	self.stats = weaponData.stats
 	self.loadedAmmoType = data.ammo.getCaliberDefaultType(self.stats.caliber)
 
+	self.loadedAmmoCount = weaponData.stats.capacity
+
 	tracy.ZoneEnd()
 end
 

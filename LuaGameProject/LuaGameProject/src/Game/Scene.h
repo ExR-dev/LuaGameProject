@@ -103,8 +103,7 @@ private:
 	static int lua_HasComponent(lua_State *L);
 	
 	// Arguments: entity (int), component type (string)
-	// Returns: your choice :) for transform you can use
-	// lua_totransform that you made in module M2
+	// Returns: your choice :)
 	static int lua_GetComponent(lua_State *L);
 	
 	// Arguments: entity (int), component type (string)

@@ -12,9 +12,10 @@ void LuaGame::LuaGame::lua_opengame(lua_State *L, LuaGame *game)
 	lua_newtable(L);
 
 	luaL_Reg methods[] = {
-		//  { "NameInLua",			NameInCpp			},
-			{ "PlaySound",			lua_PlaySound		},
-			{ NULL,					NULL				}
+	//  { "NameInLua",			NameInCpp			},
+		{ "PlaySound",			lua_PlaySound		},
+		{ "SetTimeScale",		lua_SetTimeScale	},
+		{ NULL,					NULL				}
 	};
 
 	lua_pushlightuserdata(L, game);
@@ -65,5 +66,22 @@ int LuaGame::LuaGame::lua_PlaySound(lua_State *L)
 
 	sound->SetVolume(volume);
 	sound->Play();
+	return 1;
+}
+
+int LuaGame::LuaGame::lua_SetTimeScale(lua_State *L)
+{
+	ZoneScopedC(RandomUniqueColor());
+
+	if (lua_isnumber(L, 1))
+	{
+		float newTimeScale = (float)lua_tonumber(L, 1);
+		Game::Game::Instance().TimeScale = newTimeScale; // TODO: Doesn't work, TimeScale is not modified
+	}
+	else
+	{
+		luaL_error(L, "Expected a number for TimeScale");
+	}
+
 	return 1;
 }

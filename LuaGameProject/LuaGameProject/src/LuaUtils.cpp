@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <filesystem>
+#include <Game/Components/Components.h>
 
 std::string LuaLoadFile(lua_State *L, const char *path)
 {
@@ -126,6 +127,29 @@ void LuaDumpEnv(lua_State *L)
 	std::cout << "------------- ENV BEGIN -------------" << std::endl;
 	LuaDoString("for k,v in pairs(_G) do print(k,v) end");
 	std::cout << "-------------- ENV END --------------" << std::endl;
+}
+
+void LuaDumpECS(lua_State *L, const entt::registry &reg)
+{
+	ZoneScopedC(RandomUniqueColor());
+
+	std::cout << "============= ECS BEGIN =============" << std::endl;
+
+	auto view = reg.view<entt::entity>();
+
+	LuaDoFileCleaned(L, LuaFilePath("Utility/PrintEntity"));
+
+	view.each([&](const entt::entity entity) {
+
+		std::cout << std::format("Entity ({})", (int)entity) << std::endl;
+		std::cout << "vv--------------------------------------------------------------------vv" << std::endl;
+
+		LuaDoString(std::format("game.PrintEntity({})", (int)entity).c_str());
+
+		std::cout << "^^--------------------------------------------------------------------^^" << std::endl << std::endl;
+	});
+
+	std::cout << "============== ECS END ==============" << std::endl;
 }
 
 void LuaDumpTable(lua_State *L, int i)

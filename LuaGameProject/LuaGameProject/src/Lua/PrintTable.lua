@@ -51,7 +51,7 @@ local function PrintTableRec(table, indent, depth)
 	end
 end
 
-function PrintTable(table)
-	io.write("table = ")
+function PrintTable(table, name)
+	io.write((name or "table").." = ")
 	PrintTableRec(table, "", 0)
 end

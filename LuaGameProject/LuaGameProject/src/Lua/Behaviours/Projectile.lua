@@ -18,12 +18,16 @@ function projectile:OnCreate()
 	self.speed = 1337.0 * 1.5
 
 	scene.SetComponent(self.ID, "Collider", "Projectile", function(other) 
+		tracy.ZoneBeginN("Lua Lambda collider:Projectile")
+
 		local o = scene.GetComponent(other, "Collider")
 		print("Colliding " .. o.tag)
 		if (o.tag == "Enemy") then
 			scene.RemoveEntity(other)
 			scene.RemoveEntity(self.ID)
 		end
+
+		tracy.ZoneEnd()
 	end)
 
 	self.expiration = 5.0

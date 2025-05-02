@@ -8,6 +8,7 @@
 
 #include "box2d/box2D.h"
 
+
 namespace ECS
 {
 	struct Active
@@ -53,7 +54,7 @@ namespace ECS
 	struct Behaviour
 	{
 	public:
-		static const int SCRIPT_PATH_LENGTH = 65;
+		static constexpr int SCRIPT_PATH_LENGTH = 65;
 		char ScriptPath[SCRIPT_PATH_LENGTH];
 		int LuaRef;
 
@@ -124,7 +125,6 @@ namespace ECS
 
 			return false;
 		}
-
 		void AddUnownedMethod(const std::string &name)
 		{
 			m_unownedMethods.push_back(name);
@@ -213,13 +213,13 @@ namespace ECS
 		}
 	};
 
-#define MAX_TAG_LENGTH 32
 	struct Collider
 	{
 		b2BodyId bodyId;
 		bool createBody = false;
 		int luaRef;
 		int entity;
+		static constexpr int MAX_TAG_LENGTH = 32;
 		char tag[MAX_TAG_LENGTH];
 
 		Collider(int ent, lua_State* L):
@@ -485,6 +485,7 @@ namespace ECS
 	};
 
 	struct Remove {
-		bool _ : 1; // Place holder
+		//bool _ : 1; // Place holder
+		int _; // Place holder
 	};
 }

@@ -36,6 +36,21 @@ int Main2D::Main2D::Run()
 
     while (!WindowShouldClose())
     {
+#ifdef LUA_DEBUG
+        if (Game::Game::Instance().CmdStepMode)
+        {
+			if (Game::Game::Instance().CmdTakeSteps > 0)
+			{
+                Game::Game::Instance().CmdTakeSteps--;
+			}
+			else
+			{
+                ExecuteCommandList(L, &m_cmdList, &m_pauseCmdInput, m_scene.GetRegistry());
+                continue;
+			}
+        }
+#endif
+
         Time::Update();
         Input::UpdateInput();
 
@@ -43,7 +58,7 @@ int Main2D::Main2D::Run()
 
 		Render();
 
-		ExecuteCommandList(L, &m_cmdList, &m_pauseCmdInput);
+		ExecuteCommandList(L, &m_cmdList, &m_pauseCmdInput, m_scene.GetRegistry());
 
         FrameMark;
     }
