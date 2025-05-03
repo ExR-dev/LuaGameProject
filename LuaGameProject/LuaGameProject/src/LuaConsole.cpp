@@ -1,5 +1,6 @@
+#include "stdafx.h"
 #include "LuaConsole.h"
-#include <windows.h>
+#include "Game/Utilities/WindowsWrapped.h"
 #include <iostream>
 #include <string>
 #include <format>
@@ -9,6 +10,7 @@
 #include "LuaUtils.h"
 
 #include "Game/Game.h"
+#include "Game/Tools/ErrMsg.h"
 #include "Game/Utilities/LuaInput.h"
 
 #define WINDOWS_DEF
@@ -18,16 +20,16 @@
 
 namespace fs = std::filesystem;
 
-struct Vector2
+struct CVector2
 {
 	float p_x, p_y;
-	Vector2(float x = 0.0f, float y = 0.0f) :
+	CVector2(float x = 0.0f, float y = 0.0f) :
 		p_x(x), p_y(y) {}
 };
 
-static Vector2 lua_tovector(lua_State *L, int index)
+static CVector2 lua_tovector(lua_State *L, int index)
 {
-	Vector2 v;
+	CVector2 v;
 
 	lua_getfield(L, -1, "x");
 	v.p_x = lua_tonumber(L, -1);
@@ -46,7 +48,7 @@ static int PrintVector(lua_State *L)
 {
 	LuaDumpStack(L);
 
-	Vector2 v = lua_tovector(L, 1);
+	CVector2 v = lua_tovector(L, 1);
 	std::cout << "(" << v.p_x << ", " << v.p_y << ")" << std::endl;
 
 	LuaDumpStack(L);
@@ -75,7 +77,7 @@ void ConsoleThreadFunction(lua_State *L, std::string *cmdList, std::atomic_bool 
 
 	BindLuaInput(L);
 
-	while (GetConsoleWindow())
+	while (Windows::GetConsoleWindowW())
 	{
 		// Wait for the command list to be empty
 		while (pauseCmdInput->load())
@@ -96,7 +98,7 @@ void ConsoleThreadFunction(lua_State *L, std::string *cmdList, std::atomic_bool 
 	lua_close(L);
 }
 
-void ExecuteCommandList(lua_State *L, std::string *cmdList, std::atomic_bool *pauseCmdInput)
+void ExecuteCommandList(lua_State *L, std::string *cmdList, std::atomic_bool *pauseCmdInput, const entt::registry &reg)
 {
 	if (!pauseCmdInput->load())
 		return;
@@ -108,6 +110,46 @@ void ExecuteCommandList(lua_State *L, std::string *cmdList, std::atomic_bool *pa
 	{
 		LuaRunTests(L, TEST_PATH);
 	}
+#ifdef LUA_DEBUG
+	else if (input.starts_with("step"))
+	{
+		if (Game::Game::Instance().CmdStepMode)
+		{
+			// See if a number is provided
+			if (input.size() > sizeof("step"))
+			{
+				int steps = std::stoi(input.substr(sizeof("step")));
+
+				if (steps > 0)
+				{
+					Game::Game::Instance().CmdTakeSteps += steps;
+				}
+				else
+				{
+					Warn(std::format("Invalid number of steps: {}", steps));
+				}
+			}
+			else
+			{
+				// Default to 1 step
+				Game::Game::Instance().CmdTakeSteps++;
+			}
+		}
+	}
+	else if (input == "Break" || input == "break")
+	{
+		Game::Game::Instance().CmdStepMode = true;
+	}
+	else if (input == "Continue" || input == "continue")
+	{
+		Game::Game::Instance().CmdStepMode = false;
+	}
+#endif
+	else if (input.starts_with(FILE_CMD)) // File command
+	{
+		input = input.substr(FILE_CMD.size());
+		LuaDoFileCleaned(L, LuaFilePath(input));
+	}
 	else if (input == "DumpStack")
 	{
 		LuaDumpStack(L);
@@ -116,21 +158,17 @@ void ExecuteCommandList(lua_State *L, std::string *cmdList, std::atomic_bool *pa
 	{
 		LuaDumpEnv(L);
 	}
-	else if (input.starts_with(FILE_CMD)) // File command
+	else if (input == "DumpECS")
 	{
-		input = input.substr(FILE_CMD.size());
-		LuaDoFileCleaned(L, LuaFilePath(input));
+		LuaDumpECS(L, reg);
 	}
 	else // String command
 	{
 		LuaDoString(input.c_str());
 	}
 
-	//lua_getglobal(L, "UpdateInput");
-	//lua_pcall(L, 0, 0, 0);
-
 	std::cout << std::endl;
 	*cmdList = "";
-
+	
 	pauseCmdInput->store(false); // Allow console input again
 }

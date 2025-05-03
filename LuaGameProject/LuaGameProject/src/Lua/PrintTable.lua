@@ -41,7 +41,7 @@ local function PrintTableRec(table, indent, depth)
 			if type(val) == "table" then
 				PrintTableRec(val, innerIndent, depth + 1)
 			else
-				io.write(tostring(val).."\n")
+				io.write(tostring(val).." ("..type(val)..")".."\n")
 			end
 		end
 
@@ -51,7 +51,7 @@ local function PrintTableRec(table, indent, depth)
 	end
 end
 
-function PrintTable(table)
-	io.write("table = ")
+function PrintTable(table, name)
+	io.write((name or "table").." = ")
 	PrintTableRec(table, "", 0)
 end

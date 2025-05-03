@@ -16,6 +16,20 @@ function projectile:OnCreate()
 
 	self.trans = transform(scene.GetComponent(self.ID, "Transform"))
 	self.speed = 1337.0 * 1.5
+
+	scene.SetComponent(self.ID, "Collider", "Projectile", function(other) 
+		tracy.ZoneBeginN("Lua Lambda projectile:Collide")
+
+		local o = scene.GetComponent(other, "Collider")
+		--print("Colliding " .. o.tag)
+		if (o.tag == "Enemy") then
+			scene.RemoveEntity(other)
+			scene.RemoveEntity(self.ID)
+		end
+
+		tracy.ZoneEnd()
+	end)
+
 	self.expiration = 5.0
 
 	self.stats = nil -- Set after spawning projectile using data.ammo.getStats()

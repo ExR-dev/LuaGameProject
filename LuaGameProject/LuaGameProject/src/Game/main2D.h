@@ -5,6 +5,7 @@
 
 #include "Utilities/WindowInfo.h"
 #include "Utilities/LuaGame.h"
+#include "PhysicsHandler.h"
 
 constexpr float PLAYER_HOR_SPD = 200.0f;
 constexpr int CAMERA_OPTIONS = 2;
@@ -47,6 +48,10 @@ namespace Main2D
 
         std::string m_cmdList;
         std::atomic_bool m_pauseCmdInput = false;
+
+        
+        PhysicsHandler m_physicsHandler;
+        b2BodyId m_box, m_ground;
 
         int Start();
         int Update();

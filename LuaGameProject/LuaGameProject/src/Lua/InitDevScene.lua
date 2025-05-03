@@ -28,7 +28,7 @@ tracy.ZoneEnd()
 
 -- Create Walls ----------------
 tracy.ZoneBeginN("Lua Create Walls")
-for _ = 1, 50 do
+for _ = 1, 5 do
 	local entity = scene.CreateEntity()
 
 	local t = transform(
@@ -125,7 +125,7 @@ end
 
 -- Create Enemies --------------
 tracy.ZoneBeginN("Lua Create Enemies")
-for _ = 1, 10 do
+for _ = 1, 15 do
 	local entity = scene.CreateEntity()
 
 	local t = transform(
@@ -140,6 +140,7 @@ for _ = 1, 10 do
 	scene.SetComponent(entity, "Transform", t)
 	scene.SetComponent(entity, "Sprite", s)
 	scene.SetComponent(entity, "Behaviour", "Behaviours/Enemy")
+	scene.SetComponent(entity, "Collider", "Enemy", function(otherEnt) end)
 end
 tracy.ZoneEnd()
 --------------------------------

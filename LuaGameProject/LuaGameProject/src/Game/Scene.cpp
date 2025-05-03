@@ -28,7 +28,8 @@ int Scene::CreateEntity()
 {
 	ZoneScopedC(RandomUniqueColor());
 
-	return static_cast<int>(m_registry.create());
+	int id = static_cast<int>(m_registry.create());
+	return id;
 }
 
 bool Scene::IsEntity(entt::entity entity)
@@ -42,6 +43,10 @@ bool Scene::IsEntity(int entity)
 
 void Scene::RemoveEntity(entt::entity entity)
 {
+	// TODO: Find a better solution
+	if (HasComponents<ECS::Collider>(entity))
+		b2DestroyBody(GetComponent<ECS::Collider>(entity).bodyId);
+
 	m_registry.destroy(entity);
 }
 void Scene::RemoveEntity(int entity)
@@ -135,6 +140,28 @@ void Scene::SystemsOnRender(float delta)
 	}
 }
 
+void Scene::CleanUp()
+{	
+	std::function<void(entt::registry& registry)> cleanup = [&](entt::registry& registry) {
+		ZoneNamedNC(createPhysicsBodiesZone, "Lambda Remove Entities", RandomUniqueColor(), true);
+
+		auto view = registry.view<ECS::Remove>();
+		std::vector<entt::entity> entitiesToDestroy;
+
+		view.each([&](entt::entity entity, ECS::Remove& collider) {
+			ZoneNamedNC(drawSpriteZone, "Lambda Remove Entities", RandomUniqueColor(), true);
+			entitiesToDestroy.push_back(entity);
+		});
+
+		// Destroy entities after iteration
+		for (int i = entitiesToDestroy.size() - 1; i >= 0; i--) {
+			RemoveEntity(entitiesToDestroy[i]);
+		}
+	};
+
+	RunSystem(cleanup);
+}
+
 void Scene::lua_openscene(lua_State *L, Scene *scene)
 {
 	ZoneScopedC(RandomUniqueColor());
@@ -162,6 +189,10 @@ void Scene::lua_openscene(lua_State *L, Scene *scene)
 	lua_setglobal(L, "scene");
 
 	tracy::LuaRegister(L);
+
+#ifdef LUA_DEBUG
+	LuaDoFileCleaned(L, LuaFilePath("PrintTable"));
+#endif
 }
 
 int Scene::lua_CreateEntity(lua_State *L)
@@ -182,9 +213,9 @@ int Scene::lua_SetComponent(lua_State *L)
 	int entity = lua_tointeger(L, 1);
 	std::string type = lua_tostring(L, 2);
 	
-	if		(type == "Transform") 
+	if (type == "Transform") 
 	{
-		scene->TryRemoveComponent<ECS::Transform>(entity);
+		//scene->TryRemoveComponent<ECS::Transform>(entity);
 
 		ECS::Transform transform{};
 		transform.LuaPull(L, 3);
@@ -211,6 +242,16 @@ int Scene::lua_SetComponent(lua_State *L)
 		active.LuaPull(L, 3);
 		
 		scene->SetComponent<ECS::Active>(entity, active);
+		return 1;
+	}
+	else if (type == "Collider")
+	{
+		scene->TryRemoveComponent<ECS::Collider>(entity);
+
+		ECS::Collider collider {};
+		collider.LuaPull(L, 3);
+
+		scene->SetComponent<ECS::Collider>(entity, collider);
 		return 1;
 	}
 	else if (type == "Health") 
@@ -277,7 +318,9 @@ int Scene::lua_RemoveEntity(lua_State *L)
 
 	Scene *scene = lua_GetScene(L);
 	int entity = lua_tointeger(L, 1);
-	scene->RemoveEntity(entity);
+	//scene->RemoveEntity(entity);
+	if (scene->IsEntity(entity))
+		scene->SetComponent<ECS::Remove>(entity);
 	return 0;
 }
 
@@ -298,6 +341,10 @@ int Scene::lua_HasComponent(lua_State *L)
 	else if (type == "Transform")
 	{
 		hasComponent = scene->HasComponents<ECS::Transform>(entity);
+	}
+	else if (type == "Collider")
+	{
+		hasComponent = scene->HasComponents<ECS::Collider>(entity);
 	}
 	else if (type == "Health")
 	{
@@ -340,8 +387,9 @@ int Scene::lua_GetComponent(lua_State *L)
 		lua_pushnil(L);
 		return 1;
 	}
+
 	
-	if		(type == "Active" && scene->HasComponents<ECS::Active>(entity))
+	if	(type == "Active" && scene->HasComponents<ECS::Active>(entity))
 	{
 		ECS::Active &active = scene->GetComponent<ECS::Active>(entity);
 		active.LuaPush(L);
@@ -351,6 +399,12 @@ int Scene::lua_GetComponent(lua_State *L)
 	{
 		ECS::Transform &transform = scene->GetComponent<ECS::Transform>(entity);
 		transform.LuaPush(L);
+		return 1;
+	}
+	else if (type == "Collider" && scene->HasComponents<ECS::Collider>(entity))
+	{
+		ECS::Collider &collider = scene->GetComponent<ECS::Collider>(entity);
+		collider.LuaPush(L);
 		return 1;
 	}
 	else if (type == "Behaviour" && scene->HasComponents<ECS::Behaviour>(entity))
@@ -404,6 +458,15 @@ int Scene::lua_RemoveComponent(lua_State *L)
 	{
 		scene->RemoveComponent<ECS::Transform>(entity);
 	}
+	else if (type == "Collider" && scene->HasComponents<ECS::Collider>(entity))
+	{
+		// TODO: Find a better solution
+		ECS::Collider collider = scene->GetComponent<ECS::Collider>(entity);
+		b2DestroyBody(collider.bodyId);
+		luaL_unref(L, LUA_REGISTRYINDEX, collider.luaRef);
+
+		scene->RemoveComponent<ECS::Collider>(entity);
+	}
 	else if (type == "Health" && scene->HasComponents<ECS::Health>(entity))
 	{
 		scene->RemoveComponent<ECS::Health>(entity);
@@ -418,7 +481,7 @@ int Scene::lua_RemoveComponent(lua_State *L)
 	}
 	// else if...
 
-	return 0;
+	return 1;
 }
 
 int Scene::lua_IsActive(lua_State *L)

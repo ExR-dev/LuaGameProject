@@ -1,5 +1,6 @@
 #pragma once
-#include <lua.h>
+//#include <lua.h>
+#include "lua.hpp"
 //#include "dep/raylib-cpp/raylib-cpp.hpp"
 
 class Scene;
@@ -25,5 +26,9 @@ namespace LuaGame
 		// Arguments: sound (string), volume (float)
 		// Returns: none
 		static int lua_PlaySound(lua_State *L);
+
+		// Arguments: scale (float)
+		// Returns: none
+		static int lua_SetTimeScale(lua_State *L);
 	};
 }

@@ -21,6 +21,7 @@ void LuaDoFileCleaned(lua_State *L, const char *str);
 void LuaDumpError(lua_State *L);
 void LuaDumpStack(lua_State *L);
 void LuaDumpEnv(lua_State *L);
+void LuaDumpECS(lua_State *L, const entt::registry &reg);
 void LuaDumpTable(lua_State *L, int i);
 
 // Inspiration from: Programming in Lua, Roberto Ierusalimsch

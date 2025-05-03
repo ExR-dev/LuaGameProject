@@ -6,6 +6,9 @@
 #include "lua.hpp"
 #include "LuaUtils.h"
 
+#include "box2d/box2D.h"
+
+
 namespace ECS
 {
 	struct Active
@@ -51,7 +54,7 @@ namespace ECS
 	struct Behaviour
 	{
 	public:
-		static const int SCRIPT_PATH_LENGTH = 64;
+		static constexpr int SCRIPT_PATH_LENGTH = 65;
 		char ScriptPath[SCRIPT_PATH_LENGTH];
 		int LuaRef;
 
@@ -122,7 +125,6 @@ namespace ECS
 
 			return false;
 		}
-
 		void AddUnownedMethod(const std::string &name)
 		{
 			m_unownedMethods.push_back(name);
@@ -208,6 +210,43 @@ namespace ECS
 				lua_pop(L, 1);
 			}
 			lua_pop(L, 1); // Pop Scale table
+		}
+	};
+
+	struct Collider
+	{
+		b2BodyId bodyId;
+		bool createBody = false;
+		int luaRef;
+		static constexpr int MAX_TAG_LENGTH = 32;
+		char tag[MAX_TAG_LENGTH];
+
+		void LuaPush(lua_State* L) const
+		{
+			ZoneScopedC(RandomUniqueColor());
+
+			lua_createtable(L, 0, 1);
+
+			lua_pushstring(L, tag);
+			lua_setfield(L, -2, "tag");
+		}
+
+		void LuaPull(lua_State* L, int index)
+		{
+			ZoneScopedC(RandomUniqueColor());
+			// Make sure the index is absolute (in case it's negative)
+			if (index < 0)
+			{
+				index = lua_gettop(L) + index + 1;
+			}
+			createBody = true;
+
+			luaRef = luaL_ref(L, LUA_REGISTRYINDEX);
+
+			const char* tempTag = lua_tostring(L, index);
+			memset(tag, '\0', MAX_TAG_LENGTH);
+			strncpy_s(tag, tempTag, MAX_TAG_LENGTH - 1);
+			lua_pop(L, 1);
 		}
 	};
 
@@ -433,5 +472,10 @@ namespace ECS
 			}
 			lua_pop(L, 1); // Remove the zoom value from stack
 		}
+	};
+
+	struct Remove {
+		//bool _ : 1; // Place holder
+		int _; // Place holder
 	};
 }

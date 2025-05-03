@@ -31,11 +31,32 @@ Main2D::Main2D::~Main2D()
 
 int Main2D::Main2D::Run()
 {
+    ZoneScopedC(RandomUniqueColor());
+
     Start();
     FrameMark;
 
     while (!WindowShouldClose())
     {
+        ZoneNamedNC(innerLoopZone, "Main2D::Main2D::Run Loop", RandomUniqueColor(), true);
+
+#ifdef LUA_DEBUG
+        if (Game::Game::Instance().CmdStepMode)
+        {
+			if (Game::Game::Instance().CmdTakeSteps > 0)
+			{
+                Game::Game::Instance().CmdTakeSteps--;
+			}
+			else
+			{
+                ExecuteCommandList(L, &m_cmdList, &m_pauseCmdInput, m_scene.GetRegistry());
+                Windows::SleepW(16);
+                FrameMark;
+                continue;
+			}
+        }
+#endif
+
         Time::Update();
         Input::UpdateInput();
 
@@ -43,7 +64,7 @@ int Main2D::Main2D::Run()
 
 		Render();
 
-		ExecuteCommandList(L, &m_cmdList, &m_pauseCmdInput);
+		ExecuteCommandList(L, &m_cmdList, &m_pauseCmdInput, m_scene.GetRegistry());
 
         FrameMark;
     }
@@ -53,10 +74,14 @@ int Main2D::Main2D::Run()
     return 0;
 }
 
-
 int Main2D::Main2D::Start()
 {
     ZoneScopedC(RandomUniqueColor());
+    
+    // Setup Box2D
+    m_physicsHandler.Setup();
+
+    // Setup Lua enviroment
 
     // Create internal lua state
     L = luaL_newstate();
@@ -127,6 +152,7 @@ int Main2D::Main2D::Start()
 int Main2D::Main2D::Update()
 {
     ZoneScopedC(RandomUniqueColor());
+
     // Toggle mouse
     if (Input::CheckMousePressed(Input::GAME_MOUSE_RIGHT))
     {
@@ -178,11 +204,41 @@ int Main2D::Main2D::Update()
         }
     }
 
+
     // Update systems
     m_scene.SystemsOnUpdate(Time::DeltaTime());
 
     // Call update camera function by its pointer
     m_cameraUpdater();
+
+    // Update Physics
+    m_physicsHandler.Update(L, &m_scene);
+
+    std::function<void(entt::registry& registry)> createPhysicsBodies = [&](entt::registry& registry) {
+        ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+
+        auto view = registry.view<ECS::Collider, ECS::Transform>();
+        view.use<ECS::Collider>();
+
+        view.each([&](const entt::entity entity, ECS::Collider& collider, ECS::Transform& transform) {
+            ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+
+            // Create body
+            if (!collider.createBody)
+            {
+                b2Body_SetTransform(collider.bodyId, { transform.Position[0], transform.Position[1] }, { cosf(transform.Rotation * DEG2RAD), sinf(transform.Rotation * DEG2RAD) });
+            }
+            else
+            {
+			    collider.bodyId = m_physicsHandler.CreateRigidBody(static_cast<int>(entity), collider, transform);
+			    collider.createBody = false;
+            }
+        });
+    };
+
+    m_scene.RunSystem(createPhysicsBodies);
+
+    m_scene.CleanUp();
 
     return 0;
 }
@@ -272,6 +328,31 @@ int Main2D::Main2D::Render()
             });
         };
 		m_scene.RunSystem(drawSystem);
+
+		std::function<void(entt::registry& registry)> createPhysicsBodies = [&](entt::registry& registry) {
+			ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+
+			auto view = registry.view<ECS::Collider, ECS::Transform>();
+			view.use<ECS::Collider>();
+
+			view.each([&](ECS::Collider& collider, ECS::Transform& transform) {
+				ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+
+                const float w = fabsf(transform.Scale[0]),
+                            h = fabsf(transform.Scale[1]);
+                b2Vec2 p = b2Body_GetWorldPoint(collider.bodyId, { 0, 0});
+                b2Transform t;
+
+                b2Rot rotation = b2Body_GetRotation(collider.bodyId);
+                float radians = b2Rot_GetAngle(rotation);
+
+                Rectangle rect = { p.x, p.y , w, h };
+                //DrawRectanglePro(rect, { w/2, h/2 }, radians*RAD2DEG, {0, 228, 46, 100});
+			});
+		};
+
+
+		m_scene.RunSystem(createPhysicsBodies);
 
 		// Draw the dungeon
         m_dungeon->Draw();
