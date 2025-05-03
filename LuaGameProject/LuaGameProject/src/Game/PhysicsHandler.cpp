@@ -2,12 +2,6 @@
 #include "PhysicsHandler.h"
 #include "Scene.h"
 
-struct CallbackDef
-{
-    int callbackRef;
-    int entityId;
-};
-
 PhysicsHandler::PhysicsHandler()
 {
 }
@@ -53,12 +47,9 @@ void PhysicsHandler::Update(lua_State* L, Scene* scene)
         if (scene->IsEntity(entity) && scene->IsEntity(other))
         {
 			int luaCallback = scene->GetComponent<ECS::Collider>(entity).luaRef;
-			int otherEnt = scene->GetComponent<ECS::Collider>(other).entity;
-
-			// TODO: make sure colliding entities isn't the same
 
 			lua_rawgeti(L, LUA_REGISTRYINDEX, luaCallback);
-			lua_pushinteger(L, otherEnt);
+			lua_pushinteger(L, other);
 			lua_pcall(L, 1, 0, 0);
         }
     }
@@ -74,8 +65,6 @@ b2BodyId PhysicsHandler::CreateRigidBody(int entity, const ECS::Collider &collid
     ZoneScopedC(RandomUniqueColor());
 
     b2BodyId bodyId;
-
-    CallbackDef callbackDef = { collider.luaRef, entity };
 
 	b2Polygon polygon = b2MakeBox(fabsf(transform.Scale[0]) / 2, fabsf(transform.Scale[1]) / 2);
 

@@ -218,14 +218,8 @@ namespace ECS
 		b2BodyId bodyId;
 		bool createBody = false;
 		int luaRef;
-		int entity;
 		static constexpr int MAX_TAG_LENGTH = 32;
 		char tag[MAX_TAG_LENGTH];
-
-		Collider(int ent, lua_State* L):
-			entity(ent), m_refState(L)
-		{
-		}
 
 		void LuaPush(lua_State* L) const
 		{
@@ -254,10 +248,6 @@ namespace ECS
 			strncpy_s(tag, tempTag, MAX_TAG_LENGTH - 1);
 			lua_pop(L, 1);
 		}
-
-	private:
-		lua_State* m_refState = nullptr;
-
 	};
 
 	struct Sprite
