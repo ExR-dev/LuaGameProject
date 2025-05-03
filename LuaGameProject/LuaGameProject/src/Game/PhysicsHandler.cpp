@@ -46,12 +46,14 @@ void PhysicsHandler::Update(lua_State* L, Scene* scene)
 
         if (scene->IsEntity(entity) && scene->IsEntity(other))
         {
-			int luaCallback = scene->GetComponent<ECS::Collider>(entity).luaRef;
+            int luaCallback = scene->GetComponent<ECS::Collider>(entity).luaRef;
 
-			lua_rawgeti(L, LUA_REGISTRYINDEX, luaCallback);
-			lua_pushinteger(L, other);
-			lua_pcall(L, 1, 0, 0);
+            lua_rawgeti(L, LUA_REGISTRYINDEX, luaCallback);
+            lua_pushinteger(L, other);
+            lua_pcall(L, 1, 0, 0);
         }
+        else
+            std::cout << "Invalid Entities" << std::endl;
     }
 }
 

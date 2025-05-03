@@ -43,14 +43,14 @@ bool Scene::IsEntity(int entity)
 
 void Scene::RemoveEntity(entt::entity entity)
 {
-	m_registry.destroy(entity);
-}
-void Scene::RemoveEntity(int entity)
-{
 	// TODO: Find a better solution
 	if (HasComponents<ECS::Collider>(entity))
 		b2DestroyBody(GetComponent<ECS::Collider>(entity).bodyId);
 
+	m_registry.destroy(entity);
+}
+void Scene::RemoveEntity(int entity)
+{
 	RemoveEntity(static_cast<entt::entity>(entity));
 }
 
