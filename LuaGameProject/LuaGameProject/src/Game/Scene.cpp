@@ -28,7 +28,8 @@ int Scene::CreateEntity()
 {
 	ZoneScopedC(RandomUniqueColor());
 
-	return static_cast<int>(m_registry.create());
+	int id = static_cast<int>(m_registry.create());
+	return id;
 }
 
 bool Scene::IsEntity(entt::entity entity)
@@ -212,7 +213,7 @@ int Scene::lua_SetComponent(lua_State *L)
 	int entity = lua_tointeger(L, 1);
 	std::string type = lua_tostring(L, 2);
 	
-	if		(type == "Transform") 
+	if (type == "Transform") 
 	{
 		//scene->TryRemoveComponent<ECS::Transform>(entity);
 
@@ -318,8 +319,9 @@ int Scene::lua_RemoveEntity(lua_State *L)
 	Scene *scene = lua_GetScene(L);
 	int entity = lua_tointeger(L, 1);
 	//scene->RemoveEntity(entity);
-	scene->SetComponent<ECS::Remove>(entity);
-	return 1;
+	if (scene->IsEntity(entity))
+		scene->SetComponent<ECS::Remove>(entity);
+	return 0;
 }
 
 int Scene::lua_HasComponent(lua_State *L)

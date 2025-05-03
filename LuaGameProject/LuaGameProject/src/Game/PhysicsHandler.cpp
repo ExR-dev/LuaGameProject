@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "PhysicsHandler.h"
+#include "Scene.h"
 
 struct CallbackDef
 {
@@ -33,7 +34,7 @@ void PhysicsHandler::Setup()
     Assert(b2World_IsValid(m_worldId), "Invalid Box2D world!");
 }
 
-void PhysicsHandler::Update(lua_State* L)
+void PhysicsHandler::Update(lua_State* L, Scene* scene)
 {
     ZoneScopedC(RandomUniqueColor());
 
@@ -46,14 +47,20 @@ void PhysicsHandler::Update(lua_State* L)
 
         const b2SensorBeginTouchEvent event = sensorEvents.beginEvents[i];
 
-        int luaCallback = ((ECS::Collider*)b2Shape_GetUserData(event.sensorShapeId))->luaRef;
-        int otherEnt = ((ECS::Collider*)b2Shape_GetUserData(event.visitorShapeId))->entity;
+        int entity = (int)b2Shape_GetUserData(event.sensorShapeId);
+        int other = (int)b2Shape_GetUserData(event.visitorShapeId);
 
-        // TODO: make sure colliding entities isn't the same
+        if (scene->IsEntity(entity) && scene->IsEntity(other))
+        {
+			int luaCallback = scene->GetComponent<ECS::Collider>(entity).luaRef;
+			int otherEnt = scene->GetComponent<ECS::Collider>(other).entity;
 
-        lua_rawgeti(L, LUA_REGISTRYINDEX, luaCallback);
-        lua_pushinteger(L, otherEnt);
-        lua_pcall(L, 1, 0, 0);
+			// TODO: make sure colliding entities isn't the same
+
+			lua_rawgeti(L, LUA_REGISTRYINDEX, luaCallback);
+			lua_pushinteger(L, otherEnt);
+			lua_pcall(L, 1, 0, 0);
+        }
     }
 }
 
@@ -80,7 +87,7 @@ b2BodyId PhysicsHandler::CreateRigidBody(int entity, const ECS::Collider &collid
 
 	b2ShapeDef shapeDef = b2DefaultShapeDef();
     shapeDef.isSensor = true; // Disable automatic resolving
-    shapeDef.userData = (void*)&collider;
+    shapeDef.userData = (void*)entity;
     shapeDef.enableSensorEvents = true;
 	b2CreatePolygonShape(bodyId, &shapeDef, &polygon);
 

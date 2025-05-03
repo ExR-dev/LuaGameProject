@@ -3,6 +3,8 @@
 #include "box2d/box2D.h"
 #include "Components/Components.h"
 
+class Scene;
+
 class PhysicsHandler
 {
 public:
@@ -10,7 +12,7 @@ public:
 	~PhysicsHandler();
 
 	void Setup();
-	void Update(lua_State* L);
+	void Update(lua_State* L, Scene* scene);
 
 	b2WorldId GetWorldId() const;
 

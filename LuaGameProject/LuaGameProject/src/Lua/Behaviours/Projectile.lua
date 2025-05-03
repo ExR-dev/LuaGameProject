@@ -21,7 +21,7 @@ function projectile:OnCreate()
 		tracy.ZoneBeginN("Lua Lambda projectile:Collide")
 
 		local o = scene.GetComponent(other, "Collider")
-		print("Colliding " .. o.tag)
+		--print("Colliding " .. o.tag)
 		if (o.tag == "Enemy") then
 			scene.RemoveEntity(other)
 			scene.RemoveEntity(self.ID)

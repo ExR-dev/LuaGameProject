@@ -212,7 +212,7 @@ int Main2D::Main2D::Update()
     m_cameraUpdater();
 
     // Update Physics
-    m_physicsHandler.Update(L);
+    m_physicsHandler.Update(L, &m_scene);
 
     std::function<void(entt::registry& registry)> createPhysicsBodies = [&](entt::registry& registry) {
         ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
@@ -220,9 +220,7 @@ int Main2D::Main2D::Update()
         auto view = registry.view<ECS::Collider, ECS::Transform>();
         view.use<ECS::Collider>();
 
-        std::vector<std::pair<ECS::Collider*, ECS::Transform*>> collidersToCreate;
-
-        view.each([&](ECS::Collider& collider, ECS::Transform& transform) {
+        view.each([&](const entt::entity entity, ECS::Collider& collider, ECS::Transform& transform) {
             ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
 
             // Create body
@@ -231,14 +229,11 @@ int Main2D::Main2D::Update()
                 b2Body_SetTransform(collider.bodyId, { transform.Position[0], transform.Position[1] }, { cosf(transform.Rotation * DEG2RAD), sinf(transform.Rotation * DEG2RAD) });
             }
             else
-                collidersToCreate.push_back({ &collider, &transform });
+            {
+			    collider.bodyId = m_physicsHandler.CreateRigidBody(static_cast<int>(entity), collider, transform);
+			    collider.createBody = false;
+            }
         });
-
-        for (auto& collider : collidersToCreate)
-        {
-			collider.first->bodyId = m_physicsHandler.CreateRigidBody(0, *collider.first, *collider.second);
-			collider.first->createBody = false;
-        }
     };
 
     m_scene.RunSystem(createPhysicsBodies);
@@ -346,21 +341,16 @@ int Main2D::Main2D::Render()
                 const float w = fabsf(transform.Scale[0]),
                             h = fabsf(transform.Scale[1]);
                 b2Vec2 p = b2Body_GetWorldPoint(collider.bodyId, { 0, 0});
-                //b2Body_GetTransform
                 b2Transform t;
 
                 b2Rot rotation = b2Body_GetRotation(collider.bodyId);
                 float radians = b2Rot_GetAngle(rotation);
-                p = { transform.Position[0], transform.Position[1] };
-
 
                 Rectangle rect = { p.x, p.y , w, h };
-                DrawRectanglePro(rect, { w/2, h/2 }, radians*RAD2DEG, {0, 228, 46, 100});
-
-                DrawCircle(p.x, p.y, 2, { 255, 0, 0, 200 });
-                //
+                //DrawRectanglePro(rect, { w/2, h/2 }, radians*RAD2DEG, {0, 228, 46, 100});
 			});
 		};
+
 
 		m_scene.RunSystem(createPhysicsBodies);
 
