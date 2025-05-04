@@ -338,16 +338,19 @@ int Main2D::Main2D::Render()
 			view.each([&](ECS::Collider& collider, ECS::Transform& transform) {
 				ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
 
-                const float w = fabsf(transform.Scale[0]),
-                            h = fabsf(transform.Scale[1]);
-                b2Vec2 p = b2Body_GetWorldPoint(collider.bodyId, { 0, 0});
-                b2Transform t;
+                if (collider.debug)
+                {
+					const float w = fabsf(transform.Scale[0]),
+								h = fabsf(transform.Scale[1]);
+					b2Vec2 p = b2Body_GetWorldPoint(collider.bodyId, { 0, 0});
+					b2Transform t;
 
-                b2Rot rotation = b2Body_GetRotation(collider.bodyId);
-                float radians = b2Rot_GetAngle(rotation);
+					b2Rot rotation = b2Body_GetRotation(collider.bodyId);
+					float radians = b2Rot_GetAngle(rotation);
 
-                Rectangle rect = { p.x, p.y , w, h };
-                //DrawRectanglePro(rect, { w/2, h/2 }, radians*RAD2DEG, {0, 228, 46, 100});
+					Rectangle rect = { p.x, p.y , w, h };
+					DrawRectanglePro(rect, { w/2, h/2 }, radians*RAD2DEG, {0, 228, 46, 100});
+                }
 			});
 		};
 
