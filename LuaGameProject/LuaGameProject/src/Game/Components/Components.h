@@ -217,6 +217,7 @@ namespace ECS
 	{
 		b2BodyId bodyId;
 		bool createBody = false;
+		bool debug = false;
 		int luaRef;
 		static constexpr int MAX_TAG_LENGTH = 32;
 		char tag[MAX_TAG_LENGTH];
@@ -239,14 +240,31 @@ namespace ECS
 			{
 				index = lua_gettop(L) + index + 1;
 			}
+
+			if (!lua_istable(L, index)) {
+				luaL_error(L, "Expected a table for Collider");
+				return;
+			}
+
 			createBody = true;
 
-			luaRef = luaL_ref(L, LUA_REGISTRYINDEX);
+			lua_getfield(L, index, "tag");
+			if (lua_isstring(L, -1)) 
+			{
+				const char* tempTag = lua_tostring(L, -1);
+				memset(tag, '\0', MAX_TAG_LENGTH);
+				strncpy_s(tag, tempTag, MAX_TAG_LENGTH - 1);
+			}
+			lua_pop(L, 1); // Remove the spriteName value from stack
 
-			const char* tempTag = lua_tostring(L, index);
-			memset(tag, '\0', MAX_TAG_LENGTH);
-			strncpy_s(tag, tempTag, MAX_TAG_LENGTH - 1);
+			lua_getfield(L, index, "debug");
+			if (lua_isboolean(L, -1)) 
+				debug = lua_toboolean(L, -1);
 			lua_pop(L, 1);
+
+			lua_getfield(L, index, "callback");
+			if (lua_isfunction(L, -1))
+				luaRef = luaL_ref(L, LUA_REGISTRYINDEX);
 		}
 	};
 

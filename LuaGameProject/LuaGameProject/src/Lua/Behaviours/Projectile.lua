@@ -6,6 +6,7 @@ local transform = require("Transform2")
 local color = require("Color")
 local gameMath = require("Utility/GameMath")
 local sprite = require("Components/Sprite")
+local collider = require("Components/Collider")
 
 function projectile:OnCreate()
 	tracy.ZoneBeginN("Lua projectile:OnCreate")
@@ -17,11 +18,11 @@ function projectile:OnCreate()
 	self.trans = transform(scene.GetComponent(self.ID, "Transform"))
 	self.speed = 1337.0 * 1.5
 
-	scene.SetComponent(self.ID, "Collider", "Projectile", function(other) 
+
+	local c = collider("Projectile", true, function(other) 
 		tracy.ZoneBeginN("Lua Lambda projectile:Collide")
 
 		local o = scene.GetComponent(other, "Collider")
-		--print("Colliding " .. o.tag)
 		if (o.tag == "Enemy") then
 			scene.RemoveEntity(other)
 			scene.RemoveEntity(self.ID)
@@ -29,6 +30,8 @@ function projectile:OnCreate()
 
 		tracy.ZoneEnd()
 	end)
+
+	scene.SetComponent(self.ID, "Collider", c)
 
 	self.expiration = 5.0
 

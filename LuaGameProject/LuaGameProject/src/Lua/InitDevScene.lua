@@ -7,6 +7,7 @@ local color = require("Color")
 local sprite = require("Components/Sprite")
 local cameraData = require("Components/CameraData")
 local playerCamera = require("Behaviours/PlayerCamera")
+local collider = require("Components/Collider")
 
 
 -- Create Unit Cube ------------
@@ -137,10 +138,13 @@ for _ = 1, 15 do
 	local s = sprite("Maxwell.png")
 	s.priority = 30
 
+	local c = collider("Enemy", true, function(other) end)
+		
+
 	scene.SetComponent(entity, "Transform", t)
 	scene.SetComponent(entity, "Sprite", s)
 	scene.SetComponent(entity, "Behaviour", "Behaviours/Enemy")
-	scene.SetComponent(entity, "Collider", "Enemy", function(otherEnt) end)
+	scene.SetComponent(entity, "Collider", c)
 end
 tracy.ZoneEnd()
 --------------------------------
