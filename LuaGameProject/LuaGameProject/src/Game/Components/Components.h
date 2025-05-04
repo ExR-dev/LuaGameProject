@@ -230,6 +230,12 @@ namespace ECS
 
 			lua_pushstring(L, tag);
 			lua_setfield(L, -2, "tag");
+
+			lua_pushboolean(L, debug);
+			lua_setfield(L, -2, "debug");
+
+            lua_rawgeti(L, LUA_REGISTRYINDEX, luaRef);
+			lua_setfield(L, -2, "callback");
 		}
 
 		void LuaPull(lua_State* L, int index)
