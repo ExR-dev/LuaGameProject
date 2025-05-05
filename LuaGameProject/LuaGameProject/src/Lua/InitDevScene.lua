@@ -138,7 +138,7 @@ for _ = 1, 15 do
 	local s = sprite("Maxwell.png")
 	s.priority = 30
 
-	local c = collider("Enemy", true, vec2(0, 0), function(other) end)
+	local c = collider("Enemy", true, vec2(0, 0), vec2(1, 1), function(other) end)
 		
 
 	scene.SetComponent(entity, "Transform", t)

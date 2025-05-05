@@ -68,11 +68,11 @@ b2BodyId PhysicsHandler::CreateRigidBody(int entity, const ECS::Collider &collid
 
     b2BodyId bodyId;
 
-	b2Polygon polygon = b2MakeBox(fabsf(transform.Scale[0]) / 2, fabsf(transform.Scale[1]) / 2);
+	b2Polygon polygon = b2MakeBox(fabsf(transform.Scale[0] * collider.extents[0]) / 2, fabsf(transform.Scale[1] * collider.extents[1]) / 2);
 
 	b2BodyDef bodyDef = b2DefaultBodyDef();
 	bodyDef.type = b2_kinematicBody;
-	bodyDef.position = { transform.Position[0], transform.Position[1] };
+	bodyDef.position = { transform.Position[0] + collider.offset[0], transform.Position[1] + collider.offset[1] };
 
 	bodyId = b2CreateBody(m_worldId, &bodyDef);
 

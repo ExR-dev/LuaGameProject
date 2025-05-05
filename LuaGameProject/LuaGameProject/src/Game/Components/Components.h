@@ -223,6 +223,7 @@ namespace ECS
 		static constexpr int MAX_TAG_LENGTH = 32;
 		char tag[MAX_TAG_LENGTH];
 		float offset[2] { 0 };
+		float extents[2] { 1, 1 };
 
 		void LuaPush(lua_State* L) const
 		{
@@ -286,6 +287,18 @@ namespace ECS
 
 				lua_getfield(L, -1, "y");
 				offset[1] = (float)lua_tonumber(L, -1);
+				lua_pop(L, 1);
+			}
+
+			lua_getfield(L, index, "extents");
+			if (lua_istable(L, -1))
+			{
+				lua_getfield(L, -1, "x");
+				extents[0] = (float)lua_tonumber(L, -1);
+				lua_pop(L, 1);
+
+				lua_getfield(L, -1, "y");
+				extents[1] = (float)lua_tonumber(L, -1);
 				lua_pop(L, 1);
 			}
 

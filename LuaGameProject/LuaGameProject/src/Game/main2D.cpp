@@ -340,8 +340,8 @@ int Main2D::Main2D::Render()
 
                 if (collider.debug)
                 {
-					const float w = fabsf(transform.Scale[0]),
-								h = fabsf(transform.Scale[1]);
+					const float w = fabsf(transform.Scale[0] * collider.extents[0]),
+								h = fabsf(transform.Scale[1] * collider.extents[1]);
 					b2Vec2 p = b2Body_GetWorldPoint(collider.bodyId, { 0, 0});
 					b2Transform t;
 

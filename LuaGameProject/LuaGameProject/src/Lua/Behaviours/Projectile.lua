@@ -19,7 +19,7 @@ function projectile:OnCreate()
 	self.speed = 1337.0 * 1.5
 
 
-	local c = collider("Projectile", false, vec2(0, 0), function(other) 
+	local c = collider("Projectile", false, vec2(0, 0), vec2(1.1, 1.1), function(other) 
 		tracy.ZoneBeginN("Lua Lambda projectile:Collide")
 
 		local o = scene.GetComponent(other, "Collider")
