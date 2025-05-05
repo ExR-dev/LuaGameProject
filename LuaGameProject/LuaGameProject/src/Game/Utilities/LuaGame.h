@@ -1,7 +1,5 @@
 #pragma once
-//#include <lua.h>
 #include "lua.hpp"
-//#include "dep/raylib-cpp/raylib-cpp.hpp"
 
 class Scene;
 

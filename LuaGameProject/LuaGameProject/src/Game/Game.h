@@ -4,6 +4,15 @@
 
 namespace Game
 {
+	enum SceneState
+	{
+		None,
+		InMenu,
+		InGame,
+		InEditor,
+		Quitting
+	};
+
 	static bool IsQuitting = false;
 
 	class Game

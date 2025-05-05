@@ -56,12 +56,8 @@ static int PrintVector(lua_State *L)
 	return 0;
 }
 
-void ConsoleThreadFunction(lua_State *L, std::string *cmdList, std::atomic_bool *pauseCmdInput)
+void ConsoleThreadFunction(std::string *cmdList, std::atomic_bool *pauseCmdInput)
 {
-	// Add lua require path
-	std::string luaScriptPath = std::format("{}/{}?{}", fs::current_path().generic_string(), FILE_PATH, FILE_EXT);
-	LuaDoString(std::format("package.path = \"{};\" .. package.path", luaScriptPath).c_str());
-
 	std::cout << std::endl << std::format(
 		"To run a \"{}\" file located in \"{}\", begin your command with \"{}\" followed by the file name.", 
 				 FILE_EXT,			    FILE_PATH,					    FILE_CMD
@@ -71,11 +67,6 @@ void ConsoleThreadFunction(lua_State *L, std::string *cmdList, std::atomic_bool 
 	std::cout << "To dump the lua environment, type \"DumpEnv\"." << std::endl;
 
 	std::string input;
-	
-	lua_pushcfunction(L, PrintVector);
-	lua_setglobal(L, "PrintVector");
-
-	BindLuaInput(L);
 
 	while (Windows::GetConsoleWindowW())
 	{
@@ -94,8 +85,6 @@ void ConsoleThreadFunction(lua_State *L, std::string *cmdList, std::atomic_bool 
 			pauseCmdInput->store(true);
 		}
 	}
-
-	lua_close(L);
 }
 
 void ExecuteCommandList(lua_State *L, std::string *cmdList, std::atomic_bool *pauseCmdInput, const entt::registry &reg)
