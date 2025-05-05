@@ -215,21 +215,21 @@ int Main2D::Main2D::Update()
     m_physicsHandler.Update(L, &m_scene);
 
     std::function<void(entt::registry& registry)> createPhysicsBodies = [&](entt::registry& registry) {
-        ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+        ZoneNamedNC(createPhysicsBodiesZone, "Lambda Update Physics Bodies", RandomUniqueColor(), true);
 
         auto view = registry.view<ECS::Collider, ECS::Transform>();
         view.use<ECS::Collider>();
 
         view.each([&](const entt::entity entity, ECS::Collider& collider, ECS::Transform& transform) {
-            ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+            ZoneNamedNC(drawSpriteZone, "Lambda Update Physics Boddy", RandomUniqueColor(), true);
 
-            // Create body
             if (!collider.createBody)
             {
-                b2Body_SetTransform(collider.bodyId, { transform.Position[0], transform.Position[1] }, { cosf(transform.Rotation * DEG2RAD), sinf(transform.Rotation * DEG2RAD) });
+                b2Body_SetTransform(collider.bodyId, { transform.Position[0] + collider.offset[0], transform.Position[1] + collider.offset[1]}, {cosf(transform.Rotation * DEG2RAD), sinf(transform.Rotation * DEG2RAD)});
             }
             else
             {
+                ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Boddy", RandomUniqueColor(), true);
 			    collider.bodyId = m_physicsHandler.CreateRigidBody(static_cast<int>(entity), collider, transform);
 			    collider.createBody = false;
             }

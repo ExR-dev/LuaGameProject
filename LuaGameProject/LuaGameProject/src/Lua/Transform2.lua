@@ -60,11 +60,13 @@ function transform2:getRight()
 end
 
 function transform2:moveRelative(movement)
+	tracy.ZoneBeginN("Lua transform2:moveReletive")
     assert(vec2.isvec2(movement), "transform2 moveRelative : expected args: vec2")
     local fwd = self:getForward()
     local right = self:getRight()
     local relativeMovement = (fwd * movement.y) + (right * movement.x)
     self.position = self.position + relativeMovement
+    tracy.ZoneEnd()
 end
 
 transform2.new = new

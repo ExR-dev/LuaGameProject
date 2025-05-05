@@ -58,6 +58,7 @@ namespace ECS
 		char ScriptPath[SCRIPT_PATH_LENGTH];
 		int LuaRef;
 
+
 		// Create a constructor in order to initialize the char array
 		Behaviour(const char *path, int entity, lua_State *L) : m_refState(L)
 		{
@@ -221,18 +222,26 @@ namespace ECS
 		int luaRef;
 		static constexpr int MAX_TAG_LENGTH = 32;
 		char tag[MAX_TAG_LENGTH];
+		float offset[2] { 0 };
 
 		void LuaPush(lua_State* L) const
 		{
 			ZoneScopedC(RandomUniqueColor());
 
-			lua_createtable(L, 0, 1);
+			lua_createtable(L, 0, 4);
 
 			lua_pushstring(L, tag);
 			lua_setfield(L, -2, "tag");
 
 			lua_pushboolean(L, debug);
 			lua_setfield(L, -2, "debug");
+
+			lua_createtable(L, 0, 2);
+			lua_pushnumber(L, offset[0]);
+			lua_setfield(L, -2, "x");
+			lua_pushnumber(L, offset[1]);
+			lua_setfield(L, -2, "y");
+			lua_setfield(L, -2, "offset");
 
             lua_rawgeti(L, LUA_REGISTRYINDEX, luaRef);
 			lua_setfield(L, -2, "callback");
@@ -267,6 +276,18 @@ namespace ECS
 			if (lua_isboolean(L, -1)) 
 				debug = lua_toboolean(L, -1);
 			lua_pop(L, 1);
+
+			lua_getfield(L, index, "offset");
+			if (lua_istable(L, -1))
+			{
+				lua_getfield(L, -1, "x");
+				offset[0] = (float)lua_tonumber(L, -1);
+				lua_pop(L, 1);
+
+				lua_getfield(L, -1, "y");
+				offset[1] = (float)lua_tonumber(L, -1);
+				lua_pop(L, 1);
+			}
 
 			lua_getfield(L, index, "callback");
 			if (lua_isfunction(L, -1))
