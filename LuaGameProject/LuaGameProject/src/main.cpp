@@ -4,6 +4,7 @@
 #include "Game/Scenes/MenuScene.h"
 #include "Game/Scenes/GameScene.h"
 #include "Game/Scenes/EditorScene.h"
+#include <Game/Utilities/InputHandler.h>
 
 //------------------------------------------------------------------------------------
 // Program main entry point
@@ -27,28 +28,55 @@ int main()
 	EditorScene::EditorScene editorScene;
 	GameScene::GameScene gameScene;
 
-    menuScene.Start();
-    editorScene.Start();
-    gameScene.Start();
+    menuScene.Start(&windowInfo);
+    editorScene.Start(&windowInfo);
+    gameScene.Start(&windowInfo);
 
+	SceneTemplate::SceneTemplate *currentScene = static_cast<SceneTemplate::SceneTemplate*>(&menuScene);
     Game::SceneState sceneState = Game::SceneState::InMenu;
 
-    Start();
     FrameMark;
 
-    while (!WindowShouldClose())
+	bool isQuitting = false;
+    while (!isQuitting && !WindowShouldClose())
     {
         ZoneNamedNC(innerLoopZone, "Loop", RandomUniqueColor(), true);
-        Time::Update();
 
+        Time::Update();
         Input::UpdateInput();
 
-        Update();
+        Game::SceneState newState = currentScene->Loop();
 
-        Render();
+		switch (newState)
+		{
+		case Game::SceneState::InMenu:
+            EnableCursor();
+			currentScene = &menuScene;
+			break;
+
+		case Game::SceneState::InGame:
+            DisableCursor();
+			currentScene = &gameScene;
+			break;
+
+		case Game::SceneState::InEditor:
+            EnableCursor();
+			currentScene = &editorScene;
+			break;
+
+        case Game::SceneState::Quitting:
+			isQuitting = true;
+            break;
+
+        case Game::SceneState::None:
+		default:
+			break;
+		}   
 
         FrameMark;
     }
+
+    Game::IsQuitting = false;
 
     CloseWindow();
     ResourceManager::Instance().UnloadResources();

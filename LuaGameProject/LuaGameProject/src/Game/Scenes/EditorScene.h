@@ -1,31 +1,31 @@
 #pragma once
 #include "dep/raylib-cpp/raylib-cpp.hpp"
 #include "../Scene.h"
+#include "SceneTemplate.h"
 
 #include "../Utilities/WindowInfo.h"
 #include "../Utilities/LuaGame.h"
+#include "../PhysicsHandler.h"
 
 namespace EditorScene
 {
-    class EditorScene
+	class EditorScene : public SceneTemplate::SceneTemplate
     {
     public:
-        EditorScene(WindowInfo *windowInfo) : m_windowInfo(windowInfo) {}
+        EditorScene();
         ~EditorScene();
 
-        int Start();
-        Game::SceneState Loop();
+        int Start(WindowInfo *windowInfo) override;
+        Game::SceneState Loop() override;
+
+    protected:
+        Game::SceneState Update() override;
+        int Render() override;
 
     private:
         lua_State *L = nullptr;
         Scene m_scene{};
         LuaGame::LuaGame m_luaGame;
-
-        raylib::Camera2D m_camera{};
-
-        WindowInfo *m_windowInfo;
-
-        int Update();
-        int Render();
+        PhysicsHandler m_physicsHandler;
     };
 }

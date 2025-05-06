@@ -7,16 +7,16 @@
 
 namespace MenuScene
 {
-    class MenuScene : SceneTemplate::SceneTemplate
+    class MenuScene : public SceneTemplate::SceneTemplate
     {
     public:
-        MenuScene(WindowInfo *windowInfo) : m_windowInfo(windowInfo) {}
+        MenuScene() = default;
 
-        int Start() override;
+        int Start(WindowInfo *windowInfo) override;
         Game::SceneState Loop() override;
 
     protected:
-        int Update() override;
+        Game::SceneState Update() override;
         int Render() override;
     };
 }

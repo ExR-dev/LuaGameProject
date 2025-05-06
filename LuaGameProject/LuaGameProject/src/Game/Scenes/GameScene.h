@@ -21,16 +21,17 @@ struct FreeCam
 
 namespace GameScene
 {
-    class GameScene : SceneTemplate::SceneTemplate
+    class GameScene : public SceneTemplate::SceneTemplate
     {
     public:
+        GameScene();
         ~GameScene();
 
-        int Start() override;
+        int Start(WindowInfo *windowInfo) override;
         Game::SceneState Loop() override;
 
     protected:
-        int Update() override;
+        Game::SceneState Update() override;
         int Render() override;
 
     private:
@@ -39,7 +40,6 @@ namespace GameScene
         LuaGame::LuaGame m_luaGame;
 
         FreeCam m_freeCam{};
-        raylib::Camera2D m_camera{};
 
         DungeonGenerator *m_dungeon = nullptr;
 
@@ -49,14 +49,11 @@ namespace GameScene
 		int m_cameraOption = 0;
 		std::function<void(void)> m_cameraUpdater;
 
-        WindowInfo *m_windowInfo;
-
         std::string m_cmdList;
         std::atomic_bool m_pauseCmdInput = false;
 
-        
         PhysicsHandler m_physicsHandler;
-        b2BodyId m_box, m_ground;
+
 
         void UpdatePlayerCamera();
         void UpdateFreeCamera();

@@ -1,11 +1,15 @@
 #include "stdafx.h"
 #include "EditorScene.h"
 
-#include "../../LuaConsole.h"
-
 #include "../Utilities/InputHandler.h"
 #include "../Utilities/LuaInput.h"
 
+EditorScene::EditorScene::EditorScene()
+{
+    ZoneScopedC(RandomUniqueColor());
+
+    Game::IsQuitting = false;
+}
 EditorScene::EditorScene::~EditorScene()
 {
     ZoneScopedC(RandomUniqueColor());
@@ -17,40 +21,13 @@ EditorScene::EditorScene::~EditorScene()
         lua_close(L);
         L = nullptr;
     }
-
-    ResourceManager::Instance().UnloadResources();
-    CloseAudioDevice();
 }
 
-int EditorScene::EditorScene::Run()
+int EditorScene::EditorScene::Start(WindowInfo *windowInfo)
 {
     ZoneScopedC(RandomUniqueColor());
 
-    Start();
-    FrameMark;
-
-    while (!WindowShouldClose())
-    {
-        ZoneNamedNC(innerLoopZone, "EditorScene::EditorScene::Run Loop", RandomUniqueColor(), true);
-
-        Time::Update();
-        Input::UpdateInput();
-
-        Update();
-
-        Render();
-
-        FrameMark;
-    }
-
-    CloseWindow();
-    FrameMark;
-    return 0;
-}
-
-int EditorScene::EditorScene::Start()
-{
-    ZoneScopedC(RandomUniqueColor());
+    m_windowInfo = windowInfo;
 
     // Setup Box2D
     m_physicsHandler.Setup();
@@ -61,32 +38,19 @@ int EditorScene::EditorScene::Start()
     L = luaL_newstate();
     luaL_openlibs(L);
 
-    m_windowInfo.BindLuaWindow(L);
+    m_windowInfo->BindLuaWindow(L);
 
     Scene::lua_openscene(L, &m_scene);
 
     m_luaGame = LuaGame::LuaGame(L, &m_scene);
     LuaGame::LuaGame::lua_opengame(L, &m_luaGame);
 
-    // Create console-bound lua state
-    lua_State *consoleL = luaL_newstate();
-    luaL_openlibs(consoleL);
-    Scene::lua_openscene(consoleL, &m_scene);
-
-    InitWindow(m_windowInfo.p_screenWidth, m_windowInfo.p_screenHeight, "Lua Game");
-    InitAudioDevice();
-
-    Time::Instance();
-    ResourceManager::Instance().LoadResources();
-
     m_camera.target = raylib::Vector2(0, 0);
-    m_camera.offset = raylib::Vector2(m_windowInfo.p_screenWidth / 2.0f, m_windowInfo.p_screenHeight / 2.0f);
+    m_camera.offset = raylib::Vector2(m_windowInfo->p_screenWidth / 2.0f, m_windowInfo->p_screenHeight / 2.0f);
     m_camera.rotation = 0.0f;
     m_camera.zoom = 1.0f;
 
     BindLuaInput(L);
-
-    SetTargetFPS(144);
 
     // Add lua require path
     std::string luaScriptPath = std::format("{}/{}?{}", fs::current_path().generic_string(), FILE_PATH, FILE_EXT);
@@ -94,18 +58,34 @@ int EditorScene::EditorScene::Start()
 
     // Initialize Lua
     LuaDoFileCleaned(L, LuaFilePath("Data")); // Load data
-    // TODO: Reuse code for running tests to autmoatically run all lua files located in Data
+    // TODO: Reuse code for running tests to automatically run all lua files located in Data
 
     m_scene.SystemsInitialize(L);
 
-    LuaDoFileCleaned(L, LuaFilePath("InitDevScene")); // Creates entities
+    LuaDoFileCleaned(L, LuaFilePath("InitEditorScene")); // Creates entities
 
     return 1;
 }
 
-int EditorScene::EditorScene::Update()
+Game::SceneState EditorScene::EditorScene::Loop()
 {
     ZoneScopedC(RandomUniqueColor());
+
+    auto state = Update();
+
+    Render();
+
+    return state;
+}
+
+Game::SceneState EditorScene::EditorScene::Update()
+{
+    ZoneScopedC(RandomUniqueColor());
+
+    if (Input::CheckKeyPressed(Input::GAME_KEY_R))
+    {
+        m_camera.zoom = 1.0f;
+    }
 
     // Update systems
     m_scene.SystemsOnUpdate(Time::DeltaTime());
@@ -139,7 +119,21 @@ int EditorScene::EditorScene::Update()
 
     m_scene.CleanUp();
 
-    return 0;
+
+    if (Input::CheckKeyPressed(Input::GAME_KEY_1))
+    {
+        return Game::SceneState::InMenu;
+    }
+    else if (Input::CheckKeyPressed(Input::GAME_KEY_3))
+    {
+        return Game::SceneState::InGame;
+    }
+    else if (Input::CheckKeyPressed(Input::GAME_KEY_0))
+    {
+        return Game::SceneState::Quitting;
+    }
+
+    return Game::SceneState::None;
 }
 
 int EditorScene::EditorScene::Render()
@@ -228,12 +222,43 @@ int EditorScene::EditorScene::Render()
         };
         m_scene.RunSystem(drawSystem);
 
+        std::function<void(entt::registry& registry)> createPhysicsBodies = [&](entt::registry& registry) {
+            ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+
+            auto view = registry.view<ECS::Collider, ECS::Transform>();
+            view.use<ECS::Collider>();
+
+            view.each([&](ECS::Collider& collider, ECS::Transform& transform) {
+                ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+
+                if (collider.debug)
+                {
+                    const float w = fabsf(transform.Scale[0]),
+                        h = fabsf(transform.Scale[1]);
+                    b2Vec2 p = b2Body_GetWorldPoint(collider.bodyId, { 0, 0});
+                    b2Transform t;
+
+                    b2Rot rotation = b2Body_GetRotation(collider.bodyId);
+                    float radians = b2Rot_GetAngle(rotation);
+
+                    Rectangle rect = { p.x, p.y , w, h };
+                    DrawRectanglePro(rect, { w/2, h/2 }, radians*RAD2DEG, {0, 228, 46, 100});
+                }
+            });
+        };
+
+
+        m_scene.RunSystem(createPhysicsBodies);
+
         EndMode2D();
     }
 
     // UI
     {
-        ZoneNamedNC(EditorSceneRenderScene, "Render UI", RandomUniqueColor(), true);
+        ZoneNamedNC(renderUIZone, "Render UI", RandomUniqueColor(), true);
+
+        DrawText("Controls:", 20, 20, 10, BLACK);
+        DrawText("- Mouse Wheel to Zoom in-out, R to reset zoom", 40, 80, 10, DARKGRAY);
 
         DrawFPS(340, 10);
     }

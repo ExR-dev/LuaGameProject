@@ -338,6 +338,7 @@
     <None Include="src\Lua\Data.lua" />
     <None Include="src\Lua\Data\Weapons.lua" />
     <None Include="src\Lua\InitDevScene.lua" />
+    <None Include="src\Lua\InitEditorScene.lua" />
     <None Include="src\Lua\InputDemo.lua" />
     <None Include="src\Lua\Tests\Math\GameMathTest.lua" />
     <None Include="src\Lua\Utility\GameMath.lua" />

@@ -8,17 +8,15 @@ namespace SceneTemplate
     class SceneTemplate
     {
     public:
-        SceneTemplate(WindowInfo *windowInfo) : m_windowInfo(windowInfo) {}
-
-        virtual int Start() = 0;
-        virtual Game::SceneState Loop() = 0;
+        virtual int Start(WindowInfo *windowInfo) { return 0; };
+        virtual Game::SceneState Loop() { return Game::SceneState::None; };
 
     protected:
         raylib::Camera2D m_camera{};
         WindowInfo *m_windowInfo;
 
-        virtual int Update() = 0;
-        virtual int Render() = 0;
+        virtual Game::SceneState Update() { return Game::SceneState::None; };
+        virtual int Render() { return 0; };
 
     private:
     };
