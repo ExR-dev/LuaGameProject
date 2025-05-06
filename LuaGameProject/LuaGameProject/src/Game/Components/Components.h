@@ -225,6 +225,12 @@ namespace ECS
 		float offset[2] { 0 };
 		float extents[2] { 1, 1 };
 
+		void Destroy(lua_State* L)
+		{
+			b2DestroyBody(bodyId);
+			luaL_unref(L, LUA_REGISTRYINDEX, luaRef);
+		}
+
 		void LuaPush(lua_State* L) const
 		{
 			ZoneScopedC(RandomUniqueColor());

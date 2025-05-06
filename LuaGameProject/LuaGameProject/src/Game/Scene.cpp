@@ -43,10 +43,6 @@ bool Scene::IsEntity(int entity)
 
 void Scene::RemoveEntity(entt::entity entity)
 {
-	// TODO: Find a better solution
-	//if (HasComponents<ECS::Collider>(entity))
-		//b2DestroyBody(GetComponent<ECS::Collider>(entity).bodyId);
-
 	m_registry.destroy(entity);
 }
 void Scene::RemoveEntity(int entity)
@@ -140,7 +136,7 @@ void Scene::SystemsOnRender(float delta)
 	}
 }
 
-void Scene::CleanUp()
+void Scene::CleanUp(lua_State* L)
 {	
 	std::function<void(entt::registry& registry)> cleanup = [&](entt::registry& registry) {
 		ZoneNamedNC(createPhysicsBodiesZone, "Lambda Remove Entities", RandomUniqueColor(), true);
@@ -154,8 +150,14 @@ void Scene::CleanUp()
 		});
 
 		// Destroy entities after iteration
-		for (int i = entitiesToDestroy.size() - 1; i >= 0; i--) {
-			RemoveEntity(entitiesToDestroy[i]);
+		for (int i = entitiesToDestroy.size() - 1; i >= 0; i--) 
+		{
+			entt::entity ent = entitiesToDestroy[i];
+
+			if (HasComponents<ECS::Collider>(ent))
+				GetComponent<ECS::Collider>(ent).Destroy(L);
+
+			RemoveEntity(ent);
 		}
 	};
 

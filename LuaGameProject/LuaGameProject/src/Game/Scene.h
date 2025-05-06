@@ -71,7 +71,7 @@ public:
 	void SystemsOnUpdate(float delta);
 	void SystemsOnRender(float delta);
 
-	void CleanUp();
+	void CleanUp(lua_State* L);
 
 	static void lua_openscene(lua_State *L, Scene *scene);
 
