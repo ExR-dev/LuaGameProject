@@ -35,6 +35,12 @@ int main()
     ResourceManager::Instance().LoadResources();
     SetTargetFPS(144);
 
+    rlImGuiSetup(true);
+#ifdef IMGUI_HAS_DOCK
+    ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+#endif
+
 	MenuScene::MenuScene menuScene;
 	EditorScene::EditorScene editorScene;
 	GameScene::GameScene gameScene;

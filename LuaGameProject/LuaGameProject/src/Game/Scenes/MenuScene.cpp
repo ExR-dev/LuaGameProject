@@ -142,6 +142,21 @@ int MenuScene::MenuScene::Render()
     DrawFPS(340, 10);
 
     EndMode2D();
+
+
+    rlImGuiBegin();
+#ifdef IMGUI_HAS_DOCK
+    ImGui::DockSpaceOverViewport(0, NULL, ImGuiDockNodeFlags_PassthruCentralNode); // set ImGuiDockNodeFlags_PassthruCentralNode so that we can see the raylib contents behind the dockspace
+#endif
+
+    ImGui::Begin("Menu");
+    ImGui::End();
+
+
+    rlImGuiEnd();
+
+
+
     EndDrawing();
 
     return 1;

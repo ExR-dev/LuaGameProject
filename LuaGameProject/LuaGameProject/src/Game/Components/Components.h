@@ -316,7 +316,7 @@ namespace ECS
 
 				lua_getfield(L, -1, "y");
 				temp = (float)lua_tonumber(L, -1);
-				if (temp != extents[0])
+				if (temp != extents[1])
 				{
 					extents[1] = temp;
 					createBody = true;
