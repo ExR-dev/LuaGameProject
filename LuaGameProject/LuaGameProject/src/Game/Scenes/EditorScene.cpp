@@ -4,6 +4,9 @@
 #include "../Utilities/InputHandler.h"
 #include "../Utilities/LuaInput.h"
 
+#ifdef LEAK_DETECTION
+#define new			DEBUG_NEW
+#endif
 
 EditorScene::EditorScene::EditorScene()
 {
@@ -119,20 +122,6 @@ Game::SceneState EditorScene::EditorScene::Update()
     m_scene.RunSystem(createPhysicsBodies);
 
     m_scene.CleanUp(L);
-
-
-    if (Input::CheckKeyPressed(Input::GAME_KEY_1))
-    {
-        return Game::SceneState::InMenu;
-    }
-    else if (Input::CheckKeyPressed(Input::GAME_KEY_3))
-    {
-        return Game::SceneState::InGame;
-    }
-    else if (Input::CheckKeyPressed(Input::GAME_KEY_0))
-    {
-        return Game::SceneState::Quitting;
-    }
 
     return Game::SceneState::None;
 }

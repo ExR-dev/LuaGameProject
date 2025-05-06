@@ -5,16 +5,16 @@ local calibers = {
 	-- Summary
 	--[[
 	["caliber"] = {
-		-- Caliber describes the bullets dimensions, and defines what weapons can fire it
+		-- Caliber describes the bullet dimensions, and defines what weapons can fire it
 
-		default = "FMJ",
+		default = "FMJ", -- The ammo type that weapons will spawn with by default
 
-		["type"] = {
+		["ammo type"] = {
 			-- Ammo type describes the bullets use case, and defines its stats
 			-- Common types are FMJ, HP, AP, whose use cases are described as
 			--     FMJ: general purpose
 			--     HP:	hits harder and reduces spread, but penetrates less and falls off faster
-			--     AP:	less damage and accuracy, but penetrates better
+			--     AP:	less damage and accuracy, but penetrates more
 
 			-- Name:		damageMult
 			-- Desc:		Multiplier of the weapon's damage at the moment of firing
@@ -145,10 +145,32 @@ local calibers = {
 
 		["FMJ"] = { -- Default
 			damageMult = 1.0,
-			falloff = 0.985,
+			falloff = 0.99,
 			penetration = 0.85,
 			spread = 0.5,
-			recoil = 7.0,
+			recoil = 12.0,
+			burstSize = 1
+		}
+	},
+
+	["God Ammo"] = { -- Temp
+		default = "Spray",
+
+		["Spray"] = {
+			damageMult = 1.0,
+			falloff = 1.0,
+			penetration = 1.0,
+			spread = 30.0,
+			recoil = 1.0,
+			burstSize = 5
+		},
+
+		["Accurate"] = {
+			damageMult = 1.0,
+			falloff = 1.0,
+			penetration = 1.0,
+			spread = 0.0,
+			recoil = 10.0,
 			burstSize = 1
 		}
 	}

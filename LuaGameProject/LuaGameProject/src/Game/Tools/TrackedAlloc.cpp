@@ -3,6 +3,7 @@
 #include <corecrt_malloc.h>
 #include <new>
 
+#ifdef TRACY_MEMORY
 void *operator new(size_t size)
 {
 	void *ptr = malloc(size);
@@ -78,3 +79,4 @@ void operator delete[](void *ptr, size_t size) noexcept
 		free(ptr);
 	}
 }
+#endif

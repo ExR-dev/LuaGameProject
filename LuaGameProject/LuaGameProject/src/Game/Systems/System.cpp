@@ -2,6 +2,10 @@
 #include "System.h"
 #include <Game/Components/Components.h>
 
+#ifdef LEAK_DETECTION
+#define new			DEBUG_NEW
+#endif
+
 bool BehaviourSystem::OnUpdate(entt::registry &registry, float delta)
 {
 	ZoneScopedC(RandomUniqueColor());

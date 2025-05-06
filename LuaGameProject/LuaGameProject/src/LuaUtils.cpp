@@ -5,6 +5,10 @@
 #include <filesystem>
 #include <Game/Components/Components.h>
 
+#ifdef LEAK_DETECTION
+#define new			DEBUG_NEW
+#endif
+
 std::string LuaLoadFile(lua_State *L, const char *path)
 {
 	std::ifstream file(path);

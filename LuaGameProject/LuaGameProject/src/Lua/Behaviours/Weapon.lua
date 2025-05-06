@@ -17,6 +17,7 @@ function weapon:OnCreate()
 	self.loadedAmmoCount = 0
 	self.loadedAmmoType = nil
 
+	self.isOnCooldown = false
 	self.fireCooldown = 0.0
 	self.currRecoil = 0.0
 
@@ -80,10 +81,12 @@ function weapon:OnUpdate(delta)
 			end
 		end
 
-		if self.fireCooldown > 0.0 then
+		if self.isOnCooldown then
 			self.fireCooldown = self.fireCooldown - delta
 			
 			if self.fireCooldown <= 0.0 then
+				self.isOnCooldown = false
+
 				if self.stats.fireMode == "Auto" then
 					if Input.KeyHeld(Input.Key.KEY_SPACE) then
 						self:OnShoot()
@@ -108,7 +111,7 @@ function weapon:OnShoot()
 	tracy.ZoneBeginN("Lua weapon:OnShoot")
 
 	-- Check if the weapon is on cooldown
-	if self.fireCooldown > 0.0 then
+	if self.isOnCooldown then
 		tracy.ZoneEnd()
 		return
 	end
@@ -135,10 +138,7 @@ function weapon:OnShoot()
 	end
 
 	local origin = self.trans.position
-	local dir = game.GetCursor().trans.position - origin
-
-	local angle = dir:angle()
-	angle = angle + (gameMath.randomSigned() * self.currRecoil)
+	local angle = self.trans.rotation
 
 	local totalSpread = self.stats.spread + ammoStats.spread
 
@@ -156,8 +156,14 @@ function weapon:OnShoot()
 		projBehaviour.stats = ammoStats
 	end
 
+	self.isOnCooldown = true
 	self.fireCooldown = self.fireCooldown + (1.0 / self.stats.fireRate)
-	self.currRecoil = self.currRecoil + self.stats.recoil + ammoStats.recoil
+
+	local recoilStrength = self.stats.recoil + ammoStats.recoil
+	local newRecoil = gameMath.randomSigned() * recoilStrength
+	newRecoil = newRecoil + (0.1 * gameMath.clamp(self.currRecoil, -recoilStrength, recoilStrength))
+	self.currRecoil = self.currRecoil + newRecoil
+
 	self.loadedAmmoCount = self.loadedAmmoCount - 1
 
 	tracy.ZoneEnd()

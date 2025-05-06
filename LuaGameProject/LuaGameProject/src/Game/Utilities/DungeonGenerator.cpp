@@ -3,6 +3,10 @@
 #include "Math.h"
 #include "Algorithms.h"
 
+#ifdef LEAK_DETECTION
+#define new			DEBUG_NEW
+#endif
+
 int Room::_ID = 0;
 
 using namespace Math;

@@ -5,6 +5,26 @@ local gameMath = {
 
 local vec2 = require("Vec2")
 
+function gameMath.clamp(a, b, c)
+	if a <= b then
+		return b
+	elseif a >= c then
+		return c
+	else
+		return a
+	end
+end
+
+function gameMath.sign(a)
+	if a > 0.0 then
+		return 1.0
+	elseif a < 0.0 then
+		return -1.0
+	else
+		return 0.0
+	end
+end
+
 -- Approximate equality function with optional threshold parameter (exclusive)
 function gameMath.approx(a, b, t)
 	local threshold = t or 0.00001
@@ -95,7 +115,7 @@ function gameMath.remap(val, aMin, aMax, bMin, bMax)
 end
 
 -- Interpolate between angles
-function rot_lerp(a, b, weight)
+function gameMath.rot_lerp(a, b, weight)
     local shortest = ((a - b) + 90.0) % 270.0
     return (b + (shortest * weight) % 360.0)
 end

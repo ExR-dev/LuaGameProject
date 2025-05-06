@@ -342,6 +342,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="dep\imgui\extras\IconsFontAwesome6.h">
+        <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Tools\DebugNew.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

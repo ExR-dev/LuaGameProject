@@ -2,6 +2,10 @@
 #include "LuaGame.h"
 #include "../Scene.h"
 
+#ifdef LEAK_DETECTION
+#define new			DEBUG_NEW
+#endif
+
 #define lua_GetGameUpValue(L) (LuaGame *)lua_topointer(L, lua_upvalueindex(1))
 #define lua_GetGame(L) lua_GetGameUpValue(L)
 

@@ -285,6 +285,7 @@
     <ClInclude Include="src\Game\Scenes\SceneTemplate.h" />
     <ClInclude Include="src\Game\Systems\System.h" />
     <ClInclude Include="src\Game\Tools\ConstRand.h" />
+    <ClInclude Include="src\Game\Tools\DebugNew.h" />
     <ClInclude Include="src\Game\Tools\ErrMsg.h" />
     <ClInclude Include="src\Game\Tools\TrackedAlloc.h" />
     <ClInclude Include="src\Game\Utilities\Algorithms.h" />

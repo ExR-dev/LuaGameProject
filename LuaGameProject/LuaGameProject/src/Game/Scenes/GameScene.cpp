@@ -7,6 +7,10 @@
 #include "../Utilities/InputHandler.h"
 #include "../Utilities/LuaInput.h"
 
+#ifdef LEAK_DETECTION
+#define new			DEBUG_NEW
+#endif
+
 GameScene::GameScene::GameScene()
 {
     ZoneScopedC(RandomUniqueColor());
@@ -76,10 +80,12 @@ int GameScene::GameScene::Start(WindowInfo *windowInfo)
     LuaDoString(std::format("package.path = \"{};\" .. package.path", luaScriptPath).c_str());
 
     // Start Lua console thread
+#ifndef LEAK_DETECTION
     m_cmdList.clear();
     std::thread consoleThread(ConsoleThreadFunction, &m_cmdList, &m_pauseCmdInput);
     consoleThread.detach();
     std::this_thread::sleep_for(std::chrono::milliseconds(50)); // Wait for the console thread to start
+#endif
 
     // Initialize Lua
     LuaDoFileCleaned(L, LuaFilePath("Data")); // Load data
@@ -96,7 +102,7 @@ Game::SceneState GameScene::GameScene::Loop()
 {
     ZoneScopedC(RandomUniqueColor());
 
-#ifdef LUA_DEBUG
+#if defined(LUA_DEBUG) && !defined(LEAK_DETECTION)
     if (Game::Game::Instance().CmdStepMode)
     {
 		if (Game::Game::Instance().CmdTakeSteps > 0)
@@ -116,7 +122,9 @@ Game::SceneState GameScene::GameScene::Loop()
 
 	Render();
 
+#ifndef LEAK_DETECTION
 	ExecuteCommandList(L, &m_cmdList, &m_pauseCmdInput, m_scene.GetRegistry());
+#endif
 
     return state;
 }
@@ -211,20 +219,6 @@ Game::SceneState GameScene::GameScene::Update()
     m_scene.RunSystem(createPhysicsBodies);
 
     m_scene.CleanUp(L);
-
-
-    if (Input::CheckKeyPressed(Input::GAME_KEY_1))
-    {
-        return Game::SceneState::InMenu;
-    }
-    else if (Input::CheckKeyPressed(Input::GAME_KEY_2))
-    {
-        return Game::SceneState::InEditor;
-    }
-    else if (Input::CheckKeyPressed(Input::GAME_KEY_0))
-    {
-        return Game::SceneState::Quitting;
-    }
 
     return Game::SceneState::None;
 }

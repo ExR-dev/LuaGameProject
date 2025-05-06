@@ -1,6 +1,10 @@
 #include "WindowsWrapped.h"
 #include <windows.h>
 
+#ifdef LEAK_DETECTION
+#define new			DEBUG_NEW
+#endif
+
 void Windows::SleepW(int milliseconds)
 {
 	Sleep(milliseconds);

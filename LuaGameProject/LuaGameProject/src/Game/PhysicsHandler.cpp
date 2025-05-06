@@ -2,6 +2,10 @@
 #include "PhysicsHandler.h"
 #include "Scene.h"
 
+#ifdef LEAK_DETECTION
+#define new			DEBUG_NEW
+#endif
+
 PhysicsHandler::PhysicsHandler()
 {
 }
