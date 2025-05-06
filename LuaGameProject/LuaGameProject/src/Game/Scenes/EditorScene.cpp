@@ -118,7 +118,7 @@ Game::SceneState EditorScene::EditorScene::Update()
 
     m_scene.RunSystem(createPhysicsBodies);
 
-    m_scene.CleanUp();
+    m_scene.CleanUp(L);
 
 
     if (Input::CheckKeyPressed(Input::GAME_KEY_1))
