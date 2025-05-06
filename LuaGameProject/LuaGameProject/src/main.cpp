@@ -24,6 +24,8 @@ int main()
     ResourceManager::Instance().LoadResources();
     SetTargetFPS(144);
 
+    rlImGuiSetup(true);
+
 	MenuScene::MenuScene menuScene;
 	EditorScene::EditorScene editorScene;
 	GameScene::GameScene gameScene;

@@ -20,6 +20,9 @@ namespace fs = std::filesystem;
 #include "dep/tracy-0.11.1/public/tracy/Tracy.hpp"
 #include "dep/tracy-0.11.1/public/tracy/TracyLua.hpp"
 
+#include "dep/imgui/imgui.h"
+#include "dep/imgui/rlImGui.h"
+
 #include "Game/Game.h"
 #include "Game/Tools/ErrMsg.h"
 #include "LuaUtils.h"

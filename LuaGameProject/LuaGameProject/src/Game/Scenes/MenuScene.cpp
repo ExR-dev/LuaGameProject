@@ -152,6 +152,15 @@ int MenuScene::MenuScene::Render()
     DrawFPS(340, 10);
 
     EndMode2D();
+
+
+    rlImGuiBegin();
+
+    bool open = true;
+    ImGui::ShowDemoWindow(&open);
+
+    rlImGuiEnd();
+
     EndDrawing();
 
     return 1;
