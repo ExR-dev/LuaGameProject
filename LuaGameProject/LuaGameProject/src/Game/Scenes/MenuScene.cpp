@@ -118,20 +118,6 @@ Game::SceneState MenuScene::MenuScene::Update()
 		return Game::SceneState::Quitting;
 	}
 
-
-    if (Input::CheckKeyPressed(Input::GAME_KEY_2))
-    {
-		return Game::SceneState::InEditor;
-    }
-    else if (Input::CheckKeyPressed(Input::GAME_KEY_3))
-    {
-		return Game::SceneState::InGame;
-    }
-    else if (Input::CheckKeyPressed(Input::GAME_KEY_0))
-    {
-		return Game::SceneState::Quitting;
-    }
-
     return Game::SceneState::None;
 }
 

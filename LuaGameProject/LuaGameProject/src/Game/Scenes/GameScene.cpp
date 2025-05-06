@@ -212,20 +212,6 @@ Game::SceneState GameScene::GameScene::Update()
 
     m_scene.CleanUp(L);
 
-
-    if (Input::CheckKeyPressed(Input::GAME_KEY_1))
-    {
-        return Game::SceneState::InMenu;
-    }
-    else if (Input::CheckKeyPressed(Input::GAME_KEY_2))
-    {
-        return Game::SceneState::InEditor;
-    }
-    else if (Input::CheckKeyPressed(Input::GAME_KEY_0))
-    {
-        return Game::SceneState::Quitting;
-    }
-
     return Game::SceneState::None;
 }
 
