@@ -7,6 +7,8 @@
 #define lauxlib_c
 #define LUA_LIB
 
+
+#include "../../LuaGameProject/dep/tracy-0.11.1/public/tracy/TracyC.h"
 #include "lprefix.h"
 
 
@@ -1024,13 +1026,25 @@ LUALIB_API const char *luaL_gsub (lua_State *L, const char *s,
 
 
 static void *l_alloc (void *ud, void *ptr, size_t osize, size_t nsize) {
+  ///TracyCZone(ctx, 1);
+
   (void)ud; (void)osize;  /* not used */
   if (nsize == 0) {
+    ///TracyCFree(ptr);
     free(ptr);
+    ///TracyCZoneEnd(ctx);
     return NULL;
   }
   else
-    return realloc(ptr, nsize);
+  {
+    void *nPtr = realloc(ptr, nsize);
+    ///if (ptr == NULL)
+    ///  TracyCAlloc(nPtr, nsize);
+    ///TracyCZoneEnd(ctx);
+    return nPtr;
+  }
+
+  ///TracyCZoneEnd(ctx);
 }
 
 

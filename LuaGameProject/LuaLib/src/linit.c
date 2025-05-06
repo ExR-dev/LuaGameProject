@@ -24,6 +24,7 @@
 **  lua_pop(L, 1);  // remove PRELOAD table
 */
 
+#include "../../LuaGameProject/dep/tracy-0.11.1/public/tracy/TracyC.h"
 #include "lprefix.h"
 
 

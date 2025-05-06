@@ -99,9 +99,7 @@ namespace ECS
 		{
 			ZoneScopedC(RandomUniqueColor());
 
-			// This should be negated, but this statement currently somehow executes opposite of when it should
-			// Don't ask me why
-			if (Game::IsQuitting)
+			if (!Game::IsQuitting)
 			{
 				// Remove the reference to the behaviour table
 				luaL_unref(m_refState, LUA_REGISTRYINDEX, LuaRef);

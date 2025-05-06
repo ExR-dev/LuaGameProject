@@ -11,6 +11,7 @@
 #define loadlib_c
 #define LUA_LIB
 
+#include "../../LuaGameProject/dep/tracy-0.11.1/public/tracy/TracyC.h"
 #include "lprefix.h"
 
 
