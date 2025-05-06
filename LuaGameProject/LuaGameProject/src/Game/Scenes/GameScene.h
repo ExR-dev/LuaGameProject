@@ -1,11 +1,12 @@
 #pragma once
 #include "dep/raylib-cpp/raylib-cpp.hpp"
-#include "Scene.h"
+#include "../Scene.h"
+#include "SceneTemplate.h"
 #include <atomic>
 
-#include "Utilities/WindowInfo.h"
-#include "Utilities/LuaGame.h"
-#include "PhysicsHandler.h"
+#include "../Utilities/WindowInfo.h"
+#include "../Utilities/LuaGame.h"
+#include "../PhysicsHandler.h"
 
 constexpr float PLAYER_HOR_SPD = 200.0f;
 constexpr int CAMERA_OPTIONS = 2;
@@ -18,15 +19,20 @@ struct FreeCam
     float speed;
 };
 
-namespace Main2D
+namespace GameScene
 {
-    class Main2D
+    class GameScene : public SceneTemplate::SceneTemplate
     {
     public:
-		Main2D() = default;
-		~Main2D();
+        GameScene();
+        ~GameScene();
 
-        int Run();
+        int Start(WindowInfo *windowInfo) override;
+        Game::SceneState Loop() override;
+
+    protected:
+        Game::SceneState Update() override;
+        int Render() override;
 
     private:
         lua_State *L = nullptr; // No m_ because "m_L" feels wrong.
@@ -34,7 +40,6 @@ namespace Main2D
         LuaGame::LuaGame m_luaGame;
 
         FreeCam m_freeCam{};
-        raylib::Camera2D m_camera{};
 
         DungeonGenerator *m_dungeon = nullptr;
 
@@ -44,18 +49,11 @@ namespace Main2D
 		int m_cameraOption = 0;
 		std::function<void(void)> m_cameraUpdater;
 
-        WindowInfo m_windowInfo;
-
         std::string m_cmdList;
         std::atomic_bool m_pauseCmdInput = false;
 
-        
         PhysicsHandler m_physicsHandler;
-        b2BodyId m_box, m_ground;
 
-        int Start();
-        int Update();
-        int Render();
 
         void UpdatePlayerCamera();
         void UpdateFreeCamera();

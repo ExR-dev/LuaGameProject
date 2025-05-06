@@ -27,7 +27,7 @@
     <ClCompile Include="src\LuaUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Game\main2D.cpp">
+    <ClCompile Include="src\Game\Scenes\GameScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Game\Utilities\DungeonGenerator.cpp">
@@ -70,6 +70,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Game\PhysicsHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Scenes\MenuScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Scenes\EditorScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -218,7 +224,7 @@
     <ClInclude Include="dep\raylib-cpp\Window.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Game\main2D.h">
+    <ClInclude Include="src\Game\Scenes\GameScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Game\Utilities\DungeonGenerator.h">
@@ -278,6 +284,15 @@
     <ClInclude Include="src\Game\PhysicsHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Game\Scenes\MenuScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Scenes\EditorScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Scenes\SceneTemplate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Lua\Transform3D.lua" />
@@ -311,6 +326,7 @@
     <None Include="src\Lua\Data.lua" />
     <None Include="src\Lua\Data\Weapons.lua" />
     <None Include="src\Lua\Utility\PrintEntity.lua" />
+    <None Include="src\Lua\InitEditorScene.lua" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="raylib.dll" />

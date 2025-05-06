@@ -1,13 +1,19 @@
 ﻿#include "stdafx.h"
-#include "main2D.h"
+#include "GameScene.h"
 
-#include "../LuaConsole.h"
-#include "Utilities/DungeonGenerator.h"
+#include "../../LuaConsole.h"
+#include "../Utilities/DungeonGenerator.h"
 
-#include "Utilities/InputHandler.h"
-#include "Utilities/LuaInput.h"
+#include "../Utilities/InputHandler.h"
+#include "../Utilities/LuaInput.h"
 
-Main2D::Main2D::~Main2D()
+GameScene::GameScene::GameScene()
+{
+    ZoneScopedC(RandomUniqueColor());
+
+	Game::IsQuitting = false;
+}
+GameScene::GameScene::~GameScene()
 {
     ZoneScopedC(RandomUniqueColor());
 
@@ -24,60 +30,14 @@ Main2D::Main2D::~Main2D()
 		lua_close(L);
 		L = nullptr;
 	}
-
-    ResourceManager::Instance().UnloadResources();
-    CloseAudioDevice();
 }
 
-int Main2D::Main2D::Run()
+int GameScene::GameScene::Start(WindowInfo *windowInfo)
 {
     ZoneScopedC(RandomUniqueColor());
 
-    Start();
-    FrameMark;
+	m_windowInfo = windowInfo;
 
-    while (!WindowShouldClose())
-    {
-        ZoneNamedNC(innerLoopZone, "Main2D::Main2D::Run Loop", RandomUniqueColor(), true);
-
-#ifdef LUA_DEBUG
-        if (Game::Game::Instance().CmdStepMode)
-        {
-			if (Game::Game::Instance().CmdTakeSteps > 0)
-			{
-                Game::Game::Instance().CmdTakeSteps--;
-			}
-			else
-			{
-                ExecuteCommandList(L, &m_cmdList, &m_pauseCmdInput, m_scene.GetRegistry());
-                Windows::SleepW(16);
-                FrameMark;
-                continue;
-			}
-        }
-#endif
-
-        Time::Update();
-        Input::UpdateInput();
-
-		Update();
-
-		Render();
-
-		ExecuteCommandList(L, &m_cmdList, &m_pauseCmdInput, m_scene.GetRegistry());
-
-        FrameMark;
-    }
-
-    CloseWindow();
-    FrameMark;
-    return 0;
-}
-
-int Main2D::Main2D::Start()
-{
-    ZoneScopedC(RandomUniqueColor());
-    
     // Setup Box2D
     m_physicsHandler.Setup();
 
@@ -87,58 +47,41 @@ int Main2D::Main2D::Start()
     L = luaL_newstate();
     luaL_openlibs(L);
 
-    m_windowInfo.BindLuaWindow(L);
+    m_windowInfo->BindLuaWindow(L);
 
     Scene::lua_openscene(L, &m_scene);
 
-	m_luaGame = LuaGame::LuaGame(L, &m_scene);
-	LuaGame::LuaGame::lua_opengame(L, &m_luaGame);
-
-    // Create console-bound lua state
-    lua_State *consoleL = luaL_newstate();
-    luaL_openlibs(consoleL);
-    Scene::lua_openscene(consoleL, &m_scene);
-
-    InitWindow(m_windowInfo.p_screenWidth, m_windowInfo.p_screenHeight, "Lua Game");
-    InitAudioDevice();
-
-    Time::Instance();
-	ResourceManager::Instance().LoadResources();
+    m_luaGame = LuaGame::LuaGame(L, &m_scene);
+    LuaGame::LuaGame::lua_opengame(L, &m_luaGame);
 
     m_freeCam.speed = 350;
     m_freeCam.position = raylib::Vector2(400, 280);
 
     m_camera.target = m_freeCam.position;
-    m_camera.offset = raylib::Vector2(m_windowInfo.p_screenWidth / 2.0f, m_windowInfo.p_screenHeight / 2.0f);
+    m_camera.offset = raylib::Vector2(m_windowInfo->p_screenWidth / 2.0f, m_windowInfo->p_screenHeight / 2.0f);
     m_camera.rotation = 0.0f;
     m_camera.zoom = 1.0f;
 
-	m_cameraUpdater = std::bind(&Main2D::UpdatePlayerCamera, this);
-	m_cameraOption = 0;
+    m_cameraUpdater = std::bind(&GameScene::UpdatePlayerCamera, this);
+    m_cameraOption = 0;
 
     Assert(!m_dungeon, "m_dungeon is not nullptr!");
     m_dungeon = new DungeonGenerator(raylib::Vector2(200, 200));
     m_dungeon->Generate(100);
 
-    // Limit cursor to relative movement inside the window
-    DisableCursor();
-	m_cursorEnabled = false;
-
     BindLuaInput(L);
 
-    //SetTargetFPS(144);
-    
-	// Add lua require path
-	std::string luaScriptPath = std::format("{}/{}?{}", fs::current_path().generic_string(), FILE_PATH, FILE_EXT);
-	LuaDoString(std::format("package.path = \"{};\" .. package.path", luaScriptPath).c_str());
-    
+    // Add lua require path
+    std::string luaScriptPath = std::format("{}/{}?{}", fs::current_path().generic_string(), FILE_PATH, FILE_EXT);
+    LuaDoString(std::format("package.path = \"{};\" .. package.path", luaScriptPath).c_str());
+
     // Start Lua console thread
-	m_cmdList.clear();
-    std::thread consoleThread(ConsoleThreadFunction, consoleL, &m_cmdList, &m_pauseCmdInput);
+    m_cmdList.clear();
+    std::thread consoleThread(ConsoleThreadFunction, &m_cmdList, &m_pauseCmdInput);
     consoleThread.detach();
     std::this_thread::sleep_for(std::chrono::milliseconds(50)); // Wait for the console thread to start
 
-	// Initialize Lua
+    // Initialize Lua
     LuaDoFileCleaned(L, LuaFilePath("Data")); // Load data
     // TODO: Reuse code for running tests to autmoatically run all lua files located in Data
 
@@ -149,7 +92,36 @@ int Main2D::Main2D::Start()
     return 1;
 }
 
-int Main2D::Main2D::Update()
+Game::SceneState GameScene::GameScene::Loop()
+{
+    ZoneScopedC(RandomUniqueColor());
+
+#ifdef LUA_DEBUG
+    if (Game::Game::Instance().CmdStepMode)
+    {
+		if (Game::Game::Instance().CmdTakeSteps > 0)
+		{
+            Game::Game::Instance().CmdTakeSteps--;
+		}
+		else
+		{
+            ExecuteCommandList(L, &m_cmdList, &m_pauseCmdInput, m_scene.GetRegistry());
+            Windows::SleepW(16);
+            return Game::SceneState::None;
+		}
+    }
+#endif
+
+	auto state = Update();
+
+	Render();
+
+	ExecuteCommandList(L, &m_cmdList, &m_pauseCmdInput, m_scene.GetRegistry());
+
+    return state;
+}
+
+Game::SceneState GameScene::GameScene::Update()
 {
     ZoneScopedC(RandomUniqueColor());
 
@@ -195,11 +167,11 @@ int Main2D::Main2D::Update()
         switch (m_cameraOption)
         {
         case 0: default:
-            m_cameraUpdater = std::bind(&Main2D::UpdatePlayerCamera, this);
+            m_cameraUpdater = std::bind(&GameScene::UpdatePlayerCamera, this);
             break;
 
 		case 1:
-            m_cameraUpdater = std::bind(&Main2D::UpdateFreeCamera, this);
+            m_cameraUpdater = std::bind(&GameScene::UpdateFreeCamera, this);
             break;
         }
     }
@@ -240,10 +212,24 @@ int Main2D::Main2D::Update()
 
     m_scene.CleanUp(L);
 
-    return 0;
+
+    if (Input::CheckKeyPressed(Input::GAME_KEY_1))
+    {
+        return Game::SceneState::InMenu;
+    }
+    else if (Input::CheckKeyPressed(Input::GAME_KEY_2))
+    {
+        return Game::SceneState::InEditor;
+    }
+    else if (Input::CheckKeyPressed(Input::GAME_KEY_0))
+    {
+        return Game::SceneState::Quitting;
+    }
+
+    return Game::SceneState::None;
 }
 
-int Main2D::Main2D::Render()
+int GameScene::GameScene::Render()
 {
     ZoneScopedC(RandomUniqueColor());
 
@@ -364,7 +350,7 @@ int Main2D::Main2D::Render()
 
     // UI
     {
-        ZoneNamedNC(main2DRenderScene, "Render UI", RandomUniqueColor(), true);
+        ZoneNamedNC(GameSceneRenderScene, "Render UI", RandomUniqueColor(), true);
         static const char *cameraDescriptions[CAMERA_OPTIONS] = {
             "Follow player center",
             "Free camera movement",
@@ -386,7 +372,7 @@ int Main2D::Main2D::Render()
 	return 1;
 }
 
-void Main2D::Main2D::UpdatePlayerCamera()
+void GameScene::GameScene::UpdatePlayerCamera()
 {
     ZoneScopedC(RandomUniqueColor());
 
@@ -413,10 +399,10 @@ void Main2D::Main2D::UpdatePlayerCamera()
 
 	m_camera.zoom = cameraData.Zoom;
 
-    m_camera.offset = raylib::Vector2{ m_windowInfo.p_screenWidth / 2.0f, m_windowInfo.p_screenHeight / 2.0f };
+    m_camera.offset = raylib::Vector2{ m_windowInfo->p_screenWidth / 2.0f, m_windowInfo->p_screenHeight / 2.0f };
     m_camera.target = raylib::Vector2(transform.Position[0], transform.Position[1]);
 }
-void Main2D::Main2D::UpdateFreeCamera()
+void GameScene::GameScene::UpdateFreeCamera()
 {
     ZoneScopedC(RandomUniqueColor());
     

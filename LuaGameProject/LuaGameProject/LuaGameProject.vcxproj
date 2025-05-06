@@ -190,6 +190,8 @@
     <ClCompile Include="src\Game\PhysicsHandler.cpp" />
     <ClCompile Include="src\Game\ResourceManager.cpp" />
     <ClCompile Include="src\Game\Scene.cpp" />
+    <ClCompile Include="src\Game\Scenes\EditorScene.cpp" />
+    <ClCompile Include="src\Game\Scenes\MenuScene.cpp" />
     <ClCompile Include="src\Game\Systems\System.cpp" />
     <ClCompile Include="src\Game\Tools\ErrMsg.cpp" />
     <ClCompile Include="src\Game\Tools\TrackedAlloc.cpp" />
@@ -228,7 +230,7 @@
     </ClCompile>
     <ClCompile Include="src\LuaUtils.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Game\main2D.cpp">
+    <ClCompile Include="src\Game\Scenes\GameScene.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdafx.h</PrecompiledHeaderFile>
@@ -249,6 +251,9 @@
     <ClInclude Include="src\Game\ResourceManager.h" />
     <ClInclude Include="src\Game\Scene.h" />
     <ClInclude Include="dep\EnTT\entt.hpp" />
+    <ClInclude Include="src\Game\Scenes\EditorScene.h" />
+    <ClInclude Include="src\Game\Scenes\MenuScene.h" />
+    <ClInclude Include="src\Game\Scenes\SceneTemplate.h" />
     <ClInclude Include="src\Game\Systems\System.h" />
     <ClInclude Include="src\Game\Tools\ConstRand.h" />
     <ClInclude Include="src\Game\Tools\ErrMsg.h" />
@@ -264,7 +269,7 @@
     <ClInclude Include="src\Game\Utilities\WindowInfo.h" />
     <ClInclude Include="src\LuaConsole.h" />
     <ClInclude Include="src\LuaUtils.h" />
-    <ClInclude Include="src\Game\main2D.h" />
+    <ClInclude Include="src\Game\Scenes\GameScene.h" />
     <ClInclude Include="dep\raylib-cpp\AudioDevice.hpp" />
     <ClInclude Include="dep\raylib-cpp\AudioStream.hpp" />
     <ClInclude Include="dep\raylib-cpp\AutomationEventList.hpp" />
@@ -333,6 +338,7 @@
     <None Include="src\Lua\Data.lua" />
     <None Include="src\Lua\Data\Weapons.lua" />
     <None Include="src\Lua\InitDevScene.lua" />
+    <None Include="src\Lua\InitEditorScene.lua" />
     <None Include="src\Lua\InputDemo.lua" />
     <None Include="src\Lua\Tests\Math\GameMathTest.lua" />
     <None Include="src\Lua\Utility\GameMath.lua" />
