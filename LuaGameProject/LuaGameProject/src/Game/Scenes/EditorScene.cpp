@@ -4,6 +4,7 @@
 #include "../Utilities/InputHandler.h"
 #include "../Utilities/LuaInput.h"
 
+
 EditorScene::EditorScene::EditorScene()
 {
     ZoneScopedC(RandomUniqueColor());

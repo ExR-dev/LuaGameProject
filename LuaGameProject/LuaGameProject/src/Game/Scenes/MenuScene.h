@@ -7,6 +7,29 @@
 
 namespace MenuScene
 {
+    struct MenuButton
+    {
+    public:
+        std::string name;
+
+        raylib::Rectangle rect;
+
+        raylib::Color baseColor;
+        raylib::Color hoverColor;
+        raylib::Color pressColor;
+
+        bool Update();
+        void Render();
+		bool IsActivated() const { return isHovered && isReleased; }
+
+    private:
+        raylib::Color color;
+
+        bool isHovered = false;
+        bool isPressed = false;
+        bool isReleased = false;
+    };
+
     class MenuScene : public SceneTemplate::SceneTemplate
     {
     public:
@@ -18,5 +41,12 @@ namespace MenuScene
     protected:
         Game::SceneState Update() override;
         int Render() override;
+
+    private:
+		MenuButton m_playButton{};
+		MenuButton m_editorButton{};
+		MenuButton m_quitButton{};
+
+		std::vector<MenuButton*> m_buttons{};
     };
 }

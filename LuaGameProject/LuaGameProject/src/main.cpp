@@ -38,7 +38,7 @@ int main()
     FrameMark;
 
 	bool isQuitting = false;
-    while (!isQuitting && !WindowShouldClose())
+    while (!isQuitting)
     {
         ZoneNamedNC(innerLoopZone, "Loop", RandomUniqueColor(), true);
 
@@ -46,6 +46,14 @@ int main()
         Input::UpdateInput();
 
         Game::SceneState newState = currentScene->Loop();
+
+        if (WindowShouldClose())
+        {
+            if (currentScene == &menuScene)
+                newState = Game::SceneState::Quitting;
+            else
+                newState = Game::SceneState::InMenu;
+        }
 
 		switch (newState)
 		{
