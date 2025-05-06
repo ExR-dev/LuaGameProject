@@ -172,8 +172,8 @@ local weapons = {
 	["God Gun"] = {
 
 		sprite = nil,
-		width = 6,
-		length = 80,
+		width = 24,
+		length = 96,
 
 		stats = {
 			handCount = 1,
@@ -185,7 +185,7 @@ local weapons = {
 			reloadTime = 0.0,
 			spread = 0.0,
 			recoil = 0.0,
-			recovery = 8
+			recovery = 4
 		}
 	},
 }

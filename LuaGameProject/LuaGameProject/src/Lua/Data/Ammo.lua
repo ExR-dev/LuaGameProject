@@ -160,9 +160,9 @@ local calibers = {
 			damageMult = 1.0,
 			falloff = 1.0,
 			penetration = 1.0,
-			spread = 30.0,
-			recoil = 1.0,
-			burstSize = 5
+			spread = 15.0,
+			recoil = 3.0,
+			burstSize = 9
 		},
 
 		["Accurate"] = {

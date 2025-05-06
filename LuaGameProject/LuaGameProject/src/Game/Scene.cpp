@@ -474,8 +474,7 @@ int Scene::lua_RemoveComponent(lua_State *L)
 	{
 		// TODO: Find a better solution
 		ECS::Collider collider = scene->GetComponent<ECS::Collider>(entity);
-		b2DestroyBody(collider.bodyId);
-		luaL_unref(L, LUA_REGISTRYINDEX, collider.luaRef);
+		collider.Destroy(L);
 
 		scene->RemoveComponent<ECS::Collider>(entity);
 	}
