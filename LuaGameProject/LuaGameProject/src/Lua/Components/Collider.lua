@@ -15,6 +15,11 @@ local collider = {}
 collider.__index = collider
 
 local function new(t, d, o, e, c)
+
+	if type(t) == "table" then
+		return setmetatable(t, collider)
+	end
+
 	assert(
 		(t == nil or type(t) == "string") and 
 		(d == nil or type(d) == "boolean") and 

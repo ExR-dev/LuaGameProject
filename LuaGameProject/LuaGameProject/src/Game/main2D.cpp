@@ -329,14 +329,14 @@ int Main2D::Main2D::Render()
         };
 		m_scene.RunSystem(drawSystem);
 
-		std::function<void(entt::registry& registry)> createPhysicsBodies = [&](entt::registry& registry) {
-			ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+		std::function<void(entt::registry& registry)> drawPhysicsBodies = [&](entt::registry& registry) {
+			ZoneNamedNC(drawPhysicsBodiesZone, "Lambda Draw Physics Bodies", RandomUniqueColor(), true);
 
 			auto view = registry.view<ECS::Collider, ECS::Transform>();
 			view.use<ECS::Collider>();
 
 			view.each([&](ECS::Collider& collider, ECS::Transform& transform) {
-				ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+				ZoneNamedNC(drawSpriteZone, "Lambda Draw Physics Body", RandomUniqueColor(), true);
 
                 if (collider.debug)
                 {
@@ -354,8 +354,7 @@ int Main2D::Main2D::Render()
 			});
 		};
 
-
-		m_scene.RunSystem(createPhysicsBodies);
+		m_scene.RunSystem(drawPhysicsBodies);
 
 		// Draw the dungeon
         m_dungeon->Draw();

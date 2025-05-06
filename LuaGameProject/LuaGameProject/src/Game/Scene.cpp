@@ -44,8 +44,8 @@ bool Scene::IsEntity(int entity)
 void Scene::RemoveEntity(entt::entity entity)
 {
 	// TODO: Find a better solution
-	if (HasComponents<ECS::Collider>(entity))
-		b2DestroyBody(GetComponent<ECS::Collider>(entity).bodyId);
+	//if (HasComponents<ECS::Collider>(entity))
+		//b2DestroyBody(GetComponent<ECS::Collider>(entity).bodyId);
 
 	m_registry.destroy(entity);
 }
@@ -148,7 +148,7 @@ void Scene::CleanUp()
 		auto view = registry.view<ECS::Remove>();
 		std::vector<entt::entity> entitiesToDestroy;
 
-		view.each([&](entt::entity entity, ECS::Remove& collider) {
+		view.each([&](entt::entity entity, ECS::Remove& remove) {
 			ZoneNamedNC(drawSpriteZone, "Lambda Remove Entities", RandomUniqueColor(), true);
 			entitiesToDestroy.push_back(entity);
 		});

@@ -216,7 +216,7 @@ namespace ECS
 
 	struct Collider
 	{
-		b2BodyId bodyId;
+		b2BodyId bodyId = b2_nullBodyId;
 		bool createBody = false;
 		bool debug = false;
 		int luaRef;
@@ -244,11 +244,17 @@ namespace ECS
 			lua_setfield(L, -2, "y");
 			lua_setfield(L, -2, "offset");
 
+			lua_createtable(L, 0, 2);
+			lua_pushnumber(L, extents[0]);
+			lua_setfield(L, -2, "x");
+			lua_pushnumber(L, extents[1]);
+			lua_setfield(L, -2, "y");
+			lua_setfield(L, -2, "extents");	
+
             lua_rawgeti(L, LUA_REGISTRYINDEX, luaRef);
 			lua_setfield(L, -2, "callback");
 		}
-
-		void LuaPull(lua_State* L, int index)
+		void LuaPull(lua_State *L, int index)
 		{
 			ZoneScopedC(RandomUniqueColor());
 			// Make sure the index is absolute (in case it's negative)
@@ -294,11 +300,21 @@ namespace ECS
 			if (lua_istable(L, -1))
 			{
 				lua_getfield(L, -1, "x");
-				extents[0] = (float)lua_tonumber(L, -1);
+				float temp = (float)lua_tonumber(L, -1);
+				if (temp != extents[0])
+				{
+					extents[0] = temp;
+					createBody = true;
+				}
 				lua_pop(L, 1);
 
 				lua_getfield(L, -1, "y");
-				extents[1] = (float)lua_tonumber(L, -1);
+				temp = (float)lua_tonumber(L, -1);
+				if (temp != extents[0])
+				{
+					extents[1] = temp;
+					createBody = true;
+				}
 				lua_pop(L, 1);
 			}
 
