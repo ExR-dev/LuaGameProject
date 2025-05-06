@@ -135,7 +135,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(SolutionDir)LuaGamProject;$(SolutionDir)LuaGameProject/dep/imgui;$(SolutionDir)LuaLib/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)LuaLib/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -167,36 +167,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="dep\imgui\backends\imgui_impl_raylib.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </PrecompiledHeaderFile>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="dep\imgui\imgui.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </PrecompiledHeaderFile>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="dep\imgui\imgui_demo.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </PrecompiledHeaderFile>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="dep\imgui\imgui_draw.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </PrecompiledHeaderFile>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="dep\imgui\imgui_tables.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </PrecompiledHeaderFile>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="dep\imgui\imgui_widgets.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </PrecompiledHeaderFile>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="LuaConsole.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
@@ -216,14 +186,6 @@
     <ClInclude Include="Components.h" />
     <ClInclude Include="Components\RenderComponents.h" />
     <ClInclude Include="Components\TransformComponents.h" />
-    <ClInclude Include="dep\imgui\backends\imgui_impl_raylib.h" />
-    <ClInclude Include="dep\imgui\backends\imgui_impl_raylib_config.h" />
-    <ClInclude Include="dep\imgui\imconfig.h" />
-    <ClInclude Include="dep\imgui\imgui.h" />
-    <ClInclude Include="dep\imgui\imgui_internal.h" />
-    <ClInclude Include="dep\imgui\imstb_rectpack.h" />
-    <ClInclude Include="dep\imgui\imstb_textedit.h" />
-    <ClInclude Include="dep\imgui\imstb_truetype.h" />
     <ClInclude Include="EnTT\entt.hpp" />
     <ClInclude Include="LuaConsole.h" />
     <ClInclude Include="LuaUtils.h" />
@@ -272,10 +234,6 @@
     <ClInclude Include="raylib-cpp\Wave.hpp" />
     <ClInclude Include="raylib-cpp\Window.hpp" />
     <ClInclude Include="stdafx.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="dep\imgui-1.91.9b\examples\example_glfw_wgpu\web\index.html" />
-    <None Include="dep\imgui-1.91.9b\examples\libs\emscripten\shell_minimal.html" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
