@@ -2,6 +2,10 @@
 
 #include "InputHandler.h"
 
+#ifdef LEAK_DETECTION
+#define new			DEBUG_NEW
+#endif
+
 using namespace Input;
 
 KeyState keyStates[(int)GAME_KEY_COUNT];

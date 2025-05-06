@@ -1,6 +1,10 @@
 #include "stdafx.h"
 #include "ResourceManager.h"
 
+#ifdef LEAK_DETECTION
+#define new			DEBUG_NEW
+#endif
+
 bool Resource::SoundPool::Init(const std::string &name)
 {
 	ZoneScopedC(RandomUniqueColor());

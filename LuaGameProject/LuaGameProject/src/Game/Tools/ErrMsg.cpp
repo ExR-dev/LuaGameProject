@@ -1,6 +1,10 @@
 #include "stdafx.h"
 #include "ErrMsg.h"
 
+#ifdef LEAK_DETECTION
+#define new			DEBUG_NEW
+#endif
+
 void ErrorMessage(const std::string &msg, const std::string &filePath, int line)
 {
     std::string file = filePath.substr(filePath.find_last_of("/\\") + 1);

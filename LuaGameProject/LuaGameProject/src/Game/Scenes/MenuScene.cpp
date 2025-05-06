@@ -2,6 +2,10 @@
 #include "MenuScene.h"
 #include "../Utilities/InputHandler.h"
 
+#ifdef LEAK_DETECTION
+#define new			DEBUG_NEW
+#endif
+
 bool MenuScene::MenuButton::Update()
 {
     auto mInfo = Input::GetMouseInfo();

@@ -4,6 +4,9 @@
 #include "../Utilities/InputHandler.h"
 #include "../Utilities/LuaInput.h"
 
+#ifdef LEAK_DETECTION
+#define new			DEBUG_NEW
+#endif
 
 EditorScene::EditorScene::EditorScene()
 {

@@ -123,7 +123,7 @@ local weapons = {
 			damage = 40.0,
 			fireRate = 4.0,
 			reloadTime = 2.0,
-			spread = 2.0,
+			spread = 2.5,
 			recoil = 7.0,
 			recovery = 2
 		}
@@ -146,6 +146,46 @@ local weapons = {
 			spread = 0.8,
 			recoil = 1.75,
 			recovery = 6
+		}
+	},
+
+	["M700"] = {
+
+		sprite = nil,
+		width = 10,
+		length = 64,
+
+		stats = {
+			handCount = 2,
+			caliber = "308",
+			fireMode = "Semi",
+			capacity = 5,
+			damage = 75.0,
+			fireRate = 1.0,
+			reloadTime = 3.0,
+			spread = 0.3,
+			recoil = 13.0,
+			recovery = 3
+		}
+	},
+
+	["God Gun"] = {
+
+		sprite = nil,
+		width = 6,
+		length = 80,
+
+		stats = {
+			handCount = 1,
+			caliber = "God Ammo",
+			fireMode = "Auto",
+			capacity = 99999,
+			damage = 9999.0,
+			fireRate = 90.0,
+			reloadTime = 0.0,
+			spread = 0.0,
+			recoil = 0.0,
+			recovery = 8
 		}
 	},
 }

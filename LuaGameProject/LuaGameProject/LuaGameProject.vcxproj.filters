@@ -293,6 +293,9 @@
     <ClInclude Include="src\Game\Scenes\SceneTemplate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Game\Tools\DebugNew.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Lua\Transform3D.lua" />

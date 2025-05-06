@@ -7,6 +7,10 @@
 
 #include <iostream>
 
+#ifdef LEAK_DETECTION
+#define new			DEBUG_NEW
+#endif
+
 using namespace Input;
 
 /*

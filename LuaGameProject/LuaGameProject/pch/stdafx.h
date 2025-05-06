@@ -1,5 +1,8 @@
 #pragma once
 
+#include "Game/Tools/TrackedAlloc.h"
+#include "Game/Tools/DebugNew.h"
+
 #include <iostream>
 #include <string>
 #include <format>
@@ -27,3 +30,4 @@ namespace fs = std::filesystem;
 #include "Game/Utilities/WindowsWrapped.h"
 #include "Game/Tools/ConstRand.h"
 #include "Game/ResourceManager.h"
+

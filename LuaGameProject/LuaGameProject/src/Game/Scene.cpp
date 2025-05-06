@@ -1,6 +1,10 @@
 #include "stdafx.h"
 #include "Scene.h"
 
+#ifdef LEAK_DETECTION
+#define new			DEBUG_NEW
+#endif
+
 #define lua_GetSceneUpValue(L) (Scene *)lua_topointer(L, lua_upvalueindex(1))
 #define lua_GetScene(L) lua_GetSceneUpValue(L)
 

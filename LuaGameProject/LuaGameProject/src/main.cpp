@@ -1,10 +1,15 @@
 #include "stdafx.h"
 #include "LuaConsole.h"
+#include <crtdbg.h>
 
 #include "Game/Scenes/MenuScene.h"
 #include "Game/Scenes/GameScene.h"
 #include "Game/Scenes/EditorScene.h"
 #include <Game/Utilities/InputHandler.h>
+
+#ifdef LEAK_DETECTION
+#define new			DEBUG_NEW
+#endif
 
 //------------------------------------------------------------------------------------
 // Program main entry point
@@ -12,6 +17,12 @@
 int main()
 {
     ZoneScopedC(RandomUniqueColor());
+
+#ifdef LEAK_DETECTION
+    int flag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG);
+    flag |= _CRTDBG_LEAK_CHECK_DF;
+    _CrtSetDbgFlag(flag);
+#endif
 
 	srand(time(NULL));
 
@@ -91,5 +102,9 @@ int main()
     CloseAudioDevice();
 
     FrameMark;
+
+#ifdef LEAK_DETECTION
+    _CrtDumpMemoryLeaks();
+#endif
     return 0;
 }

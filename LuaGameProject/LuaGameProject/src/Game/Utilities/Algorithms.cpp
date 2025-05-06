@@ -3,6 +3,10 @@
 
 #include <map>
 
+#ifdef LEAK_DETECTION
+#define new			DEBUG_NEW
+#endif
+
 using namespace Math;
 
 Math::Triangle SuperTriangle(const std::vector<Point> &points)

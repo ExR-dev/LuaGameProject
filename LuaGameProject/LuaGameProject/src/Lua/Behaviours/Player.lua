@@ -44,6 +44,9 @@ function player:OnCreate()
 		["5.56"] = {
 			["FMJ"] = 180,
 		},
+		["308"] = {
+			["FMJ"] = 25,
+		},
 	}
 
 	tracy.ZoneEnd()
@@ -109,6 +112,10 @@ function player:UpdateHeldItem(entID, localOffset)
 	-- Rotate the item to face the cursor
 	local dir = game.GetCursor().trans.position - itemTrans.position
 	itemTrans.rotation = dir:angle()
+
+	if itemBehaviour.currRecoil ~= nil then
+		itemTrans.rotation = itemTrans.rotation + itemBehaviour.currRecoil
+	end
 
 	scene.SetComponent(entID, "Transform", itemTrans)
 

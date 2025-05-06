@@ -18,6 +18,10 @@
 #include <dep/tracy-0.11.1/public/tracy/TracyLua.hpp>
 #undef WINDOWS_DEF
 
+#ifdef LEAK_DETECTION
+#define new			DEBUG_NEW
+#endif
+
 namespace fs = std::filesystem;
 
 struct CVector2

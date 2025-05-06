@@ -18,7 +18,6 @@ function projectile:OnCreate()
 	self.trans = transform(scene.GetComponent(self.ID, "Transform"))
 	self.speed = 1337.0 * 1.5
 
-
 	local c = collider("Projectile", false, vec2(0, 0), vec2(1.1, 1.1), function(other) 
 		tracy.ZoneBeginN("Lua Lambda projectile:Collide")
 
@@ -33,7 +32,7 @@ function projectile:OnCreate()
 
 	scene.SetComponent(self.ID, "Collider", c)
 
-	self.expiration = 5.0
+	self.expiration = 2.5
 
 	self.stats = nil -- Set after spawning projectile using data.ammo.getStats()
 
@@ -51,7 +50,12 @@ function projectile:OnUpdate(delta)
 	self.expiration = self.expiration - delta
 
 	self.trans = transform(scene.GetComponent(self.ID, "Transform"))
-	self.trans:moveRelative(vec2(0, self.speed * delta))
+
+	if self.travelDir == nil then
+		self.travelDir = self.trans:getForward()
+	end
+
+	self.trans.position = self.trans.position + (self.travelDir * (self.speed * delta))
 	scene.SetComponent(self.ID, "Transform", self.trans)
 
 	tracy.ZoneEnd()
