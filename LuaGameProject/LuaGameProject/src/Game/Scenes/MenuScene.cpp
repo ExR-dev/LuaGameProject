@@ -155,11 +155,17 @@ int MenuScene::MenuScene::Render()
 
 
     rlImGuiBegin();
+#ifdef IMGUI_HAS_DOCK
+    ImGui::DockSpaceOverViewport(0, NULL, ImGuiDockNodeFlags_PassthruCentralNode); // set ImGuiDockNodeFlags_PassthruCentralNode so that we can see the raylib contents behind the dockspace
+#endif
 
-    bool open = true;
-    ImGui::ShowDemoWindow(&open);
+    ImGui::Begin("Menu");
+    ImGui::End();
+
 
     rlImGuiEnd();
+
+
 
     EndDrawing();
 
