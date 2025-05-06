@@ -161,6 +161,9 @@ void Scene::CleanUp(lua_State* L)
 			if (HasComponents<ECS::Collider>(ent))
 				GetComponent<ECS::Collider>(ent).Destroy(L);
 
+			if (HasComponents<ECS::Behaviour>(ent))
+				GetComponent<ECS::Behaviour>(ent).Destroy(L);
+
 			RemoveEntity(ent);
 		}
 	};
@@ -458,6 +461,9 @@ int Scene::lua_RemoveComponent(lua_State *L)
 	}
 	else if (type == "Behaviour" && scene->HasComponents<ECS::Behaviour>(entity))
 	{
+		ECS::Behaviour behaviour = scene->GetComponent<ECS::Behaviour>(entity);
+		behaviour.Destroy(L);
+
 		scene->RemoveComponent<ECS::Behaviour>(entity);
 	}
 	else if (type == "Transform" && scene->HasComponents<ECS::Transform>(entity))

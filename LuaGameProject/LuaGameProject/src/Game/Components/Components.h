@@ -95,16 +95,16 @@ namespace ECS
 			memset(ScriptPath, '\0', SCRIPT_PATH_LENGTH);
 			strcpy_s(ScriptPath, path);
 		}
-		~Behaviour()
+
+		void Destroy(lua_State* L)
 		{
 			ZoneScopedC(RandomUniqueColor());
 
-			// This should be negated, but this statement currently somehow executes opposite of when it should
-			// Don't ask me why
-			if (Game::IsQuitting)
+			if (LuaRef != LUA_NOREF && !Game::IsQuitting)
 			{
 				// Remove the reference to the behaviour table
 				luaL_unref(m_refState, LUA_REGISTRYINDEX, LuaRef);
+				LuaRef = LUA_NOREF;
 			}
 		}
 
