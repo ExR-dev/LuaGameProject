@@ -78,8 +78,12 @@ b2BodyId PhysicsHandler::CreateRigidBody(int entity, const ECS::Collider &collid
         collider.bodyId.world0 != b2_nullBodyId.world0)
 		b2DestroyBody(collider.bodyId);
 
+    float scale[2] = {
+        std::fmaxf(0.00001f, fabsf(transform.Scale[0] * collider.extents[0]) / 2),
+        std::fmaxf(0.00001f, fabsf(transform.Scale[1] * collider.extents[1]) / 2)
+    };
 
-	b2Polygon polygon = b2MakeBox(fabsf(transform.Scale[0] * collider.extents[0]) / 2, fabsf(transform.Scale[1] * collider.extents[1]) / 2);
+	b2Polygon polygon = b2MakeBox(scale[0], scale[1]);
 
 	b2BodyDef bodyDef = b2DefaultBodyDef();
 	bodyDef.type = b2_kinematicBody;

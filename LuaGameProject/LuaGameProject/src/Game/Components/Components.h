@@ -212,6 +212,18 @@ namespace ECS
 			}
 			lua_pop(L, 1); // Pop Scale table
 		}
+
+		void RenderUI()
+		{
+			if (ImGui::TreeNode("Transform"))
+			{
+				ImGui::DragFloat2("Position", Position, 0.1f, -1000, 1000);
+				ImGui::DragFloat2("Scale", Scale, 0.1f, -1000, 1000);
+				ImGui::DragFloat("Rotation", &Rotation, 0.1f, -1000, 1000);
+
+				ImGui::TreePop();
+			}
+		}
 	};
 
 	struct Collider
@@ -225,9 +237,12 @@ namespace ECS
 		float offset[2] { 0 };
 		float extents[2] { 1, 1 };
 
+		Collider(): createBody(true) {}
+
 		void Destroy(lua_State* L)
 		{
 			b2DestroyBody(bodyId);
+			bodyId = b2_nullBodyId;
 			luaL_unref(L, LUA_REGISTRYINDEX, luaRef);
 		}
 
@@ -327,6 +342,20 @@ namespace ECS
 			lua_getfield(L, index, "callback");
 			if (lua_isfunction(L, -1))
 				luaRef = luaL_ref(L, LUA_REGISTRYINDEX);
+		}
+	
+		void RenderUI()
+		{
+			if (ImGui::TreeNode("Collider"))
+			{
+				// TODO: This is'nt working
+				ImGui::DragFloat2("Offset", offset, 0.1f, -1000, 1000);
+				createBody |= ImGui::DragFloat2("Extents", extents, 0.1f, -1000, 1000);
+
+				ImGui::Checkbox("Debug", &debug);
+
+				ImGui::TreePop();
+			}
 		}
 	};
 
@@ -445,6 +474,18 @@ namespace ECS
 				Priority = (int)lua_tonumber(L, -1);
 			}
 			lua_pop(L, 1); // Remove the priority value from stack
+		}
+
+		void RenderUI()
+		{
+			if (ImGui::TreeNode("Sprite"))
+			{
+				ImGui::InputInt("Priority", &Priority);
+				ImGui::InputText("Sprite Name", SpriteName, SPRITE_NAME_LENGTH);
+				ImGui::ColorPicker4("Color", Color);
+
+				ImGui::TreePop();
+			}
 		}
 	};
 	

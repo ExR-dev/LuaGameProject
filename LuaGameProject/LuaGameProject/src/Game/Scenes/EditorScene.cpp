@@ -243,6 +243,7 @@ int EditorScene::EditorScene::Render()
         EndMode2D();
     }
 
+
     // UI
     {
         ZoneNamedNC(renderUIZone, "Render UI", RandomUniqueColor(), true);
@@ -271,6 +272,74 @@ int EditorScene::EditorScene::RenderUI()
 	// Insert ImGui code here...
 
     ImGui::End();
+
+    static int selectedEntity = -1;
+
+	ImGui::Begin("Scene Hierarchy");
+
+		if (ImGui::Button("Create Entity"))
+		{
+			int id = m_scene.CreateEntity();
+            ECS::Transform transform{ {0, 0}, 0, {100, 100} };
+			m_scene.SetComponent(id, transform);
+		}
+
+		std::function<void(entt::registry& registry)> renderEntityUI = [&](entt::registry& registry) {
+			ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+
+			auto view = registry.view<ECS::Transform>();
+
+			view.each([&](const entt::entity &entity, ECS::Transform &transform) {
+				ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+				
+				const int id = static_cast<int>(entity);
+				if (ImGui::Selectable(std::format("Entity {}", id).c_str(), (id == selectedEntity)))
+					selectedEntity = id;
+			});
+		};
+
+		m_scene.RunSystem(renderEntityUI);
+		
+	ImGui::End();
+
+    ImGui::Begin("Entity Editor");
+    
+    if (selectedEntity != -1)
+    {
+        m_scene.GetComponent<ECS::Transform>(selectedEntity).RenderUI();
+
+        if (m_scene.HasComponents<ECS::Collider>(selectedEntity)) 
+            m_scene.GetComponent<ECS::Collider>(selectedEntity).RenderUI();
+
+        if (m_scene.HasComponents<ECS::Sprite>(selectedEntity)) 
+            m_scene.GetComponent<ECS::Sprite>(selectedEntity).RenderUI();
+
+        std::string items[] = { "Collider", "Sprite"};
+
+        if (ImGui::BeginCombo("", "Add Component"))
+        {
+            for (int n = 0; n < IM_ARRAYSIZE(items); n++)
+            {
+                std::string current = items[n];
+                if (ImGui::Selectable(current.c_str()))
+                {
+                    if (current == "Collider")
+                        m_scene.SetComponent<ECS::Collider>(selectedEntity, ECS::Collider());
+                    if (current == "Sprite")
+                    {
+                        const float color[4] { 0, 0, 0, 1 };
+                        m_scene.SetComponent<ECS::Sprite>(selectedEntity, ECS::Sprite("\0", color, 0));
+                    }
+                }
+            }
+            ImGui::EndCombo();
+        }
+    }
+    else
+        ImGui::Text("Select a entity ...");
+
+    ImGui::End();
+
     rlImGuiEnd();
     return 1;
 }
