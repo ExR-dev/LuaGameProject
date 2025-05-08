@@ -316,7 +316,7 @@ int EditorScene::EditorScene::RenderUI()
 
         std::string items[] = { "Collider", "Sprite"};
 
-        if (ImGui::BeginCombo("", "Add Component"))
+        if (ImGui::BeginCombo("##", "Add Component"))
         {
             for (int n = 0; n < IM_ARRAYSIZE(items); n++)
             {

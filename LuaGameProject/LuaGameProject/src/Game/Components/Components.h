@@ -481,7 +481,42 @@ namespace ECS
 			if (ImGui::TreeNode("Sprite"))
 			{
 				ImGui::InputInt("Priority", &Priority);
-				ImGui::InputText("Sprite Name", SpriteName, SPRITE_NAME_LENGTH);
+
+				static int selected = -1;
+				std::vector<std::string> items = ResourceManager::Instance().GetTextureNames();
+				items.push_back("None");
+				std::string title = "Select Texture";
+
+				if (selected != -1)
+					title = items[selected];
+
+				if (ImGui::BeginCombo("Texture", title.c_str()))
+				{
+					for (int n = 0; n < items.size(); n++)
+					{
+						std::string current = items[n];
+						bool isSelected = n == selected;
+						if (ImGui::Selectable(current.c_str(), isSelected))
+						{
+							if (current != "None")
+							{
+								strcpy_s(SpriteName, current.c_str());
+								selected = n;
+							}
+							else
+							{
+								memset(SpriteName, '\0', SPRITE_NAME_LENGTH);
+								selected = -1;
+							}
+						}
+
+						if (isSelected)
+							ImGui::SetItemDefaultFocus();
+					}
+
+					ImGui::EndCombo();
+				}
+
 				ImGui::ColorPicker4("Color", Color);
 
 				ImGui::TreePop();

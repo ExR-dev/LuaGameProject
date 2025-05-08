@@ -91,6 +91,7 @@ public:
 
 	// Get a texture by name
 	const raylib::Texture2D *GetTextureResource(const std::string &name);
+	std::vector<std::string> GetTextureNames();
 
 	// Get a sound by name
 	raylib::Sound *GetSoundResource(const std::string &name);

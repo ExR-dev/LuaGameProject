@@ -143,6 +143,15 @@ const raylib::Texture2D *ResourceManager::GetTextureResource(const std::string &
 	return GetResourceFromMap(name, m_textures);
 }
 
+std::vector<std::string> ResourceManager::GetTextureNames()
+{
+	std::vector<std::string> values;
+	values.reserve(m_textures.size());
+	for (auto &[k, v] : m_textures)
+		values.push_back(k);
+	return values;
+}
+
 raylib::Sound *ResourceManager::GetSoundResource(const std::string &name)
 {
 	return GetResourceFromMap(name, m_sounds)->Pop();
