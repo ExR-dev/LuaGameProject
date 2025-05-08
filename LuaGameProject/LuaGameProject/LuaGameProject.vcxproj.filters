@@ -102,6 +102,9 @@
     <ClCompile Include="src\Game\Utilities\GameMath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Game\Tools\ImLua.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch\stdafx.h">
@@ -359,6 +362,9 @@
     <ClInclude Include="src\Game\Utilities\GameMath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Game\Tools\ImLua.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Lua\Transform3D.lua" />
@@ -395,6 +401,8 @@
     <None Include="src\Lua\InitEditorScene.lua" />
     <None Include="src\Mods\GodGun.lua" />
     <None Include="src\Lua\Utility\InitModData.lua" />
+    <None Include="src\Lua\Utility\ImLua.lua" />
+    <None Include="src\Lua\Behaviours\InputMovement.lua" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="raylib.dll" />

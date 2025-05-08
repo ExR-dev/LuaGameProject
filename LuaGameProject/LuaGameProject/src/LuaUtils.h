@@ -15,6 +15,7 @@
 #define LuaDoFile(str) if (luaL_dofile(L, str) != LUA_OK) LuaDumpError(L);
 
 #define LuaChk(ret) {if (ret != LUA_OK) LuaDumpError(L);}
+#define LuaChkL(L, ret) {if (ret != LUA_OK) LuaDumpError(L);}
 
 // Reads file and returns the content as a string
 std::string LuaLoadFile(lua_State *L, const char *path);

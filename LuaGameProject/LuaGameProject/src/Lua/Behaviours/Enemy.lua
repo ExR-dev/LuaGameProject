@@ -67,5 +67,30 @@ function enemy:OnUpdate(delta)
 	tracy.ZoneEnd()
 end
 
+
+-- Called during ImGui rendering if the entity is selected
+function enemy:OnGUI()
+	tracy.ZoneBeginN("Lua enemy:OnGUI")
+
+	-- Do ImGui stuff here...
+	-- Ex:
+
+	imgui.Text("Hello! \nThis text is created from Lua.")
+	imgui.Text("See ImLua.h for supported functions.")
+
+	if enemy.dragFloat == nil then 
+		enemy.dragFloat = 1.0 
+	end
+
+	local newVal = nil
+	newVal = imgui.DragFloat("Lua DragFloat", enemy.dragFloat, 0.01, -1.0, 1.0)
+
+	if newVal ~= nil then
+		enemy.dragFloat = newVal
+	end
+
+	tracy.ZoneEnd()
+end
+
 tracy.ZoneEnd()
 return enemy

@@ -28,6 +28,8 @@ void LuaGame::LuaGame::lua_opengame(lua_State *L, LuaGame *game)
 	lua_setglobal(L, "game");
 
 	tracy::LuaRegister(L);
+
+	ImLua::ImLua::lua_openimgui(L);
 }
 
 int LuaGame::LuaGame::lua_PlaySound(lua_State *L)
@@ -42,21 +44,6 @@ int LuaGame::LuaGame::lua_PlaySound(lua_State *L)
 		DbgMsg("No sound name given!");
 		return 1;
 	}
-
-	/*
-	std::string path = ResourceManager::Instance().GetSoundResourcePath(soundName);
-	raylib::Sound sound;
-
-	try
-	{
-		sound = raylib::Sound(path);
-	}
-	catch (const raylib::RaylibException &)
-	{
-		DbgMsg(std::format("Sound '{}' not found!", soundName).c_str());
-		return 1;
-	}
-	*/
 
 	raylib::Sound *sound = ResourceManager::Instance().GetSoundResource(soundName);
 

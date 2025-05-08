@@ -10,7 +10,7 @@ namespace LuaGame
 	public:
 		LuaGame() = default;
 		LuaGame(lua_State *L, Scene *scene) : L(L), m_scene(scene)
-		{ 
+		{
 
 		}
 

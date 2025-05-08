@@ -109,7 +109,7 @@ namespace ECS
 			strcpy_s(ScriptPath, path);
 		}
 
-		void Destroy(lua_State* L)
+		void Destroy(lua_State *L)
 		{
 			ZoneScopedC(RandomUniqueColor());
 
@@ -162,6 +162,43 @@ namespace ECS
 				}
 
 				ImGui::InputText("Path", ScriptPath, SCRIPT_PATH_LENGTH);
+
+
+				ImGui::SeparatorText("Lua Gui");
+				// Run OnGUI if it exists
+				do
+				{
+					const std::string name("OnGUI");
+
+					if (IsUnownedMethod(name))
+						break;
+
+					// Retrieve the behaviour table to the top of the stack
+					lua_rawgeti(m_refState, LUA_REGISTRYINDEX, LuaRef);
+
+					// Retrieve the requested method from the table
+					lua_getfield(m_refState, -1, name.c_str());
+
+					// Check if the method exists before calling it
+					if (lua_isnil(m_refState, -1))
+					{
+						lua_pop(m_refState, 1); // Pop nil
+						AddUnownedMethod(name);
+					}
+					else
+					{
+						// Push the table as the first argument to the method
+						lua_pushvalue(m_refState, -2);
+
+						// Call the method, pops the method and its arguments from the stack
+						LuaChkL(m_refState, lua_pcall(m_refState, 1, 0, 0));
+					}
+
+					// Pop the behaviour table from the stack
+					lua_pop(m_refState, 1);
+
+				} while (false);
+				ImGui::Separator();
 
 				ImGui::TreePop();
 			}

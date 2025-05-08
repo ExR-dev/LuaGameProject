@@ -64,8 +64,9 @@ bool BehaviourSystem::OnNamedMethod(entt::registry &registry, const char *name, 
 			// Push the table as the first argument to the method
 			lua_pushvalue(L, -2);
 
-			// Push parameters using the given function
-			paramFunc(L);
+			// Push parameters using the given function if given
+			if (paramFunc)
+				paramFunc(L);
 
 			// Call the method, pops the method and its arguments from the stack
 			LuaChk(lua_pcall(L, 2, 0, 0));

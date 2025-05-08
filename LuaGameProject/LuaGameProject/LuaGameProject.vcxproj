@@ -230,6 +230,7 @@
     <ClCompile Include="src\Game\Scenes\MenuScene.cpp" />
     <ClCompile Include="src\Game\Systems\System.cpp" />
     <ClCompile Include="src\Game\Tools\ErrMsg.cpp" />
+    <ClCompile Include="src\Game\Tools\ImLua.cpp" />
     <ClCompile Include="src\Game\Tools\TrackedAlloc.cpp" />
     <ClCompile Include="src\Game\Utilities\Algorithms.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdafx.h</PrecompiledHeaderFile>
@@ -307,6 +308,7 @@
     <ClInclude Include="src\Game\Tools\ConstRand.h" />
     <ClInclude Include="src\Game\Tools\DebugNew.h" />
     <ClInclude Include="src\Game\Tools\ErrMsg.h" />
+    <ClInclude Include="src\Game\Tools\ImLua.h" />
     <ClInclude Include="src\Game\Tools\TrackedAlloc.h" />
     <ClInclude Include="src\Game\Utilities\Algorithms.h" />
     <ClInclude Include="src\Game\Utilities\DungeonGenerator.h" />
@@ -373,6 +375,7 @@
       <FileType>Document</FileType>
     </CopyFileToFolders>
     <None Include="src\Lua\Behaviours\Cursor.lua" />
+    <None Include="src\Lua\Behaviours\InputMovement.lua" />
     <None Include="src\Lua\Behaviours\PlayerCamera.lua" />
     <None Include="src\Lua\Behaviours\Enemy.lua" />
     <None Include="src\Lua\Behaviours\Player.lua" />
@@ -400,6 +403,7 @@
     <None Include="src\Lua\Tests\Math\Vec2Test.lua" />
     <None Include="src\Lua\Transform3D.lua" />
     <None Include="src\Lua\Transform2.lua" />
+    <None Include="src\Lua\Utility\ImLua.lua" />
     <None Include="src\Lua\Utility\InitModData.lua" />
     <None Include="src\Lua\Utility\PrintEntity.lua" />
     <None Include="src\Lua\Vec2.lua" />
