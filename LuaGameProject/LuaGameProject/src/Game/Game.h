@@ -10,6 +10,8 @@ namespace Game
 		InMenu,
 		InGame,
 		InEditor,
+		ReloadGame,
+		ReloadEditor,
 		Quitting
 	};
 

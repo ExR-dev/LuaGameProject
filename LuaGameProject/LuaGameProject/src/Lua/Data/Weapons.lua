@@ -168,26 +168,6 @@ local weapons = {
 			recovery = 3
 		}
 	},
-
-	["God Gun"] = {
-
-		sprite = nil,
-		width = 24,
-		length = 96,
-
-		stats = {
-			handCount = 1,
-			caliber = "God Ammo",
-			fireMode = "Auto",
-			capacity = 99999,
-			damage = 9999.0,
-			fireRate = 90.0,
-			reloadTime = 0.0,
-			spread = 0.0,
-			recoil = 0.0,
-			recovery = 4
-		}
-	},
 }
 
 

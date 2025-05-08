@@ -6,6 +6,7 @@
 
 #include "../Utilities/InputHandler.h"
 #include "../Utilities/LuaInput.h"
+#include "../Utilities/ModLoader.h"
 
 #ifdef LEAK_DETECTION
 #define new			DEBUG_NEW
@@ -75,7 +76,7 @@ int GameScene::GameScene::Start(WindowInfo *windowInfo)
 
     BindLuaInput(L);
 
-    // Add lua require path
+    // Add Lua require path
     std::string luaScriptPath = std::format("{}/{}?{}", fs::current_path().generic_string(), FILE_PATH, FILE_EXT);
     LuaDoString(std::format("package.path = \"{};\" .. package.path", luaScriptPath).c_str());
 
@@ -87,9 +88,9 @@ int GameScene::GameScene::Start(WindowInfo *windowInfo)
     std::this_thread::sleep_for(std::chrono::milliseconds(50)); // Wait for the console thread to start
 #endif
 
-    // Initialize Lua
-    LuaDoFileCleaned(L, LuaFilePath("Data")); // Load data
-    // TODO: Reuse code for running tests to autmoatically run all lua files located in Data
+    // Initialize Lua data & mods
+    ModLoader::LuaLoadData(L, DATA_PATH);
+	ModLoader::LuaLoadMods(L, MOD_PATH);
 
     m_scene.SystemsInitialize(L);
 

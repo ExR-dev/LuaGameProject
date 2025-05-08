@@ -251,9 +251,26 @@ int EditorScene::EditorScene::Render()
         DrawText("- Mouse Wheel to Zoom in-out, R to reset zoom", 40, 80, 10, DARKGRAY);
 
         DrawFPS(340, 10);
+
+        RenderUI();
     }
 
     EndDrawing();
 
+    return 1;
+}
+
+int EditorScene::EditorScene::RenderUI()
+{
+    rlImGuiBegin();
+#ifdef IMGUI_HAS_DOCK
+    ImGui::DockSpaceOverViewport(0, NULL, ImGuiDockNodeFlags_PassthruCentralNode); // set ImGuiDockNodeFlags_PassthruCentralNode so that we can see the raylib contents behind the dockspace
+#endif
+    ImGui::Begin("Editor");
+
+	// Insert ImGui code here...
+
+    ImGui::End();
+    rlImGuiEnd();
     return 1;
 }

@@ -152,28 +152,6 @@ local calibers = {
 			burstSize = 1
 		}
 	},
-
-	["God Ammo"] = { -- Temp
-		default = "Spray",
-
-		["Spray"] = {
-			damageMult = 1.0,
-			falloff = 1.0,
-			penetration = 1.0,
-			spread = 15.0,
-			recoil = 3.0,
-			burstSize = 9
-		},
-
-		["Accurate"] = {
-			damageMult = 1.0,
-			falloff = 1.0,
-			penetration = 1.0,
-			spread = 0.0,
-			recoil = 10.0,
-			burstSize = 1
-		}
-	}
 }
 
 -- Get the stats for a specific caliber and ammo type

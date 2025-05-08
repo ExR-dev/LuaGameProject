@@ -54,6 +54,7 @@ void MenuScene::MenuButton::Render()
 	raylib::DrawText(name.c_str(), rectMid.x - textOffset.x * 0.5f, rectMid.y - textOffset.y * 0.5f, fontSize, BLACK);
 }
 
+
 int MenuScene::MenuScene::Start(WindowInfo *windowInfo)
 {
     ZoneScopedC(RandomUniqueColor());
@@ -72,19 +73,26 @@ int MenuScene::MenuScene::Start(WindowInfo *windowInfo)
 	m_playButton.hoverColor = raylib::Color(110, 160, 140, 255);
 	m_playButton.pressColor = raylib::Color(65, 140, 120, 255);
 
+    m_restartButton.name = "Restart";
+    m_restartButton.rect = raylib::Rectangle(20, 120, 300, 80);
+    m_restartButton.baseColor = raylib::Color(200, 90, 80, 255);
+    m_restartButton.hoverColor = raylib::Color(160, 95, 85, 255);
+    m_restartButton.pressColor = raylib::Color(130, 60, 50, 255);
+
     m_editorButton.name = "Editor";
-    m_editorButton.rect = raylib::Rectangle(20, 120, 300, 80);
+    m_editorButton.rect = raylib::Rectangle(20, 220, 300, 80);
     m_editorButton.baseColor = raylib::Color(190, 180, 90, 255);
     m_editorButton.hoverColor = raylib::Color(160, 150, 100, 255);
     m_editorButton.pressColor = raylib::Color(130, 120, 55, 255);
 
     m_quitButton.name = "Quit";
     m_quitButton.rect = raylib::Rectangle(20, 420, 300, 80);
-    m_quitButton.baseColor = raylib::Color(200, 90, 80, 255);
-    m_quitButton.hoverColor = raylib::Color(160, 95, 85, 255);
-    m_quitButton.pressColor = raylib::Color(130, 60, 50, 255);
+    m_quitButton.baseColor = raylib::Color(60, 65, 70, 255);
+    m_quitButton.hoverColor = raylib::Color(45, 46, 50, 255);
+    m_quitButton.pressColor = raylib::Color(25, 30, 32, 255);
 
 	m_buttons.push_back(&m_playButton);
+	m_buttons.push_back(&m_restartButton);
 	m_buttons.push_back(&m_editorButton);
 	m_buttons.push_back(&m_quitButton);
 
@@ -112,6 +120,10 @@ Game::SceneState MenuScene::MenuScene::Update()
     if (m_playButton.IsActivated())
 	{
 		return Game::SceneState::InGame;
+	}
+    else if (m_restartButton.IsActivated())
+	{
+		return Game::SceneState::ReloadGame;
 	}
 	else if (m_editorButton.IsActivated())
 	{

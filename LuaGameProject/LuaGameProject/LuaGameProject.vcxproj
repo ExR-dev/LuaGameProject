@@ -252,6 +252,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="src\Game\Utilities\ModLoader.cpp" />
     <ClCompile Include="src\Game\Utilities\WindowsWrapped.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
@@ -312,6 +313,7 @@
     <ClInclude Include="src\Game\Utilities\LuaGame.h" />
     <ClInclude Include="src\Game\Utilities\LuaInput.h" />
     <ClInclude Include="src\Game\Utilities\Math.h" />
+    <ClInclude Include="src\Game\Utilities\ModLoader.h" />
     <ClInclude Include="src\Game\Utilities\Time.h" />
     <ClInclude Include="src\Game\Utilities\WindowsWrapped.h" />
     <ClInclude Include="src\Game\Utilities\WindowInfo.h" />
@@ -396,10 +398,12 @@
     <None Include="src\Lua\Tests\Math\Vec2Test.lua" />
     <None Include="src\Lua\Transform3D.lua" />
     <None Include="src\Lua\Transform2.lua" />
+    <None Include="src\Lua\Utility\InitModData.lua" />
     <None Include="src\Lua\Utility\PrintEntity.lua" />
     <None Include="src\Lua\Vec2.lua" />
     <None Include="src\Lua\Vector3D.lua" />
     <None Include="src\Lua\VectorDemo.lua" />
+    <None Include="src\Mods\GodGun.lua" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

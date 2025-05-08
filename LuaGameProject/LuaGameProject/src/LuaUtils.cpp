@@ -271,13 +271,11 @@ void LuaRunTests(lua_State *L, const std::string &testDir)
 {
 	ZoneScopedC(RandomUniqueColor());
 
-	std::string ext(".lua");
-
 	std::vector<std::string> testFiles;
 
 	for (auto &p : std::filesystem::recursive_directory_iterator(testDir))
 	{
-		if (p.path().extension() == ext)
+		if (p.path().extension() == FILE_EXT)
 		{
 			// Paths cannot contain ':', so we can use it as a separator
 			testFiles.push_back(p.path().string() + ":" + p.path().stem().string());

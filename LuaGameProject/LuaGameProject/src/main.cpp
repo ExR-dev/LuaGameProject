@@ -41,15 +41,15 @@ int main()
     ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 #endif
 
-	MenuScene::MenuScene menuScene;
-	EditorScene::EditorScene editorScene;
-	GameScene::GameScene gameScene;
+	std::unique_ptr<MenuScene::MenuScene> menuScene = std::make_unique<MenuScene::MenuScene>();
+    std::unique_ptr<EditorScene::EditorScene> editorScene = std::make_unique<EditorScene::EditorScene>();
+    std::unique_ptr<GameScene::GameScene>  gameScene = std::make_unique<GameScene::GameScene>();
 
-    menuScene.Start(&windowInfo);
-    editorScene.Start(&windowInfo);
-    gameScene.Start(&windowInfo);
+    menuScene->Start(&windowInfo);
+    editorScene->Start(&windowInfo);
+    gameScene->Start(&windowInfo);
 
-	SceneTemplate::SceneTemplate *currentScene = static_cast<SceneTemplate::SceneTemplate*>(&menuScene);
+	SceneTemplate::SceneTemplate *currentScene = static_cast<SceneTemplate::SceneTemplate*>(menuScene.get());
     Game::SceneState sceneState = Game::SceneState::InMenu;
 
     FrameMark;
@@ -66,7 +66,7 @@ int main()
 
         if (WindowShouldClose())
         {
-            if (currentScene == &menuScene)
+            if (currentScene == menuScene.get())
                 newState = Game::SceneState::Quitting;
             else
                 newState = Game::SceneState::InMenu;
@@ -76,18 +76,42 @@ int main()
 		{
 		case Game::SceneState::InMenu:
             EnableCursor();
-			currentScene = &menuScene;
+			currentScene = menuScene.get();
 			break;
 
 		case Game::SceneState::InGame:
             DisableCursor();
-			currentScene = &gameScene;
+			currentScene = gameScene.get();
 			break;
 
 		case Game::SceneState::InEditor:
             EnableCursor();
-			currentScene = &editorScene;
+			currentScene = editorScene.get();
 			break;
+
+        case Game::SceneState::ReloadGame:
+            if (currentScene == gameScene.get())
+                currentScene = nullptr;
+
+            gameScene = nullptr;
+			gameScene = std::make_unique<GameScene::GameScene>();
+            gameScene->Start(&windowInfo);
+
+            if (!currentScene)
+				currentScene = gameScene.get();
+            break;
+
+        case Game::SceneState::ReloadEditor:
+            if (currentScene == editorScene.get())
+                currentScene = nullptr;
+
+            editorScene = nullptr;
+            editorScene = std::make_unique<EditorScene::EditorScene>();
+            editorScene->Start(&windowInfo);
+
+            if (!currentScene)
+				currentScene = editorScene.get();
+            break;
 
         case Game::SceneState::Quitting:
 			isQuitting = true;

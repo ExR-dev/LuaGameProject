@@ -27,5 +27,7 @@ namespace EditorScene
         Scene m_scene{};
         LuaGame::LuaGame m_luaGame;
         PhysicsHandler m_physicsHandler;
+
+        int RenderUI();
     };
 }

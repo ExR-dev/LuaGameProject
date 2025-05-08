@@ -44,6 +44,7 @@ namespace MenuScene
 
     private:
 		MenuButton m_playButton{};
+		MenuButton m_restartButton{};
 		MenuButton m_editorButton{};
 		MenuButton m_quitButton{};
 
