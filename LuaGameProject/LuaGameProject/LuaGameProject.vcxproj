@@ -243,6 +243,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="src\Game\Utilities\GameMath.cpp" />
     <ClCompile Include="src\Game\Utilities\InputHandler.cpp" />
     <ClCompile Include="src\Game\Utilities\LuaGame.cpp" />
     <ClCompile Include="src\Game\Utilities\LuaInput.cpp" />
@@ -309,6 +310,7 @@
     <ClInclude Include="src\Game\Tools\TrackedAlloc.h" />
     <ClInclude Include="src\Game\Utilities\Algorithms.h" />
     <ClInclude Include="src\Game\Utilities\DungeonGenerator.h" />
+    <ClInclude Include="src\Game\Utilities\GameMath.h" />
     <ClInclude Include="src\Game\Utilities\InputHandler.h" />
     <ClInclude Include="src\Game\Utilities\LuaGame.h" />
     <ClInclude Include="src\Game\Utilities\LuaInput.h" />

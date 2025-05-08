@@ -32,6 +32,8 @@ namespace fs = std::filesystem;
 #include "LuaUtils.h"
 #include "Game/Utilities/Time.h"
 #include "Game/Utilities/WindowsWrapped.h"
+#include "Game/Utilities/GameMath.h"
 #include "Game/Tools/ConstRand.h"
 #include "Game/ResourceManager.h"
+
 

@@ -26,9 +26,10 @@ int main()
 
 	srand(time(NULL));
 
-    WindowInfo windowInfo;
-    SetWindowState(FLAG_WINDOW_RESIZABLE);
+	SetTraceLogLevel(LOG_WARNING);
 
+    WindowInfo windowInfo;
+    SetWindowState(FLAG_WINDOW_RESIZABLE | FLAG_WINDOW_TRANSPARENT);
 
     InitWindow(windowInfo.p_screenWidth, windowInfo.p_screenHeight, "Lua Game");
     InitAudioDevice();
