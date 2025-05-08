@@ -9,6 +9,7 @@ void ImLua::ImLua::lua_openimgui(lua_State *L)
 	lua_newtable(L);
 
 	luaL_Reg methods[] = {
+		{ "Separator",			lua_Separator		},
 		{ "Text",				lua_Text			},
 		{ "InputText",			lua_InputText		},
 		{ "DragFloat",			lua_DragFloat		},
@@ -22,6 +23,18 @@ void ImLua::ImLua::lua_openimgui(lua_State *L)
 	LuaDoFileCleaned(L, LuaFilePath("Utility/ImLua"));
 }
 
+
+int ImLua::ImLua::lua_Separator(lua_State *L)
+{
+	ZoneScopedC(RandomUniqueColor());
+
+	if (lua_isstring(L, 1))
+		ImGui::SeparatorText(lua_tostring(L, 1));
+	else
+		ImGui::Separator();
+
+	return 1;
+}
 
 int ImLua::ImLua::lua_Text(lua_State *L)
 {
