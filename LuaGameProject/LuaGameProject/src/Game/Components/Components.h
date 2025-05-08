@@ -6,6 +6,8 @@
 #include "lua.hpp"
 #include "LuaUtils.h"
 
+#include "Game/Utilities/WindowsWrapped.h"
+
 #include "box2d/box2D.h"
 
 
@@ -49,6 +51,11 @@ namespace ECS
 			}
 			lua_pop(L, 1); // Remove the isActive value from stack
 		}
+
+		void RenderUI()
+		{
+			ImGui::Checkbox("Active", &IsActive);
+		}
 	};
 
 	struct Behaviour
@@ -60,8 +67,14 @@ namespace ECS
 
 
 		// Create a constructor in order to initialize the char array
-		Behaviour(const char *path, int entity, lua_State *L) : m_refState(L)
+		Behaviour(const char *path, int entity, lua_State *L) : m_refState(L), m_entity(entity)
 		{
+			Initialize(path);
+		}
+
+		void Initialize(const char *path)
+		{
+			lua_State *L = m_refState;
 			ZoneScopedC(RandomUniqueColor());
 
 			// Returns the behaviour table on top of the stack
@@ -72,7 +85,7 @@ namespace ECS
 			LuaRef = luaL_ref(L, LUA_REGISTRYINDEX);
 
 			// Populate the behaviour table with the information the behaviour should know about
-			lua_pushinteger(L, entity);
+			lua_pushinteger(L, m_entity);
 			lua_setfield(L, -2, "ID");
 
 			lua_pushstring(L, path);
@@ -89,7 +102,7 @@ namespace ECS
 			else
 			{
 				lua_pushvalue(L, -2); // Push the table as argument
-				LuaChk(lua_pcall(L, 1, 0, 0))
+				LuaChk(lua_pcall(L, 1, 0, 0));
 			}
 
 			memset(ScriptPath, '\0', SCRIPT_PATH_LENGTH);
@@ -131,8 +144,32 @@ namespace ECS
 			m_unownedMethods.push_back(name);
 		}
 
+		void RenderUI()
+		{
+			if (ImGui::TreeNode("Behaviour"))
+			{
+				if (ImGui::Button("Select File"))
+				{
+					std::string fileName, filePath;
+					if (Windows::OpenFileCatalog(fileName, filePath))
+					{
+						size_t lastindex = fileName.find_last_of("."); 
+						fileName = fileName.substr(0, lastindex); 
+						std::string localPath = "Behaviours/" + fileName;
+						Destroy(m_refState);
+						Initialize(localPath.c_str());
+					}
+				}
+
+				ImGui::InputText("Path", ScriptPath, SCRIPT_PATH_LENGTH);
+
+				ImGui::TreePop();
+			}
+		}
+
 	private:
 		lua_State *m_refState = nullptr;
+		int m_entity;
 
 		std::vector<std::string> m_unownedMethods;
 	};
@@ -537,7 +574,7 @@ namespace ECS
 
 			// Add Current and Max to the health table
 			lua_pushnumber(L, Current);
-			lua_setfield(L, -2, "current");
+			lua_setfield(L, -1, "current");
 
 			lua_pushnumber(L, Max);
 			lua_setfield(L, -2, "max");

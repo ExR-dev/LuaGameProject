@@ -306,7 +306,11 @@ int EditorScene::EditorScene::RenderUI()
     
     if (selectedEntity != -1)
     {
-        m_scene.GetComponent<ECS::Transform>(selectedEntity).RenderUI();
+        if (m_scene.HasComponents<ECS::Active>(selectedEntity)) 
+            m_scene.GetComponent<ECS::Active>(selectedEntity).RenderUI();
+
+        if (m_scene.HasComponents<ECS::Transform>(selectedEntity)) 
+            m_scene.GetComponent<ECS::Transform>(selectedEntity).RenderUI();
 
         if (m_scene.HasComponents<ECS::Collider>(selectedEntity)) 
             m_scene.GetComponent<ECS::Collider>(selectedEntity).RenderUI();
@@ -314,7 +318,10 @@ int EditorScene::EditorScene::RenderUI()
         if (m_scene.HasComponents<ECS::Sprite>(selectedEntity)) 
             m_scene.GetComponent<ECS::Sprite>(selectedEntity).RenderUI();
 
-        std::string items[] = { "Collider", "Sprite"};
+        if (m_scene.HasComponents<ECS::Behaviour>(selectedEntity)) 
+            m_scene.GetComponent<ECS::Behaviour>(selectedEntity).RenderUI();
+
+        std::string items[] = { "Collider", "Sprite", "Behaviour"};
 
         if (ImGui::BeginCombo("##", "Add Component"))
         {
@@ -325,7 +332,9 @@ int EditorScene::EditorScene::RenderUI()
                 {
                     if (current == "Collider")
                         m_scene.SetComponent<ECS::Collider>(selectedEntity, ECS::Collider());
-                    if (current == "Sprite")
+                    else if (current == "Behaviour")
+                        m_scene.SetComponent<ECS::Behaviour>(selectedEntity, ECS::Behaviour("Behaviours/Enemy", selectedEntity, L));
+                    else if (current == "Sprite")
                     {
                         const float color[4] { 0, 0, 0, 1 };
                         m_scene.SetComponent<ECS::Sprite>(selectedEntity, ECS::Sprite("\0", color, 0));

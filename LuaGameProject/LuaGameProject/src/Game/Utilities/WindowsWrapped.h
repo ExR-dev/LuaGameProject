@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 class HWND__;
 
 // All members end with "W" (for "wrapped") to avoid name collision with the Windows API.
@@ -25,4 +27,6 @@ namespace Windows
 	int MessageBoxAW(const char *msg, const char *caption);
 
 	HWNDW GetConsoleWindowW();
+
+	bool OpenFileCatalog(std::string &fileName, std::string &filePath);
 }
