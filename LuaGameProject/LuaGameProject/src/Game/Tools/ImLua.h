@@ -58,109 +58,268 @@ namespace ImLua
 
 
 
-		// TODO:
-		/*
-		* 
-		* Button(const char* label, const ImVec2& size = ImVec2(0, 0))
-		* Checkbox(const char* label, bool* v)
-		* RadioButton(const char* label, bool active)
-		* ProgressBar(float fraction, const ImVec2& size_arg = ImVec2(-FLT_MIN, 0), const char* overlay = NULL)
-		* 
-		* SliderFloat(const char* label, float* v, float v_min, float v_max, const char* format = "%.3f", ImGuiSliderFlags flags = 0)
-		* SliderAngle(const char* label, float* v_rad, float v_degrees_min = -360.0f, float v_degrees_max = +360.0f, const char* format = "%.0f deg", ImGuiSliderFlags flags = 0)
-		* SliderInt(const char* label, int* v, int v_min, int v_max, const char* format = "%d", ImGuiSliderFlags flags = 0)
-		* 
-		* InputInt(const char* label, int* v, int step = 1, int step_fast = 100, ImGuiInputTextFlags flags = 0)
-		* 
-		* ColorEdit4(const char* label, float col[4], ImGuiColorEditFlags flags = 0)
-		* ColorPicker4(const char* label, float col[4], ImGuiColorEditFlags flags = 0, const float* ref_col = NULL)
-		* 
-		* 
-		* ColorButton(const char* desc_id, const ImVec4& col, ImGuiColorEditFlags flags = 0, const ImVec2& size = ImVec2(0, 0))
-		* 
-		* Image(ImTextureID user_texture_id, const ImVec2& image_size, const ImVec2& uv0 = ImVec2(0, 0), const ImVec2& uv1 = ImVec2(1, 1))
-		* 
-		* 
-		* TreeNode(const char* label)
-		* TreePop()
-		* 
-		* CollapsingHeader(const char* label, bool* p_visible, ImGuiTreeNodeFlags flags = 0)
-		* 
-		* BeginCombo(const char* label, const char* preview_value, ImGuiComboFlags flags = 0)
-		* EndCombo()
-		* 
-		* BeginChild(const char* str_id, const ImVec2& size = ImVec2(0, 0), ImGuiChildFlags child_flags = 0, ImGuiWindowFlags window_flags = 0)
-		* EndChild()
-		* 
-		* BeginGroup()
-		* EndGroup()
-		* 
-		* PushID(const char* str_id)
-		* PopID()
-		* 
-		* BeginTooltip()
-		* EndTooltip()
-		* 
-		* BeginPopup(const char* str_id, ImGuiWindowFlags flags = 0)
-		* BeginPopupModal(const char* name, bool* p_open = NULL, ImGuiWindowFlags flags = 0)
-		* EndPopup()
-		* 
-		* 
-		* BeginTable(const char* str_id, int columns, ImGuiTableFlags flags = 0, const ImVec2& outer_size = ImVec2(0.0f, 0.0f), float inner_width = 0.0f)
-		* EndTable()
-		* TableNextRow(ImGuiTableRowFlags row_flags = 0, float min_row_height = 0.0f)
-		* TableNextColumn()
-		* TableSetColumnIndex(int column_n)
-		* 
-		* 
-		* SameLine(float offset_from_start_x=0.0f, float spacing=-1.0f)
-		* NewLine()
-		* 
-		* Spacing()
-		* Dummy(const ImVec2& size)
-		* 
-		* Indent(float indent_w = 0.0f)
-		* Unindent(float indent_w = 0.0f)
-		* 
-		* SetNextItemWidth(float item_width)
-		* CalcItemWidth()
-		* 
-		* 
-		* GetCursorScreenPos()
-		* SetCursorScreenPos(const ImVec2& pos)
-		* 
-		* GetCursorPos()
-		* SetCursorPos(const ImVec2& local_pos)
-		* 
-		* 
-		* GetWindowPos()
-		* GetWindowSize()
-		* 
-		* SetWindowPos(const ImVec2& pos, ImGuiCond cond = 0)
-		* SetWindowSize(const ImVec2& size, ImGuiCond cond = 0)
-		* 
-		* 
-		* IsItemHovered(ImGuiHoveredFlags flags = 0)
-		* IsItemActive()
-		* IsItemFocused()
-		* IsItemClicked(ImGuiMouseButton mouse_button = 0)
-		* IsItemVisible()
-		* IsItemEdited()
-		* IsItemActivated()
-		* IsItemToggledOpen()
-		* GetItemID()
-		* GetItemRectMin()
-		* GetItemRectMax()
-		* GetItemRectSize()
-		* 
-		* 
-		* CalcTextSize(const char* text, const char* text_end = NULL, bool hide_text_after_double_hash = false, float wrap_width = -1.0f)
-		* 
-		* 
-		* GetClipboardText()
-		* SetClipboardText(const char* text)
-		* 
-		*/
+		// TODO: Implement these in order of relevance
 
+		// Arguments: string label, ImVec2 size = ImVec2(0, 0)
+		// Returns: bool active
+		static int lua_Button(lua_State *L);
+
+		// Arguments: string label, bool v
+		// Returns: bool isPressed, bool v
+		static int lua_Checkbox(lua_State *L);
+
+		// Arguments: string label, bool active
+		// Returns: bool isPressed, bool active
+		static int lua_RadioButton(lua_State *L);
+
+		// Arguments: string label, int v, int v_button
+		// Returns: bool isPressed, int v
+		static int lua_RadioButtonInt(lua_State *L);
+		// Arguments: string label, float v, float v_min, float v_max, string format = "%.3f"
+		// Returns: float v (nil if unchanged)
+		static int lua_SliderFloat(lua_State *L);
+
+		// Arguments: string label, float v_rad, float v_degrees_min = -360.0f, float v_degrees_max = +360.0f, string format = "%.0f deg"
+		// Returns: float v_rad (nil if unchanged)
+		static int lua_SliderAngle(lua_State *L);
+
+		// Arguments: string label, int v, int v_min, int v_max, string format = "%d"
+		// Returns: int v (nil if unchanged)
+		static int lua_SliderInt(lua_State *L);
+
+		// Arguments: string label, int v, int step = 1, int step_fast = 100
+		// Returns:  int v (nil if unchanged)
+		static int lua_InputInt(lua_State *L);
+
+		// Arguments: string label, ImVec4 col
+		// Returns: ImVec4 col (nil if unchanged)
+		static int lua_ColorEdit4(lua_State *L);
+
+		// Arguments: string label, ImVec4 col, ImVec4 ref_col = NULL
+		// Returns: ImVec4 col (nil if unchanged)
+		static int lua_ColorPicker4(lua_State *L);
+
+
+		// TODO: Complete comments
+
+		// Arguments: string desc_id, ImVec4 col, ImVec2 size = ImVec2(0, 0)
+		// Returns: 
+		static int lua_ColorButton(lua_State *L);
+
+		// Arguments: float fraction, ImVec2 size_arg = ImVec2(-FLT_MIN, 0), string overlay = NULL
+		// Returns: 
+		static int lua_ProgressBar(lua_State *L);
+
+		// Arguments: ImTextureID user_texture_id, const ImVec2& image_size, const ImVec2& uv0 = ImVec2(0, 0), const ImVec2& uv1 = ImVec2(1, 1)
+		// Returns: 
+		static int lua_Image(lua_State *L);
+
+		// Arguments: string label
+		// Returns: 
+		static int lua_TreeNode(lua_State *L);
+
+		// Arguments: 
+		// Returns: 
+		static int lua_TreePop(lua_State *L);
+
+		// Arguments: string label, bool* p_visible, ImGuiTreeNodeFlags flags = 0
+		// Returns: 
+		static int lua_CollapsingHeader(lua_State *L);
+
+		// Arguments: string label, string preview_value, ImGuiComboFlags flags = 0
+		// Returns: 
+		static int lua_BeginCombo(lua_State *L);
+
+		// Arguments: 
+		// Returns: 
+		static int lua_EndCombo(lua_State *L);
+
+		// Arguments: string str_id, const ImVec2& size = ImVec2(0, 0), ImGuiChildFlags child_flags = 0, ImGuiWindowFlags window_flags = 0
+		// Returns: 
+		static int lua_BeginChild(lua_State *L);
+
+		// Arguments: 
+		// Returns: 
+		static int lua_EndChild(lua_State *L);
+
+		// Arguments: 
+		// Returns: 
+		static int lua_BeginGroup(lua_State *L);
+
+		// Arguments: 
+		// Returns: 
+		static int lua_EndGroup(lua_State *L);
+
+		// Arguments: string str_id
+		// Returns: 
+		static int lua_PushID(lua_State *L);
+
+		// Arguments: 
+		// Returns: 
+		static int lua_PopID(lua_State *L);
+
+		// Arguments: 
+		// Returns: 
+		static int lua_BeginTooltip(lua_State *L);
+
+		// Arguments: 
+		// Returns: 
+		static int lua_EndTooltip(lua_State *L);
+
+		// Arguments: string str_id, ImGuiWindowFlags flags = 0
+		// Returns: 
+		static int lua_BeginPopup(lua_State *L);
+
+		// Arguments: string name, bool* p_open = NULL, ImGuiWindowFlags flags = 0
+		// Returns: 
+		static int lua_BeginPopupModal(lua_State *L);
+
+		// Arguments: 
+		// Returns: 
+		static int lua_EndPopup(lua_State *L);
+
+		// Arguments: string str_id, int columns, ImGuiTableFlags flags = 0, const ImVec2& outer_size = ImVec2(0.0f, 0.0f), float inner_width = 0.0f
+		// Returns: 
+		static int lua_BeginTable(lua_State *L);
+
+		// Arguments: 
+		// Returns: 
+		static int lua_EndTable(lua_State *L);
+
+		// Arguments: ImGuiTableRowFlags row_flags = 0, float min_row_height = 0.0f
+		// Returns: 
+		static int lua_TableNextRow(lua_State *L);
+
+		// Arguments: int column_n
+		// Returns: 
+		static int lua_TableNextColumn(lua_State *L);
+
+		// Arguments: 
+		// Returns: 
+		static int lua_TableSetColumnIndex(lua_State *L);
+
+		// Arguments: float offset_from_start_x=0.0f, float spacing=-1.0f
+		// Returns: 
+		static int lua_SameLine(lua_State *L);
+
+		// Arguments: 
+		// Returns: 
+		static int lua_NewLine(lua_State *L);
+
+		// Arguments: 
+		// Returns: 
+		static int lua_Spacing(lua_State *L);
+
+		// Arguments: ImVec2 size
+		// Returns: 
+		static int lua_Dummy(lua_State *L);
+
+		// Arguments: float indent_w = 0.0f
+		// Returns: 
+		static int lua_Indent(lua_State *L);
+
+		// Arguments: float indent_w = 0.0f
+		// Returns: 
+		static int lua_Unindent(lua_State *L);
+
+		// Arguments: float item_width
+		// Returns: 
+		static int lua_SetNextItemWidth(lua_State *L);
+
+		// Arguments: 
+		// Returns: 
+		static int lua_CalcItemWidth(lua_State *L);
+
+		// Arguments: 
+		// Returns: 
+		static int lua_GetCursorScreenPos(lua_State *L);
+
+		// Arguments: ImVec2 pos
+		// Returns: 
+		static int lua_SetCursorScreenPos(lua_State *L);
+
+		// Arguments: 
+		// Returns: 
+		static int lua_GetCursorPos(lua_State *L);
+
+		// Arguments: ImVec2 local_pos
+		// Returns: 
+		static int lua_SetCursorPos(lua_State *L);
+
+		// Arguments: 
+		// Returns: 
+		static int lua_GetWindowPos(lua_State *L);
+
+		// Arguments: 
+		// Returns: 
+		static int lua_GetWindowSize(lua_State *L);
+
+		// Arguments: ImVec2 pos, ImGuiCond cond = 0
+		// Returns: 
+		static int lua_SetWindowPos(lua_State *L);
+
+		// Arguments: ImVec2 size, ImGuiCond cond = 0
+		// Returns: 
+		static int lua_SetWindowSize(lua_State *L);
+
+		// Arguments: ImGuiHoveredFlags flags = 0
+		// Returns: 
+		static int lua_IsItemHovered(lua_State *L);
+
+		// Arguments: 
+		// Returns: 
+		static int lua_IsItemActive(lua_State *L);
+
+		// Arguments: 
+		// Returns: 
+		static int lua_IsItemFocused(lua_State *L);
+
+		// Arguments: ImGuiMouseButton mouse_button = 0
+		// Returns: 
+		static int lua_IsItemClicked(lua_State *L);
+
+		// Arguments: 
+		// Returns: 
+		static int lua_IsItemVisible(lua_State *L);
+
+		// Arguments: 
+		// Returns: 
+		static int lua_IsItemEdited(lua_State *L);
+
+		// Arguments: 
+		// Returns: 
+		static int lua_IsItemActivated(lua_State *L);
+
+		// Arguments: 
+		// Returns: 
+		static int lua_IsItemToggledOpen(lua_State *L);
+
+		// Arguments: 
+		// Returns: 
+		static int lua_GetItemID(lua_State *L);
+
+		// Arguments: 
+		// Returns: 
+		static int lua_GetItemRectMin(lua_State *L);
+
+		// Arguments: 
+		// Returns: 
+		static int lua_GetItemRectMax(lua_State *L);
+
+		// Arguments: 
+		// Returns: 
+		static int lua_GetItemRectSize(lua_State *L);
+
+		// Arguments: string text, string text_end = NULL, bool hide_text_after_double_hash = false, float wrap_width = -1.0f
+		// Returns: 
+		static int lua_CalcTextSize(lua_State *L);
+
+		// Arguments: 
+		// Returns: 
+		static int lua_GetClipboardText(lua_State *L);
+
+		// Arguments: string text
+		// Returns: 
+		static int lua_SetClipboardText(lua_State *L);
 	};
 }
