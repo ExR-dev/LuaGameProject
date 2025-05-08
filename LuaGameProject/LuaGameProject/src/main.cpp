@@ -27,6 +27,8 @@ int main()
 	srand(time(NULL));
 
     WindowInfo windowInfo;
+    SetWindowState(FLAG_WINDOW_RESIZABLE);
+
 
     InitWindow(windowInfo.p_screenWidth, windowInfo.p_screenHeight, "Lua Game");
     InitAudioDevice();
@@ -51,6 +53,7 @@ int main()
 
 	SceneTemplate::SceneTemplate *currentScene = static_cast<SceneTemplate::SceneTemplate*>(menuScene.get());
     Game::SceneState sceneState = Game::SceneState::InMenu;
+    currentScene->OnSwitchToScene();
 
     FrameMark;
 
@@ -58,6 +61,12 @@ int main()
     while (!isQuitting)
     {
         ZoneNamedNC(innerLoopZone, "Loop", RandomUniqueColor(), true);
+
+		if (IsWindowResized())
+        {
+            windowInfo.UpdateWindowSize(GetScreenWidth(), GetScreenHeight());
+			currentScene->OnResizeWindow();
+        }
 
         Time::Update();
         Input::UpdateInput();
@@ -75,21 +84,28 @@ int main()
 		switch (newState)
 		{
 		case Game::SceneState::InMenu:
+            currentScene->OnSwitchFromScene();
             EnableCursor();
 			currentScene = menuScene.get();
+			currentScene->OnSwitchToScene();
 			break;
 
 		case Game::SceneState::InGame:
+            currentScene->OnSwitchFromScene();
             DisableCursor();
 			currentScene = gameScene.get();
+            currentScene->OnSwitchToScene();
 			break;
 
 		case Game::SceneState::InEditor:
+            currentScene->OnSwitchFromScene();
             EnableCursor();
 			currentScene = editorScene.get();
+            currentScene->OnSwitchToScene();
 			break;
 
         case Game::SceneState::ReloadGame:
+            currentScene->OnSwitchFromScene();
             if (currentScene == gameScene.get())
                 currentScene = nullptr;
 
@@ -99,9 +115,11 @@ int main()
 
             if (!currentScene)
 				currentScene = gameScene.get();
+            currentScene->OnSwitchToScene();
             break;
 
         case Game::SceneState::ReloadEditor:
+            currentScene->OnSwitchFromScene();
             if (currentScene == editorScene.get())
                 currentScene = nullptr;
 
@@ -111,9 +129,11 @@ int main()
 
             if (!currentScene)
 				currentScene = editorScene.get();
+            currentScene->OnSwitchToScene();
             break;
 
         case Game::SceneState::Quitting:
+            currentScene->OnSwitchFromScene();
 			isQuitting = true;
             break;
 

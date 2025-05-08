@@ -23,6 +23,7 @@ namespace fs = std::filesystem;
 #include "dep/tracy-0.11.1/public/tracy/Tracy.hpp"
 #include "dep/tracy-0.11.1/public/tracy/TracyLua.hpp"
 
+#define IMGUI_DEFINE_MATH_OPERATORS
 #include "dep/imgui/imgui.h"
 #include "dep/imgui/rlImGui.h"
 

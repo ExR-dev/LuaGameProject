@@ -18,6 +18,9 @@ namespace EditorScene
         int Start(WindowInfo *windowInfo) override;
         Game::SceneState Loop() override;
 
+		void OnSwitchToScene() override;
+        void OnResizeWindow() override;
+
     protected:
         Game::SceneState Update() override;
         int Render() override;
@@ -27,6 +30,8 @@ namespace EditorScene
         Scene m_scene{};
         LuaGame::LuaGame m_luaGame;
         PhysicsHandler m_physicsHandler;
+
+		raylib::RenderTexture m_renderTexture;
 
         int RenderUI();
     };

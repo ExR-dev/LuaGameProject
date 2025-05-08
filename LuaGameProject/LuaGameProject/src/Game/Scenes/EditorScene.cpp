@@ -3,6 +3,7 @@
 
 #include "../Utilities/InputHandler.h"
 #include "../Utilities/LuaInput.h"
+#include "../Utilities/ModLoader.h"
 
 #ifdef LEAK_DETECTION
 #define new			DEBUG_NEW
@@ -32,6 +33,7 @@ int EditorScene::EditorScene::Start(WindowInfo *windowInfo)
     ZoneScopedC(RandomUniqueColor());
 
     m_windowInfo = windowInfo;
+	m_renderTexture = raylib::RenderTexture(m_windowInfo->p_screenWidth, m_windowInfo->p_screenHeight);
 
     // Setup Box2D
     m_physicsHandler.Setup();
@@ -60,9 +62,9 @@ int EditorScene::EditorScene::Start(WindowInfo *windowInfo)
     std::string luaScriptPath = std::format("{}/{}?{}", fs::current_path().generic_string(), FILE_PATH, FILE_EXT);
     LuaDoString(std::format("package.path = \"{};\" .. package.path", luaScriptPath).c_str());
 
-    // Initialize Lua
-    LuaDoFileCleaned(L, LuaFilePath("Data")); // Load data
-    // TODO: Reuse code for running tests to automatically run all lua files located in Data
+    // Initialize Lua data & mods
+    ModLoader::LuaLoadData(L, DATA_PATH);
+    ModLoader::LuaLoadMods(L, MOD_PATH);
 
     m_scene.SystemsInitialize(L);
 
@@ -80,6 +82,21 @@ Game::SceneState EditorScene::EditorScene::Loop()
     Render();
 
     return state;
+}
+
+void EditorScene::EditorScene::OnSwitchToScene()
+{
+    ZoneScopedC(RandomUniqueColor());
+
+    OnResizeWindow();
+}
+
+void EditorScene::EditorScene::OnResizeWindow()
+{
+    ZoneScopedC(RandomUniqueColor());
+
+    m_windowInfo->BindLuaWindow(L);
+    m_renderTexture = raylib::RenderTexture(m_windowInfo->p_screenWidth, m_windowInfo->p_screenHeight);
 }
 
 Game::SceneState EditorScene::EditorScene::Update()
@@ -131,224 +148,312 @@ int EditorScene::EditorScene::Render()
     ZoneScopedC(RandomUniqueColor());
 
     BeginDrawing();
-    ClearBackground(LIGHTGRAY);
+    ClearBackground(raylib::Color(24, 18, 13));
 
-    // Update systems
-    m_scene.SystemsOnRender(Time::DeltaTime());
-
-    // Scene
+    // Draw Scene
+    m_renderTexture.BeginMode();
     {
-        ZoneNamedNC(renderSceneZone, "Render Scene", RandomUniqueColor(), true);
-        BeginMode2D(m_camera);
+        ClearBackground(raylib::Color(100, 149, 237));
 
-        // Draw sprites
-        std::function<void(entt::registry &registry)> drawSystem = [](entt::registry &registry) {
-            ZoneNamedNC(drawSpritesZone, "Lambda Draw Sprites", RandomUniqueColor(), true);
+        // Render systems
+        m_scene.SystemsOnRender(Time::DeltaTime());
 
-            auto view = registry.view<ECS::Sprite, ECS::Transform>();
-            view.use<ECS::Sprite>();
+        // Scene
+        {
+            ZoneNamedNC(renderSceneZone, "Render Scene", RandomUniqueColor(), true);
+            BeginMode2D(m_camera);
 
-            view.each([&](const entt::entity entity, const ECS::Sprite &sprite, const ECS::Transform &transform) {
-                ZoneNamedNC(drawSpriteZone, "Lambda Draw Sprite", RandomUniqueColor(), true);
+            // Draw sprites
+            std::function<void(entt::registry &registry)> drawSystem = [](entt::registry &registry) {
+                ZoneNamedNC(drawSpritesZone, "Lambda Draw Sprites", RandomUniqueColor(), true);
 
-                // If the entity has an active component, check if it is active
-                if (registry.all_of<ECS::Active>(entity))
-                {
-                    ECS::Active &active = registry.get<ECS::Active>(entity);
-                    if (!active.IsActive)
-                        return; // Skip drawing if the entity is not active
-                }
+                auto view = registry.view<ECS::Sprite, ECS::Transform>();
+                view.use<ECS::Sprite>();
 
-                int flip = transform.Scale[1] > 0 ? 1 : -1;
+                view.each([&](const entt::entity entity, const ECS::Sprite &sprite, const ECS::Transform &transform) {
+                    ZoneNamedNC(drawSpriteZone, "Lambda Draw Sprite", RandomUniqueColor(), true);
 
-                raylib::Color color(*(raylib::Vector4 *)(&(sprite.Color)));
-                raylib::Rectangle rect(
-                    transform.Position[0],
-                    transform.Position[1],
-                    transform.Scale[0],
-                    transform.Scale[1] * flip
-                );
-
-                raylib::Vector2 origin(
-                    (transform.Scale[0] / 2),
-                    (transform.Scale[1] / 2) * flip
-                );
-
-                std::string textureName = sprite.SpriteName;
-                const raylib::Texture2D *texture = nullptr;
-
-                if (textureName != "")
-                {
-                    texture = ResourceManager::Instance().GetTextureResource(textureName);
-
-                    if (!texture)
+                    // If the entity has an active component, check if it is active
+                    if (registry.all_of<ECS::Active>(entity))
                     {
-                        ResourceManager::Instance().LoadTextureResource(textureName);
-                        texture = ResourceManager::Instance().GetTextureResource(textureName);
+                        ECS::Active &active = registry.get<ECS::Active>(entity);
+                        if (!active.IsActive)
+                            return; // Skip drawing if the entity is not active
                     }
-                }
 
-                if (texture)
-                {
-                    DrawTexturePro(
-                        *texture,
-                        raylib::Rectangle(0, 0, texture->width, texture->height * flip),
-                        rect,
-                        origin,
-                        transform.Rotation,
-                        color
+                    int flip = transform.Scale[1] > 0 ? 1 : -1;
+
+                    raylib::Color color(*(raylib::Vector4 *)(&(sprite.Color)));
+                    raylib::Rectangle rect(
+                        transform.Position[0],
+                        transform.Position[1],
+                        transform.Scale[0],
+                        transform.Scale[1] * flip
                     );
-                }
-                else
-                {
-                    DrawRectanglePro(
-                        rect, 
-                        origin, 
-                        transform.Rotation, 
-                        color
+
+                    raylib::Vector2 origin(
+                        (transform.Scale[0] / 2),
+                        (transform.Scale[1] / 2) * flip
                     );
-                }
-            });
-        };
-        m_scene.RunSystem(drawSystem);
 
-        std::function<void(entt::registry& registry)> createPhysicsBodies = [&](entt::registry& registry) {
-            ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+                    std::string textureName = sprite.SpriteName;
+                    const raylib::Texture2D *texture = nullptr;
 
-            auto view = registry.view<ECS::Collider, ECS::Transform>();
-            view.use<ECS::Collider>();
+                    if (textureName != "")
+                    {
+                        texture = ResourceManager::Instance().GetTextureResource(textureName);
 
-            view.each([&](ECS::Collider& collider, ECS::Transform& transform) {
-                ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+                        if (!texture)
+                        {
+                            ResourceManager::Instance().LoadTextureResource(textureName);
+                            texture = ResourceManager::Instance().GetTextureResource(textureName);
+                        }
+                    }
 
-                if (collider.debug)
-                {
-                    const float w = fabsf(transform.Scale[0]),
-                        h = fabsf(transform.Scale[1]);
-                    b2Vec2 p = b2Body_GetWorldPoint(collider.bodyId, { 0, 0});
-                    b2Transform t;
+                    if (texture)
+                    {
+                        DrawTexturePro(
+                            *texture,
+                            raylib::Rectangle(0, 0, texture->width, texture->height * flip),
+                            rect,
+                            origin,
+                            transform.Rotation,
+                            color
+                        );
+                    }
+                    else
+                    {
+                        DrawRectanglePro(
+                            rect,
+                            origin,
+                            transform.Rotation,
+                            color
+                        );
+                    }
+                });
+            };
+            m_scene.RunSystem(drawSystem);
 
-                    b2Rot rotation = b2Body_GetRotation(collider.bodyId);
-                    float radians = b2Rot_GetAngle(rotation);
+            std::function<void(entt::registry &registry)> createPhysicsBodies = [&](entt::registry &registry) {
+                ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
 
-                    Rectangle rect = { p.x, p.y , w, h };
-                    DrawRectanglePro(rect, { w/2, h/2 }, radians*RAD2DEG, {0, 228, 46, 100});
-                }
-            });
-        };
+                auto view = registry.view<ECS::Collider, ECS::Transform>();
+                view.use<ECS::Collider>();
+
+                view.each([&](ECS::Collider &collider, ECS::Transform &transform) {
+                    ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+
+                    if (collider.debug)
+                    {
+                        const float w = fabsf(transform.Scale[0]),
+                            h = fabsf(transform.Scale[1]);
+                        b2Vec2 p = b2Body_GetWorldPoint(collider.bodyId, { 0, 0 });
+                        b2Transform t;
+
+                        b2Rot rotation = b2Body_GetRotation(collider.bodyId);
+                        float radians = b2Rot_GetAngle(rotation);
+
+                        Rectangle rect = { p.x, p.y , w, h };
+                        DrawRectanglePro(rect, { w / 2, h / 2 }, radians * RAD2DEG, { 0, 228, 46, 100 });
+                    }
+                });
+            };
 
 
-        m_scene.RunSystem(createPhysicsBodies);
+            m_scene.RunSystem(createPhysicsBodies);
 
-        EndMode2D();
+            EndMode2D();
+        }
     }
+    m_renderTexture.EndMode();
 
-
-    // UI
-    {
-        ZoneNamedNC(renderUIZone, "Render UI", RandomUniqueColor(), true);
-
-        DrawText("Controls:", 20, 20, 10, BLACK);
-        DrawText("- Mouse Wheel to Zoom in-out, R to reset zoom", 40, 80, 10, DARKGRAY);
-
-        DrawFPS(340, 10);
-
-        RenderUI();
-    }
+    RenderUI();
 
     EndDrawing();
-
     return 1;
 }
 
 int EditorScene::EditorScene::RenderUI()
 {
+    ZoneScopedC(RandomUniqueColor());
+
     rlImGuiBegin();
 #ifdef IMGUI_HAS_DOCK
-    ImGui::DockSpaceOverViewport(0, NULL, ImGuiDockNodeFlags_PassthruCentralNode); // set ImGuiDockNodeFlags_PassthruCentralNode so that we can see the raylib contents behind the dockspace
+    ImGui::DockSpaceOverViewport(0, NULL, ImGuiDockNodeFlags_PassthruCentralNode);
 #endif
-    ImGui::Begin("Editor");
+    ImGuiIO &io = ImGui::GetIO();
 
-	// Insert ImGui code here...
+    ImGuiWindowFlags editorFlags = ImGuiWindowFlags_None;
+	editorFlags |= ImGuiWindowFlags_NoTitleBar;
+	editorFlags |= ImGuiWindowFlags_NoResize;
+	editorFlags |= ImGuiWindowFlags_NoMove;
+	editorFlags |= ImGuiWindowFlags_NoScrollbar;
+	editorFlags |= ImGuiWindowFlags_NoCollapse;
+	editorFlags |= ImGuiWindowFlags_NoFocusOnAppearing;
+	editorFlags |= ImGuiWindowFlags_NoBringToFrontOnFocus;
+	editorFlags |= ImGuiWindowFlags_NoDocking;
+	editorFlags |= ImGuiWindowFlags_NoBackground;
 
-    ImGui::End();
+    ImGui::Begin("Editor##EditorWindow", nullptr, editorFlags);
+    ImGui::SetWindowPos(ImVec2(io.DisplaySize.x / 2 - ImGui::GetWindowWidth() / 2, 0));
+	ImGui::SetWindowSize(ImVec2(io.DisplaySize.x, io.DisplaySize.y));
 
-    static int selectedEntity = -1;
-
-	ImGui::Begin("Scene Hierarchy");
-
-		if (ImGui::Button("Create Entity"))
-		{
-			int id = m_scene.CreateEntity();
-            ECS::Transform transform{ {0, 0}, 0, {100, 100} };
-			m_scene.SetComponent(id, transform);
-		}
-
-		std::function<void(entt::registry& registry)> renderEntityUI = [&](entt::registry& registry) {
-			ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
-
-			auto view = registry.view<ECS::Transform>();
-
-			view.each([&](const entt::entity &entity, ECS::Transform &transform) {
-				ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
-				
-				const int id = static_cast<int>(entity);
-				if (ImGui::Selectable(std::format("Entity {}", id).c_str(), (id == selectedEntity)))
-					selectedEntity = id;
-			});
-		};
-
-		m_scene.RunSystem(renderEntityUI);
-		
-	ImGui::End();
-
-    ImGui::Begin("Entity Editor");
-    
-    if (selectedEntity != -1)
+    // Insert ImGui code here
     {
-        if (m_scene.HasComponents<ECS::Active>(selectedEntity)) 
-            m_scene.GetComponent<ECS::Active>(selectedEntity).RenderUI();
+        ZoneNamedNC(renderCustomUIZone, "Render Custom ImGui UI", RandomUniqueColor(), true);
 
-        if (m_scene.HasComponents<ECS::Transform>(selectedEntity)) 
-            m_scene.GetComponent<ECS::Transform>(selectedEntity).RenderUI();
-
-        if (m_scene.HasComponents<ECS::Collider>(selectedEntity)) 
-            m_scene.GetComponent<ECS::Collider>(selectedEntity).RenderUI();
-
-        if (m_scene.HasComponents<ECS::Sprite>(selectedEntity)) 
-            m_scene.GetComponent<ECS::Sprite>(selectedEntity).RenderUI();
-
-        if (m_scene.HasComponents<ECS::Behaviour>(selectedEntity)) 
-            m_scene.GetComponent<ECS::Behaviour>(selectedEntity).RenderUI();
-
-        std::string items[] = { "Collider", "Sprite", "Behaviour"};
-
-        if (ImGui::BeginCombo("##", "Add Component"))
+		// Render the render texture window
         {
-            for (int n = 0; n < IM_ARRAYSIZE(items); n++)
+            ImGuiWindowFlags viewFlags = ImGuiWindowFlags_None;
+            //viewFlags |= ImGuiWindowFlags_NoTitleBar;
+            viewFlags |= ImGuiWindowFlags_NoScrollbar;
+            //viewFlags |= ImGuiWindowFlags_NoCollapse;
+            //viewFlags |= ImGuiWindowFlags_NoBringToFrontOnFocus;
+            //viewFlags |= ImGuiWindowFlags_NoBackground;
+
+            int stylesPushed = 0;
+            ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0)); stylesPushed++;
+			//ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0)); stylesPushed++;
+			ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0); stylesPushed++;
+			//ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 0); stylesPushed++;
+
+            static bool viewOpen = true;
+            if (ImGui::Begin("View##RenderTextureWindow", &viewOpen, viewFlags))
             {
-                std::string current = items[n];
-                if (ImGui::Selectable(current.c_str()))
+                ImVec2 imGuiWindowPos = ImGui::GetWindowPos();
+                ImVec2 imGuiWindowSize = ImGui::GetWindowSize();
+
+                ImVec2 imGuiWindowContentRegionMin = ImGui::GetWindowContentRegionMin();
+                ImVec2 imGuiWindowContentRegionMax = ImGui::GetWindowContentRegionMax();
+
+                float renderAspect = (float)m_renderTexture.texture.width / (float)m_renderTexture.texture.height;
+
+                ImVec2 viewCenter = ImVec2(
+                    imGuiWindowSize.x / 2 - m_renderTexture.texture.width / 2,
+                    imGuiWindowSize.y / 2 - m_renderTexture.texture.height / 2
+                );
+
+                ImVec2 sceneViewSize = (imGuiWindowContentRegionMax - imGuiWindowContentRegionMin);
+                ImVec2 sceneViewCenter = (imGuiWindowContentRegionMin + imGuiWindowContentRegionMax) * 0.5f;
+
+                // Draw the render texture
+                float viewAspect = sceneViewSize.x / sceneViewSize.y;
+
+                ImVec2 scaledBounds = ImVec2(0, 0);
+                if (renderAspect > viewAspect)
                 {
-                    if (current == "Collider")
-                        m_scene.SetComponent<ECS::Collider>(selectedEntity, ECS::Collider());
-                    else if (current == "Behaviour")
-                        m_scene.SetComponent<ECS::Behaviour>(selectedEntity, ECS::Behaviour("Behaviours/Enemy", selectedEntity, L));
-                    else if (current == "Sprite")
+                    scaledBounds.x = sceneViewSize.x;
+                    scaledBounds.y = sceneViewSize.x / renderAspect;
+                }
+                else
+                {
+                    scaledBounds.x = sceneViewSize.y * renderAspect;
+                    scaledBounds.y = sceneViewSize.y;
+                }
+
+                ImVec2 renderTextureCorner = sceneViewCenter - (scaledBounds * 0.5f);
+                ImGui::SetCursorPos(renderTextureCorner);
+
+                ImGui::Image(
+                    (ImTextureID)m_renderTexture.texture.id,
+                    scaledBounds,
+                    ImVec2(0, 1), // Top left
+                    ImVec2(1, 0)  // Bottom right
+                );
+
+                // Draw FPS Counter
+                int fps = GetFPS();
+                ImGui::SetCursorPos(imGuiWindowContentRegionMin + ImVec2(8, 8));
+				ImGui::Text("FPS: %d", fps);
+            }
+            ImGui::End();
+            ImGui::PopStyleVar(stylesPushed);
+        }
+
+
+        static int selectedEntity = -1;
+
+        if (ImGui::Begin("Scene Hierarchy"))
+        {
+
+            if (ImGui::Button("Create Entity"))
+            {
+                int id = m_scene.CreateEntity();
+                ECS::Transform transform{ {0, 0}, 0, {100, 100} };
+                m_scene.SetComponent(id, transform);
+            }
+
+            std::function<void(entt::registry &registry)> renderEntityUI = [&](entt::registry &registry) {
+                ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+
+                auto view = registry.view<ECS::Transform>();
+
+                view.each([&](const entt::entity &entity, ECS::Transform &transform) {
+                    ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+
+                    const int id = static_cast<int>(entity);
+                    if (ImGui::Selectable(std::format("Entity {}", id).c_str(), (id == selectedEntity)))
+                        selectedEntity = id;
+                });
+            };
+
+            m_scene.RunSystem(renderEntityUI);
+
+        }
+        ImGui::End();
+
+        if (ImGui::Begin("Entity Editor"))
+        {
+
+            if (selectedEntity != -1)
+            {
+                if (m_scene.HasComponents<ECS::Active>(selectedEntity))
+                    m_scene.GetComponent<ECS::Active>(selectedEntity).RenderUI();
+
+                if (m_scene.HasComponents<ECS::Transform>(selectedEntity))
+                    m_scene.GetComponent<ECS::Transform>(selectedEntity).RenderUI();
+
+                if (m_scene.HasComponents<ECS::Collider>(selectedEntity))
+                    m_scene.GetComponent<ECS::Collider>(selectedEntity).RenderUI();
+
+                if (m_scene.HasComponents<ECS::Sprite>(selectedEntity))
+                    m_scene.GetComponent<ECS::Sprite>(selectedEntity).RenderUI();
+
+                if (m_scene.HasComponents<ECS::Behaviour>(selectedEntity))
+                    m_scene.GetComponent<ECS::Behaviour>(selectedEntity).RenderUI();
+
+                std::string items[] = { "Collider", "Sprite", "Behaviour" };
+
+                if (ImGui::BeginCombo("##", "Add Component"))
+                {
+                    for (int n = 0; n < IM_ARRAYSIZE(items); n++)
                     {
-                        const float color[4] { 0, 0, 0, 1 };
-                        m_scene.SetComponent<ECS::Sprite>(selectedEntity, ECS::Sprite("\0", color, 0));
+                        std::string current = items[n];
+                        if (ImGui::Selectable(current.c_str()))
+                        {
+                            if (current == "Collider")
+                                m_scene.SetComponent<ECS::Collider>(selectedEntity, ECS::Collider());
+                            else if (current == "Behaviour")
+                                m_scene.SetComponent<ECS::Behaviour>(selectedEntity, ECS::Behaviour("Behaviours/Enemy", selectedEntity, L));
+                            else if (current == "Sprite")
+                            {
+                                const float color[4]{ 0, 0, 0, 1 };
+                                m_scene.SetComponent<ECS::Sprite>(selectedEntity, ECS::Sprite("\0", color, 0));
+                            }
+                        }
                     }
+                    ImGui::EndCombo();
                 }
             }
-            ImGui::EndCombo();
+            else
+            {
+                ImGui::Text("Select a entity ...");
+            }
         }
+        ImGui::End();
     }
-    else
-        ImGui::Text("Select a entity ...");
 
     ImGui::End();
-
     rlImGuiEnd();
     return 1;
 }

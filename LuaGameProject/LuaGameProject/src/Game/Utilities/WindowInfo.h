@@ -19,4 +19,10 @@ struct WindowInfo
 
 	    lua_setglobal(L, "Window");
     }
+
+	inline void UpdateWindowSize(int width, int height)
+	{
+		p_screenWidth = width;
+		p_screenHeight = height;
+	}
 };
