@@ -130,6 +130,20 @@ Game::SceneState GameScene::GameScene::Loop()
     return state;
 }
 
+void GameScene::GameScene::OnSwitchToScene()
+{
+    ZoneScopedC(RandomUniqueColor());
+
+    OnResizeWindow();
+}
+
+void GameScene::GameScene::OnResizeWindow()
+{
+    ZoneScopedC(RandomUniqueColor());
+
+    m_windowInfo->BindLuaWindow(L);
+}
+
 Game::SceneState GameScene::GameScene::Update()
 {
     ZoneScopedC(RandomUniqueColor());

@@ -30,6 +30,9 @@ namespace GameScene
         int Start(WindowInfo *windowInfo) override;
         Game::SceneState Loop() override;
 
+		void OnSwitchToScene() override;
+		void OnResizeWindow() override;
+
     protected:
         Game::SceneState Update() override;
         int Render() override;

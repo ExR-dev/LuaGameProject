@@ -10,24 +10,36 @@
 namespace EditorScene
 {
 	class EditorScene : public SceneTemplate::SceneTemplate
-    {
-    public:
-        EditorScene();
-        ~EditorScene();
+	{
+	public:
+		EditorScene();
+		~EditorScene();
 
-        int Start(WindowInfo *windowInfo) override;
-        Game::SceneState Loop() override;
+		int Start(WindowInfo *windowInfo) override;
+		Game::SceneState Loop() override;
 
-    protected:
-        Game::SceneState Update() override;
-        int Render() override;
+		void OnSwitchToScene() override;
+		void OnResizeWindow() override;
 
-    private:
-        lua_State *L = nullptr;
-        Scene m_scene{};
-        LuaGame::LuaGame m_luaGame;
-        PhysicsHandler m_physicsHandler;
+	protected:
+		Game::SceneState Update() override;
+		int Render() override;
 
-        int RenderUI();
-    };
+	private:
+		lua_State *L = nullptr;
+		Scene m_scene{};
+		LuaGame::LuaGame m_luaGame;
+		PhysicsHandler m_physicsHandler;
+
+		raylib::RenderTexture m_renderTexture;
+
+		bool m_sceneViewOpen = true;
+		raylib::Rectangle m_sceneViewRect{};
+
+		int RenderUI();
+
+
+		raylib::Vector2 ScreenToWorldPos(const raylib::Vector2 &pos) const;
+		bool IsWithinSceneView(const raylib::Vector2 &pos) const;
+	};
 }
