@@ -19,10 +19,18 @@ namespace ImLua
 			TempString(const char *input, size_t size = -1)
 			{
 				size_t inputSize = strlen(input) + 1;
-				Size = (size > inputSize) ? size * 2 : inputSize;
+				Size = (size > inputSize) ? size : inputSize * 2;
 				Value = new char[Size];
 
 				strcpy_s(Value, Size, input);
+			}
+			TempString(const std::string &input, size_t size = -1)
+			{
+				size_t inputSize = input.size();
+				Size = (size > inputSize) ? size : inputSize * 2;
+				Value = new char[Size];
+
+				strcpy_s(Value, Size, input.c_str());
 			}
 			~TempString()
 			{
@@ -38,6 +46,23 @@ namespace ImLua
 				return Value;
 			}
 		};
+
+
+		static bool PopBool(lua_State *L, int &index, bool &value);
+		static bool PopInt(lua_State *L, int &index, int &value);
+		static bool PopFloat(lua_State *L, int &index, float &value);
+		static bool PopString(lua_State *L, int &index, std::string &value);
+		static bool PopImVec2(lua_State *L, int &index, ImVec2 &value);
+		static bool PopImVec4(lua_State *L, int &index, ImVec4 &value);
+
+		static void PushNil(lua_State *L);
+		static void PushBool(lua_State *L, const bool &value);
+		static void PushInt(lua_State *L, const int &value);
+		static void PushFloat(lua_State *L, const float &value);
+		static void PushString(lua_State *L, const char *value);
+		static void PushString(lua_State *L, const std::string &value);
+		static void PushImVec2(lua_State *L, const ImVec2 &value);
+		static void PushImVec4(lua_State *L, const ImVec4 &value);
 
 
 		// Arguments: string label = nil
@@ -56,28 +81,29 @@ namespace ImLua
 		// Returns: float v (nil if unchanged)
 		static int lua_DragFloat(lua_State *L);
 
-
-
-		// TODO: Implement these in order of relevance
-
 		// Arguments: string label, ImVec2 size = ImVec2(0, 0)
-		// Returns: bool active
+		// Returns: bool pressed
 		static int lua_Button(lua_State *L);
 
 		// Arguments: string label, bool v
-		// Returns: bool isPressed, bool v
+		// Returns: bool pressed, bool v
 		static int lua_Checkbox(lua_State *L);
 
 		// Arguments: string label, bool active
-		// Returns: bool isPressed, bool active
+		// Returns: bool pressed
 		static int lua_RadioButton(lua_State *L);
 
 		// Arguments: string label, int v, int v_button
 		// Returns: bool isPressed, int v
 		static int lua_RadioButtonInt(lua_State *L);
+
 		// Arguments: string label, float v, float v_min, float v_max, string format = "%.3f"
 		// Returns: float v (nil if unchanged)
 		static int lua_SliderFloat(lua_State *L);
+
+
+
+		// TODO: Implement these in order of relevance
 
 		// Arguments: string label, float v_rad, float v_degrees_min = -360.0f, float v_degrees_max = +360.0f, string format = "%.0f deg"
 		// Returns: float v_rad (nil if unchanged)
@@ -110,7 +136,7 @@ namespace ImLua
 		// Returns: 
 		static int lua_ProgressBar(lua_State *L);
 
-		// Arguments: ImTextureID user_texture_id, const ImVec2& image_size, const ImVec2& uv0 = ImVec2(0, 0), const ImVec2& uv1 = ImVec2(1, 1)
+		// Arguments: ImTextureID user_texture_id, ImVec2 image_size, ImVec2 uv0 = ImVec2(0, 0), ImVec2 uv1 = ImVec2(1, 1)
 		// Returns: 
 		static int lua_Image(lua_State *L);
 
@@ -122,11 +148,11 @@ namespace ImLua
 		// Returns: 
 		static int lua_TreePop(lua_State *L);
 
-		// Arguments: string label, bool* p_visible, ImGuiTreeNodeFlags flags = 0
-		// Returns: 
+		// Arguments: string label, bool p_visible
+		// Returns: bool p_visible (nil if unchanged)
 		static int lua_CollapsingHeader(lua_State *L);
 
-		// Arguments: string label, string preview_value, ImGuiComboFlags flags = 0
+		// Arguments: string label, string preview_value
 		// Returns: 
 		static int lua_BeginCombo(lua_State *L);
 
@@ -134,7 +160,7 @@ namespace ImLua
 		// Returns: 
 		static int lua_EndCombo(lua_State *L);
 
-		// Arguments: string str_id, const ImVec2& size = ImVec2(0, 0), ImGuiChildFlags child_flags = 0, ImGuiWindowFlags window_flags = 0
+		// Arguments: string str_id, ImVec2 size = ImVec2(0, 0)
 		// Returns: 
 		static int lua_BeginChild(lua_State *L);
 
@@ -166,19 +192,19 @@ namespace ImLua
 		// Returns: 
 		static int lua_EndTooltip(lua_State *L);
 
-		// Arguments: string str_id, ImGuiWindowFlags flags = 0
+		// Arguments: string str_id
 		// Returns: 
 		static int lua_BeginPopup(lua_State *L);
 
-		// Arguments: string name, bool* p_open = NULL, ImGuiWindowFlags flags = 0
-		// Returns: 
+		// Arguments: string name, bool p_open
+		// Returns: bool p_open (nil if unchanged)
 		static int lua_BeginPopupModal(lua_State *L);
 
 		// Arguments: 
 		// Returns: 
 		static int lua_EndPopup(lua_State *L);
 
-		// Arguments: string str_id, int columns, ImGuiTableFlags flags = 0, const ImVec2& outer_size = ImVec2(0.0f, 0.0f), float inner_width = 0.0f
+		// Arguments: string str_id, int columns, ImVec2 outer_size = ImVec2(0.0f, 0.0f), float inner_width = 0.0f
 		// Returns: 
 		static int lua_BeginTable(lua_State *L);
 
@@ -186,7 +212,7 @@ namespace ImLua
 		// Returns: 
 		static int lua_EndTable(lua_State *L);
 
-		// Arguments: ImGuiTableRowFlags row_flags = 0, float min_row_height = 0.0f
+		// Arguments: float min_row_height = 0.0f
 		// Returns: 
 		static int lua_TableNextRow(lua_State *L);
 
@@ -198,7 +224,7 @@ namespace ImLua
 		// Returns: 
 		static int lua_TableSetColumnIndex(lua_State *L);
 
-		// Arguments: float offset_from_start_x=0.0f, float spacing=-1.0f
+		// Arguments: float offset_from_start_x = 0.0f, float spacing = -1.0f
 		// Returns: 
 		static int lua_SameLine(lua_State *L);
 
@@ -254,15 +280,15 @@ namespace ImLua
 		// Returns: 
 		static int lua_GetWindowSize(lua_State *L);
 
-		// Arguments: ImVec2 pos, ImGuiCond cond = 0
+		// Arguments: ImVec2 pos
 		// Returns: 
 		static int lua_SetWindowPos(lua_State *L);
 
-		// Arguments: ImVec2 size, ImGuiCond cond = 0
+		// Arguments: ImVec2 size
 		// Returns: 
 		static int lua_SetWindowSize(lua_State *L);
 
-		// Arguments: ImGuiHoveredFlags flags = 0
+		// Arguments:
 		// Returns: 
 		static int lua_IsItemHovered(lua_State *L);
 

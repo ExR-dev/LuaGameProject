@@ -89,6 +89,9 @@ function enemy:OnGUI()
 		enemy.dragFloat = newVal
 	end
 
+	
+	imgui.Separator("Wow, a Lua separator!")
+
 	tracy.ZoneEnd()
 end
 

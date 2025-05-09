@@ -151,7 +151,7 @@ namespace ECS
 				if (ImGui::Button("Select File"))
 				{
 					std::string fileName, filePath;
-					if (Windows::OpenFileCatalog(fileName, filePath))
+					if (Windows::OpenFileCatalog(fileName, filePath, FILE_PATH))
 					{
 						size_t lastindex = fileName.find_last_of("."); 
 						fileName = fileName.substr(0, lastindex); 

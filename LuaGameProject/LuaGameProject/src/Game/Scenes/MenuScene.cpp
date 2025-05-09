@@ -148,14 +148,7 @@ int MenuScene::MenuScene::Render()
     for (auto button : m_buttons)
         button->Render();
 
-    auto mInfo = Input::GetMouseInfo();
-	DrawRectangle(mInfo.position.x - 5, mInfo.position.y - 5, 10, 10, raylib::Color(255, 0, 0, 255));
-
-    DrawFPS(340, 10);
-
     EndMode2D();
-
-
     EndDrawing();
 
     return 1;

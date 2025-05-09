@@ -271,7 +271,7 @@ int EditorScene::EditorScene::Render()
 			if (IsWithinSceneView(mousePos))
 			{
 				raylib::Vector2 scenePos = ScreenToWorldPos(mousePos);
-				DrawCircleV(scenePos, 5, raylib::Color(255, 0, 0, 255));
+				DrawCircleV(scenePos, 4, raylib::Color(255, 0, 0, 255));
 			}
 
 			EndMode2D();
@@ -291,11 +291,24 @@ int EditorScene::EditorScene::RenderUI()
 {
 	ZoneScopedC(RandomUniqueColor());
 
-	rlImGuiBegin();
+	rlImGuiBeginDelta(Time::DeltaTime());
+
+	// Manual character input passthrough, as the raylib queue has already been flushed
+	ImGuiIO &io = ImGui::GetIO();
+	if (io.WantCaptureKeyboard)
+	{
+		const std::string charBuffer = Input::GetUnicodeInput();
+
+		for (int i = 0; i < charBuffer.length(); i++)
+		{
+			int key = charBuffer[i];
+			io.AddInputCharacter(key);
+		}
+	}
+
 #ifdef IMGUI_HAS_DOCK
 	ImGui::DockSpaceOverViewport(0, NULL, ImGuiDockNodeFlags_PassthruCentralNode);
 #endif
-	ImGuiIO &io = ImGui::GetIO();
 
 	ImGuiWindowFlags editorFlags = ImGuiWindowFlags_None;
 	editorFlags |= ImGuiWindowFlags_NoTitleBar;
@@ -319,17 +332,11 @@ int EditorScene::EditorScene::RenderUI()
 		// Render the render texture window
 		{
 			ImGuiWindowFlags viewFlags = ImGuiWindowFlags_None;
-			//viewFlags |= ImGuiWindowFlags_NoTitleBar;
 			viewFlags |= ImGuiWindowFlags_NoScrollbar;
-			//viewFlags |= ImGuiWindowFlags_NoCollapse;
-			//viewFlags |= ImGuiWindowFlags_NoBringToFrontOnFocus;
-			//viewFlags |= ImGuiWindowFlags_NoBackground;
 
 			int stylesPushed = 0;
 			ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0)); stylesPushed++;
-			//ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0)); stylesPushed++;
 			ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0); stylesPushed++;
-			//ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 0); stylesPushed++;
 
 			if (ImGui::Begin("View##RenderTextureWindow", &m_sceneViewOpen, viewFlags))
 			{
@@ -374,16 +381,16 @@ int EditorScene::EditorScene::RenderUI()
 					ImVec2(1, 0)  // Bottom right
 				);
 
-				// Draw FPS Counter
-				int fps = GetFPS();
-				ImGui::SetCursorPos(imGuiWindowContentRegionMin + ImVec2(8, 8));
-				ImGui::Text("FPS: %d", fps);
-
 				// Get the scene view bounds
 				m_sceneViewRect = raylib::Rectangle(
 					GameMath::ImToRayVec(renderTextureCorner + imGuiWindowPos),
 					GameMath::ImToRayVec(scaledBounds)
 				);
+
+				// Draw FPS Counter
+				int fps = GetFPS();
+				ImGui::SetCursorPos(imGuiWindowContentRegionMin + ImVec2(8, 8));
+				ImGui::Text("FPS: %d", fps);
 			}
 
 			ImGui::End();
@@ -469,8 +476,6 @@ int EditorScene::EditorScene::RenderUI()
 			}
 		}
 		ImGui::End();
-
-
 	}
 
 	ImGui::End();

@@ -33,12 +33,12 @@ int main()
 
     InitWindow(windowInfo.p_screenWidth, windowInfo.p_screenHeight, "Lua Game");
     InitAudioDevice();
+    rlImGuiSetup(true);
 
     Time::Instance();
     ResourceManager::Instance().LoadResources();
     SetTargetFPS(144);
 
-    rlImGuiSetup(true);
 #ifdef IMGUI_HAS_DOCK
     ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;

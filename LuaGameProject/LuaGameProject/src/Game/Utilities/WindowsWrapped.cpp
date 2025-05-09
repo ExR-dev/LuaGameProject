@@ -1,6 +1,7 @@
 #include "WindowsWrapped.h"
 #include <windows.h>
-#include <shobjidl.h> 
+#include <shobjidl.h>
+#include <filesystem>
 
 #ifdef LEAK_DETECTION
 #define new			DEBUG_NEW
@@ -36,7 +37,7 @@ Windows::HWNDW Windows::GetConsoleWindowW()
 	return hwnd;
 }
 
-bool Windows::OpenFileCatalog(std::string &fileName, std::string &filePath)
+bool Windows::OpenFileCatalog(std::string &fileName, std::string &filePath, const std::string &startDir)
 {
 	//  CREATE FILE OBJECT INSTANCE
     HRESULT f_SysHr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
@@ -51,6 +52,25 @@ bool Windows::OpenFileCatalog(std::string &fileName, std::string &filePath)
         return FALSE;
     }
 
+    // SET THE INITIAL DIRECTORY IF SPECIFIED
+    if (!startDir.empty()) {
+        std::string absolutePath = std::filesystem::canonical(startDir).string();
+
+        // Convert the startDir string to wide string
+        std::wstring wideStartDir(absolutePath.begin(), absolutePath.end());
+
+        // Create a shell item from the path
+        IShellItem *psiFolder;
+        f_SysHr = SHCreateItemFromParsingName(wideStartDir.c_str(), NULL, IID_PPV_ARGS(&psiFolder));
+
+        if (SUCCEEDED(f_SysHr)) {
+            // Set the default folder
+            f_FileSystem->SetFolder(psiFolder);
+            psiFolder->Release();
+        }
+        // Continue even if setting folder fails
+    }
+
     //  SHOW OPEN FILE DIALOG WINDOW
     f_SysHr = f_FileSystem->Show(NULL);
     if (FAILED(f_SysHr)) {
@@ -58,7 +78,6 @@ bool Windows::OpenFileCatalog(std::string &fileName, std::string &filePath)
         CoUninitialize();
         return FALSE;
     }
-
     //  RETRIEVE FILE NAME FROM THE SELECTED ITEM
     IShellItem* f_Files;
     f_SysHr = f_FileSystem->GetResult(&f_Files);
@@ -92,4 +111,11 @@ bool Windows::OpenFileCatalog(std::string &fileName, std::string &filePath)
     f_Files->Release();
     f_FileSystem->Release();
     CoUninitialize();
+
+    return TRUE;
 }
+
+
+
+
+
