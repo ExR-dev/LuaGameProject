@@ -304,7 +304,7 @@ int GameScene::GameScene::Render()
                 {
                     DrawTexturePro(
                         *texture,
-                        raylib::Rectangle(0, 0, texture->width, texture->height * flip),
+                        raylib::Rectangle(0, 0, (float)texture->width, (float)(texture->height * flip)),
                         rect,
                         origin,
                         transform.Rotation,
@@ -338,7 +338,7 @@ int GameScene::GameScene::Render()
 					const float w = fabsf(transform.Scale[0] * collider.extents[0]),
 								h = fabsf(transform.Scale[1] * collider.extents[1]);
 					b2Vec2 p = b2Body_GetWorldPoint(collider.bodyId, { 0, 0});
-					b2Transform t;
+					//b2Transform t;
 
 					b2Rot rotation = b2Body_GetRotation(collider.bodyId);
 					float radians = b2Rot_GetAngle(rotation);
@@ -416,8 +416,8 @@ void GameScene::GameScene::UpdateFreeCamera()
     ZoneScopedC(RandomUniqueColor());
     
     raylib::Vector2 move(
-        Input::CheckKeyHeld(Input::GAME_KEY_RIGHT) - Input::CheckKeyHeld(Input::GAME_KEY_LEFT),
-        Input::CheckKeyHeld(Input::GAME_KEY_DOWN)  - Input::CheckKeyHeld(Input::GAME_KEY_UP)
+        (float)(Input::CheckKeyHeld(Input::GAME_KEY_RIGHT) - Input::CheckKeyHeld(Input::GAME_KEY_LEFT)),
+        (float)(Input::CheckKeyHeld(Input::GAME_KEY_DOWN)  - Input::CheckKeyHeld(Input::GAME_KEY_UP))
     );
 
     move = Vector2Normalize(move);

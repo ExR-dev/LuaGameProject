@@ -2,7 +2,7 @@
 
 #include <string>
 
-class HWND__;
+struct HWND__;
 
 // All members end with "W" (for "wrapped") to avoid naming collision with the Windows API.
 namespace Windows

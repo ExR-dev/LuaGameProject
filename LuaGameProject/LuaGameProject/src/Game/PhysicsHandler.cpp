@@ -32,7 +32,7 @@ void PhysicsHandler::Setup()
     Assert(b2World_IsValid(m_worldId), "Invalid Box2D world!");
 }
 
-void PhysicsHandler::Update(lua_State* L, Scene* scene)
+void PhysicsHandler::Update(lua_State* L, Scene* scene) const
 {
     ZoneScopedC(RandomUniqueColor());
 
@@ -45,8 +45,8 @@ void PhysicsHandler::Update(lua_State* L, Scene* scene)
 
         const b2SensorBeginTouchEvent event = sensorEvents.beginEvents[i];
 
-        int entity = (int)b2Shape_GetUserData(event.sensorShapeId);
-        int other = (int)b2Shape_GetUserData(event.visitorShapeId);
+		int entity = (int)((size_t)b2Shape_GetUserData(event.sensorShapeId));
+        int other = (int)((size_t)b2Shape_GetUserData(event.visitorShapeId));
 
         if (scene->IsEntity(entity) && scene->IsEntity(other))
         {
@@ -66,7 +66,7 @@ b2WorldId PhysicsHandler::GetWorldId() const
     return m_worldId;
 }
 
-b2BodyId PhysicsHandler::CreateRigidBody(int entity, const ECS::Collider &collider, const ECS::Transform &transform)
+b2BodyId PhysicsHandler::CreateRigidBody(int entity, const ECS::Collider &collider, const ECS::Transform &transform) const
 {
     ZoneScopedC(RandomUniqueColor());
 
@@ -93,7 +93,7 @@ b2BodyId PhysicsHandler::CreateRigidBody(int entity, const ECS::Collider &collid
 
 	b2ShapeDef shapeDef = b2DefaultShapeDef();
     shapeDef.isSensor = true; // Disable automatic resolving
-    shapeDef.userData = (void*)entity;
+    shapeDef.userData = (void*)((size_t)entity);
     shapeDef.enableSensorEvents = true;
 	b2CreatePolygonShape(bodyId, &shapeDef, &polygon);
 

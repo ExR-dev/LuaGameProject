@@ -3,9 +3,9 @@
 // Forward declarations
 namespace raylib
 {
-	struct Rectangle;
-	struct Vector2;
-	struct Vector4;
+	class Rectangle;
+	class Vector2;
+	class Vector4;
 }
 
 struct ImVec2;

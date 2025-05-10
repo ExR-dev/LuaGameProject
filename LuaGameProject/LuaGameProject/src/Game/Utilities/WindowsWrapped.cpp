@@ -45,7 +45,7 @@ bool Windows::OpenFileCatalog(std::string &fileName, std::string &filePath, cons
         return FALSE;
 
     // CREATE FileOpenDialog OBJECT
-    IFileOpenDialog* f_FileSystem;
+    IFileOpenDialog *f_FileSystem = nullptr;
     f_SysHr = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_ALL, IID_IFileOpenDialog, reinterpret_cast<void**>(&f_FileSystem));
     if (FAILED(f_SysHr)) {
         CoUninitialize();

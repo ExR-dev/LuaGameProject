@@ -12,12 +12,12 @@ public:
 	~PhysicsHandler();
 
 	void Setup();
-	void Update(lua_State* L, Scene* scene);
+	void Update(lua_State* L, Scene* scene) const;
 
 	b2WorldId GetWorldId() const;
 
-	b2BodyId CreateRigidBody(int entity, const ECS::Collider &collider, const ECS::Transform &transform);
+	b2BodyId CreateRigidBody(int entity, const ECS::Collider &collider, const ECS::Transform &transform) const;
 
 private:
-	b2WorldId m_worldId;
+	b2WorldId m_worldId{};
 };

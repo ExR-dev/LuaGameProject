@@ -9,11 +9,79 @@ void ImLua::ImLua::lua_openimgui(lua_State *L)
 	lua_newtable(L);
 
 	luaL_Reg methods[] = {
-		{ "Separator",			lua_Separator		},
-		{ "Text",				lua_Text			},
-		{ "InputText",			lua_InputText		},
-		{ "DragFloat",			lua_DragFloat		},
-		{ NULL,					NULL				}
+		{ "Separator",				lua_Separator			},
+		{ "Text",					lua_Text				},
+		{ "InputText",				lua_InputText			},
+		{ "DragFloat",				lua_DragFloat			},
+		{ "Button",					lua_Button				},
+		{ "Checkbox",				lua_Checkbox			},
+		{ "RadioButton",			lua_RadioButton			},
+		{ "RadioButtonInt",			lua_RadioButtonInt		},
+		{ "SliderFloat",			lua_SliderFloat			},
+
+		// Unimplemented
+		{ "SliderAngle",			lua_SliderAngle			},
+		{ "SliderInt",				lua_SliderInt			},
+		{ "InputInt",				lua_InputInt			},
+		{ "ColorEdit4",				lua_ColorEdit4			},
+		{ "ColorPicker4",			lua_ColorPicker4		},
+		{ "ColorButton",			lua_ColorButton			},
+		{ "ProgressBar",			lua_ProgressBar			},
+		{ "Image",					lua_Image				},
+		{ "TreeNode",				lua_TreeNode			},
+		{ "TreePop",				lua_TreePop				},
+		{ "CollapsingHeader",		lua_CollapsingHeader	},
+		{ "BeginCombo",				lua_BeginCombo			},
+		{ "EndCombo",				lua_EndCombo			},
+		{ "BeginChild",				lua_BeginChild			},
+		{ "EndChild",				lua_EndChild			},
+		{ "BeginGroup",				lua_BeginGroup			},
+		{ "EndGroup",				lua_EndGroup			},
+		{ "PushID",					lua_PushID				},
+		{ "PopID",					lua_PopID				},
+		{ "BeginTooltip",			lua_BeginTooltip		},
+		{ "EndTooltip",				lua_EndTooltip			},
+		{ "BeginPopup",				lua_BeginPopup			},
+		{ "BeginPopupModal",		lua_BeginPopupModal		},
+		{ "EndPopup",				lua_EndPopup			},
+		{ "BeginTable",				lua_BeginTable			},
+		{ "EndTable",				lua_EndTable			},
+		{ "TableNextRow",			lua_TableNextRow		},
+		{ "TableNextColumn",		lua_TableNextColumn		},
+		{ "TableSetColumnIndex",	lua_TableSetColumnIndex	},
+		{ "SameLine",				lua_SameLine			},
+		{ "NewLine",				lua_NewLine				},
+		{ "Spacing",				lua_Spacing				},
+		{ "Dummy",					lua_Dummy				},
+		{ "Indent",					lua_Indent				},
+		{ "Unindent",				lua_Unindent			},
+		{ "SetNextItemWidth",		lua_SetNextItemWidth	},
+		{ "CalcItemWidth",			lua_CalcItemWidth		},
+		{ "GetCursorScreenPos",		lua_GetCursorScreenPos	},
+		{ "SetCursorScreenPos",		lua_SetCursorScreenPos	},
+		{ "GetCursorPos",			lua_GetCursorPos		},
+		{ "SetCursorPos",			lua_SetCursorPos		},
+		{ "GetWindowPos",			lua_GetWindowPos		},
+		{ "GetWindowSize",			lua_GetWindowSize		},
+		{ "SetWindowPos",			lua_SetWindowPos		},
+		{ "SetWindowSize",			lua_SetWindowSize		},
+		{ "IsItemHovered",			lua_IsItemHovered		},
+		{ "IsItemActive",			lua_IsItemActive		},
+		{ "IsItemFocused",			lua_IsItemFocused		},
+		{ "IsItemClicked",			lua_IsItemClicked		},
+		{ "IsItemVisible",			lua_IsItemVisible		},
+		{ "IsItemEdited",			lua_IsItemEdited		},
+		{ "IsItemActivated",		lua_IsItemActivated		},
+		{ "IsItemToggledOpen",		lua_IsItemToggledOpen	},
+		{ "GetItemID",				lua_GetItemID			},
+		{ "GetItemRectMin",			lua_GetItemRectMin		},
+		{ "GetItemRectMax",			lua_GetItemRectMax		},
+		{ "GetItemRectSize",		lua_GetItemRectSize		},
+		{ "CalcTextSize",			lua_CalcTextSize		},
+		{ "GetClipboardText",		lua_GetClipboardText	},
+		{ "SetClipboardText",		lua_SetClipboardText	},
+
+		{ NULL,						NULL					}
 	};
 
 	luaL_setfuncs(L, methods, 0);
@@ -32,7 +100,6 @@ bool ImLua::ImLua::PopBool(lua_State *L, int &index, bool &value)
 	value = lua_toboolean(L, index++);
 	return true;
 }
-
 bool ImLua::ImLua::PopInt(lua_State *L, int &index, int &value)
 {
 	if (!lua_isinteger(L, index))
@@ -41,7 +108,6 @@ bool ImLua::ImLua::PopInt(lua_State *L, int &index, int &value)
 	value = lua_tointeger(L, index++);
 	return true;
 }
-
 bool ImLua::ImLua::PopFloat(lua_State *L, int &index, float &value)
 {
 	if (!lua_isnumber(L, index))
@@ -50,7 +116,6 @@ bool ImLua::ImLua::PopFloat(lua_State *L, int &index, float &value)
 	value = (float)lua_tonumber(L, index++);
 	return true;
 }
-
 bool ImLua::ImLua::PopString(lua_State *L, int &index, std::string &value)
 {
 	if (!lua_isstring(L, index))
@@ -59,7 +124,6 @@ bool ImLua::ImLua::PopString(lua_State *L, int &index, std::string &value)
 	value = lua_tostring(L, index++);
 	return true;
 }
-
 bool ImLua::ImLua::PopImVec2(lua_State *L, int &index, ImVec2 &value)
 {
 	if (!lua_istable(L, index))
@@ -76,7 +140,6 @@ bool ImLua::ImLua::PopImVec2(lua_State *L, int &index, ImVec2 &value)
 	index++;
 	return true;
 }
-
 bool ImLua::ImLua::PopImVec4(lua_State *L, int &index, ImVec4 &value)
 {
 	if (!lua_istable(L, index))
@@ -102,37 +165,30 @@ bool ImLua::ImLua::PopImVec4(lua_State *L, int &index, ImVec4 &value)
 	return true;
 }
 
-
 void ImLua::ImLua::PushNil(lua_State *L)
 {
 	lua_pushnil(L);
 }
-
 void ImLua::ImLua::PushBool(lua_State *L, const bool &value)
 {
 	lua_pushboolean(L, value);
 }
-
 void ImLua::ImLua::PushInt(lua_State *L, const int &value)
 {
 	lua_pushinteger(L, value);
 }
-
 void ImLua::ImLua::PushFloat(lua_State *L, const float &value)
 {
 	lua_pushnumber(L, value);
 }
-
 void ImLua::ImLua::PushString(lua_State *L, const char *value)
 {
 	lua_pushstring(L, value);
 }
-
 void ImLua::ImLua::PushString(lua_State *L, const std::string &value)
 {
 	lua_pushstring(L, value.c_str());
 }
-
 void ImLua::ImLua::PushImVec2(lua_State *L, const ImVec2 &value)
 {
 	lua_createtable(L, 0, 2);
@@ -141,7 +197,6 @@ void ImLua::ImLua::PushImVec2(lua_State *L, const ImVec2 &value)
 	lua_pushnumber(L, value.y);
 	lua_setfield(L, -2, "y");
 }
-
 void ImLua::ImLua::PushImVec4(lua_State *L, const ImVec4 &value)
 {
 	lua_createtable(L, 0, 4);
@@ -165,7 +220,7 @@ int ImLua::ImLua::lua_Separator(lua_State *L)
 	else
 		ImGui::Separator();
 
-	return 1;
+	return 0;
 }
 
 int ImLua::ImLua::lua_Text(lua_State *L)
@@ -183,7 +238,7 @@ int ImLua::ImLua::lua_Text(lua_State *L)
 	// Do ImGui command
 	ImGui::Text(label.c_str());
 
-	return 1;
+	return 0;
 }
 
 int ImLua::ImLua::lua_InputText(lua_State *L)
@@ -217,12 +272,10 @@ int ImLua::ImLua::lua_InputText(lua_State *L)
 	bool isModified = ImGui::InputText(label.c_str(), value, value.Size);
 
 	// Return result
-	if (isModified)
-		PushString(L, value);
-	else
-		PushNil(L);
+	PushString(L, value);
+	PushBool(L, isModified);
 
-	return 1;
+	return 2;
 }
 
 int ImLua::ImLua::lua_DragFloat(lua_State *L)
@@ -267,12 +320,10 @@ int ImLua::ImLua::lua_DragFloat(lua_State *L)
 	bool isModified = ImGui::DragFloat(label.c_str(), &value, vSpeed, vMin, vMax, format.c_str());
 
 	// Return result
-	if (isModified)
-		PushFloat(L, value);
-	else
-		lua_pushnil(L);
+	PushFloat(L, value);
+	PushBool(L, isModified);
 
-	return 1;
+	return 2;
 }
 
 int ImLua::ImLua::lua_Button(lua_State *L)
@@ -326,10 +377,10 @@ int ImLua::ImLua::lua_Checkbox(lua_State *L)
 	bool pressed = ImGui::Checkbox(label.c_str(), &value);
 
 	// Return result
-	PushBool(L, pressed);
 	PushBool(L, value);
+	PushBool(L, pressed);
 
-	return 1;
+	return 2;
 }
 
 int ImLua::ImLua::lua_RadioButton(lua_State *L)
@@ -381,10 +432,10 @@ int ImLua::ImLua::lua_RadioButtonInt(lua_State *L)
 	bool pressed = ImGui::RadioButton(label.c_str(), &v, v_button);
 
 	// Return result
-	PushBool(L, pressed);
 	PushInt(L, v);
+	PushBool(L, pressed);
 
-	return 1;
+	return 2;
 }
 
 int ImLua::ImLua::lua_SliderFloat(lua_State *L)
@@ -425,10 +476,380 @@ int ImLua::ImLua::lua_SliderFloat(lua_State *L)
 	bool isModified = ImGui::SliderFloat(label.c_str(), &value, vMin, vMax, format.c_str());
 
 	// Return result
-	if (isModified)
-		PushFloat(L, value);
-	else
-		lua_pushnil(L);
+	PushFloat(L, value);
+	PushBool(L, isModified);
 
-	return 1;
+	return 2;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+int ImLua::ImLua::lua_SliderAngle(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_SliderInt(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_InputInt(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_ColorEdit4(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_ColorPicker4(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_ColorButton(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_ProgressBar(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_Image(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_TreeNode(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_TreePop(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_CollapsingHeader(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_BeginCombo(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_EndCombo(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_BeginChild(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_EndChild(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_BeginGroup(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_EndGroup(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_PushID(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_PopID(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_BeginTooltip(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_EndTooltip(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_BeginPopup(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_BeginPopupModal(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_EndPopup(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_BeginTable(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_EndTable(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_TableNextRow(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_TableNextColumn(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_TableSetColumnIndex(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_SameLine(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_NewLine(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_Spacing(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_Dummy(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_Indent(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_Unindent(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_SetNextItemWidth(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_CalcItemWidth(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_GetCursorScreenPos(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_SetCursorScreenPos(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_GetCursorPos(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_SetCursorPos(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_GetWindowPos(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_GetWindowSize(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_SetWindowPos(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_SetWindowSize(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_IsItemHovered(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_IsItemActive(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_IsItemFocused(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_IsItemClicked(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_IsItemVisible(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_IsItemEdited(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_IsItemActivated(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_IsItemToggledOpen(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_GetItemID(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_GetItemRectMin(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_GetItemRectMax(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_GetItemRectSize(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_CalcTextSize(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_GetClipboardText(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_SetClipboardText(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
 }

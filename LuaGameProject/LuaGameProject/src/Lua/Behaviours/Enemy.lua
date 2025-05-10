@@ -78,18 +78,8 @@ function enemy:OnGUI()
 	imgui.Text("Hello! \nThis text is created from Lua.")
 	imgui.Text("See ImLua.h for supported functions.")
 
-	if enemy.dragFloat == nil then 
-		enemy.dragFloat = 1.0 
-	end
+	self.speed, _ = imgui.DragFloat("Speed", self.speed, 0.2, 0.0, 1000.0)
 
-	local newVal = nil
-	newVal = imgui.DragFloat("Lua DragFloat", enemy.dragFloat, 0.01, -1.0, 1.0)
-
-	if newVal ~= nil then
-		enemy.dragFloat = newVal
-	end
-
-	
 	imgui.Separator("Wow, a Lua separator!")
 
 	tracy.ZoneEnd()

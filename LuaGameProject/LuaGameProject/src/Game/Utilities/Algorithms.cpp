@@ -66,7 +66,7 @@ std::vector<Triangle> BowyerWatson(const std::vector<Point> &points)
                     polygon.push_back(edge);
             }
 
-        for (int i = badTriangles.size()-1; i >= 0; i--)
+        for (int i = (int)badTriangles.size()-1; i >= 0; i--)
             triangles.erase(std::remove(triangles.begin(), triangles.end(), badTriangles[i]), triangles.end());
 
                         
@@ -95,7 +95,7 @@ std::vector<int> Prim(const std::vector<std::vector<float>> &graph)
     const unsigned int n = graph.size();
 	std::vector<int> res;
 
-	int no_edge = 0;
+	unsigned int no_edge = 0;
     std::vector<bool> selected(n, false);
 
 	selected[0] = true;
@@ -107,36 +107,36 @@ std::vector<int> Prim(const std::vector<std::vector<float>> &graph)
 		x = 0;
 		y = 0;
 
-		for (int i = 0; i < n; i++)
+		for (unsigned int i = 0; i < n; i++)
 			if (selected[i])
-				for (int j = 0; j < n; j++)
+				for (unsigned int j = 0; j < n; j++)
 					if (!selected[j])
-						if (min > graph[i][j])
+						if (min > (int)graph[i][j])
 						{
-							min = graph[i][j];
-							x = i;
-							y = j;
+							min = (int)graph[i][j];
+							x = (int)i;
+							y = (int)j;
 						}
 
 		selected[y] = true;
 		no_edge++;
 	}
 
-	for (int i = 0; i < n; i++)
+	for (unsigned int i = 0; i < n; i++)
 		if (selected[i])
-			res.push_back(i);
+			res.push_back((int)i);
 
 	return res;
 }
 
-int UnionFind(int u, std::vector<int> &parent)
+static int UnionFind(int u, std::vector<int> &parent)
 {
     if (parent[u] != u)
         parent[u] = UnionFind(parent[u], parent);
     return parent[u];
 }
 
-bool UnionUnite(int u, int v, std::vector<int> &parent, std::vector<int> &rank)
+static bool UnionUnite(int u, int v, std::vector<int> &parent, std::vector<int> &rank)
 {
     int pu = UnionFind(u, parent), pv = UnionFind(v, parent);
     if (pu == pv)

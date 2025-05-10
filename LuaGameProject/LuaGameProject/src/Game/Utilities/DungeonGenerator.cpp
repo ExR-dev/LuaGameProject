@@ -226,7 +226,7 @@ void DungeonGenerator::GenerateGraph()
 	_graph = Kruskal(_graph);
 
 	// Add some of the removed lines back
-	const float addBackRate = 0.15;
+	const float addBackRate = 0.15f;
 	for (int i = 0; i < oldGraph.size(); i++)
 		if (std::find(_graph.begin(), _graph.end(), oldGraph[i]) == _graph.end())
 			if (Random01f() < addBackRate)

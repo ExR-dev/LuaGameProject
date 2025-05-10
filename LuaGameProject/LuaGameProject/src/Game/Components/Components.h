@@ -61,10 +61,9 @@ namespace ECS
 	struct Behaviour
 	{
 	public:
-		static constexpr int SCRIPT_PATH_LENGTH = 65;
+		static constexpr int SCRIPT_PATH_LENGTH = 78;
 		char ScriptPath[SCRIPT_PATH_LENGTH];
 		int LuaRef;
-
 
 		// Create a constructor in order to initialize the char array
 		Behaviour(const char *path, int entity, lua_State *L) : m_refState(L), m_entity(entity)
@@ -442,7 +441,7 @@ namespace ECS
 
 		Sprite() : Priority(0)
 		{
-			memset(Color, 1.0f, sizeof(float) * 4);
+			memset(Color, (int)1.0f, sizeof(float) * 4);
 
 			memset(SpriteName, '\0', SPRITE_NAME_LENGTH);
 		}
@@ -685,11 +684,11 @@ namespace ECS
 			if (lua_istable(L, -1))
 			{
 				lua_getfield(L, -1, "x");
-				Size[0] = (float)lua_tonumber(L, -1);
+				Size[0] = (int)lua_tonumber(L, -1);
 				lua_pop(L, 1);
 
 				lua_getfield(L, -1, "y");
-				Size[1] = (float)lua_tonumber(L, -1);
+				Size[1] = (int)lua_tonumber(L, -1);
 				lua_pop(L, 1);
 			}
 			lua_pop(L, 1); // Pop Size table

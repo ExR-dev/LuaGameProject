@@ -296,6 +296,8 @@ int Scene::lua_SetComponent(lua_State *L)
 		scene->SetComponent<ECS::CameraData>(entity, cameraData);
 		return 1;
 	}
+
+	return 0;
 }
 
 int Scene::lua_GetEntityCount(lua_State *L)
