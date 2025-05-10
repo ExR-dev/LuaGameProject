@@ -7,5 +7,6 @@
 #define LUA_DEBUG
 
 #undef TRACY_ENABLE
-//#define TRACY_VERBOSE
-//#define TRACY_MEMORY
+#ifdef TRACY_ENABLE
+	#define TRACY_MEMORY
+#endif

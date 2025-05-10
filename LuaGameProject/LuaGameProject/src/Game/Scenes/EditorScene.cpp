@@ -31,11 +31,12 @@ EditorScene::EditorScene::~EditorScene()
 	}
 }
 
-int EditorScene::EditorScene::Start(WindowInfo *windowInfo)
+int EditorScene::EditorScene::Start(WindowInfo *windowInfo, CmdState *cmdState)
 {
 	ZoneScopedC(RandomUniqueColor());
 
 	m_windowInfo = windowInfo;
+	m_cmdState = cmdState;
 	m_renderTexture = raylib::RenderTexture(m_windowInfo->p_screenWidth, m_windowInfo->p_screenHeight);
 
 	// Setup Box2D
@@ -80,9 +81,31 @@ Game::SceneState EditorScene::EditorScene::Loop()
 {
 	ZoneScopedC(RandomUniqueColor());
 
-	auto state = Update();
+#if defined(LUA_DEBUG) && !defined(LEAK_DETECTION)
+	if (Game::Game::Instance().CmdStepMode)
+	{
+		if (Game::Game::Instance().CmdTakeSteps > 0)
+		{
+			Game::Game::Instance().CmdTakeSteps--;
+		}
+		else
+		{
+			ExecuteCommandList(L, m_cmdState, m_scene.GetRegistry());
+			Windows::SleepW(16);
+			return Game::SceneState::None;
+		}
+	}
+#endif
+
+	Game::SceneState state = Game::SceneState::None;
+	if (m_sceneUpdateMode != SceneUpdateMode::Paused)
+		state = Update();
 
 	Render();
+
+#ifndef LEAK_DETECTION
+	ExecuteCommandList(L, m_cmdState, m_scene.GetRegistry());
+#endif
 
 	return state;
 }
@@ -108,13 +131,29 @@ Game::SceneState EditorScene::EditorScene::Update()
 {
 	ZoneScopedC(RandomUniqueColor());
 
-	if (Input::CheckKeyPressed(Input::GAME_KEY_R))
+	auto mInfo = Input::GetMouseInfo();
+	if (IsWithinSceneView(mInfo.position))
 	{
-		m_camera.zoom = 1.0f;
+		if (Input::CheckKeyPressed(Input::GAME_KEY_R))
+		{
+			m_camera.zoom = 1.0f;
+		}
+
+		if (mInfo.scroll != 0.0f)
+		{
+			if (mInfo.scroll > 0.0f)
+				m_camera.zoom *= (1.0f + 0.1f * mInfo.scroll);
+			else
+				m_camera.zoom /= (1.0f - 0.1f * mInfo.scroll);
+		}
 	}
 
 	// Update systems
-	m_scene.SystemsOnUpdate(Time::DeltaTime());
+	float dTime = 0.0f;
+	if (m_sceneUpdateMode >= SceneUpdateMode::Running)
+		dTime = Time::DeltaTime();
+
+	m_scene.SystemsOnUpdate(dTime);
 
 	// Update Physics
 	m_physicsHandler.Update(L, &m_scene);
@@ -206,12 +245,12 @@ int EditorScene::EditorScene::Render()
 
 					if (textureName != "")
 					{
-						texture = ResourceManager::Instance().GetTextureResource(textureName);
+						texture = ResourceManager::GetTextureResource(textureName);
 
 						if (!texture)
 						{
-							ResourceManager::Instance().LoadTextureResource(textureName);
-							texture = ResourceManager::Instance().GetTextureResource(textureName);
+							ResourceManager::LoadTextureResource(textureName);
+							texture = ResourceManager::GetTextureResource(textureName);
 						}
 					}
 
@@ -335,8 +374,8 @@ int EditorScene::EditorScene::RenderUI()
 			viewFlags |= ImGuiWindowFlags_NoScrollbar;
 
 			int stylesPushed = 0;
-			ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0)); stylesPushed++;
-			ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0); stylesPushed++;
+			stylesPushed++; ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
+			stylesPushed++; ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0);
 
 			if (ImGui::Begin("View##RenderTextureWindow", &m_sceneViewOpen, viewFlags))
 			{
@@ -391,13 +430,59 @@ int EditorScene::EditorScene::RenderUI()
 				int fps = GetFPS();
 				ImGui::SetCursorPos(imGuiWindowContentRegionMin + ImVec2(8, 8));
 				ImGui::Text("FPS: %d", fps);
+
+				// Draw Play/Freeze/Pause buttons
+				{
+					int styleVars = 0, styleCols = 0;
+					styleVars++; ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(-1, -1));
+					styleCols++; ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1, 1, 1, 0.15f));
+					styleCols++; ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0, 0, 0, 0.1f));
+					styleCols++; ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0, 0, 0, 0.3f));
+
+					ImVec2 buttonsMid = imGuiWindowContentRegionMin + ImVec2(sceneViewSize.x * 0.5f, 16.0f);
+					ImVec2 buttonSize = ImVec2(32, 32);
+					int buttonSpacing = 48;
+
+					// Play
+					ImGui::SetCursorPos(buttonsMid + ImVec2(-buttonSpacing, 0));
+					if (ImGui::ImageButton("##PlayButton",
+						(ImTextureID)ResourceManager::GetTextureResource("PlayIcon.png")->id,
+						buttonSize, ImVec2(0, 0), ImVec2(1, 1), ImVec4(0, 0, 0, 0),
+						(m_sceneUpdateMode == SceneUpdateMode::Running) ? ImVec4(.5f, .5f, .5f, 1.f) : ImVec4(1, 1, 1, 1)
+					))
+					{
+						m_sceneUpdateMode = SceneUpdateMode::Running;
+					}
+
+					// Freeze
+					ImGui::SetCursorPos(buttonsMid);
+					if (ImGui::ImageButton("##FreezeButton",
+						(ImTextureID)ResourceManager::GetTextureResource("FreezeIcon.png")->id,
+						buttonSize, ImVec2(0, 0), ImVec2(1, 1), ImVec4(0, 0, 0, 0),
+						(m_sceneUpdateMode == SceneUpdateMode::Frozen) ? ImVec4(.5f, .5f, .5f, 1.f) : ImVec4(1, 1, 1, 1)
+					))
+					{
+						m_sceneUpdateMode = SceneUpdateMode::Frozen;
+					}
+
+					// Pause
+					ImGui::SetCursorPos(buttonsMid + ImVec2(buttonSpacing, 0));
+					if (ImGui::ImageButton("##PauseButton",
+						(ImTextureID)ResourceManager::GetTextureResource("PauseIcon.png")->id,
+						buttonSize, ImVec2(0, 0), ImVec2(1, 1), ImVec4(0, 0, 0, 0),
+						(m_sceneUpdateMode == SceneUpdateMode::Paused) ? ImVec4(.5f, .5f, .5f, 1.f) : ImVec4(1, 1, 1, 1)
+					))
+					{
+						m_sceneUpdateMode = SceneUpdateMode::Paused;
+					}
+					ImGui::PopStyleColor(styleCols);
+					ImGui::PopStyleVar(styleVars);
+				}
 			}
 
 			ImGui::End();
 			ImGui::PopStyleVar(stylesPushed);
 		}
-
-		static int selectedEntity = -1;
 
 		if (ImGui::Begin("Scene Hierarchy"))
 		{
@@ -418,8 +503,8 @@ int EditorScene::EditorScene::RenderUI()
 					ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
 
 					const int id = static_cast<int>(entity);
-					if (ImGui::Selectable(std::format("Entity {}", id).c_str(), (id == selectedEntity)))
-						selectedEntity = id;
+					if (ImGui::Selectable(std::format("Entity {}", id).c_str(), (id == m_selectedEntity)))
+						m_selectedEntity = id;
 				});
 			};
 
@@ -430,22 +515,22 @@ int EditorScene::EditorScene::RenderUI()
 
 		if (ImGui::Begin("Entity Editor"))
 		{
-			if (m_scene.IsEntity(selectedEntity))
+			if (m_scene.IsEntity(m_selectedEntity))
 			{
-				if (m_scene.HasComponents<ECS::Active>(selectedEntity))
-					m_scene.GetComponent<ECS::Active>(selectedEntity).RenderUI();
+				if (m_scene.HasComponents<ECS::Active>(m_selectedEntity))
+					m_scene.GetComponent<ECS::Active>(m_selectedEntity).RenderUI();
 
-				if (m_scene.HasComponents<ECS::Transform>(selectedEntity))
-					m_scene.GetComponent<ECS::Transform>(selectedEntity).RenderUI();
+				if (m_scene.HasComponents<ECS::Transform>(m_selectedEntity))
+					m_scene.GetComponent<ECS::Transform>(m_selectedEntity).RenderUI();
 
-				if (m_scene.HasComponents<ECS::Collider>(selectedEntity))
-					m_scene.GetComponent<ECS::Collider>(selectedEntity).RenderUI();
+				if (m_scene.HasComponents<ECS::Collider>(m_selectedEntity))
+					m_scene.GetComponent<ECS::Collider>(m_selectedEntity).RenderUI();
 
-				if (m_scene.HasComponents<ECS::Sprite>(selectedEntity))
-					m_scene.GetComponent<ECS::Sprite>(selectedEntity).RenderUI();
+				if (m_scene.HasComponents<ECS::Sprite>(m_selectedEntity))
+					m_scene.GetComponent<ECS::Sprite>(m_selectedEntity).RenderUI();
 
-				if (m_scene.HasComponents<ECS::Behaviour>(selectedEntity))
-					m_scene.GetComponent<ECS::Behaviour>(selectedEntity).RenderUI();
+				if (m_scene.HasComponents<ECS::Behaviour>(m_selectedEntity))
+					m_scene.GetComponent<ECS::Behaviour>(m_selectedEntity).RenderUI();
 
 				std::string items[] = { "Collider", "Sprite", "Behaviour" };
 
@@ -457,13 +542,13 @@ int EditorScene::EditorScene::RenderUI()
 						if (ImGui::Selectable(current.c_str()))
 						{
 							if (current == "Collider")
-								m_scene.SetComponent<ECS::Collider>(selectedEntity, ECS::Collider());
+								m_scene.SetComponent<ECS::Collider>(m_selectedEntity, ECS::Collider());
 							else if (current == "Behaviour")
-								m_scene.SetComponent<ECS::Behaviour>(selectedEntity, ECS::Behaviour("Behaviours/Enemy", selectedEntity, L));
+								m_scene.SetComponent<ECS::Behaviour>(m_selectedEntity, ECS::Behaviour("Behaviours/Enemy", m_selectedEntity, L));
 							else if (current == "Sprite")
 							{
 								const float color[4]{ 0, 0, 0, 1 };
-								m_scene.SetComponent<ECS::Sprite>(selectedEntity, ECS::Sprite("\0", color, 0));
+								m_scene.SetComponent<ECS::Sprite>(m_selectedEntity, ECS::Sprite("\0", color, 0));
 							}
 						}
 					}
@@ -482,6 +567,7 @@ int EditorScene::EditorScene::RenderUI()
 	rlImGuiEnd();
 	return 1;
 }
+
 
 raylib::Vector2 EditorScene::EditorScene::ScreenToWorldPos(const raylib::Vector2 &pos) const
 {

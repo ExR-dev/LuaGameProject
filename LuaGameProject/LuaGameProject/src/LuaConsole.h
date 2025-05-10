@@ -5,5 +5,11 @@
 #include <string>
 #include "dep/EnTT/entt.hpp"
 
-void ConsoleThreadFunction(std::string *cmdList, std::atomic_bool *pauseCmdInput);
-void ExecuteCommandList(lua_State *L, std::string *cmdList, std::atomic_bool *pauseCmdInput, const entt::registry &reg);
+struct CmdState
+{
+    std::string cmdInput = "";
+    std::atomic_bool pauseCmdInput = false;
+};
+
+void ConsoleThreadFunction(CmdState *cmdState);
+void ExecuteCommandList(lua_State *L, CmdState *cmdState, const entt::registry &reg);

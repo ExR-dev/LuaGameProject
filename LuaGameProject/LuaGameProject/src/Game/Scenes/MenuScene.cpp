@@ -55,11 +55,12 @@ void MenuScene::MenuButton::Render()
 }
 
 
-int MenuScene::MenuScene::Start(WindowInfo *windowInfo)
+int MenuScene::MenuScene::Start(WindowInfo *windowInfo, CmdState *cmdState)
 {
     ZoneScopedC(RandomUniqueColor());
 
 	m_windowInfo = windowInfo;
+    m_cmdState = cmdState;
 
     m_camera.target = raylib::Vector2(0, 0);
     //m_camera.offset = raylib::Vector2(m_windowInfo->p_screenWidth / 2.0f, m_windowInfo->p_screenHeight / 2.0f);

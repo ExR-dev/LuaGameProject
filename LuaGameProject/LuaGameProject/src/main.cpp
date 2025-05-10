@@ -11,10 +11,7 @@
 #define new			DEBUG_NEW
 #endif
 
-//------------------------------------------------------------------------------------
-// Program main entry point
-//------------------------------------------------------------------------------------
-int main()
+static int init(WindowInfo &windowInfo, CmdState &cmdState)
 {
     ZoneScopedC(RandomUniqueColor());
 
@@ -25,10 +22,10 @@ int main()
 #endif
 
 	srand(time(NULL));
-
 	SetTraceLogLevel(LOG_WARNING);
 
-    WindowInfo windowInfo;
+	// This warns that transparency must be set before window initialization.
+	// Should not be a problem, as the window is clearly not created yet.
     SetWindowState(FLAG_WINDOW_RESIZABLE | FLAG_WINDOW_TRANSPARENT);
 
     InitWindow(windowInfo.p_screenWidth, windowInfo.p_screenHeight, "Lua Game");
@@ -37,20 +34,44 @@ int main()
 
     Time::Instance();
     ResourceManager::Instance().LoadResources();
-    SetTargetFPS(144);
+    //SetTargetFPS(144);
 
 #ifdef IMGUI_HAS_DOCK
-    ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-    ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+    auto &io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 #endif
+    
+	// Threads do not work with windows leak detection, so we disable it
+#ifndef LEAK_DETECTION 
+    // Start Lua console thread
+    std::thread consoleThread(ConsoleThreadFunction, &cmdState);
+    consoleThread.detach();
+    std::this_thread::sleep_for(std::chrono::milliseconds(50)); // Wait for the console thread to start
+#endif
+
+    return 0;
+}
+
+//------------------------------------------------------------------------------------
+// Program main entry point
+//------------------------------------------------------------------------------------
+int main()
+{
+    ZoneScopedC(RandomUniqueColor());
+
+    WindowInfo windowInfo;
+    CmdState cmdState;
+
+	init(windowInfo, cmdState);
 
 	std::unique_ptr<MenuScene::MenuScene> menuScene = std::make_unique<MenuScene::MenuScene>();
     std::unique_ptr<EditorScene::EditorScene> editorScene = std::make_unique<EditorScene::EditorScene>();
     std::unique_ptr<GameScene::GameScene>  gameScene = std::make_unique<GameScene::GameScene>();
 
-    menuScene->Start(&windowInfo);
-    editorScene->Start(&windowInfo);
-    gameScene->Start(&windowInfo);
+    menuScene->Start(&windowInfo, &cmdState);
+    editorScene->Start(&windowInfo, &cmdState);
+    gameScene->Start(&windowInfo, &cmdState);
 
 	SceneTemplate::SceneTemplate *currentScene = static_cast<SceneTemplate::SceneTemplate*>(menuScene.get());
     Game::SceneState sceneState = Game::SceneState::InMenu;
@@ -112,7 +133,7 @@ int main()
 
             gameScene = nullptr;
 			gameScene = std::make_unique<GameScene::GameScene>();
-            gameScene->Start(&windowInfo);
+            gameScene->Start(&windowInfo, &cmdState);
 
             if (!currentScene)
 				currentScene = gameScene.get();
@@ -126,7 +147,7 @@ int main()
 
             editorScene = nullptr;
             editorScene = std::make_unique<EditorScene::EditorScene>();
-            editorScene->Start(&windowInfo);
+            editorScene->Start(&windowInfo, &cmdState);
 
             if (!currentScene)
 				currentScene = editorScene.get();

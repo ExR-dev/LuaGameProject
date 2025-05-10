@@ -15,7 +15,7 @@ namespace EditorScene
 		EditorScene();
 		~EditorScene();
 
-		int Start(WindowInfo *windowInfo) override;
+		int Start(WindowInfo *windowInfo, CmdState *cmdState) override;
 		Game::SceneState Loop() override;
 
 		void OnSwitchToScene() override;
@@ -31,13 +31,28 @@ namespace EditorScene
 		LuaGame::LuaGame m_luaGame;
 		PhysicsHandler m_physicsHandler;
 
+		enum SceneUpdateMode {
+			Paused, // No updates
+			Frozen, // Updates with delta time set to 0
+			Running // Normal updates
+		} m_sceneUpdateMode = Paused;
+
 		raylib::RenderTexture m_renderTexture;
 
 		bool m_sceneViewOpen = true;
 		raylib::Rectangle m_sceneViewRect{};
 
-		int RenderUI();
+		enum EditorMode { // TODO: Implement
+			Sandbox, // Spawn entities to see their interactions
+			PresetCreator, // weapons, ammo, enemies, etc
+			PrefabCreator, // entities/groups of entities
+			LevelCreator
+		} m_editorMode = Sandbox;
 
+		int m_selectedEntity = -1;
+
+
+		int RenderUI();
 
 		raylib::Vector2 ScreenToWorldPos(const raylib::Vector2 &pos) const;
 		bool IsWithinSceneView(const raylib::Vector2 &pos) const;

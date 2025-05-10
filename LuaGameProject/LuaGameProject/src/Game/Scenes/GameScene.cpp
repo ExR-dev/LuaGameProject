@@ -37,11 +37,12 @@ GameScene::GameScene::~GameScene()
 	}
 }
 
-int GameScene::GameScene::Start(WindowInfo *windowInfo)
+int GameScene::GameScene::Start(WindowInfo *windowInfo, CmdState *cmdState)
 {
     ZoneScopedC(RandomUniqueColor());
 
 	m_windowInfo = windowInfo;
+	m_cmdState = cmdState;
 
     // Setup Box2D
     m_physicsHandler.Setup();
@@ -80,14 +81,6 @@ int GameScene::GameScene::Start(WindowInfo *windowInfo)
     std::string luaScriptPath = std::format("{}/{}?{}", fs::current_path().generic_string(), FILE_PATH, FILE_EXT);
     LuaDoString(std::format("package.path = \"{};\" .. package.path", luaScriptPath).c_str());
 
-    // Start Lua console thread
-#ifndef LEAK_DETECTION
-    m_cmdList.clear();
-    std::thread consoleThread(ConsoleThreadFunction, &m_cmdList, &m_pauseCmdInput);
-    consoleThread.detach();
-    std::this_thread::sleep_for(std::chrono::milliseconds(50)); // Wait for the console thread to start
-#endif
-
     // Initialize Lua data & mods
     ModLoader::LuaLoadData(L, DATA_PATH);
 	ModLoader::LuaLoadMods(L, MOD_PATH);
@@ -112,7 +105,7 @@ Game::SceneState GameScene::GameScene::Loop()
 		}
 		else
 		{
-            ExecuteCommandList(L, &m_cmdList, &m_pauseCmdInput, m_scene.GetRegistry());
+            ExecuteCommandList(L, m_cmdState, m_scene.GetRegistry());
             Windows::SleepW(16);
             return Game::SceneState::None;
 		}
@@ -124,7 +117,7 @@ Game::SceneState GameScene::GameScene::Loop()
 	Render();
 
 #ifndef LEAK_DETECTION
-	ExecuteCommandList(L, &m_cmdList, &m_pauseCmdInput, m_scene.GetRegistry());
+	ExecuteCommandList(L, m_cmdState, m_scene.GetRegistry());
 #endif
 
     return state;

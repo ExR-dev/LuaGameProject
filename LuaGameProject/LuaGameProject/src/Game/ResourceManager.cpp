@@ -50,8 +50,8 @@ void ResourceManager::LoadResources()
 {
 	ZoneScopedC(RandomUniqueColor());
 
-	m_textures.clear();
-	m_sounds.clear();
+	Instance().m_textures.clear();
+	Instance().m_sounds.clear();
 
 	// Find all textures in the texture subfolder
 	std::vector<std::string> textureFiles;
@@ -94,8 +94,8 @@ void ResourceManager::UnloadResources()
 {
 	ZoneScopedC(RandomUniqueColor());
 
-	m_textures.clear();
-	m_sounds.clear();
+	Instance().m_textures.clear();
+	Instance().m_sounds.clear();
 }
 
 void ResourceManager::LoadTextureResource(const std::string &name)
@@ -121,7 +121,7 @@ void ResourceManager::LoadTextureResource(const std::string &name)
 		return;
 	}
 
-	m_textures.emplace(name, res);
+	Instance().m_textures.emplace(name, res);
 }
 
 void ResourceManager::LoadSoundResource(const std::string &name)
@@ -135,29 +135,29 @@ void ResourceManager::LoadSoundResource(const std::string &name)
 		return;
 	}
 
-	m_sounds.emplace(name, res);
+	Instance().m_sounds.emplace(name, res);
 }
 
 const raylib::Texture2D *ResourceManager::GetTextureResource(const std::string &name)
 {
-	return GetResourceFromMap(name, m_textures);
+	return GetResourceFromMap(name, Instance().m_textures);
 }
 
 std::vector<std::string> ResourceManager::GetTextureNames()
 {
 	std::vector<std::string> values;
-	values.reserve(m_textures.size());
-	for (auto &[k, v] : m_textures)
+	values.reserve(Instance().m_textures.size());
+	for (auto &[k, v] : Instance().m_textures)
 		values.push_back(k);
 	return values;
 }
 
 raylib::Sound *ResourceManager::GetSoundResource(const std::string &name)
 {
-	return GetResourceFromMap(name, m_sounds)->Pop();
+	return Instance().GetResourceFromMap(name, Instance().m_sounds)->Pop();
 }
 
-const std::string ResourceManager::GetSoundResourcePath(const std::string &name) const
+const std::string ResourceManager::GetSoundResourcePath(const std::string &name)
 {
 	return std::string(RESOURCE_PATH + SOUND_FOLDER + name);
 }

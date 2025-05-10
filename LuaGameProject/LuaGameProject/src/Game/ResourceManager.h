@@ -79,24 +79,24 @@ public:
 	}
 
 	// Load all resources in the resource folder
-	void LoadResources();
+	static void LoadResources();
 
-	void UnloadResources();
+	static void UnloadResources();
 
 	// Load a texture
-	void LoadTextureResource(const std::string &name);
+	static void LoadTextureResource(const std::string &name);
 
 	// Load a sound
-	void LoadSoundResource(const std::string &name);
+	static void LoadSoundResource(const std::string &name);
 
 	// Get a texture by name
-	const raylib::Texture2D *GetTextureResource(const std::string &name);
-	std::vector<std::string> GetTextureNames();
+	static const raylib::Texture2D *GetTextureResource(const std::string &name);
+	static std::vector<std::string> GetTextureNames();
 
 	// Get a sound by name
-	raylib::Sound *GetSoundResource(const std::string &name);
+	static raylib::Sound *GetSoundResource(const std::string &name);
 
-	const std::string GetSoundResourcePath(const std::string &name) const;
+	static const std::string GetSoundResourcePath(const std::string &name);
 
 private:
 	std::map<std::string, Resource::ManagedResource<raylib::Texture2D>> m_textures;

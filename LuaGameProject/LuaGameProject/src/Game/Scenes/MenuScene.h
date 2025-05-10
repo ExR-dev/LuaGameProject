@@ -35,7 +35,7 @@ namespace MenuScene
     public:
         MenuScene() = default;
 
-        int Start(WindowInfo *windowInfo) override;
+        int Start(WindowInfo *windowInfo, CmdState *cmdState) override;
         Game::SceneState Loop() override;
 
     protected:

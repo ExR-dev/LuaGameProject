@@ -60,7 +60,7 @@ static int PrintVector(lua_State *L)
 	return 0;
 }
 
-void ConsoleThreadFunction(std::string *cmdList, std::atomic_bool *pauseCmdInput)
+void ConsoleThreadFunction(CmdState *cmdState)
 {
 	std::cout << std::endl << std::format(
 		"To run a \"{}\" file located in \"{}\", begin your command with \"{}\" followed by the file name.", 
@@ -75,7 +75,7 @@ void ConsoleThreadFunction(std::string *cmdList, std::atomic_bool *pauseCmdInput
 	while (Windows::GetConsoleWindowW())
 	{
 		// Wait for the command list to be empty
-		while (pauseCmdInput->load())
+		while (cmdState->pauseCmdInput.load())
 			std::this_thread::sleep_for(std::chrono::milliseconds(50));
 
 		std::cout << "> ";
@@ -83,21 +83,21 @@ void ConsoleThreadFunction(std::string *cmdList, std::atomic_bool *pauseCmdInput
 
 		if (input != "")
 		{
-			*cmdList = input;
+			cmdState->cmdInput = input;
 
 			// Pause console input until the command list is executed
-			pauseCmdInput->store(true);
+			cmdState->pauseCmdInput.store(true);
 		}
 	}
 }
 
-void ExecuteCommandList(lua_State *L, std::string *cmdList, std::atomic_bool *pauseCmdInput, const entt::registry &reg)
+void ExecuteCommandList(lua_State *L, CmdState *cmdState, const entt::registry &reg)
 {
-	if (!pauseCmdInput->load())
+	if (!cmdState->pauseCmdInput.load())
 		return;
 
 	// Execute the command list
-	std::string &input = (*cmdList);
+	std::string &input = cmdState->cmdInput;
 
 	if (input == "Test" || input == "test") // Run all tests
 	{
@@ -161,7 +161,7 @@ void ExecuteCommandList(lua_State *L, std::string *cmdList, std::atomic_bool *pa
 	}
 
 	std::cout << std::endl;
-	*cmdList = "";
+	cmdState->cmdInput = "";
 	
-	pauseCmdInput->store(false); // Allow console input again
+	cmdState->pauseCmdInput.store(false); // Allow console input again
 }

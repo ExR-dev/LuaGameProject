@@ -2,7 +2,6 @@
 #include "dep/raylib-cpp/raylib-cpp.hpp"
 #include "../Scene.h"
 #include "SceneTemplate.h"
-#include <atomic>
 
 #include "../Utilities/WindowInfo.h"
 #include "../Utilities/LuaGame.h"
@@ -27,7 +26,7 @@ namespace GameScene
         GameScene();
         ~GameScene();
 
-        int Start(WindowInfo *windowInfo) override;
+        int Start(WindowInfo *windowInfo, CmdState *cmdState) override;
         Game::SceneState Loop() override;
 
 		void OnSwitchToScene() override;
@@ -51,9 +50,6 @@ namespace GameScene
         entt::entity m_cameraEntity = entt::null;
 		int m_cameraOption = 0;
 		std::function<void(void)> m_cameraUpdater;
-
-        std::string m_cmdList;
-        std::atomic_bool m_pauseCmdInput = false;
 
         PhysicsHandler m_physicsHandler;
 
