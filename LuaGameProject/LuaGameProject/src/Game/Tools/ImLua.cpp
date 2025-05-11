@@ -8,20 +8,29 @@ void ImLua::ImLua::lua_openimgui(lua_State *L)
 
 	lua_newtable(L);
 
+	// Not all are implemented yet, check function bodies
 	luaL_Reg methods[] = {
+		{ "Begin",					lua_Begin				},
+		{ "End",					lua_End					},
+		{ "BeginChild",				lua_BeginChild			},
+		{ "EndChild",				lua_EndChild			},
+		{ "BeginPopup",				lua_BeginPopup			},
+		{ "BeginPopupModal",		lua_BeginPopupModal		},
+		{ "EndPopup",				lua_EndPopup			},
 		{ "Separator",				lua_Separator			},
 		{ "Text",					lua_Text				},
 		{ "InputText",				lua_InputText			},
 		{ "DragFloat",				lua_DragFloat			},
+		{ "DragInt",				lua_DragInt				},
 		{ "Button",					lua_Button				},
 		{ "Checkbox",				lua_Checkbox			},
 		{ "RadioButton",			lua_RadioButton			},
 		{ "RadioButtonInt",			lua_RadioButtonInt		},
+		{ "InputFloat",				lua_InputFloat			},
 		{ "SliderFloat",			lua_SliderFloat			},
-
-		// Unimplemented
-		{ "SliderAngle",			lua_SliderAngle			},
+		{ "InputFloat2",			lua_InputFloat2			},
 		{ "SliderInt",				lua_SliderInt			},
+		{ "SliderAngle",			lua_SliderAngle			},
 		{ "InputInt",				lua_InputInt			},
 		{ "ColorEdit4",				lua_ColorEdit4			},
 		{ "ColorPicker4",			lua_ColorPicker4		},
@@ -33,17 +42,12 @@ void ImLua::ImLua::lua_openimgui(lua_State *L)
 		{ "CollapsingHeader",		lua_CollapsingHeader	},
 		{ "BeginCombo",				lua_BeginCombo			},
 		{ "EndCombo",				lua_EndCombo			},
-		{ "BeginChild",				lua_BeginChild			},
-		{ "EndChild",				lua_EndChild			},
 		{ "BeginGroup",				lua_BeginGroup			},
 		{ "EndGroup",				lua_EndGroup			},
 		{ "PushID",					lua_PushID				},
 		{ "PopID",					lua_PopID				},
 		{ "BeginTooltip",			lua_BeginTooltip		},
 		{ "EndTooltip",				lua_EndTooltip			},
-		{ "BeginPopup",				lua_BeginPopup			},
-		{ "BeginPopupModal",		lua_BeginPopupModal		},
-		{ "EndPopup",				lua_EndPopup			},
 		{ "BeginTable",				lua_BeginTable			},
 		{ "EndTable",				lua_EndTable			},
 		{ "TableNextRow",			lua_TableNextRow		},
@@ -211,6 +215,120 @@ void ImLua::ImLua::PushImVec4(lua_State *L, const ImVec4 &value)
 }
 
 
+
+int ImLua::ImLua::lua_Begin(lua_State *L)
+{
+	ZoneScopedC(RandomUniqueColor());
+	int idx = 1;
+
+	// Required
+	std::string label;
+	// Optional
+	bool value = true;
+	bool *valuePtr = (bool*)0;
+
+	// Get required parameters
+	if (!PopString(L, idx, label))
+		luaL_error(L, "Expected parameter string");
+
+	// Get optional parameters
+	if (PopBool(L, idx, value))
+		valuePtr = &value;
+
+	// Do ImGui command
+	bool isOpen = ImGui::Begin(label.c_str(), valuePtr);
+
+	// Return result
+	PushBool(L, isOpen);
+
+	return 1;
+}
+
+int ImLua::ImLua::lua_End(lua_State *L)
+{
+	ZoneScopedC(RandomUniqueColor());
+
+	ImGui::End();
+
+	return 0;
+}
+
+int ImLua::ImLua::lua_BeginChild(lua_State *L)
+{
+	ZoneScopedC(RandomUniqueColor());
+	int idx = 1;
+
+	// Required
+	std::string label;
+	// Optional
+	ImVec2 size = ImVec2(0, 0);
+
+	// Get required parameters
+	if (!PopString(L, idx, label))
+		luaL_error(L, "Expected parameter string");
+
+	// Get optional parameters
+	do
+	{
+		if (!PopImVec2(L, idx, size))
+			break;
+
+	} while (false);
+
+	// Do ImGui command
+	bool isOpen = ImGui::BeginChild(label.c_str(), size);
+
+	// Return result
+	PushBool(L, isOpen);
+
+	return 1;
+}
+
+int ImLua::ImLua::lua_EndChild(lua_State *L)
+{
+	ZoneScopedC(RandomUniqueColor());
+
+	ImGui::EndChild();
+
+	return 0;
+}
+
+int ImLua::ImLua::lua_BeginPopup(lua_State *L)
+{
+	ZoneScopedC(RandomUniqueColor());
+	int idx = 1;
+
+	// Required
+	std::string label;
+
+	// Get required parameters
+	if (!PopString(L, idx, label))
+		luaL_error(L, "Expected parameter string");
+
+	// Do ImGui command
+	bool isOpen = ImGui::BeginPopup(label.c_str());
+
+	// Return result
+	PushBool(L, isOpen);
+
+	return 1;
+}
+
+int ImLua::ImLua::lua_BeginPopupModal(lua_State *L)
+{
+	// TODO: Implement this function
+	return 0;
+}
+
+int ImLua::ImLua::lua_EndPopup(lua_State *L)
+{
+	ZoneScopedC(RandomUniqueColor());
+
+	ImGui::EndPopup();
+
+	return 0;
+}
+
 int ImLua::ImLua::lua_Separator(lua_State *L)
 {
 	ZoneScopedC(RandomUniqueColor());
@@ -321,6 +439,54 @@ int ImLua::ImLua::lua_DragFloat(lua_State *L)
 
 	// Return result
 	PushFloat(L, value);
+	PushBool(L, isModified);
+
+	return 2;
+}
+
+int ImLua::ImLua::lua_DragInt(lua_State *L)
+{
+	ZoneScopedC(RandomUniqueColor());
+	int idx = 1;
+
+	// Required
+	std::string label;
+	int value = 0;
+	// Optional
+	float vSpeed = 1.0f;
+	int vMin = 0;
+	int vMax = 0;
+	std::string format = "%d";
+
+	// Get required parameters
+	if (!PopString(L, idx, label))
+		luaL_error(L, "Expected parameter string");
+
+	if (!PopInt(L, idx, value))
+		luaL_error(L, "Expected parameter int");
+
+	// Get optional parameters
+	do
+	{
+		if (!PopFloat(L, idx, vSpeed))
+			break;
+
+		if (!PopInt(L, idx, vMin))
+			break;
+
+		if (!PopInt(L, idx, vMax))
+			break;
+
+		if (!PopString(L, idx, format))
+			break;
+
+	} while (false);
+
+	// Do ImGui command
+	bool isModified = ImGui::DragInt(label.c_str(), &value, vSpeed, vMin, vMax, format.c_str());
+
+	// Return result
+	PushInt(L, value);
 	PushBool(L, isModified);
 
 	return 2;
@@ -438,6 +604,50 @@ int ImLua::ImLua::lua_RadioButtonInt(lua_State *L)
 	return 2;
 }
 
+int ImLua::ImLua::lua_InputFloat(lua_State *L)
+{
+	ZoneScopedC(RandomUniqueColor());
+	int idx = 1;
+
+	// Required
+	std::string label;
+	float value = 0.0f;
+	// Optional
+	float step = 0.0f;
+	float step_fast = 0.0f;
+	std::string format = "%.3f";
+
+	// Get required parameters
+	if (!PopString(L, idx, label))
+		luaL_error(L, "Expected parameter string");
+
+	if (!PopFloat(L, idx, value))
+		luaL_error(L, "Expected parameter float");
+
+	// Get optional parameters
+	do
+	{
+		if (!PopFloat(L, idx, step))
+			break;
+
+		if (!PopFloat(L, idx, step_fast))
+			break;
+
+		if (!PopString(L, idx, format))
+			break;
+
+	} while (false);
+
+	// Do ImGui command
+	bool isModified = ImGui::InputFloat(label.c_str(), &value, step, step_fast, format.c_str());
+
+	// Return result
+	PushFloat(L, value);
+	PushBool(L, isModified);
+
+	return 2;
+}
+
 int ImLua::ImLua::lua_SliderFloat(lua_State *L)
 {
 	ZoneScopedC(RandomUniqueColor());
@@ -482,6 +692,126 @@ int ImLua::ImLua::lua_SliderFloat(lua_State *L)
 	return 2;
 }
 
+int ImLua::ImLua::lua_InputFloat2(lua_State *L)
+{
+	ZoneScopedC(RandomUniqueColor());
+	int idx = 1;
+
+	// Required
+	std::string label;
+	ImVec2 value;
+	// Optional
+	std::string format = "%.3f";
+
+	// Get required parameters
+	if (!PopString(L, idx, label))
+		luaL_error(L, "Expected parameter string");
+
+	if (!PopImVec2(L, idx, value))
+		luaL_error(L, "Expected parameter ImVec2");
+
+	// Get optional parameters
+	do
+	{
+		if (!PopString(L, idx, format))
+			break;
+
+	} while (false);
+
+	// Do ImGui command
+	bool isModified = ImGui::InputFloat2(label.c_str(), (float*)&value, format.c_str());
+
+	// Return result
+	PushImVec2(L, value);
+	PushBool(L, isModified);
+
+	return 2;
+}
+
+int ImLua::ImLua::lua_SliderInt(lua_State *L)
+{
+	ZoneScopedC(RandomUniqueColor());
+	int idx = 1;
+
+	// Required
+	std::string label;
+	int value = 0;
+	// Optional
+	int vMin = 0;
+	int vMax = 0;
+	std::string format = "%d";
+
+	// Get required parameters
+	if (!PopString(L, idx, label))
+		luaL_error(L, "Expected parameter string");
+
+	if (!PopInt(L, idx, value))
+		luaL_error(L, "Expected parameter int");
+
+	// Get optional parameters
+	do
+	{
+		if (!PopInt(L, idx, vMin))
+			break;
+
+		if (!PopInt(L, idx, vMax))
+			break;
+
+		if (!PopString(L, idx, format))
+			break;
+
+	} while (false);
+
+	// Do ImGui command
+	bool isModified = ImGui::SliderInt(label.c_str(), &value, vMin, vMax, format.c_str());
+
+	// Return result
+	PushInt(L, value);
+	PushBool(L, isModified);
+
+	return 2;
+}
+
+int ImLua::ImLua::lua_InputInt(lua_State *L)
+{
+	ZoneScopedC(RandomUniqueColor());
+	int idx = 1;
+
+	// Required
+	std::string label;
+	int value = 0;
+	// Optional
+	int step = 1;
+	int step_fast = 100;
+
+	// Get required parameters
+	if (!PopString(L, idx, label))
+		luaL_error(L, "Expected parameter string");
+
+	if (!PopInt(L, idx, value))
+		luaL_error(L, "Expected parameter int");
+
+	// Get optional parameters
+	do
+	{
+		if (!PopInt(L, idx, step))
+			break;
+
+		if (!PopInt(L, idx, step_fast))
+			break;
+
+	} while (false);
+
+	// Do ImGui command
+	bool isModified = ImGui::InputInt(label.c_str(), &value, step, step_fast);
+
+	// Return result
+	PushInt(L, value);
+	PushBool(L, isModified);
+
+	return 2;
+}
+
 
 
 
@@ -495,18 +825,6 @@ int ImLua::ImLua::lua_SliderFloat(lua_State *L)
 
 
 int ImLua::ImLua::lua_SliderAngle(lua_State *L)
-{
-	// TODO: Implement this function
-	return 0;
-}
-
-int ImLua::ImLua::lua_SliderInt(lua_State *L)
-{
-	// TODO: Implement this function
-	return 0;
-}
-
-int ImLua::ImLua::lua_InputInt(lua_State *L)
 {
 	// TODO: Implement this function
 	return 0;
@@ -572,18 +890,6 @@ int ImLua::ImLua::lua_EndCombo(lua_State *L)
 	return 0;
 }
 
-int ImLua::ImLua::lua_BeginChild(lua_State *L)
-{
-	// TODO: Implement this function
-	return 0;
-}
-
-int ImLua::ImLua::lua_EndChild(lua_State *L)
-{
-	// TODO: Implement this function
-	return 0;
-}
-
 int ImLua::ImLua::lua_BeginGroup(lua_State *L)
 {
 	// TODO: Implement this function
@@ -615,24 +921,6 @@ int ImLua::ImLua::lua_BeginTooltip(lua_State *L)
 }
 
 int ImLua::ImLua::lua_EndTooltip(lua_State *L)
-{
-	// TODO: Implement this function
-	return 0;
-}
-
-int ImLua::ImLua::lua_BeginPopup(lua_State *L)
-{
-	// TODO: Implement this function
-	return 0;
-}
-
-int ImLua::ImLua::lua_BeginPopupModal(lua_State *L)
-{
-	// TODO: Implement this function
-	return 0;
-}
-
-int ImLua::ImLua::lua_EndPopup(lua_State *L)
 {
 	// TODO: Implement this function
 	return 0;

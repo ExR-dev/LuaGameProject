@@ -102,7 +102,6 @@ void EditorScene::EditorScene::OnResizeWindow()
 		m_windowInfo->BindLuaWindow(m_editorModeScenes[i].get()->L);
 
 	m_renderTexture = raylib::RenderTexture(m_windowInfo->p_screenWidth, m_windowInfo->p_screenHeight);
-
 	m_camera.offset = raylib::Vector2(m_windowInfo->p_screenWidth / 2.0f, m_windowInfo->p_screenHeight / 2.0f);
 }
 #pragma endregion
@@ -334,48 +333,11 @@ int EditorScene::EditorScene::Render()
 #pragma endregion
 
 #pragma region Private
-void EditorScene::EditorScene::EditorModeScene::Init(WindowInfo *windowInfo, const std::string &name)
-{
-	// Setup Lua enviroment
-	L = luaL_newstate();
-	luaL_openlibs(L);
-	windowInfo->BindLuaWindow(L);
-
-	physicsHandler.Setup();
-
-	Scene::lua_openscene(L, &scene);
-
-	luaGame = LuaGame::LuaGame(L, &scene);
-	LuaGame::LuaGame::lua_opengame(L, &luaGame);
-
-	BindLuaInput(L);
-
-	// Add lua require path
-	std::string luaScriptPath = std::format("{}/{}?{}", fs::current_path().generic_string(), FILE_PATH, FILE_EXT);
-	LuaDoString(L, std::format("package.path = \"{};\" .. package.path", luaScriptPath).c_str());
-
-	// Initialize Lua data & mods
-	LoadData();
-
-	scene.SystemsInitialize(L);
-
-	LuaDoFileCleaned(L, LuaFilePath(std::format("Scenes/InitEditor{}Scene", name))); // Creates entities
-}
-
-void EditorScene::EditorScene::EditorModeScene::LoadData() const
-{
-	ModLoader::LuaLoadData(L, DATA_PATH);
-	ModLoader::LuaLoadMods(L, MOD_PATH);
-}
-
 int EditorScene::EditorScene::RenderUI()
 {
 	ZoneScopedC(RandomUniqueColor());
 
 	auto &modeScene = *(m_editorModeScenes[m_editorMode].get());
-	/*auto &physicsHandler = modeScene.physicsHandler;
-	auto &scene = modeScene.scene;
-	auto &L = modeScene.L;*/
 
 	rlImGuiBeginDelta(Time::DeltaTime());
 
@@ -494,6 +456,13 @@ int EditorScene::EditorScene::RenderUI()
 				}
 			}
 			ImGui::End();
+		}
+
+		if (m_editorMode == EditorMode::PresetCreator)
+		{
+			// HACK: for now, call weapon editor immediately
+			LuaDoFile(modeScene.L, LuaFilePath("Dev/WeaponEditorUI"));
+			//LuaDoFileCleaned(modeScene.L, LuaFilePath("Dev/WeaponEditorUI"));
 		}
 
 		// Render the render texture window
@@ -719,5 +688,38 @@ bool EditorScene::EditorScene::IsWithinSceneView(const raylib::Vector2 &pos) con
 	if (!m_sceneViewOpen)
 		return false;
 	return m_sceneViewRect.CheckCollision(pos);
+}
+
+void EditorScene::EditorScene::EditorModeScene::Init(WindowInfo *windowInfo, const std::string &name)
+{
+	// Setup Lua enviroment
+	L = luaL_newstate();
+	luaL_openlibs(L);
+	windowInfo->BindLuaWindow(L);
+
+	physicsHandler.Setup();
+
+	Scene::lua_openscene(L, &scene);
+
+	luaGame = LuaGame::LuaGame(L, &scene);
+	LuaGame::LuaGame::lua_opengame(L, &luaGame);
+
+	BindLuaInput(L);
+
+	// Add lua require path
+	std::string luaScriptPath = std::format("{}/{}?{}", fs::current_path().generic_string(), FILE_PATH, FILE_EXT);
+	LuaDoString(L, std::format("package.path = \"{};\" .. package.path", luaScriptPath).c_str());
+
+	// Initialize Lua data & mods
+	LoadData();
+
+	scene.SystemsInitialize(L);
+
+	LuaDoFileCleaned(L, LuaFilePath(std::format("Scenes/InitEditor{}Scene", name))); // Creates entities
+}
+void EditorScene::EditorScene::EditorModeScene::LoadData() const
+{
+	ModLoader::LuaLoadData(L, DATA_PATH);
+	ModLoader::LuaLoadMods(L, MOD_PATH);
 }
 #pragma endregion

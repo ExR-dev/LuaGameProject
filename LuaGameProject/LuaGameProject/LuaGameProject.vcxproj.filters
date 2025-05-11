@@ -406,6 +406,7 @@
     <None Include="src\Lua\Scenes\InitEditorPrefabCreatorScene.lua" />
     <None Include="src\Lua\Scenes\InitEditorPresetCreatorScene.lua" />
     <None Include="src\Lua\Scenes\InitEditorSandboxScene.lua" />
+    <None Include="src\Lua\Dev\WeaponEditorUI.lua" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="raylib.dll" />

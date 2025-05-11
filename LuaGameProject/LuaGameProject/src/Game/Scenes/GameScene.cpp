@@ -135,6 +135,8 @@ void GameScene::GameScene::OnResizeWindow()
     ZoneScopedC(RandomUniqueColor());
 
     m_windowInfo->BindLuaWindow(L);
+
+    m_camera.offset = raylib::Vector2(m_windowInfo->p_screenWidth / 2.0f, m_windowInfo->p_screenHeight / 2.0f);
 }
 
 Game::SceneState GameScene::GameScene::Update()
