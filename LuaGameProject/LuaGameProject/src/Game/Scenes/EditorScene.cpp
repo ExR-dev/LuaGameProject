@@ -381,7 +381,6 @@ int EditorScene::EditorScene::RenderUI()
 		{
 			if (ImGui::Begin("Scene Hierarchy"))
 			{
-
 				if (ImGui::Button("Create Entity"))
 				{
 					int id = modeScene.scene.CreateEntity();
@@ -404,7 +403,6 @@ int EditorScene::EditorScene::RenderUI()
 				};
 
 				modeScene.scene.RunSystem(renderEntityUI);
-
 			}
 			ImGui::End();
 

@@ -14,6 +14,8 @@ void ImLua::ImLua::lua_openimgui(lua_State *L)
 		{ "End",					lua_End					},
 		{ "BeginChild",				lua_BeginChild			},
 		{ "EndChild",				lua_EndChild			},
+		{ "OpenPopup",				lua_OpenPopup			},
+		{ "CloseCurrentPopup",		lua_CloseCurrentPopup	},
 		{ "BeginPopup",				lua_BeginPopup			},
 		{ "BeginPopupModal",		lua_BeginPopupModal		},
 		{ "EndPopup",				lua_EndPopup			},
@@ -289,6 +291,33 @@ int ImLua::ImLua::lua_EndChild(lua_State *L)
 	ZoneScopedC(RandomUniqueColor());
 
 	ImGui::EndChild();
+
+	return 0;
+}
+
+int ImLua::ImLua::lua_OpenPopup(lua_State *L)
+{
+	ZoneScopedC(RandomUniqueColor());
+	int idx = 1;
+
+	// Required
+	std::string label;
+
+	// Get required parameters
+	if (!PopString(L, idx, label))
+		luaL_error(L, "Expected parameter string");
+
+	// Do ImGui command
+	ImGui::OpenPopup(label.c_str());
+
+	return 0;
+}
+
+int ImLua::ImLua::lua_CloseCurrentPopup(lua_State *L)
+{
+	ZoneScopedC(RandomUniqueColor());
+
+	ImGui::CloseCurrentPopup();
 
 	return 0;
 }

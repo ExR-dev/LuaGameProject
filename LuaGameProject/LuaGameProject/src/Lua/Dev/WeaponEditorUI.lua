@@ -21,48 +21,48 @@ local function WeaponEditorUI()
 		-- Add a button for creating a new weapon
 		if imgui.Button("New Weapon##NewWeaponButton") then
 			data.dev.newWeaponName = ""
+			imgui.OpenPopup("New Weapon Name##NameWeaponPopup")
 		end
 
 		-- Open a popup to name the weapon
-		if data.dev.newWeaponName then
-			if imgui.BeginPopup("New Weapon Name##NameWeaponPopup") then
+		if imgui.BeginPopup("New Weapon Name##NameWeaponPopup") then
 
-				imgui.Text("Enter a name for the new weapon:")
-				data.dev.newWeaponName = imgui.InputText("##NewWeaponNameInput", data.dev.newWeaponName, 64)
+			imgui.Text("Enter a name for the new weapon:")
+			data.dev.newWeaponName = imgui.InputText("##NewWeaponNameInput", data.dev.newWeaponName, 64)
 			
-				if imgui.Button("Confirm Name") then
-					local newWeapon = {
-						[data.dev.newWeaponName] = {
+			if imgui.Button("Confirm Name") then
+				local newWeapon = {
+					[data.dev.newWeaponName] = {
 
-							sprite = nil,
-							width = 12,
-							length = 28,
+						sprite = nil,
+						width = 12,
+						length = 28,
 
-							stats = {
-								handCount = 1,
-								caliber = "9mm",
-								fireMode = "Semi",
-								capacity = 1,
-								damage = 0.0,
-								fireRate = 0.0,
-								reloadTime = 0.0,
-								spread = 0.0,
-								recoil = 0.0,
-								recovery = 6
-							}
-						},
-					}
+						stats = {
+							handCount = 1,
+							caliber = "9mm",
+							fireMode = "Semi",
+							capacity = 1,
+							damage = 0.0,
+							fireRate = 0.0,
+							reloadTime = 0.0,
+							spread = 0.0,
+							recoil = 0.0,
+							recovery = 6
+						}
+					},
+				}
 
-					-- Insert the weapon
-					data.modding.loadWeaponMod(newWeapon)
+				-- Insert the weapon
+				data.modding.loadWeaponMod(newWeapon)
 
-					-- Set the new weapon as the editing weapon
-					data.dev.editingWeapon = data.dev.newWeaponName
-					data.dev.newWeaponName = nil
-				end
-
-				imgui.EndPopup()
+				-- Set the new weapon as the editing weapon
+				data.dev.editingWeapon = data.dev.newWeaponName
+				data.dev.newWeaponName = nil
+				imgui.CloseCurrentPopup()
 			end
+
+			imgui.EndPopup()
 		end
 
 		imgui.End()

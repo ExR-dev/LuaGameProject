@@ -82,6 +82,14 @@ namespace ImLua
 		static int lua_EndChild(lua_State *L);
 
 		// Arguments: string str_id
+		// Returns: none
+		static int lua_OpenPopup(lua_State *L);
+
+		// Arguments: none
+		// Returns: none
+		static int lua_CloseCurrentPopup(lua_State *L);
+
+		// Arguments: string str_id
 		// Returns: bool isOpen
 		static int lua_BeginPopup(lua_State *L);
 
