@@ -2,6 +2,10 @@
 
 #include "InputHandler.h"
 
+#ifdef LEAK_DETECTION
+#define new			DEBUG_NEW
+#endif
+
 using namespace Input;
 
 KeyState keyStates[(int)GAME_KEY_COUNT];
@@ -205,6 +209,8 @@ std::string Input::GetUnicodeInput()
 
 void Input::UpdateInput()
 {
+	ZoneScopedC(RandomUniqueColor());
+
 	// Update key states
 	KeyState oldState;
 	for (int keyCode = 0; keyCode < (int)GAME_KEY_COUNT; keyCode++)

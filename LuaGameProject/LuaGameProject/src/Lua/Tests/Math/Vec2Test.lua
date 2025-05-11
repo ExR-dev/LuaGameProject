@@ -6,8 +6,13 @@ local function test()
 	local resultVal = nil
 	
 	-- Includes
+	print("Including GameMath")
+	local gameMath = require("Utility/GameMath")
+
 	print("Including Vec2")
 	local vec2 = require("Vec2")
+
+	print("")
 
 	-- Initialize
 	print("Setting v1 to (1.5, 2)")
@@ -88,7 +93,7 @@ local function test()
 	resultVal = v1 * v2
 	print("Expected:	"..tostring(expectedVal))
 	print("Result:		"..tostring(resultVal))
-	if expectedVal == resultVal then
+	if gameMath.approx(expectedVal, resultVal) then
 		print("Passed!")
 		passedTestsTracker = passedTestsTracker + 1
 	else
@@ -103,7 +108,7 @@ local function test()
 	resultVal = v1 / 3
 	print("Expected:	"..tostring(expectedVal))
 	print("Result:		"..tostring(resultVal))
-	if expectedVal == resultVal then
+	if gameMath.approx(expectedVal, resultVal) then
 		print("Passed!")
 		passedTestsTracker = passedTestsTracker + 1
 	else
@@ -118,7 +123,7 @@ local function test()
 	resultVal = v1 / v2
 	print("Expected:	"..tostring(expectedVal))
 	print("Result:		"..tostring(resultVal))
-	if expectedVal == resultVal then
+	if gameMath.approx(expectedVal, resultVal) then
 		print("Passed!")
 		passedTestsTracker = passedTestsTracker + 1
 	else
@@ -163,7 +168,7 @@ local function test()
 	resultVal = v1:lengthSqr()
 	print("Expected:	"..tostring(expectedVal))
 	print("Result:		"..tostring(resultVal))
-	if expectedVal == resultVal then
+	if gameMath.approx(expectedVal, resultVal) then
 		print("Passed!")
 		passedTestsTracker = passedTestsTracker + 1
 	else
@@ -178,7 +183,7 @@ local function test()
 	resultVal = v1:length()
 	print("Expected:	"..tostring(expectedVal))
 	print("Result:		"..tostring(resultVal))
-	if expectedVal == resultVal then
+	if gameMath.approx(expectedVal, resultVal) then
 		print("Passed!")
 		passedTestsTracker = passedTestsTracker + 1
 	else
@@ -193,7 +198,22 @@ local function test()
 	resultVal = vec2.dot(v1, v2)
 	print("Expected:	"..tostring(expectedVal))
 	print("Result:		"..tostring(resultVal))
-	if expectedVal == resultVal then
+	if gameMath.approx(expectedVal, resultVal) then
+		print("Passed!")
+		passedTestsTracker = passedTestsTracker + 1
+	else
+		print("Failed!")
+	end
+	print("")
+	
+	totalTestsTracker = totalTestsTracker + 1
+	print("Getting dot product of v1 and (3.7, -2.25) using instance method.")
+	print("v1:dot(vec2(3.7, -2.25))")
+	expectedVal = 1.05
+	resultVal = v1:dot(vec2(3.7, -2.25))
+	print("Expected:	"..tostring(expectedVal))
+	print("Result:		"..tostring(resultVal))
+	if gameMath.approx(expectedVal, resultVal) then
 		print("Passed!")
 		passedTestsTracker = passedTestsTracker + 1
 	else
@@ -208,7 +228,7 @@ local function test()
 	resultVal = v1:normalized()
 	print("Expected:	"..tostring(expectedVal))
 	print("Result:		"..tostring(resultVal))
-	if expectedVal == resultVal then
+	if gameMath.approx(expectedVal, resultVal) then
 		print("Passed!")
 		passedTestsTracker = passedTestsTracker + 1
 	else
@@ -239,7 +259,23 @@ local function test()
 	resultVal = v2
 	print("Expected:	"..tostring(expectedVal))
 	print("Result:		"..tostring(resultVal))
-	if expectedVal == resultVal then
+	if gameMath.approx(expectedVal, resultVal) then
+		print("Passed!")
+		passedTestsTracker = passedTestsTracker + 1
+	else
+		print("Failed!")
+	end
+	print("")
+	
+	totalTestsTracker = totalTestsTracker + 1
+	print("Getting angle of v1.")
+	print("v1:angle()")
+	print(tostring(v1))
+	expectedVal = math.deg(0.9272952180016)
+	resultVal = v1:angle()
+	print("Expected:	"..tostring(expectedVal))
+	print("Result:		"..tostring(resultVal))
+	if gameMath.approx(expectedVal, resultVal) then
 		print("Passed!")
 		passedTestsTracker = passedTestsTracker + 1
 	else

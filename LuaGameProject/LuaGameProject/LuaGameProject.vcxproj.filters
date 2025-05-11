@@ -27,7 +27,7 @@
     <ClCompile Include="src\LuaUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Game\main2D.cpp">
+    <ClCompile Include="src\Game\Scenes\GameScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Game\Utilities\DungeonGenerator.cpp">
@@ -58,6 +58,51 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Game\Utilities\LuaInput.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dep\tracy-0.11.1\public\TracyClient.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\ResourceManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Utilities\LuaGame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\PhysicsHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Scenes\MenuScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Scenes\EditorScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dep\imgui\rlImGui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dep\imgui\imgui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dep\imgui\imgui_demo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dep\imgui\imgui_draw.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dep\imgui\imgui_tables.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dep\imgui\imgui_widgets.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Utilities\ModLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Utilities\GameMath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Tools\ImLua.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -206,7 +251,7 @@
     <ClInclude Include="dep\raylib-cpp\Window.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Game\main2D.h">
+    <ClInclude Include="src\Game\Scenes\GameScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Game\Utilities\DungeonGenerator.h">
@@ -248,19 +293,118 @@
     <ClInclude Include="src\Game\Utilities\LuaInput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Game\EngineSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\ResourceManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Utilities\WindowInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Utilities\LuaGame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\PhysicsHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Scenes\MenuScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Scenes\EditorScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Scenes\SceneTemplate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\imgui\rlImGui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\imgui\rlImGuiColors.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\imgui\imgui_impl_raylib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\imgui\imconfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\imgui\imgui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\imgui\imgui_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\imgui\imstb_rectpack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\imgui\imstb_textedit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\imgui\imstb_truetype.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\imgui\extras\FA6FreeSolidFontData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dep\imgui\extras\IconsFontAwesome6.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Tools\DebugNew.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Utilities\ModLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Utilities\GameMath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Tools\ImLua.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\Lua\Script.lua" />
     <None Include="src\Lua\Transform3D.lua" />
     <None Include="src\Lua\Vector3D.lua" />
     <None Include="src\Lua\VectorDemo.lua" />
     <None Include="src\Lua\Vec2.lua" />
     <None Include="src\Lua\Transform2.lua" />
-    <None Include="src\Lua\Tests\Transform2Test.lua" />
-    <None Include="src\Lua\Tests\Vec2Test.lua" />
+    <None Include="src\Lua\Tests\Math\Transform2Test.lua" />
+    <None Include="src\Lua\Tests\Math\Vec2Test.lua" />
     <None Include="src\Lua\Components\Sprite.lua" />
     <None Include="src\Lua\InitDevScene.lua" />
     <None Include="src\Lua\Color.lua" />
     <None Include="src\Lua\Components\Health.lua" />
+    <None Include="src\Lua\Behaviours\Enemy.lua" />
+    <None Include="src\Lua\PrintTable.lua" />
+    <None Include="src\Lua\InputDemo.lua" />
+    <None Include="src\Lua\Cmd.lua" />
+    <None Include="src\Lua\Behaviours\Player.lua" />
+    <None Include="src\Lua\Components\CameraData.lua" />
+    <None Include="src\Lua\Behaviours\PlayerCamera.lua" />
+    <None Include="src\Lua\Utility\GameMath.lua" />
+    <None Include="src\Lua\Behaviours\Cursor.lua" />
+    <None Include="src\Lua\Tests\InputTest.lua" />
+    <None Include="src\Lua\Tests\Math\GameMathTest.lua" />
+    <None Include="src\Lua\Behaviours\Projectile.lua" />
+    <None Include="src\Lua\Components\HitboxCircle.lua" />
+    <None Include="src\Lua\Components\Active.lua" />
+    <None Include="src\Lua\Components\Tags.lua" />
+    <None Include="src\Lua\Behaviours\Weapon.lua" />
+    <None Include="src\Lua\Data\Ammo.lua" />
+    <None Include="src\Lua\Data.lua" />
+    <None Include="src\Lua\Data\Weapons.lua" />
+    <None Include="src\Lua\Utility\PrintEntity.lua" />
+    <None Include="src\Lua\InitEditorScene.lua" />
+    <None Include="src\Mods\GodGun.lua" />
+    <None Include="src\Lua\Utility\InitModData.lua" />
+    <None Include="src\Lua\Utility\ImLua.lua" />
+    <None Include="src\Lua\Behaviours\InputMovement.lua" />
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="raylib.dll" />
   </ItemGroup>
 </Project>

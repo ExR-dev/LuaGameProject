@@ -94,18 +94,22 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;TRACY_ENABLE;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(SolutionDir)LuaLib/src;$(ProjectDir);$(ProjectDir)pch;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)LuaLib/src;$(ProjectDir);$(ProjectDir)pch;$(SolutionDir)Box2D/src;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName)_d.pch</PrecompiledHeaderOutputFile>
+      <ForcedIncludeFiles>$(ProjectDir)src/Game/EngineSettings.h</ForcedIncludeFiles>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4267;4244;4006;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)LuaLib/lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>LuaLib_d.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)LuaLib/lib;$(SolutionDir)Box2D/lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>LuaLib_d.lib;box2d_d.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/IGNORE:4098 %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -114,37 +118,50 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;TRACY_ENABLE;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(SolutionDir)LuaLib/src;$(ProjectDir);$(ProjectDir)pch;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)LuaLib/src;$(ProjectDir);$(ProjectDir)pch;$(SolutionDir)Box2D/src;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <ForcedIncludeFiles>$(ProjectDir)src/Game/EngineSettings.h</ForcedIncludeFiles>
+      <DisableSpecificWarnings>4267;4244;4006;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)LuaLib/lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>LuaLib.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)LuaLib/lib;$(SolutionDir)Box2D/lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>LuaLib.lib;box2d.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/IGNORE:4098 %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;TRACY_ENABLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(SolutionDir)LuaLib/src;$(ProjectDir);$(ProjectDir)pch;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)LuaLib/src;$(ProjectDir);$(ProjectDir)pch;$(SolutionDir)Box2D/src;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName)_d.pch</PrecompiledHeaderOutputFile>
+      <ForcedIncludeFiles>$(ProjectDir)src/Game/EngineSettings.h</ForcedIncludeFiles>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <UseStandardPreprocessor>true</UseStandardPreprocessor>
+      <OpenMPSupport>true</OpenMPSupport>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <OmitFramePointers>false</OmitFramePointers>
+      <DisableSpecificWarnings>4267;4244;4006;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)LuaLib/lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>LuaLib_d.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)LuaLib/lib;$(SolutionDir)Box2D/lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>LuaLib_d.lib;box2d_d.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/IGNORE:4098 %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -153,25 +170,76 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;TRACY_ENABLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(SolutionDir)LuaLib/src;$(ProjectDir);$(ProjectDir)pch;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)LuaLib/src;$(ProjectDir);$(ProjectDir)pch;$(SolutionDir)Box2D/src;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <ForcedIncludeFiles>$(ProjectDir)src/Game/EngineSettings.h</ForcedIncludeFiles>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <DisableSpecificWarnings>4267;4244;4006;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)LuaLib/lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>LuaLib.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)LuaLib/lib;$(SolutionDir)Box2D/lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>LuaLib.lib;box2d.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/IGNORE:4098 %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="dep\imgui\imgui.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="dep\imgui\imgui_demo.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="dep\imgui\imgui_draw.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="dep\imgui\imgui_tables.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="dep\imgui\imgui_widgets.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="dep\imgui\rlImGui.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="dep\tracy-0.11.1\public\TracyClient.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\Game\PhysicsHandler.cpp" />
+    <ClCompile Include="src\Game\ResourceManager.cpp" />
     <ClCompile Include="src\Game\Scene.cpp" />
+    <ClCompile Include="src\Game\Scenes\EditorScene.cpp" />
+    <ClCompile Include="src\Game\Scenes\MenuScene.cpp" />
     <ClCompile Include="src\Game\Systems\System.cpp" />
     <ClCompile Include="src\Game\Tools\ErrMsg.cpp" />
+    <ClCompile Include="src\Game\Tools\ImLua.cpp" />
     <ClCompile Include="src\Game\Tools\TrackedAlloc.cpp" />
     <ClCompile Include="src\Game\Utilities\Algorithms.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdafx.h</PrecompiledHeaderFile>
@@ -185,7 +253,9 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="src\Game\Utilities\GameMath.cpp" />
     <ClCompile Include="src\Game\Utilities\InputHandler.cpp" />
+    <ClCompile Include="src\Game\Utilities\LuaGame.cpp" />
     <ClCompile Include="src\Game\Utilities\LuaInput.cpp" />
     <ClCompile Include="src\Game\Utilities\Math.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdafx.h</PrecompiledHeaderFile>
@@ -193,6 +263,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="src\Game\Utilities\ModLoader.cpp" />
     <ClCompile Include="src\Game\Utilities\WindowsWrapped.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
@@ -200,14 +271,14 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\LuaConsole.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\LuaUtils.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Game\main2D.cpp">
+    <ClCompile Include="src\Game\Scenes\GameScene.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdafx.h</PrecompiledHeaderFile>
@@ -221,23 +292,47 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="dep\imgui\extras\FA6FreeSolidFontData.h" />
+    <ClInclude Include="dep\imgui\extras\IconsFontAwesome6.h" />
+    <ClInclude Include="dep\imgui\imconfig.h" />
+    <ClInclude Include="dep\imgui\imgui.h" />
+    <ClInclude Include="dep\imgui\imgui_impl_raylib.h" />
+    <ClInclude Include="dep\imgui\imgui_internal.h" />
+    <ClInclude Include="dep\imgui\imstb_rectpack.h" />
+    <ClInclude Include="dep\imgui\imstb_textedit.h" />
+    <ClInclude Include="dep\imgui\imstb_truetype.h" />
+    <ClInclude Include="dep\imgui\rlImGui.h" />
+    <ClInclude Include="dep\imgui\rlImGuiColors.h" />
     <ClInclude Include="src\Game\Components\Components.h" />
+    <ClInclude Include="src\Game\EngineSettings.h" />
+    <ClInclude Include="src\Game\Game.h" />
+    <ClInclude Include="src\Game\PhysicsHandler.h" />
+    <ClInclude Include="src\Game\ResourceManager.h" />
     <ClInclude Include="src\Game\Scene.h" />
     <ClInclude Include="dep\EnTT\entt.hpp" />
+    <ClInclude Include="src\Game\Scenes\EditorScene.h" />
+    <ClInclude Include="src\Game\Scenes\MenuScene.h" />
+    <ClInclude Include="src\Game\Scenes\SceneTemplate.h" />
     <ClInclude Include="src\Game\Systems\System.h" />
     <ClInclude Include="src\Game\Tools\ConstRand.h" />
+    <ClInclude Include="src\Game\Tools\DebugNew.h" />
     <ClInclude Include="src\Game\Tools\ErrMsg.h" />
+    <ClInclude Include="src\Game\Tools\ImLua.h" />
     <ClInclude Include="src\Game\Tools\TrackedAlloc.h" />
     <ClInclude Include="src\Game\Utilities\Algorithms.h" />
     <ClInclude Include="src\Game\Utilities\DungeonGenerator.h" />
+    <ClInclude Include="src\Game\Utilities\GameMath.h" />
     <ClInclude Include="src\Game\Utilities\InputHandler.h" />
+    <ClInclude Include="src\Game\Utilities\LuaGame.h" />
     <ClInclude Include="src\Game\Utilities\LuaInput.h" />
     <ClInclude Include="src\Game\Utilities\Math.h" />
+    <ClInclude Include="src\Game\Utilities\ModLoader.h" />
     <ClInclude Include="src\Game\Utilities\Time.h" />
     <ClInclude Include="src\Game\Utilities\WindowsWrapped.h" />
+    <ClInclude Include="src\Game\Utilities\WindowInfo.h" />
     <ClInclude Include="src\LuaConsole.h" />
     <ClInclude Include="src\LuaUtils.h" />
-    <ClInclude Include="src\Game\main2D.h" />
+    <ClInclude Include="src\Game\Scenes\GameScene.h" />
     <ClInclude Include="dep\raylib-cpp\AudioDevice.hpp" />
     <ClInclude Include="dep\raylib-cpp\AudioStream.hpp" />
     <ClInclude Include="dep\raylib-cpp\AutomationEventList.hpp" />
@@ -285,19 +380,45 @@
     <ClInclude Include="pch\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <CopyFileToFolders Include="raylib.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <None Include="src\Lua\Behaviours\Cursor.lua" />
+    <None Include="src\Lua\Behaviours\InputMovement.lua" />
+    <None Include="src\Lua\Behaviours\PlayerCamera.lua" />
+    <None Include="src\Lua\Behaviours\Enemy.lua" />
+    <None Include="src\Lua\Behaviours\Player.lua" />
+    <None Include="src\Lua\Behaviours\Projectile.lua" />
+    <None Include="src\Lua\Behaviours\Weapon.lua" />
+    <None Include="src\Lua\Cmd.lua" />
     <None Include="src\Lua\Color.lua" />
+    <None Include="src\Lua\Components\Active.lua" />
+    <None Include="src\Lua\Components\CameraData.lua" />
     <None Include="src\Lua\Components\Health.lua" />
+    <None Include="src\Lua\Components\HitboxCircle.lua" />
     <None Include="src\Lua\Components\Sprite.lua" />
+    <None Include="src\Lua\Components\Tags.lua" />
+    <None Include="src\Lua\Data\Ammo.lua" />
+    <None Include="src\Lua\Data.lua" />
+    <None Include="src\Lua\Data\Weapons.lua" />
     <None Include="src\Lua\InitDevScene.lua" />
+    <None Include="src\Lua\InitEditorScene.lua" />
     <None Include="src\Lua\InputDemo.lua" />
-    <None Include="src\Lua\Script.lua" />
-    <None Include="src\Lua\Tests\Transform2Test.lua" />
-    <None Include="src\Lua\Tests\Vec2Test.lua" />
+    <None Include="src\Lua\Tests\Math\GameMathTest.lua" />
+    <None Include="src\Lua\Utility\GameMath.lua" />
+    <None Include="src\Lua\PrintTable.lua" />
+    <None Include="src\Lua\Tests\InputTest.lua" />
+    <None Include="src\Lua\Tests\Math\Transform2Test.lua" />
+    <None Include="src\Lua\Tests\Math\Vec2Test.lua" />
     <None Include="src\Lua\Transform3D.lua" />
     <None Include="src\Lua\Transform2.lua" />
+    <None Include="src\Lua\Utility\ImLua.lua" />
+    <None Include="src\Lua\Utility\InitModData.lua" />
+    <None Include="src\Lua\Utility\PrintEntity.lua" />
     <None Include="src\Lua\Vec2.lua" />
     <None Include="src\Lua\Vector3D.lua" />
     <None Include="src\Lua\VectorDemo.lua" />
+    <None Include="src\Mods\GodGun.lua" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

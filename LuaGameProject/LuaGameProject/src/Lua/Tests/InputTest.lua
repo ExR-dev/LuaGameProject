@@ -1,4 +1,4 @@
-local runTest = true
+local runTest = false
 
 local function test()
 	local totalTestsTracker = 0

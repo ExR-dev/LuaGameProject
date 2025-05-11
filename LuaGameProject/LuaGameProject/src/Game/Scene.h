@@ -10,29 +10,51 @@ public:
 	Scene() = default;
 	~Scene();
 
+	entt::registry &GetRegistry();
+
 	int GetEntityCount();
 
 	int CreateEntity();
 
+	bool IsEntity(entt::entity entity);
 	bool IsEntity(int entity);
 
+	void RemoveEntity(entt::entity entity);
 	void RemoveEntity(int entity);
 
+	bool IsActive(entt::entity entity);
+	bool IsActive(int entity);
+
+	void SetActive(entt::entity entity, bool state);
+	void SetActive(int entity, bool state);
+
+	template<typename...Args>
+	bool HasComponents(entt::entity entity);
 	template<typename...Args>
 	bool HasComponents(int entity);
 
 	template<typename T>
+	T &GetComponent(entt::entity entity);
+	template<typename T>
 	T &GetComponent(int entity);
 
+	template<typename T>
+	void SetComponent(entt::entity entity, const T&);
 	template<typename T>
 	void SetComponent(int entity, const T&);
 
 	template<typename T, typename...Args>
+	void SetComponent(entt::entity entity, Args...args);
+	template<typename T, typename...Args>
 	void SetComponent(int entity, Args...args);
 
 	template<typename T>
+	void RemoveComponent(entt::entity entity);
+	template<typename T>
 	void RemoveComponent(int entity);
 
+	template<typename T>
+	void TryRemoveComponent(entt::entity entity);
 	template<typename T>
 	void TryRemoveComponent(int entity);
 
@@ -44,9 +66,12 @@ public:
 	template<typename...Args>
 	void RunSystem(std::function<void(entt::registry &registry, Args...)> system, Args&&... args);
 
-	void InitializeSystems();
+	void SystemsInitialize(lua_State *L);
 
-	void UpdateSystems(float delta);
+	void SystemsOnUpdate(float delta);
+	void SystemsOnRender(float delta);
+
+	void CleanUp(lua_State* L);
 
 	static void lua_openscene(lua_State *L, Scene *scene);
 
@@ -78,51 +103,88 @@ private:
 	static int lua_HasComponent(lua_State *L);
 	
 	// Arguments: entity (int), component type (string)
-	// Returns: your choice :) for transform you can use
-	// lua_totransform that you made in module M2
+	// Returns: your choice :)
 	static int lua_GetComponent(lua_State *L);
 	
 	// Arguments: entity (int), component type (string)
 	// Returns: none
 	static int lua_RemoveComponent(lua_State *L);
+
+	// Arguments: entity (int)
+	// Returns: (bool)
+	static int lua_IsActive(lua_State *L);
+	
+	// Arguments: entity (int), state (bool)
+	// Returns: none
+	static int lua_SetActive(lua_State *L);
 };
 
 
 template<typename...Args>
+bool Scene::HasComponents(entt::entity entity)
+{
+	return m_registry.all_of<Args...>(entity);
+}
+template<typename...Args>
 bool Scene::HasComponents(int entity)
 {
-	return m_registry.all_of<Args...>((entt::entity)entity);
+	return HasComponents<Args...>((entt::entity)entity);
 }
 
+template<typename T>
+T &Scene::GetComponent(entt::entity entity)
+{
+	return m_registry.get<T>(entity);
+}
 template<typename T>
 T &Scene::GetComponent(int entity)
 {
-	return m_registry.get<T>((entt::entity)entity);
+	return GetComponent<T>((entt::entity)entity);
 }
 
+template<typename T>
+void Scene::SetComponent(entt::entity entity, const T &component)
+{
+	m_registry.emplace_or_replace<T>(entity, component);
+}
 template<typename T>
 void Scene::SetComponent(int entity, const T &component)
 {
-	m_registry.emplace_or_replace<T>((entt::entity)entity, component);
+	SetComponent<T>((entt::entity)entity, component);
 }
 
 template<typename T, typename...Args>
+void Scene::SetComponent(entt::entity entity, Args...args)
+{
+	m_registry.emplace_or_replace<T>(entity, args...);
+}
+template<typename T, typename...Args>
 void Scene::SetComponent(int entity, Args...args)
 {
-	m_registry.emplace_or_replace<T>((entt::entity)entity, args...);
+	SetComponent<T>((entt::entity)entity, args...);
 }
 
+template<typename T>
+void Scene::RemoveComponent(entt::entity entity)
+{
+	m_registry.remove<T>(entity);
+}
 template<typename T>
 void Scene::RemoveComponent(int entity)
 {
-	m_registry.remove<T>((entt::entity)entity);
+	RemoveComponent<T>((entt::entity)entity);
 }
 
 template<typename T>
-inline void Scene::TryRemoveComponent(int entity)
+inline void Scene::TryRemoveComponent(entt::entity entity)
 {
 	if (HasComponents<T>(entity))
-		m_registry.remove<T>((entt::entity)entity);
+		RemoveComponent<T>(entity);
+}
+template<typename T>
+inline void Scene::TryRemoveComponent(int entity)
+{
+	TryRemoveComponent<T>((entt::entity)entity);
 }
 
 template<typename T, typename...Args>

@@ -7,6 +7,10 @@
 
 #include <iostream>
 
+#ifdef LEAK_DETECTION
+#define new			DEBUG_NEW
+#endif
+
 using namespace Input;
 
 /*
@@ -174,6 +178,8 @@ static int LuaGetMouseInfo(lua_State *L)
 
 void BindLuaInput(lua_State *L)
 {
+	ZoneScopedC(RandomUniqueColor());
+
 	const unsigned int nFunctions = 7;
 
 	lua_createtable(L, 0, nFunctions);

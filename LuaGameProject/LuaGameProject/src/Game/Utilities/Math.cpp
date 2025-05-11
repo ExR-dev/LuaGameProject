@@ -1,6 +1,10 @@
 #include "stdafx.h"
 #include "Math.h"
 
+#ifdef LEAK_DETECTION
+#define new			DEBUG_NEW
+#endif
+
 using namespace Math;
 
 float Math::RoundM(float n, float m)

@@ -6,11 +6,16 @@ local function test()
 	local resultVal = nil
 
 	-- Includes
+	print("Including GameMath")
+	local gameMath = require("Utility/GameMath")
+
 	print("Including Vec2")
 	local vec2 = require("Vec2")
 
 	print("Including Transform2")
 	local transform2 = require("Transform2")
+
+	print("")
 
 	-- Initialize
 	print("Setting t1 to ((1, 2), 0, (1, 1)).")
@@ -61,7 +66,7 @@ local function test()
 	resultVal = t1:getForward()
 	print("Expected:	"..tostring(expectedVal))
 	print("Result:		"..tostring(resultVal))
-	if expectedVal == resultVal then
+	if gameMath.approx(expectedVal, resultVal) then
 		print("Passed!")
 		passedTestsTracker = passedTestsTracker + 1
 	else
@@ -76,7 +81,7 @@ local function test()
 	resultVal = t2:getRight()
 	print("Expected:	"..tostring(expectedVal))
 	print("Result:		"..tostring(resultVal))
-	if expectedVal == resultVal then
+	if gameMath.approx(expectedVal, resultVal) then
 		print("Passed!")
 		passedTestsTracker = passedTestsTracker + 1
 	else

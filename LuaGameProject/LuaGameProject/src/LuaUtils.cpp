@@ -3,9 +3,51 @@
 #include <fstream>
 #include <iostream>
 #include <filesystem>
+#include <Game/Components/Components.h>
+
+#ifdef LEAK_DETECTION
+#define new			DEBUG_NEW
+#endif
+
+std::string LuaLoadFile(lua_State *L, const char *path)
+{
+	std::ifstream file(path);
+	if (!file.is_open())
+	{
+		std::cerr << "Failed to open file: " << path << std::endl;
+		return "";
+	}
+
+	std::string content((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+	file.close();
+
+	return content;
+}
+
+void LuaDoFileCleaned(lua_State *L, const char *str)
+{
+#ifdef TRACY_ENABLE 
+	// Do not remove tracy commands before loading
+	LuaDoFile(str);
+#else 
+	// Remove tracy commands before loading
+	std::string content(LuaLoadFile(L, str));
+
+	size_t len = strlen(content.c_str());
+	char *cleanedContent = new char[len + 1];
+
+	memcpy_s(cleanedContent, len + 1, content.c_str(), len + 1);
+	tracy::LuaRemove(cleanedContent);
+
+	LuaDoString(cleanedContent);
+	delete[] cleanedContent;
+#endif
+}
 
 void LuaDumpError(lua_State *L)
 {
+	ZoneScopedC(RandomUniqueColor());
+
 	if (lua_gettop(L) && lua_isstring(L, -1))
 	{
 		std::cout << std::format("Lua Error: {}", lua_tostring(L, -1)) << std::endl;
@@ -15,6 +57,8 @@ void LuaDumpError(lua_State *L)
 
 void LuaDumpStack(lua_State *L)
 {
+	ZoneScopedC(RandomUniqueColor());
+
 	const char separator = ' ';
 	const int indexWidth = 2;
 	const int nameWidth = 8;
@@ -54,6 +98,7 @@ void LuaDumpStack(lua_State *L)
 
 		case LUA_TTABLE:
 			std::cout << fmt << "Unsupported";
+
 			break;
 
 		case LUA_TFUNCTION:
@@ -79,8 +124,64 @@ void LuaDumpStack(lua_State *L)
 	std::cout << "------------- STACK END -------------" << std::endl;
 }
 
+void LuaDumpEnv(lua_State *L)
+{
+	ZoneScopedC(RandomUniqueColor());
+
+	std::cout << "------------- ENV BEGIN -------------" << std::endl;
+	LuaDoString("for k,v in pairs(_G) do print(k,v) end");
+	std::cout << "-------------- ENV END --------------" << std::endl;
+}
+
+void LuaDumpECS(lua_State *L, const entt::registry &reg)
+{
+	ZoneScopedC(RandomUniqueColor());
+
+	std::cout << "============= ECS BEGIN =============" << std::endl;
+
+	auto view = reg.view<entt::entity>();
+
+	LuaDoFileCleaned(L, LuaFilePath("Utility/PrintEntity"));
+
+	view.each([&](const entt::entity entity) {
+
+		std::cout << std::format("Entity ({})", (int)entity) << std::endl;
+		std::cout << "vv--------------------------------------------------------------------vv" << std::endl;
+
+		LuaDoString(std::format("game.PrintEntity({})", (int)entity).c_str());
+
+		std::cout << "^^--------------------------------------------------------------------^^" << std::endl << std::endl;
+	});
+
+	std::cout << "============== ECS END ==============" << std::endl;
+}
+
+void LuaDumpTable(lua_State *L, int i)
+{
+	ZoneScopedC(RandomUniqueColor());
+
+	int type = lua_type(L, i);
+
+	std::cout << std::format("({}, {}) {}:", i, i-6, lua_typename(L, type)) << std::endl;
+
+	if (type == LUA_TTABLE)
+	{
+		LuaDoFileCleaned(L, LuaFilePath("PrintTable"));
+		// Run the global lua function PrintTable(table)
+		lua_pushvalue(L, i); // Push the table to the top of the stack
+		lua_getglobal(L, "PrintTable");
+		lua_pushvalue(L, -2); // Push the table again as an argument
+		LuaChk(lua_pcall(L, 1, 0, 0)); // Call the function with 1 argument and no return values
+		lua_pop(L, 1); // Pop the table from the stack
+	}
+
+	std::cout << std::endl;
+}
+
 void CallLuaFunction(lua_State *L, const char *functionName, const char *sig, ...)
 {
+	ZoneScopedC(RandomUniqueColor());
+
 	va_list vl;
 	int narg, nres;
 
@@ -168,27 +269,37 @@ void CallLuaFunction(lua_State *L, const char *functionName, const char *sig, ..
 
 void LuaRunTests(lua_State *L, const std::string &testDir)
 {
-	std::string ext(".lua");
+	ZoneScopedC(RandomUniqueColor());
 
 	std::vector<std::string> testFiles;
 
 	for (auto &p : std::filesystem::recursive_directory_iterator(testDir))
 	{
-		if (p.path().extension() == ext)
+		if (p.path().extension() == FILE_EXT)
 		{
-			testFiles.push_back(p.path().stem().string());
+			// Paths cannot contain ':', so we can use it as a separator
+			testFiles.push_back(p.path().string() + ":" + p.path().stem().string());
 		}
 	}
 
 	for (auto &t : testFiles)
 	{
-		const std::string testScript(testDir + t + ".lua");
-		LuaRunTest(L, testScript, t);
+		size_t pos = t.find(':');
+
+		// Everything before the ':' is the path
+		const std::string scriptPath = t.substr(0, pos);	
+
+		// Everything after the ':' is the name
+		const std::string scriptName = t.substr(pos + 1);
+
+		LuaRunTest(L, scriptPath, scriptName);
 	}
 }
 
 bool LuaRunTest(lua_State *L, const std::string &fullPath, const std::string &testName)
 {
+	ZoneScopedC(RandomUniqueColor());
+
 	std::cout << "\n================================================================================\n";
 	std::cout << std::format("================ Running {}\n\n", testName);
 
