@@ -398,7 +398,6 @@
     <None Include="src\Lua\Data.lua" />
     <None Include="src\Lua\Data\Weapons.lua" />
     <None Include="src\Lua\Utility\PrintEntity.lua" />
-    <None Include="src\Mods\GodGun.lua" />
     <None Include="src\Lua\Utility\InitData.lua" />
     <None Include="src\Lua\Utility\ImLua.lua" />
     <None Include="src\Lua\Behaviours\InputMovement.lua" />
@@ -407,6 +406,8 @@
     <None Include="src\Lua\Scenes\InitEditorPresetCreatorScene.lua" />
     <None Include="src\Lua\Scenes\InitEditorSandboxScene.lua" />
     <None Include="src\Lua\Dev\WeaponEditorUI.lua" />
+    <None Include="src\Lua\Utility\TableSave.lua" />
+    <None Include="src\Lua\Utility\TableCopy.lua" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="raylib.dll" />

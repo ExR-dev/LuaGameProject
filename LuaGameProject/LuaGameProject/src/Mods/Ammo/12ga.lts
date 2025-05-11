@@ -1,0 +1,42 @@
+return {
+-- Table: {1}
+{
+   ["dataPath"]="ammo.calibers",
+   ["contents"]={2},
+   ["elementName"]="12ga",
+},
+-- Table: {2}
+{
+   ["Buck"]={3},
+   ["Dart"]={4},
+   ["default"]="Buck",
+   ["Slug"]={5},
+},
+-- Table: {3}
+{
+   ["damageMult"]=0.25,
+   ["burstSize"]=6,
+   ["falloff"]=0.93,
+   ["spread"]=7.0,
+   ["penetration"]=0.4,
+   ["recoil"]=6.0,
+},
+-- Table: {4}
+{
+   ["damageMult"]=1.0,
+   ["burstSize"]=1,
+   ["falloff"]=0.965,
+   ["spread"]=1.5,
+   ["penetration"]=0.725,
+   ["recoil"]=7.0,
+},
+-- Table: {5}
+{
+   ["damageMult"]=1.9,
+   ["burstSize"]=1,
+   ["falloff"]=0.96,
+   ["spread"]=3.5,
+   ["penetration"]=0.6,
+   ["recoil"]=9.0,
+},
+}

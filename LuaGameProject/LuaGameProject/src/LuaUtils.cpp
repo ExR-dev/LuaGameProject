@@ -39,7 +39,17 @@ void LuaDoFileCleaned(lua_State *L, const char *str)
 	memcpy_s(cleanedContent, len + 1, content.c_str(), len + 1);
 	tracy::LuaRemove(cleanedContent);
 
-	LuaDoString(L, cleanedContent);
+	if (luaL_dostring(L, cleanedContent) != LUA_OK)
+	{
+		ZoneNamedNC(LuaDumpErrorZone, "LuaDumpError", RandomUniqueColor(), true);
+
+		if (lua_gettop(L) && lua_isstring(L, -1))
+		{
+			std::cout << std::format("Lua Error: {} {}", str, lua_tostring(L, -1)) << std::endl;
+			lua_pop(L, 1);
+		}
+	}
+
 	delete[] cleanedContent;
 #endif
 }
@@ -275,7 +285,7 @@ void LuaRunTests(lua_State *L, const std::string &testDir)
 
 	for (auto &p : std::filesystem::recursive_directory_iterator(testDir))
 	{
-		if (p.path().extension() == FILE_EXT)
+		if (p.path().extension() == LUA_EXT)
 		{
 			// Paths cannot contain ':', so we can use it as a separator
 			testFiles.push_back(p.path().string() + ":" + p.path().stem().string());

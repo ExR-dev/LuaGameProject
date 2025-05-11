@@ -32,6 +32,9 @@ void LuaGame::LuaGame::lua_opengame(lua_State *L, LuaGame *game)
 	ImLua::ImLua::lua_openimgui(L);
 
 	LuaDoFileCleaned(L, LuaFilePath("Utility/InitData"));
+
+	LuaDoFileCleaned(L, LuaFilePath("Utility/TableCopy"));
+	LuaDoFileCleaned(L, LuaFilePath("Utility/TableSave"));
 }
 
 int LuaGame::LuaGame::lua_PlaySound(lua_State *L)

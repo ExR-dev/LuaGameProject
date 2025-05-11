@@ -409,6 +409,7 @@
     <None Include="src\Lua\Scenes\InitEditorSandboxScene.lua" />
     <None Include="src\Lua\InputDemo.lua" />
     <None Include="src\Lua\Tests\Math\GameMathTest.lua" />
+    <None Include="src\Lua\Utility\TableCopy.lua" />
     <None Include="src\Lua\Utility\GameMath.lua" />
     <None Include="src\Lua\PrintTable.lua" />
     <None Include="src\Lua\Tests\InputTest.lua" />
@@ -419,10 +420,10 @@
     <None Include="src\Lua\Utility\ImLua.lua" />
     <None Include="src\Lua\Utility\InitData.lua" />
     <None Include="src\Lua\Utility\PrintEntity.lua" />
+    <None Include="src\Lua\Utility\TableSave.lua" />
     <None Include="src\Lua\Vec2.lua" />
     <None Include="src\Lua\Vector3D.lua" />
     <None Include="src\Lua\VectorDemo.lua" />
-    <None Include="src\Mods\GodGun.lua" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

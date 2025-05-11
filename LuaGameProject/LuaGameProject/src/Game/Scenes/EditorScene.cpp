@@ -134,6 +134,7 @@ Game::SceneState EditorScene::EditorScene::Update()
 		if (Input::CheckKeyPressed(Input::GAME_KEY_R))
 		{
 			m_camera.zoom = 1.0f;
+			m_camera.target = raylib::Vector2(0, 0);
 		}
 
 		if (mInfo.scroll != 0.0f)
@@ -214,6 +215,46 @@ int EditorScene::EditorScene::Render()
 		{
 			ZoneNamedNC(renderSceneZone, "Render Scene", RandomUniqueColor(), true);
 			BeginMode2D(m_camera);
+
+			// Render grid
+			{
+				ZoneNamedNC(renderGridZone, "Render Grid", RandomUniqueColor(), true);
+
+				constexpr int lines = 25;
+				constexpr float stepSize = 100.0f;
+				constexpr float innerThickness = 1.0f;
+				constexpr float thickness = 4.0f;
+
+				for (int i = -lines; i < lines; i++)
+				{
+					DrawLineEx(
+						raylib::Vector2(i * stepSize, -lines * stepSize),
+						raylib::Vector2(i * stepSize,  lines * stepSize),
+						innerThickness,
+						raylib::Color(25, 25, 25, 128)
+					);
+					DrawLineEx(
+						raylib::Vector2(i * stepSize, -lines * stepSize),
+						raylib::Vector2(i * stepSize,  lines * stepSize),
+						thickness,
+						raylib::Color(25, 25, 25, 64)
+					);
+
+					DrawLineEx(
+						raylib::Vector2(-lines * stepSize, i * stepSize),
+						raylib::Vector2( lines * stepSize, i * stepSize),
+						innerThickness,
+						raylib::Color(25, 25, 25, 128)
+					);
+					DrawLineEx(
+						raylib::Vector2(-lines * stepSize, i * stepSize),
+						raylib::Vector2( lines * stepSize, i * stepSize),
+						thickness,
+						raylib::Color(25, 25, 25, 64)
+					);
+				}
+			}
+
 
 			// Draw sprites
 			std::function<void(entt::registry &registry)> drawSystem = [](entt::registry &registry) {
@@ -317,7 +358,7 @@ int EditorScene::EditorScene::Render()
 			if (IsWithinSceneView(mousePos))
 			{
 				raylib::Vector2 scenePos = ScreenToWorldPos(mousePos);
-				DrawCircleV(scenePos, 4, raylib::Color(255, 0, 0, 255));
+				DrawCircleV(scenePos, 5.0f / m_camera.zoom, raylib::Color(255, 0, 0, 255));
 			}
 
 			EndMode2D();
@@ -459,8 +500,7 @@ int EditorScene::EditorScene::RenderUI()
 		if (m_editorMode == EditorMode::PresetCreator)
 		{
 			// HACK: for now, call weapon editor immediately
-			LuaDoFile(modeScene.L, LuaFilePath("Dev/WeaponEditorUI"));
-			//LuaDoFileCleaned(modeScene.L, LuaFilePath("Dev/WeaponEditorUI"));
+			LuaDoFileCleaned(modeScene.L, LuaFilePath("Dev/WeaponEditorUI"));
 		}
 
 		// Render the render texture window
@@ -705,7 +745,7 @@ void EditorScene::EditorScene::EditorModeScene::Init(WindowInfo *windowInfo, con
 	BindLuaInput(L);
 
 	// Add lua require path
-	std::string luaScriptPath = std::format("{}/{}?{}", fs::current_path().generic_string(), FILE_PATH, FILE_EXT);
+	std::string luaScriptPath = std::format("{}/{}?{}", fs::current_path().generic_string(), FILE_PATH, LUA_EXT);
 	LuaDoString(L, std::format("package.path = \"{};\" .. package.path", luaScriptPath).c_str());
 
 	// Initialize Lua data & mods

@@ -78,7 +78,7 @@ int GameScene::GameScene::Start(WindowInfo *windowInfo, CmdState *cmdState)
     BindLuaInput(L);
 
     // Add Lua require path
-    std::string luaScriptPath = std::format("{}/{}?{}", fs::current_path().generic_string(), FILE_PATH, FILE_EXT);
+    std::string luaScriptPath = std::format("{}/{}?{}", fs::current_path().generic_string(), FILE_PATH, LUA_EXT);
     LuaDoString(L, std::format("package.path = \"{};\" .. package.path", luaScriptPath).c_str());
 
     // Initialize Lua data & mods

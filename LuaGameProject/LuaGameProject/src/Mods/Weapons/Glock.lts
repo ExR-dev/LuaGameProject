@@ -1,0 +1,27 @@
+return {
+-- Table: {1}
+{
+   ["dataPath"]="weapons",
+   ["contents"]={2},
+   ["elementName"]="Glock",
+},
+-- Table: {2}
+{
+   ["length"]=36,
+   ["width"]=10,
+   ["stats"]={3},
+},
+-- Table: {3}
+{
+   ["damage"]=10.0,
+   ["recovery"]=8,
+   ["capacity"]=18,
+   ["fireMode"]="Semi",
+   ["handCount"]=1,
+   ["caliber"]="9mm",
+   ["reloadTime"]=0.7,
+   ["spread"]=2.0,
+   ["fireRate"]=8.0,
+   ["recoil"]=2.0,
+},
+}

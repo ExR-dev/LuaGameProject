@@ -64,7 +64,7 @@ void ConsoleThreadFunction(CmdState *cmdState)
 {
 	std::cout << std::endl << std::format(
 		"To run a \"{}\" file located in \"{}\", begin your command with \"{}\" followed by the file name.", 
-				 FILE_EXT,			    FILE_PATH,					    FILE_CMD
+				 LUA_EXT,			    FILE_PATH,					    FILE_CMD
 	) << std::endl;
 	std::cout << "To run all tests located in the tests folder, type \"[T/t]est\"." << std::endl;
 	std::cout << "To dump the lua stack, type \"DumpStack\"." << std::endl;

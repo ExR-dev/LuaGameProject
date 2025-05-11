@@ -1,0 +1,27 @@
+return {
+-- Table: {1}
+{
+   ["elementName"]="AR-15",
+   ["contents"]={2},
+   ["dataPath"]="weapons",
+},
+-- Table: {2}
+{
+   ["length"]=48,
+   ["width"]=12,
+   ["stats"]={3},
+},
+-- Table: {3}
+{
+   ["fireMode"]="Auto",
+   ["damage"]=35.0,
+   ["fireRate"]=8.0,
+   ["caliber"]="5.56",
+   ["handCount"]=2,
+   ["recoil"]=1.75,
+   ["capacity"]=30,
+   ["recovery"]=6,
+   ["reloadTime"]=1.0,
+   ["spread"]=0.8,
+},
+}
