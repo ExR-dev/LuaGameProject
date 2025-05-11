@@ -157,7 +157,7 @@ void ExecuteCommandList(lua_State *L, CmdState *cmdState, const entt::registry &
 	}
 	else // String command
 	{
-		LuaDoString(input.c_str());
+		LuaDoString(L, input.c_str());
 	}
 
 	std::cout << std::endl;

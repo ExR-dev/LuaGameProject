@@ -28,7 +28,7 @@ void LuaDoFileCleaned(lua_State *L, const char *str)
 {
 #ifdef TRACY_ENABLE 
 	// Do not remove tracy commands before loading
-	LuaDoFile(str);
+	LuaDoFile(L, str);
 #else 
 	// Remove tracy commands before loading
 	std::string content(LuaLoadFile(L, str));
@@ -39,7 +39,7 @@ void LuaDoFileCleaned(lua_State *L, const char *str)
 	memcpy_s(cleanedContent, len + 1, content.c_str(), len + 1);
 	tracy::LuaRemove(cleanedContent);
 
-	LuaDoString(cleanedContent);
+	LuaDoString(L, cleanedContent);
 	delete[] cleanedContent;
 #endif
 }
@@ -129,7 +129,7 @@ void LuaDumpEnv(lua_State *L)
 	ZoneScopedC(RandomUniqueColor());
 
 	std::cout << "------------- ENV BEGIN -------------" << std::endl;
-	LuaDoString("for k,v in pairs(_G) do print(k,v) end");
+	LuaDoString(L, "for k,v in pairs(_G) do print(k,v) end");
 	std::cout << "-------------- ENV END --------------" << std::endl;
 }
 
@@ -148,7 +148,7 @@ void LuaDumpECS(lua_State *L, const entt::registry &reg)
 		std::cout << std::format("Entity ({})", (int)entity) << std::endl;
 		std::cout << "vv--------------------------------------------------------------------vv" << std::endl;
 
-		LuaDoString(std::format("game.PrintEntity({})", (int)entity).c_str());
+		LuaDoString(L, std::format("game.PrintEntity({})", (int)entity).c_str());
 
 		std::cout << "^^--------------------------------------------------------------------^^" << std::endl << std::endl;
 	});
@@ -171,7 +171,7 @@ void LuaDumpTable(lua_State *L, int i)
 		lua_pushvalue(L, i); // Push the table to the top of the stack
 		lua_getglobal(L, "PrintTable");
 		lua_pushvalue(L, -2); // Push the table again as an argument
-		LuaChk(lua_pcall(L, 1, 0, 0)); // Call the function with 1 argument and no return values
+		LuaChk(L, lua_pcall(L, 1, 0, 0)); // Call the function with 1 argument and no return values
 		lua_pop(L, 1); // Pop the table from the stack
 	}
 

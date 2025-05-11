@@ -101,7 +101,7 @@ namespace ECS
 			else
 			{
 				lua_pushvalue(L, -2); // Push the table as argument
-				LuaChk(lua_pcall(L, 1, 0, 0));
+				LuaChk(L, lua_pcall(L, 1, 0, 0));
 			}
 
 			memset(ScriptPath, '\0', SCRIPT_PATH_LENGTH);
@@ -190,7 +190,7 @@ namespace ECS
 						lua_pushvalue(m_refState, -2);
 
 						// Call the method, pops the method and its arguments from the stack
-						LuaChkL(m_refState, lua_pcall(m_refState, 1, 0, 0));
+						LuaChk(m_refState, lua_pcall(m_refState, 1, 0, 0));
 					}
 
 					// Pop the behaviour table from the stack

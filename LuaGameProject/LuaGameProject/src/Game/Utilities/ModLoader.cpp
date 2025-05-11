@@ -63,9 +63,6 @@ namespace ModLoader
 			return;
 		}
 
-		// Run InitModData.lua first
-		LuaDoFileCleaned(L, LuaFilePath("Utility/InitModData"));
-
 		std::vector<std::string> modFiles;
 
 		for (auto &p : std::filesystem::recursive_directory_iterator(modsDir))

@@ -22,6 +22,10 @@ void PhysicsHandler::Setup()
 {
     ZoneScopedC(RandomUniqueColor());
 
+	// TODO: Is this necessary?
+    if (b2World_IsValid(m_worldId))
+        b2DestroyWorld(m_worldId);
+
     const float lengthUnitsPerMeter = 1; //128 pixels per meter
     b2SetLengthUnitsPerMeter(lengthUnitsPerMeter);
 

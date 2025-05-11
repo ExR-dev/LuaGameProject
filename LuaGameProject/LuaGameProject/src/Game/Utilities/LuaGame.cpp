@@ -30,6 +30,8 @@ void LuaGame::LuaGame::lua_opengame(lua_State *L, LuaGame *game)
 	tracy::LuaRegister(L);
 
 	ImLua::ImLua::lua_openimgui(L);
+
+	LuaDoFileCleaned(L, LuaFilePath("Utility/InitData"));
 }
 
 int LuaGame::LuaGame::lua_PlaySound(lua_State *L)

@@ -107,21 +107,24 @@ int main()
 		{
 		case Game::SceneState::InMenu:
             currentScene->OnSwitchFromScene();
-            EnableCursor();
+            if (currentScene == gameScene.get())
+                EnableCursor();
 			currentScene = menuScene.get();
 			currentScene->OnSwitchToScene();
 			break;
 
 		case Game::SceneState::InGame:
             currentScene->OnSwitchFromScene();
-            DisableCursor();
+            if (currentScene != gameScene.get())
+                DisableCursor();
 			currentScene = gameScene.get();
             currentScene->OnSwitchToScene();
 			break;
 
 		case Game::SceneState::InEditor:
             currentScene->OnSwitchFromScene();
-            EnableCursor();
+            if (currentScene == gameScene.get())
+                EnableCursor();
 			currentScene = editorScene.get();
             currentScene->OnSwitchToScene();
 			break;

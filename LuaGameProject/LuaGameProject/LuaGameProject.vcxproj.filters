@@ -375,7 +375,7 @@
     <None Include="src\Lua\Tests\Math\Transform2Test.lua" />
     <None Include="src\Lua\Tests\Math\Vec2Test.lua" />
     <None Include="src\Lua\Components\Sprite.lua" />
-    <None Include="src\Lua\InitDevScene.lua" />
+    <None Include="src\Lua\Scenes\InitDevScene.lua" />
     <None Include="src\Lua\Color.lua" />
     <None Include="src\Lua\Components\Health.lua" />
     <None Include="src\Lua\Behaviours\Enemy.lua" />
@@ -398,11 +398,14 @@
     <None Include="src\Lua\Data.lua" />
     <None Include="src\Lua\Data\Weapons.lua" />
     <None Include="src\Lua\Utility\PrintEntity.lua" />
-    <None Include="src\Lua\InitEditorScene.lua" />
     <None Include="src\Mods\GodGun.lua" />
-    <None Include="src\Lua\Utility\InitModData.lua" />
+    <None Include="src\Lua\Utility\InitData.lua" />
     <None Include="src\Lua\Utility\ImLua.lua" />
     <None Include="src\Lua\Behaviours\InputMovement.lua" />
+    <None Include="src\Lua\Scenes\InitEditorLevelCreatorScene.lua" />
+    <None Include="src\Lua\Scenes\InitEditorPrefabCreatorScene.lua" />
+    <None Include="src\Lua\Scenes\InitEditorPresetCreatorScene.lua" />
+    <None Include="src\Lua\Scenes\InitEditorSandboxScene.lua" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="raylib.dll" />

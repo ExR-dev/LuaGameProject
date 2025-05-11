@@ -24,11 +24,8 @@ EditorScene::EditorScene::~EditorScene()
 
 	Game::IsQuitting = true;
 
-	if (L)
-	{
-		lua_close(L);
-		L = nullptr;
-	}
+	for (int i = 0; i < EditorMode::COUNT; i++)
+		m_editorModeScenes[i] = nullptr;
 }
 
 int EditorScene::EditorScene::Start(WindowInfo *windowInfo, CmdState *cmdState)
@@ -39,40 +36,16 @@ int EditorScene::EditorScene::Start(WindowInfo *windowInfo, CmdState *cmdState)
 	m_cmdState = cmdState;
 	m_renderTexture = raylib::RenderTexture(m_windowInfo->p_screenWidth, m_windowInfo->p_screenHeight);
 
-	// Setup Box2D
-	m_physicsHandler.Setup();
-
-	// Setup Lua enviroment
-
-	// Create internal lua state
-	L = luaL_newstate();
-	luaL_openlibs(L);
-
-	m_windowInfo->BindLuaWindow(L);
-
-	Scene::lua_openscene(L, &m_scene);
-
-	m_luaGame = LuaGame::LuaGame(L, &m_scene);
-	LuaGame::LuaGame::lua_opengame(L, &m_luaGame);
-
-	m_camera.target = raylib::Vector2(64, 0);
+	m_camera.target = raylib::Vector2(0, 0);
 	m_camera.offset = raylib::Vector2(m_windowInfo->p_screenWidth / 2.0f, m_windowInfo->p_screenHeight / 2.0f);
 	m_camera.rotation = 0.0f;
-	m_camera.zoom = 1.5f;
+	m_camera.zoom = 1.0f;
 
-	BindLuaInput(L);
-
-	// Add lua require path
-	std::string luaScriptPath = std::format("{}/{}?{}", fs::current_path().generic_string(), FILE_PATH, FILE_EXT);
-	LuaDoString(std::format("package.path = \"{};\" .. package.path", luaScriptPath).c_str());
-
-	// Initialize Lua data & mods
-	ModLoader::LuaLoadData(L, DATA_PATH);
-	ModLoader::LuaLoadMods(L, MOD_PATH);
-
-	m_scene.SystemsInitialize(L);
-
-	LuaDoFileCleaned(L, LuaFilePath("InitEditorScene")); // Creates entities
+	for (int i = 0; i < EditorMode::COUNT; i++)
+	{
+		m_editorModeScenes[i] = std::make_unique<EditorModeScene>();
+		m_editorModeScenes[i].get()->Init(windowInfo, m_editorModeNames[i]);
+	}
 
 	return 1;
 }
@@ -80,6 +53,10 @@ int EditorScene::EditorScene::Start(WindowInfo *windowInfo, CmdState *cmdState)
 Game::SceneState EditorScene::EditorScene::Loop()
 {
 	ZoneScopedC(RandomUniqueColor());
+
+	auto &modeScene = *(m_editorModeScenes[m_editorMode].get());
+	auto &scene = modeScene.scene;
+	auto &L = modeScene.L;
 
 #if defined(LUA_DEBUG) && !defined(LEAK_DETECTION)
 	if (Game::Game::Instance().CmdStepMode)
@@ -90,7 +67,7 @@ Game::SceneState EditorScene::EditorScene::Loop()
 		}
 		else
 		{
-			ExecuteCommandList(L, m_cmdState, m_scene.GetRegistry());
+			ExecuteCommandList(L, m_cmdState, scene.GetRegistry());
 			Windows::SleepW(16);
 			return Game::SceneState::None;
 		}
@@ -104,7 +81,7 @@ Game::SceneState EditorScene::EditorScene::Loop()
 	Render();
 
 #ifndef LEAK_DETECTION
-	ExecuteCommandList(L, m_cmdState, m_scene.GetRegistry());
+	ExecuteCommandList(L, m_cmdState, scene.GetRegistry());
 #endif
 
 	return state;
@@ -121,8 +98,12 @@ void EditorScene::EditorScene::OnResizeWindow()
 {
 	ZoneScopedC(RandomUniqueColor());
 
-	m_windowInfo->BindLuaWindow(L);
+	for (int i = 0; i < EditorMode::COUNT; i++)
+		m_windowInfo->BindLuaWindow(m_editorModeScenes[i].get()->L);
+
 	m_renderTexture = raylib::RenderTexture(m_windowInfo->p_screenWidth, m_windowInfo->p_screenHeight);
+
+	m_camera.offset = raylib::Vector2(m_windowInfo->p_screenWidth / 2.0f, m_windowInfo->p_screenHeight / 2.0f);
 }
 #pragma endregion
 
@@ -131,7 +112,24 @@ Game::SceneState EditorScene::EditorScene::Update()
 {
 	ZoneScopedC(RandomUniqueColor());
 
+	auto &modeScene = *(m_editorModeScenes[m_editorMode].get());
+	auto &physicsHandler = modeScene.physicsHandler;
+	auto &scene = modeScene.scene;
+	auto &L = modeScene.L;
+
+	auto mRState = Input::GetMouseState(Input::GameMouse::GAME_MOUSE_RIGHT);
 	auto mInfo = Input::GetMouseInfo();
+
+	if (m_isDraggingCamera)
+	{
+		m_dragOffset = ScreenToWorldPos(mInfo.position);
+		raylib::Vector2 newTarget = Vector2Subtract(m_camera.target, Vector2Subtract(m_dragOffset, m_dragOrigin));
+		m_camera.SetTarget(newTarget);
+
+		if (mRState & Input::RELEASED)
+			m_isDraggingCamera = false;
+	}
+
 	if (IsWithinSceneView(mInfo.position))
 	{
 		if (Input::CheckKeyPressed(Input::GAME_KEY_R))
@@ -146,6 +144,12 @@ Game::SceneState EditorScene::EditorScene::Update()
 			else
 				m_camera.zoom /= (1.0f - 0.1f * mInfo.scroll);
 		}
+
+		if (mRState & Input::PRESSED)
+		{
+			m_isDraggingCamera = true;
+			m_dragOrigin = ScreenToWorldPos(mInfo.position);
+		}
 	}
 
 	// Update systems
@@ -153,10 +157,10 @@ Game::SceneState EditorScene::EditorScene::Update()
 	if (m_sceneUpdateMode >= SceneUpdateMode::Running)
 		dTime = Time::DeltaTime();
 
-	m_scene.SystemsOnUpdate(dTime);
+	scene.SystemsOnUpdate(dTime);
 
 	// Update Physics
-	m_physicsHandler.Update(L, &m_scene);
+	physicsHandler.Update(L, &scene);
 
 	std::function<void(entt::registry& registry)> createPhysicsBodies = [&](entt::registry& registry) {
 		ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
@@ -174,15 +178,15 @@ Game::SceneState EditorScene::EditorScene::Update()
 			}
 			else
 			{
-				collider.bodyId = m_physicsHandler.CreateRigidBody(static_cast<int>(entity), collider, transform);
+				collider.bodyId = physicsHandler.CreateRigidBody(static_cast<int>(entity), collider, transform);
 				collider.createBody = false;
 			}
 		});
 	};
 
-	m_scene.RunSystem(createPhysicsBodies);
+	scene.RunSystem(createPhysicsBodies);
 
-	m_scene.CleanUp(L);
+	scene.CleanUp(L);
 
 	return Game::SceneState::None;
 }
@@ -190,6 +194,11 @@ Game::SceneState EditorScene::EditorScene::Update()
 int EditorScene::EditorScene::Render()
 {
 	ZoneScopedC(RandomUniqueColor());
+
+	auto &modeScene = *(m_editorModeScenes[m_editorMode].get());
+	auto &physicsHandler = modeScene.physicsHandler;
+	auto &scene = modeScene.scene;
+	auto &L = modeScene.L;
 
 	BeginDrawing();
 	ClearBackground(raylib::Color(24, 18, 13));
@@ -200,7 +209,7 @@ int EditorScene::EditorScene::Render()
 		ClearBackground(raylib::Color(100, 149, 237));
 
 		// Render systems
-		m_scene.SystemsOnRender(Time::DeltaTime());
+		scene.SystemsOnRender(Time::DeltaTime());
 
 		// Scene
 		{
@@ -276,7 +285,7 @@ int EditorScene::EditorScene::Render()
 					}
 				});
 			};
-			m_scene.RunSystem(drawSystem);
+			scene.RunSystem(drawSystem);
 
 			std::function<void(entt::registry &registry)> createPhysicsBodies = [&](entt::registry &registry) {
 				ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
@@ -302,8 +311,7 @@ int EditorScene::EditorScene::Render()
 					}
 				});
 			};
-
-			m_scene.RunSystem(createPhysicsBodies);
+			scene.RunSystem(createPhysicsBodies);
 
 			// Draw a circle at the mouse position, converted to scene coordinates
 			raylib::Vector2 mousePos = GetMousePosition();
@@ -326,9 +334,48 @@ int EditorScene::EditorScene::Render()
 #pragma endregion
 
 #pragma region Private
+void EditorScene::EditorScene::EditorModeScene::Init(WindowInfo *windowInfo, const std::string &name)
+{
+	// Setup Lua enviroment
+	L = luaL_newstate();
+	luaL_openlibs(L);
+	windowInfo->BindLuaWindow(L);
+
+	physicsHandler.Setup();
+
+	Scene::lua_openscene(L, &scene);
+
+	luaGame = LuaGame::LuaGame(L, &scene);
+	LuaGame::LuaGame::lua_opengame(L, &luaGame);
+
+	BindLuaInput(L);
+
+	// Add lua require path
+	std::string luaScriptPath = std::format("{}/{}?{}", fs::current_path().generic_string(), FILE_PATH, FILE_EXT);
+	LuaDoString(L, std::format("package.path = \"{};\" .. package.path", luaScriptPath).c_str());
+
+	// Initialize Lua data & mods
+	LoadData();
+
+	scene.SystemsInitialize(L);
+
+	LuaDoFileCleaned(L, LuaFilePath(std::format("Scenes/InitEditor{}Scene", name))); // Creates entities
+}
+
+void EditorScene::EditorScene::EditorModeScene::LoadData() const
+{
+	ModLoader::LuaLoadData(L, DATA_PATH);
+	ModLoader::LuaLoadMods(L, MOD_PATH);
+}
+
 int EditorScene::EditorScene::RenderUI()
 {
 	ZoneScopedC(RandomUniqueColor());
+
+	auto &modeScene = *(m_editorModeScenes[m_editorMode].get());
+	/*auto &physicsHandler = modeScene.physicsHandler;
+	auto &scene = modeScene.scene;
+	auto &L = modeScene.L;*/
 
 	rlImGuiBeginDelta(Time::DeltaTime());
 
@@ -368,8 +415,91 @@ int EditorScene::EditorScene::RenderUI()
 	{
 		ZoneNamedNC(renderCustomUIZone, "Render Custom ImGui UI", RandomUniqueColor(), true);
 
+		if (GameMath::EqualsAny(m_editorMode, EditorMode::Sandbox, EditorMode::LevelCreator))
+		{
+			if (ImGui::Begin("Scene Hierarchy"))
+			{
+
+				if (ImGui::Button("Create Entity"))
+				{
+					int id = modeScene.scene.CreateEntity();
+					ECS::Transform transform{ {0, 0}, 0, {100, 100} };
+					modeScene.scene.SetComponent(id, transform);
+				}
+
+				std::function<void(entt::registry &registry)> renderEntityUI = [&](entt::registry &registry) {
+					ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+
+					auto view = registry.view<ECS::Transform>();
+
+					view.each([&](const entt::entity &entity, ECS::Transform &transform) {
+						ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+
+						const int id = static_cast<int>(entity);
+						if (ImGui::Selectable(std::format("Entity {}", id).c_str(), (id == m_selectedEntity)))
+							m_selectedEntity = id;
+					});
+				};
+
+				modeScene.scene.RunSystem(renderEntityUI);
+
+			}
+			ImGui::End();
+
+			if (ImGui::Begin("Entity Editor"))
+			{
+				if (modeScene.scene.IsEntity(m_selectedEntity))
+				{
+					if (modeScene.scene.HasComponents<ECS::Active>(m_selectedEntity))
+						modeScene.scene.GetComponent<ECS::Active>(m_selectedEntity).RenderUI();
+
+					if (modeScene.scene.HasComponents<ECS::Transform>(m_selectedEntity))
+						modeScene.scene.GetComponent<ECS::Transform>(m_selectedEntity).RenderUI();
+
+					if (modeScene.scene.HasComponents<ECS::Collider>(m_selectedEntity))
+						modeScene.scene.GetComponent<ECS::Collider>(m_selectedEntity).RenderUI();
+
+					if (modeScene.scene.HasComponents<ECS::Sprite>(m_selectedEntity))
+						modeScene.scene.GetComponent<ECS::Sprite>(m_selectedEntity).RenderUI();
+
+					if (modeScene.scene.HasComponents<ECS::Behaviour>(m_selectedEntity))
+						modeScene.scene.GetComponent<ECS::Behaviour>(m_selectedEntity).RenderUI();
+
+					std::string items[] = { "Collider", "Sprite", "Behaviour" };
+
+					if (ImGui::BeginCombo("##AddComponentCombo", "Add Component"))
+					{
+						for (int n = 0; n < IM_ARRAYSIZE(items); n++)
+						{
+							std::string current = items[n];
+							if (ImGui::Selectable(current.c_str()))
+							{
+								if (current == "Collider")
+									modeScene.scene.SetComponent<ECS::Collider>(m_selectedEntity, ECS::Collider());
+								else if (current == "Behaviour")
+									modeScene.scene.SetComponent<ECS::Behaviour>(m_selectedEntity, ECS::Behaviour("Behaviours/Enemy", m_selectedEntity, modeScene.L));
+								else if (current == "Sprite")
+								{
+									const float color[4]{ 0, 0, 0, 1 };
+									modeScene.scene.SetComponent<ECS::Sprite>(m_selectedEntity, ECS::Sprite("\0", color, 0));
+								}
+							}
+						}
+						ImGui::EndCombo();
+					}
+				}
+				else
+				{
+					ImGui::Text("Select a entity ...");
+				}
+			}
+			ImGui::End();
+		}
+
 		// Render the render texture window
 		{
+			ZoneNamedNC(renderSceneWindowZone, "Render Scene Window", RandomUniqueColor(), true);
+
 			ImGuiWindowFlags viewFlags = ImGuiWindowFlags_None;
 			viewFlags |= ImGuiWindowFlags_NoScrollbar;
 
@@ -478,86 +608,59 @@ int EditorScene::EditorScene::RenderUI()
 					ImGui::PopStyleColor(styleCols);
 					ImGui::PopStyleVar(styleVars);
 				}
+
+				// Draw Reset Scene/Reload Data buttons
+				{
+					ImVec2 buttonsTopRight = imGuiWindowContentRegionMin + ImVec2(sceneViewSize.x - 16.0f, 16.0f);
+					ImVec2 buttonSize = ImVec2(64, 24);
+					int buttonSpacing = buttonSize.y + 16;
+
+					// Reset Scene
+					ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.9f, 0.2f, 0.15f, 1.0f));
+					ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.75f, 0.3f, 0.25f, 1.0f));
+					ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.65f, 0.1f, 0.05f, 1.0f));
+
+					ImGui::SetCursorPos(buttonsTopRight + ImVec2(-buttonSize.x, 0));
+					if (ImGui::Button("Reset##ResetSceneButton", buttonSize))
+					{
+						m_selectedEntity = -1;
+						m_editorModeScenes[m_editorMode] = std::make_unique<EditorModeScene>();
+						m_editorModeScenes[m_editorMode].get()->Init(m_windowInfo, m_editorModeNames[m_editorMode]);
+					}
+					ImGui::PopStyleColor(3);
+
+					// Reload Data
+					ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.75f, 0.75f, 0.2f, 1.0f));
+					ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.65f, 0.65f, 0.3f, 1.0f));
+					ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.55f, 0.55f, 0.075f, 1.0f));
+
+					ImGui::SetCursorPos(buttonsTopRight + ImVec2(-buttonSize.x, buttonSpacing));
+					if (ImGui::Button("Reload##ReloadDataButton", buttonSize))
+					{
+						m_editorModeScenes[m_editorMode].get()->LoadData();
+					}
+					ImGui::PopStyleColor(3);
+				}
 			}
 
 			ImGui::End();
 			ImGui::PopStyleVar(stylesPushed);
 		}
 
-		if (ImGui::Begin("Scene Hierarchy"))
+		if (ImGui::Begin("Editor Settings##EditorSettingsWindow"))
 		{
-
-			if (ImGui::Button("Create Entity"))
+			for (int i = 0; i < EditorMode::COUNT; i++)
 			{
-				int id = m_scene.CreateEntity();
-				ECS::Transform transform{ {0, 0}, 0, {100, 100} };
-				m_scene.SetComponent(id, transform);
-			}
+				bool isSelected = (m_editorMode == i);
+				std::string modeName = m_editorModeNames[i];
 
-			std::function<void(entt::registry &registry)> renderEntityUI = [&](entt::registry &registry) {
-				ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
-
-				auto view = registry.view<ECS::Transform>();
-
-				view.each([&](const entt::entity &entity, ECS::Transform &transform) {
-					ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
-
-					const int id = static_cast<int>(entity);
-					if (ImGui::Selectable(std::format("Entity {}", id).c_str(), (id == m_selectedEntity)))
-						m_selectedEntity = id;
-				});
-			};
-
-			m_scene.RunSystem(renderEntityUI);
-
-		}
-		ImGui::End();
-
-		if (ImGui::Begin("Entity Editor"))
-		{
-			if (m_scene.IsEntity(m_selectedEntity))
-			{
-				if (m_scene.HasComponents<ECS::Active>(m_selectedEntity))
-					m_scene.GetComponent<ECS::Active>(m_selectedEntity).RenderUI();
-
-				if (m_scene.HasComponents<ECS::Transform>(m_selectedEntity))
-					m_scene.GetComponent<ECS::Transform>(m_selectedEntity).RenderUI();
-
-				if (m_scene.HasComponents<ECS::Collider>(m_selectedEntity))
-					m_scene.GetComponent<ECS::Collider>(m_selectedEntity).RenderUI();
-
-				if (m_scene.HasComponents<ECS::Sprite>(m_selectedEntity))
-					m_scene.GetComponent<ECS::Sprite>(m_selectedEntity).RenderUI();
-
-				if (m_scene.HasComponents<ECS::Behaviour>(m_selectedEntity))
-					m_scene.GetComponent<ECS::Behaviour>(m_selectedEntity).RenderUI();
-
-				std::string items[] = { "Collider", "Sprite", "Behaviour" };
-
-				if (ImGui::BeginCombo("##AddComponentCombo", "Add Component"))
+				if (ImGui::Selectable(std::format("{}##EditorMode{}", modeName, i).c_str(), &isSelected))
 				{
-					for (int n = 0; n < IM_ARRAYSIZE(items); n++)
+					if (isSelected)
 					{
-						std::string current = items[n];
-						if (ImGui::Selectable(current.c_str()))
-						{
-							if (current == "Collider")
-								m_scene.SetComponent<ECS::Collider>(m_selectedEntity, ECS::Collider());
-							else if (current == "Behaviour")
-								m_scene.SetComponent<ECS::Behaviour>(m_selectedEntity, ECS::Behaviour("Behaviours/Enemy", m_selectedEntity, L));
-							else if (current == "Sprite")
-							{
-								const float color[4]{ 0, 0, 0, 1 };
-								m_scene.SetComponent<ECS::Sprite>(m_selectedEntity, ECS::Sprite("\0", color, 0));
-							}
-						}
+						SwitchEditorMode(static_cast<EditorMode>(i));
 					}
-					ImGui::EndCombo();
 				}
-			}
-			else
-			{
-				ImGui::Text("Select a entity ...");
 			}
 		}
 		ImGui::End();
@@ -568,6 +671,16 @@ int EditorScene::EditorScene::RenderUI()
 	return 1;
 }
 
+void EditorScene::EditorScene::SwitchEditorMode(EditorMode mode)
+{
+	if (m_editorMode == mode)
+		return;
+
+	m_editorMode = mode;
+	m_selectedEntity = -1;
+
+	//m_editorModeScenes[m_editorMode].get()->LoadData();
+}
 
 raylib::Vector2 EditorScene::EditorScene::ScreenToWorldPos(const raylib::Vector2 &pos) const
 {
@@ -584,7 +697,23 @@ raylib::Vector2 EditorScene::EditorScene::ScreenToWorldPos(const raylib::Vector2
 
 	return m_camera.GetScreenToWorld(transformedPos);
 }
+raylib::Vector2 EditorScene::EditorScene::WorldToScreenPos(const raylib::Vector2 &pos) const
+{
+	raylib::Vector2 transformedPos = pos;
 
+	transformedPos = m_camera.GetWorldToScreen(transformedPos);
+
+	transformedPos.x /= (float)m_renderTexture.texture.width;
+	transformedPos.y /= (float)m_renderTexture.texture.height;
+
+	transformedPos.x *= m_sceneViewRect.width;
+	transformedPos.y *= m_sceneViewRect.height;
+
+	transformedPos.x += m_sceneViewRect.x;
+	transformedPos.y += m_sceneViewRect.y;
+
+	return transformedPos;
+}
 bool EditorScene::EditorScene::IsWithinSceneView(const raylib::Vector2 &pos) const
 {
 	if (!m_sceneViewOpen)

@@ -401,8 +401,11 @@
     <None Include="src\Lua\Data\Ammo.lua" />
     <None Include="src\Lua\Data.lua" />
     <None Include="src\Lua\Data\Weapons.lua" />
-    <None Include="src\Lua\InitDevScene.lua" />
-    <None Include="src\Lua\InitEditorScene.lua" />
+    <None Include="src\Lua\Scenes\InitDevScene.lua" />
+    <None Include="src\Lua\Scenes\InitEditorLevelCreatorScene.lua" />
+    <None Include="src\Lua\Scenes\InitEditorPrefabCreatorScene.lua" />
+    <None Include="src\Lua\Scenes\InitEditorPresetCreatorScene.lua" />
+    <None Include="src\Lua\Scenes\InitEditorSandboxScene.lua" />
     <None Include="src\Lua\InputDemo.lua" />
     <None Include="src\Lua\Tests\Math\GameMathTest.lua" />
     <None Include="src\Lua\Utility\GameMath.lua" />
@@ -413,7 +416,7 @@
     <None Include="src\Lua\Transform3D.lua" />
     <None Include="src\Lua\Transform2.lua" />
     <None Include="src\Lua\Utility\ImLua.lua" />
-    <None Include="src\Lua\Utility\InitModData.lua" />
+    <None Include="src\Lua\Utility\InitData.lua" />
     <None Include="src\Lua\Utility\PrintEntity.lua" />
     <None Include="src\Lua\Vec2.lua" />
     <None Include="src\Lua\Vector3D.lua" />

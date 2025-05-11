@@ -1,25 +1,11 @@
-tracy.ZoneBeginN("Lua InitModData.lua")
+tracy.ZoneBeginN("Lua InitData.lua")
 
--- Ensure all prerequisite data is initialized before loading mods
-if data == nil then
-	data = { }
-end
-
-if data.modding == nil then
-	data.modding = { }
-end
-
-if data.weapons == nil then
-	data.weapons = { }
-end
-
-if data.ammo == nil then
-	data.ammo = { }
-end
-
-if data.ammo.calibers == nil then
-	data.ammo.calibers = { }
-end
+-- Ensure all prerequisite data is initialized & empty before loading data
+data = { }
+data.modding = { }
+data.weapons = { }
+data.ammo = { }
+data.ammo.calibers = { }
 
 
 -- Define mod loading functions

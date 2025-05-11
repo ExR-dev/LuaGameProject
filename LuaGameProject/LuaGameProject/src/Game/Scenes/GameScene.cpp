@@ -79,7 +79,7 @@ int GameScene::GameScene::Start(WindowInfo *windowInfo, CmdState *cmdState)
 
     // Add Lua require path
     std::string luaScriptPath = std::format("{}/{}?{}", fs::current_path().generic_string(), FILE_PATH, FILE_EXT);
-    LuaDoString(std::format("package.path = \"{};\" .. package.path", luaScriptPath).c_str());
+    LuaDoString(L, std::format("package.path = \"{};\" .. package.path", luaScriptPath).c_str());
 
     // Initialize Lua data & mods
     ModLoader::LuaLoadData(L, DATA_PATH);
@@ -87,7 +87,7 @@ int GameScene::GameScene::Start(WindowInfo *windowInfo, CmdState *cmdState)
 
     m_scene.SystemsInitialize(L);
 
-    LuaDoFileCleaned(L, LuaFilePath("InitDevScene")); // Creates entities
+    LuaDoFileCleaned(L, LuaFilePath("Scenes/InitDevScene")); // Creates entities
 
     return 1;
 }
