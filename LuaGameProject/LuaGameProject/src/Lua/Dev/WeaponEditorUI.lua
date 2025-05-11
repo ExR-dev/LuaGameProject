@@ -238,43 +238,21 @@ local function WeaponEditorUI()
 		-- Confirm button
 		if imgui.Button("Confirm##ConfirmWeaponButton") then
 			resetState = true
+			data.weapons[dev.editingWeapon] = dev.editedWeaponTable
 
-			if true then
-				data.weapons[dev.editingWeapon] = dev.editedWeaponTable
+			-- Save the weapon to a file
+			local saveTable = {
+				dataPath	= "weapons",					-- Location of this table in the data table
+				elementName = dev.editingWeapon,		-- Name of the element in the dataPath
+				contents	= dev.editedWeaponTable	-- The table stored at data.dataPath[elementName]
+			}
 
-				-- Save the weapon to a file
-				local saveTable = {
-					dataPath	= "weapons",					-- Location of this table in the data table
-					elementName = dev.editingWeapon,		-- Name of the element in the dataPath
-					contents	= dev.editedWeaponTable	-- The table stored at data.dataPath[elementName]
-				}
+			local err = table.save(saveTable, "src/Mods/Weapons/"..saveTable.elementName..".lts") -- lts: Lua Table Save
 
-				local err = table.save(saveTable, "src/Mods/Weapons/"..saveTable.elementName..".lts") -- lts: Lua Table Save
-
-				if err then
-					print("Error saving weapon: "..err)
-				else
-					print("Weapon saved successfully.")
-				end
-			end
-
-			-- Save all ammo calibers to files
-			for key, value in pairs(data.ammo.calibers) do
-
-				-- Save the ammo to a file
-				local saveTable = {
-					dataPath	= "ammo.calibers",
-					elementName = key,
-					contents	= value
-				}
-
-				local err = table.save(saveTable, "src/Mods/Ammo/"..saveTable.elementName..".lts")
-
-				if err then
-					print("Error saving ammo: "..err)
-				else
-					print("Ammo saved successfully.")
-				end
+			if err then
+				print("Error saving weapon: "..err)
+			else
+				print("Weapon saved successfully.")
 			end
 		end
 
