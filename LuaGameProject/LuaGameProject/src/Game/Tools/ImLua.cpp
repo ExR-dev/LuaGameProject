@@ -841,6 +841,32 @@ int ImLua::ImLua::lua_InputInt(lua_State *L)
 	return 2;
 }
 
+int ImLua::ImLua::lua_SameLine(lua_State *L)
+{
+	ZoneScopedC(RandomUniqueColor());
+	int idx = 1;
+
+	// Optional
+	float offsetFromStartX = 0.0f;
+	float spacing = -1.0f;
+
+	// Get optional parameters
+	do
+	{
+		if (!PopFloat(L, idx, offsetFromStartX))
+			break;
+
+		if (!PopFloat(L, idx, spacing))
+			break;
+
+	} while (false);
+
+	// Do ImGui command
+	ImGui::SameLine(offsetFromStartX, spacing);
+
+	return 0;
+}
+
 
 
 
@@ -980,12 +1006,6 @@ int ImLua::ImLua::lua_TableNextColumn(lua_State *L)
 }
 
 int ImLua::ImLua::lua_TableSetColumnIndex(lua_State *L)
-{
-	// TODO: Implement this function
-	return 0;
-}
-
-int ImLua::ImLua::lua_SameLine(lua_State *L)
 {
 	// TODO: Implement this function
 	return 0;

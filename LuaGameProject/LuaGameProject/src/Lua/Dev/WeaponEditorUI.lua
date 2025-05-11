@@ -84,16 +84,17 @@ local function WeaponEditorUI()
 		end
 
 		-- Display the weapon name
-		imgui.Text("Editing: "..dev.editingWeapon)
+		imgui.Text("Editing:         "..dev.editingWeapon)
+		imgui.Separator()
 
-		if imgui.BeginChild("Weapon Stats", imgui.imVec2(0.0, 512.0)) then
+		if imgui.BeginChild("Weapon Stats", imgui.imVec2(0.0, 300.0)) then
 			local modified = false
 			local value = nil
 
 			-- Sprite
 			value = dev.editedWeaponTable.sprite or ""
 
-			imgui.Text("Sprite: ")
+			imgui.Text("Sprite:         ")
 			imgui.SameLine()
 			value, modified = imgui.InputText("##WeaponSpriteInput", value, 64)
 
@@ -111,7 +112,7 @@ local function WeaponEditorUI()
 				dev.editedWeaponTable.length
 			)
 
-			imgui.Text("Size: ")
+			imgui.Text("Size:           ")
 			imgui.SameLine()
 			value, modified = imgui.InputFloat2("##WeaponSizeInput", value)
 
@@ -123,7 +124,7 @@ local function WeaponEditorUI()
 			-- Hand count
 			value = dev.editedWeaponTable.stats.handCount
 
-			imgui.Text("Hand Count: ")
+			imgui.Text("Hand Count:     ")
 			imgui.SameLine()
 			value, modified = imgui.SliderInt("##WeaponHandCountInput", value, 1, 2)
 
@@ -135,7 +136,7 @@ local function WeaponEditorUI()
 			-- TODO: dropdown
 			value = dev.editedWeaponTable.stats.caliber
 
-			imgui.Text("Caliber: ")
+			imgui.Text("Caliber:        ")
 			imgui.SameLine()
 			value, modified = imgui.InputText("##WeaponCaliberInput", value, 64)
 
@@ -147,7 +148,7 @@ local function WeaponEditorUI()
 			-- TODO: dropdown
 			value = dev.editedWeaponTable.stats.fireMode
 
-			imgui.Text("Fire Mode: ")
+			imgui.Text("Fire Mode:      ")
 			imgui.SameLine()
 			value, modified = imgui.InputText("##WeaponFireModeInput", value, 64)
 
@@ -158,7 +159,7 @@ local function WeaponEditorUI()
 			-- Capacity
 			local value = dev.editedWeaponTable.stats.capacity
 
-			imgui.Text("Capacity: ")
+			imgui.Text("Capacity:       ")
 			imgui.SameLine()
 			value, modified = imgui.DragInt("##WeaponCapacityInput", value, 0.05, 1)
 
@@ -169,7 +170,7 @@ local function WeaponEditorUI()
 			-- Damage
 			local value = dev.editedWeaponTable.stats.damage
 
-			imgui.Text("Damage: ")
+			imgui.Text("Damage:         ")
 			imgui.SameLine()
 			value, modified = imgui.DragFloat("##WeaponDamageInput", value, 0.02)
 
@@ -180,7 +181,7 @@ local function WeaponEditorUI()
 			-- Fire rate
 			local value = dev.editedWeaponTable.stats.fireRate
 
-			imgui.Text("Fire Rate: ")
+			imgui.Text("Fire Rate:      ")
 			imgui.SameLine()
 			value, modified = imgui.DragFloat("##WeaponFireRateInput", value, 0.02, 0.00001)
 
@@ -191,7 +192,7 @@ local function WeaponEditorUI()
 			-- Reload time
 			local value = dev.editedWeaponTable.stats.reloadTime
 
-			imgui.Text("Reload Time: ")
+			imgui.Text("Reload Time:    ")
 			imgui.SameLine()
 			value, modified = imgui.DragFloat("##WeaponReloadTimeInput", value, 0.02, 0.00001)
 
@@ -202,7 +203,7 @@ local function WeaponEditorUI()
 			-- Spread
 			local value = dev.editedWeaponTable.stats.spread
 
-			imgui.Text("Spread: ")
+			imgui.Text("Spread:         ")
 			imgui.SameLine()
 			value, modified = imgui.DragFloat("##WeaponSpreadInput", value, 0.02)
 
@@ -213,7 +214,7 @@ local function WeaponEditorUI()
 			-- Recoil
 			local value = dev.editedWeaponTable.stats.recoil
 
-			imgui.Text("Recoil: ")
+			imgui.Text("Recoil:         ")
 			imgui.SameLine()
 			value, modified = imgui.DragFloat("##WeaponRecoilInput", value, 0.02)
 
@@ -224,7 +225,7 @@ local function WeaponEditorUI()
 			-- Recovery
 			local value = dev.editedWeaponTable.stats.recovery
 
-			imgui.Text("Recovery: ")
+			imgui.Text("Recovery:       ")
 			imgui.SameLine()
 			value, modified = imgui.SliderInt("##WeaponRecoveryInput", value, 0, 24)
 
@@ -233,7 +234,7 @@ local function WeaponEditorUI()
 			end
 		end
 		imgui.EndChild()
-
+		imgui.Separator()
 
 		-- Confirm button
 		if imgui.Button("Confirm##ConfirmWeaponButton") then

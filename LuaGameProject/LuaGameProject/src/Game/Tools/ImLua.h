@@ -157,6 +157,10 @@ namespace ImLua
 		// Returns: int v, bool isModified
 		static int lua_SliderInt(lua_State *L);
 
+		// Arguments: float offset_from_start_x = 0.0f, float spacing = -1.0f
+		// Returns: none
+		static int lua_SameLine(lua_State *L);
+
 
 
 
@@ -256,10 +260,6 @@ namespace ImLua
 		// Arguments: 
 		// Returns: 
 		static int lua_TableSetColumnIndex(lua_State *L);
-
-		// Arguments: float offset_from_start_x = 0.0f, float spacing = -1.0f
-		// Returns: 
-		static int lua_SameLine(lua_State *L);
 
 		// Arguments: 
 		// Returns: 
