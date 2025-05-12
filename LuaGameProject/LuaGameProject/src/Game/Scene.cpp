@@ -252,10 +252,19 @@ int Scene::lua_SetComponent(lua_State *L)
 		return 1;
 	}
 	else if (type == "Collider")
-	{
-		scene->TryRemoveComponent<ECS::Collider>(entity);
+	{	
+		bool hasCollider = scene->HasComponents<ECS::Active>(entity);
+		b2BodyId id;
+		if (hasCollider)
+		{
+			id = scene->GetComponent<ECS::Collider>(entity).bodyId;
+			scene->RemoveComponent<ECS::Active>(entity);
+		}
 
 		ECS::Collider collider {};
+		collider.createBody = !hasCollider;
+		if (hasCollider)
+			collider.bodyId = id;
 		collider.LuaPull(L, 3);
 
 		scene->SetComponent<ECS::Collider>(entity, collider);
