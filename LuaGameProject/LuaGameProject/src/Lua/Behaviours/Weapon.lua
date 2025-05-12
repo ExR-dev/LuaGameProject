@@ -1,11 +1,12 @@
 tracy.ZoneBeginN("Lua Weapon.lua")
 local weapon = {}
 
+local gameMath = require("Utility/GameMath")
 local vec2 = require("Vec2")
 local transform = require("Transform2")
 local color = require("Color")
-local gameMath = require("Utility/GameMath")
 local sprite = require("Components/Sprite")
+local collider = require("Components/Collider")
 
 function weapon:OnCreate()
 	tracy.ZoneBeginN("Lua weapon:OnCreate")
@@ -56,6 +57,11 @@ function weapon:LoadType(type)
 	self.trans.scale.y = weaponData.width
 
 	scene.SetComponent(self.ID, "Transform", self.trans)
+	
+	-- Create weapon collider
+	local c = collider("Weapon", true, vec2(0, 0), vec2(1.0, 1.0), nil)
+
+	scene.SetComponent(self.ID, "Collider", c)
 
 	-- Set the stats
 	self.stats = weaponData.stats
@@ -99,9 +105,12 @@ function weapon:OnUpdate(delta)
 
 		self.currRecoil = gameMath.expDecay(self.currRecoil, 0.0, self.stats.recovery, delta)
 	else
-		-- self.trans = transform(scene.GetComponent(self.ID, "Transform"))
+		self.trans = transform(scene.GetComponent(self.ID, "Transform"))
 
 		-- TODO: Idk, spin or something
+
+		self.trans.rotation = self.trans.rotation + (delta * 20.0)
+		scene.SetComponent(self.ID, "Transform", self.trans)
 	end
 
 	tracy.ZoneEnd()
@@ -207,7 +216,7 @@ function weapon:OnReload(reserve)
 	return true
 end
 
-function weapon:TryPickUp()
+function weapon:Interact()
 	if self.isHeld then
 		return false
 	end
@@ -216,12 +225,8 @@ function weapon:TryPickUp()
 
 	if self.stats.handCount == 2 then
 
-		if player.rHandEntity ~= nil then
-			return false
-		end
-
-		if player.lHandEntity ~= nil then
-			return false
+		if player.rHandEntity ~= nil or player.lHandEntity ~= nil then
+			player:DropItems(2)
 		end
 		
 		player.rHandEntity = self.ID
@@ -229,6 +234,10 @@ function weapon:TryPickUp()
 
 		self.isHeld = true
 	else
+		if player.rHandEntity ~= nil and player.lHandEntity ~= nil then
+			player:DropItems(1)
+		end
+
 		if player.rHandEntity == nil then
 			player.rHandEntity = self.ID
 			self.isHeld = true
@@ -239,6 +248,22 @@ function weapon:TryPickUp()
 	end
 
 	return self.isHeld
+end
+
+function weapon:Drop()
+	if not self.isHeld then
+		return
+	end
+
+	local player = game.GetPlayer()
+
+	if player.rHandEntity == self.ID then
+		player.rHandEntity = nil
+	elseif player.lHandEntity == self.ID then
+		player.lHandEntity = nil
+	end
+
+	self.isHeld = false
 end
 
 tracy.ZoneEnd()

@@ -401,6 +401,7 @@
     <None Include="src\Lua\Data\Ammo.lua" />
     <None Include="src\Lua\Data.lua" />
     <None Include="src\Lua\Data\Weapons.lua" />
+    <None Include="src\Lua\Dev\Commands.lua" />
     <None Include="src\Lua\Dev\WeaponEditorUI.lua" />
     <None Include="src\Lua\Scenes\InitDevScene.lua" />
     <None Include="src\Lua\Scenes\InitEditorLevelCreatorScene.lua" />

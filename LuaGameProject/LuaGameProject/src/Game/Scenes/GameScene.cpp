@@ -53,6 +53,10 @@ int GameScene::GameScene::Start(WindowInfo *windowInfo, CmdState *cmdState)
     L = luaL_newstate();
     luaL_openlibs(L);
 
+    // Add Lua require path
+    std::string luaScriptPath = std::format("{}/{}?{}", fs::current_path().generic_string(), FILE_PATH, LUA_EXT);
+    LuaDoString(L, std::format("package.path = \"{};\" .. package.path", luaScriptPath).c_str());
+
     m_windowInfo->BindLuaWindow(L);
 
     Scene::lua_openscene(L, &m_scene);
@@ -76,10 +80,6 @@ int GameScene::GameScene::Start(WindowInfo *windowInfo, CmdState *cmdState)
     m_dungeon->Generate(100);
 
     BindLuaInput(L);
-
-    // Add Lua require path
-    std::string luaScriptPath = std::format("{}/{}?{}", fs::current_path().generic_string(), FILE_PATH, LUA_EXT);
-    LuaDoString(L, std::format("package.path = \"{};\" .. package.path", luaScriptPath).c_str());
 
     // Initialize Lua data & mods
     ModLoader::LuaLoadData(L, DATA_PATH);
@@ -142,6 +142,9 @@ void GameScene::GameScene::OnResizeWindow()
 Game::SceneState GameScene::GameScene::Update()
 {
     ZoneScopedC(RandomUniqueColor());
+
+    auto mouseWorldPos = Input::GetMouseInfo().position;
+    m_luaGame.SetMouseWorldPos(mouseWorldPos.x, mouseWorldPos.y);
 
     // Toggle mouse
     if (Input::CheckMousePressed(Input::GAME_MOUSE_RIGHT))

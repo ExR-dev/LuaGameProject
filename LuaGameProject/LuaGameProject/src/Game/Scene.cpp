@@ -8,6 +8,7 @@
 #define lua_GetSceneUpValue(L) (Scene *)lua_topointer(L, lua_upvalueindex(1))
 #define lua_GetScene(L) lua_GetSceneUpValue(L)
 
+
 Scene::~Scene()
 {
 	ZoneScopedC(RandomUniqueColor());
@@ -170,6 +171,7 @@ void Scene::CleanUp(lua_State* L)
 
 	RunSystem(cleanup);
 }
+
 
 void Scene::lua_openscene(lua_State *L, Scene *scene)
 {

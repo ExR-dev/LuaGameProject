@@ -16,10 +16,11 @@ void LuaGame::LuaGame::lua_opengame(lua_State *L, LuaGame *game)
 	lua_newtable(L);
 
 	luaL_Reg methods[] = {
-	//  { "NameInLua",			NameInCpp			},
-		{ "PlaySound",			lua_PlaySound		},
-		{ "SetTimeScale",		lua_SetTimeScale	},
-		{ NULL,					NULL				}
+	//  { "NameInLua",				NameInCpp				},
+		{ "PlaySound",				lua_PlaySound			},
+		{ "SetTimeScale",			lua_SetTimeScale		},
+		{ "GetMouseWorldPos",		lua_GetMouseWorldPos	},
+		{ NULL,						NULL					}
 	};
 
 	lua_pushlightuserdata(L, game);
@@ -35,6 +36,10 @@ void LuaGame::LuaGame::lua_opengame(lua_State *L, LuaGame *game)
 
 	LuaDoFileCleaned(L, LuaFilePath("Utility/TableCopy"));
 	LuaDoFileCleaned(L, LuaFilePath("Utility/TableSave"));
+
+#ifdef LUA_DEBUG
+	LuaDoFileCleaned(L, LuaFilePath("Dev/Commands"));
+#endif
 }
 
 int LuaGame::LuaGame::lua_PlaySound(lua_State *L)
@@ -78,6 +83,19 @@ int LuaGame::LuaGame::lua_SetTimeScale(lua_State *L)
 	{
 		luaL_error(L, "Expected a number for TimeScale");
 	}
+
+	return 1;
+}
+
+int LuaGame::LuaGame::lua_GetMouseWorldPos(lua_State *L)
+{
+	LuaGame *game = lua_GetGame(L);
+
+	lua_createtable(L, 0, 2);
+	lua_pushnumber(L, game->m_mouseWorldPos[0]);
+	lua_setfield(L, -2, "x");
+	lua_pushnumber(L, game->m_mouseWorldPos[1]);
+	lua_setfield(L, -2, "y");
 
 	return 1;
 }

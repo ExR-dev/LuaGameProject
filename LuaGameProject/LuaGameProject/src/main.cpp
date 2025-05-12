@@ -5,7 +5,7 @@
 #include "Game/Scenes/MenuScene.h"
 #include "Game/Scenes/GameScene.h"
 #include "Game/Scenes/EditorScene.h"
-#include <Game/Utilities/InputHandler.h>
+#include "Game/Utilities/InputHandler.h"
 
 #ifdef LEAK_DETECTION
 #define new			DEBUG_NEW

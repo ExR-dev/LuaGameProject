@@ -30,7 +30,7 @@ local function WeaponEditorUI()
 			imgui.Text("Enter a name for the new weapon:")
 			dev.newWeaponName = imgui.InputText("##NewWeaponNameInput", dev.newWeaponName, 64)
 			
-			if imgui.Button("Confirm Name") then
+			if imgui.Button("Confirm") or Input.KeyPressed(Input.Key.KEY_ENTER) then -- Submit if Confirm button or Enter key is pressed
 				local newWeapon = {
 					[dev.newWeaponName] = {
 
@@ -243,9 +243,9 @@ local function WeaponEditorUI()
 
 			-- Save the weapon to a file
 			local saveTable = {
-				dataPath	= "weapons",					-- Location of this table in the data table
+				dataPath	= "weapons",				-- Location of this table in the data table
 				elementName = dev.editingWeapon,		-- Name of the element in the dataPath
-				contents	= dev.editedWeaponTable	-- The table stored at data.dataPath[elementName]
+				contents	= dev.editedWeaponTable		-- The table stored at data.dataPath[elementName]
 			}
 
 			local err = table.save(saveTable, "src/Mods/Weapons/"..saveTable.elementName..".lts") -- lts: Lua Table Save

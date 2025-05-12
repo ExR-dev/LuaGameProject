@@ -105,27 +105,39 @@ if game.GetPlayer == nil then
 	--------------------------------
 
 
-	-- Create Weapon ---------------
-	tracy.ZoneBeginN("Lua Create Weapon")
-	local weaponEnt = scene.CreateEntity()
+	local function MakeWeaponFunc(name, pos)
+		-- Create Weapon ---------------
+		tracy.ZoneBeginN("Lua Create Weapon")
+		local weaponEnt = scene.CreateEntity()
 
-	local weaponT = transform()
-	scene.SetComponent(weaponEnt, "Transform", weaponT)
-	scene.SetComponent(weaponEnt, "Behaviour", "Behaviours/Weapon")
+		local weaponT = transform()
+		weaponT.position = pos
 
-	-- Get the weapon behaviour to set the stats
-	local weaponBehaviour = scene.GetComponent(weaponEnt, "Behaviour")
-	--weaponBehaviour:LoadType("Glock")
-	--weaponBehaviour:LoadType("Spas-12")
-	--weaponBehaviour:LoadType("AR-15")
-	--weaponBehaviour:LoadType("M700")
-	weaponBehaviour:LoadType("God Gun")
+		scene.SetComponent(weaponEnt, "Transform", weaponT)
+		scene.SetComponent(weaponEnt, "Behaviour", "Behaviours/Weapon")
 
-	-- Pick it up
-	weaponBehaviour:TryPickUp()
+		-- Get the weapon behaviour to set the stats
+		local weaponBehaviour = scene.GetComponent(weaponEnt, "Behaviour")
+		weaponBehaviour:LoadType(name)
 
-	tracy.ZoneEnd()
-	--------------------------------
+		tracy.ZoneEnd()
+		--------------------------------
+	end
+
+	MakeWeaponFunc("Glock", vec2(0, 512))
+	MakeWeaponFunc("Glock", vec2(0, 640))
+
+	MakeWeaponFunc("Spas-12", vec2(128, 512))
+	MakeWeaponFunc("Spas-12", vec2(128, 640))
+
+	MakeWeaponFunc("AR-15", vec2(256, 512))
+	MakeWeaponFunc("AR-15", vec2(256, 640))
+
+	MakeWeaponFunc("M700", vec2(384, 512))
+	MakeWeaponFunc("M700", vec2(384, 640))
+
+	MakeWeaponFunc("God Gun", vec2(512, 512))
+	MakeWeaponFunc("God Gun", vec2(512, 640))
 end
 
 -- Create Enemies --------------

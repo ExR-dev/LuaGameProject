@@ -117,11 +117,14 @@ Game::SceneState EditorScene::EditorScene::Update()
 	auto &L = modeScene.L;
 
 	auto mRState = Input::GetMouseState(Input::GameMouse::GAME_MOUSE_RIGHT);
-	auto mInfo = Input::GetMouseInfo();
+	auto mInfo = Input::GetMouseInfo(); 
+	
+	auto mouseWorldPos = ScreenToWorldPos(mInfo.position);
+	modeScene.luaGame.SetMouseWorldPos(mouseWorldPos.x, mouseWorldPos.y);
 
 	if (m_isDraggingCamera)
 	{
-		m_dragOffset = ScreenToWorldPos(mInfo.position);
+		m_dragOffset = mouseWorldPos;
 		raylib::Vector2 newTarget = Vector2Subtract(m_camera.target, Vector2Subtract(m_dragOffset, m_dragOrigin));
 		m_camera.SetTarget(newTarget);
 
@@ -736,6 +739,11 @@ void EditorScene::EditorScene::EditorModeScene::Init(WindowInfo *windowInfo, con
 	// Setup Lua enviroment
 	L = luaL_newstate();
 	luaL_openlibs(L);
+
+	// Add lua require path
+	std::string luaScriptPath = std::format("{}/{}?{}", fs::current_path().generic_string(), FILE_PATH, LUA_EXT);
+	LuaDoString(L, std::format("package.path = \"{};\" .. package.path", luaScriptPath).c_str());
+
 	windowInfo->BindLuaWindow(L);
 
 	physicsHandler.Setup();
@@ -746,10 +754,6 @@ void EditorScene::EditorScene::EditorModeScene::Init(WindowInfo *windowInfo, con
 	LuaGame::LuaGame::lua_opengame(L, &luaGame);
 
 	BindLuaInput(L);
-
-	// Add lua require path
-	std::string luaScriptPath = std::format("{}/{}?{}", fs::current_path().generic_string(), FILE_PATH, LUA_EXT);
-	LuaDoString(L, std::format("package.path = \"{};\" .. package.path", luaScriptPath).c_str());
 
 	// Initialize Lua data & mods
 	LoadData();
