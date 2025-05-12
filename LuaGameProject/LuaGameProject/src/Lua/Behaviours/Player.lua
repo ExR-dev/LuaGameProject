@@ -21,8 +21,10 @@ function player:OnCreate()
 	self.interactOptions = nil
 	
 	-- Create player collider
-	local c = collider("Player", true, vec2(0, 0), vec2(1.0, 1.0), function(other) 
+	local c = collider("Player", true, vec2(0, 0), vec2(1.0, 1.0), 0, function(other) 
 		tracy.ZoneBeginN("Lua Lambda player:Collide")
+
+		print("Colliding")
 
 		local o = scene.GetComponent(other, "Collider")
 		if (o.tag == "Weapon") then

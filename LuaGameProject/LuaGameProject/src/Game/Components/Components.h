@@ -304,7 +304,7 @@ namespace ECS
 		b2BodyId bodyId = b2_nullBodyId;
 		bool createBody = false;
 		bool debug = false;
-		int luaRef;
+		int onEnterRef, onExitRef;
 		static constexpr int MAX_TAG_LENGTH = 32;
 		char tag[MAX_TAG_LENGTH];
 		float offset[2] { 0 };
@@ -320,7 +320,8 @@ namespace ECS
 		{
 			b2DestroyBody(bodyId);
 			bodyId = b2_nullBodyId;
-			luaL_unref(L, LUA_REGISTRYINDEX, luaRef);
+			luaL_unref(L, LUA_REGISTRYINDEX, onEnterRef);
+			luaL_unref(L, LUA_REGISTRYINDEX, onExitRef);
 		}
 
 		void LuaPush(lua_State* L) const
@@ -352,8 +353,11 @@ namespace ECS
 			lua_pushnumber(L, rotation);
 			lua_setfield(L, -2, "rotation");
 
-            lua_rawgeti(L, LUA_REGISTRYINDEX, luaRef);
-			lua_setfield(L, -2, "callback");
+            lua_rawgeti(L, LUA_REGISTRYINDEX, onEnterRef);
+			lua_setfield(L, -2, "onEnterCallback");
+
+			lua_rawgeti(L, LUA_REGISTRYINDEX, onExitRef);
+			lua_setfield(L, -2, "onExitCallback");
 		}
 		void LuaPull(lua_State *L, int index)
 		{
@@ -424,9 +428,13 @@ namespace ECS
 				lua_pop(L, 1);
 			}
 
-			lua_getfield(L, index, "callback");
+			lua_getfield(L, index, "onEnterCallback");
 			if (lua_isfunction(L, -1))
-				luaRef = luaL_ref(L, LUA_REGISTRYINDEX);
+				onEnterRef = luaL_ref(L, LUA_REGISTRYINDEX);
+
+			lua_getfield(L, index, "onExitCallback");
+			if (lua_isfunction(L, -1))
+				onExitRef = luaL_ref(L, LUA_REGISTRYINDEX);
 		}
 	
 		void RenderUI()

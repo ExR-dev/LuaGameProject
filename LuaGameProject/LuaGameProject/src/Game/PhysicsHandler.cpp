@@ -42,26 +42,54 @@ void PhysicsHandler::Update(lua_State* L, Scene* scene) const
 
     b2World_Step(m_worldId, Time::DeltaTime(), 4);
 
-    const b2SensorEvents sensorEvents = b2World_GetSensorEvents(m_worldId);
-    for (int i = 0; i < sensorEvents.beginCount; i++)
-    {
-        ZoneNamedNC(sensorEventZone, "PhysicsHandler::Update Sensor Event", RandomUniqueColor(), true);
-
-        const b2SensorBeginTouchEvent event = sensorEvents.beginEvents[i];
-
-		int entity = (int)((size_t)b2Shape_GetUserData(event.sensorShapeId));
-        int other = (int)((size_t)b2Shape_GetUserData(event.visitorShapeId));
-
+    auto handleEvent = [&L, &scene](int entity, int other, int luaCallback) {
         if (scene->IsEntity(entity) && scene->IsEntity(other))
         {
-            int luaCallback = scene->GetComponent<ECS::Collider>(entity).luaRef;
-
+       
             lua_rawgeti(L, LUA_REGISTRYINDEX, luaCallback);
             lua_pushinteger(L, other);
             lua_pcall(L, 1, 0, 0);
         }
         else
             std::cout << "Invalid Entities" << std::endl;
+    };
+
+    b2SensorEvents sensorEvents = b2World_GetSensorEvents(m_worldId);
+
+    // On Enter Events
+    for (int i = 0; i < sensorEvents.beginCount; i++)
+    {
+        ZoneNamedNC(sensorEventZone, "PhysicsHandler::Update Sensor Begin-Event", RandomUniqueColor(), true);
+
+        const b2SensorBeginTouchEvent event = sensorEvents.beginEvents[i];
+
+        if (!b2Shape_IsValid(event.sensorShapeId) || !b2Shape_IsValid(event.visitorShapeId))
+            continue;
+
+		int entity = (int)((size_t)b2Shape_GetUserData(event.sensorShapeId));
+        int other = (int)((size_t)b2Shape_GetUserData(event.visitorShapeId));
+
+        int luaCallback = scene->GetComponent<ECS::Collider>(entity).onEnterRef;
+
+        handleEvent(entity, other, luaCallback);
+    }
+
+    // On Exit Events
+    for (int i = 0; i < sensorEvents.endCount; i++)
+    {
+        ZoneNamedNC(sensorEventZone, "PhysicsHandler::Update Sensor End-Event", RandomUniqueColor(), true);
+
+        const b2SensorEndTouchEvent event = sensorEvents.endEvents[i];
+
+        if (!b2Shape_IsValid(event.sensorShapeId) || !b2Shape_IsValid(event.visitorShapeId))
+            continue;
+
+        int entity = (int)((size_t)b2Shape_GetUserData(event.sensorShapeId));
+        int other = (int)((size_t)b2Shape_GetUserData(event.visitorShapeId));
+
+        int luaCallback = scene->GetComponent<ECS::Collider>(entity).onExitRef;
+
+        handleEvent(entity, other, luaCallback);
     }
 }
 

@@ -59,7 +59,7 @@ function weapon:LoadType(type)
 	scene.SetComponent(self.ID, "Transform", self.trans)
 	
 	-- Create weapon collider
-	local c = collider("Weapon", true, vec2(0, 0), vec2(1.0, 1.0), nil)
+	local c = collider("Weapon", true, vec2(0, 0), vec2(1.0, 1.0), 0, nil, nil)
 
 	scene.SetComponent(self.ID, "Collider", c)
 
