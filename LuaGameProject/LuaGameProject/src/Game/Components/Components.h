@@ -311,7 +311,10 @@ namespace ECS
 		float extents[2] { 1, 1 };
 		float rotation = 0;
 
-		Collider(): createBody(true) {}
+		Collider(bool recreating = false)
+		{
+			createBody = !recreating;
+		}
 
 		void Destroy(lua_State* L)
 		{
@@ -346,6 +349,9 @@ namespace ECS
 			lua_setfield(L, -2, "y");
 			lua_setfield(L, -2, "extents");	
 
+			lua_pushnumber(L, rotation);
+			lua_setfield(L, -2, "rotation");
+
             lua_rawgeti(L, LUA_REGISTRYINDEX, luaRef);
 			lua_setfield(L, -2, "callback");
 		}
@@ -362,8 +368,6 @@ namespace ECS
 				luaL_error(L, "Expected a table for Collider");
 				return;
 			}
-
-			createBody = true;
 
 			lua_getfield(L, index, "tag");
 			if (lua_isstring(L, -1)) 
@@ -410,6 +414,13 @@ namespace ECS
 					extents[1] = temp;
 					createBody = true;
 				}
+				lua_pop(L, 1);
+			}
+
+			lua_getfield(L, index, "rotation");
+			if (lua_isnumber(L, -1))
+			{
+				rotation = (float)lua_tonumber(L, -1);
 				lua_pop(L, 1);
 			}
 
