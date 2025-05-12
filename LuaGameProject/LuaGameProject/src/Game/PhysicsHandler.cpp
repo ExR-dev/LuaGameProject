@@ -77,8 +77,8 @@ b2BodyId PhysicsHandler::CreateRigidBody(int entity, const ECS::Collider &collid
     b2BodyId bodyId;
 
     // Check if bodyId is null
-    if (collider.bodyId.generation != b2_nullBodyId.generation &&
-        collider.bodyId.index1 != b2_nullBodyId.index1 &&
+    if (collider.bodyId.generation != b2_nullBodyId.generation ||
+        collider.bodyId.index1 != b2_nullBodyId.index1 ||
         collider.bodyId.world0 != b2_nullBodyId.world0)
 		b2DestroyBody(collider.bodyId);
 
@@ -92,6 +92,7 @@ b2BodyId PhysicsHandler::CreateRigidBody(int entity, const ECS::Collider &collid
 	b2BodyDef bodyDef = b2DefaultBodyDef();
 	bodyDef.type = b2_kinematicBody;
 	bodyDef.position = { transform.Position[0] + collider.offset[0], transform.Position[1] + collider.offset[1] };
+    bodyDef.rotation = { cosf((transform.Rotation + collider.rotation) * DEG2RAD), sinf((transform.Rotation + collider.rotation) * DEG2RAD) };
 
 	bodyId = b2CreateBody(m_worldId, &bodyDef);
 

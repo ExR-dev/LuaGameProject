@@ -309,6 +309,7 @@ namespace ECS
 		char tag[MAX_TAG_LENGTH];
 		float offset[2] { 0 };
 		float extents[2] { 1, 1 };
+		float rotation = 0;
 
 		Collider(): createBody(true) {}
 
@@ -423,7 +424,14 @@ namespace ECS
 			{
 				// TODO: This is'nt working
 				ImGui::DragFloat2("Offset", offset, 0.1f, -1000, 1000);
-				createBody |= ImGui::DragFloat2("Extents", extents, 0.1f, -1000, 1000);
+				createBody |= ImGui::DragFloat2("Extents", extents, 0.001f, 0.001f, 1000);
+				if (ImGui::DragFloat("Rotation", &rotation, 0.1f, -1.0f, 361.0f))
+				{
+					if (rotation >= 0)
+						rotation = std::fmodf(rotation, 360.0f);
+					else
+						rotation = 360 - std::fmodf(-1*rotation, 360.0f);
+				}
 
 				ImGui::Checkbox("Debug", &debug);
 

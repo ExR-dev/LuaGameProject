@@ -174,7 +174,9 @@ Game::SceneState EditorScene::EditorScene::Update()
 			// Create body
 			if (!collider.createBody)
 			{
-				b2Body_SetTransform(collider.bodyId, { transform.Position[0], transform.Position[1] }, { cosf(transform.Rotation * DEG2RAD), sinf(transform.Rotation * DEG2RAD) });
+				b2Body_SetTransform(collider.bodyId, 
+									{ collider.offset[0] + transform.Position[0], collider.offset[1] + transform.Position[1] }, 
+									{ cosf((transform.Rotation + collider.rotation) * DEG2RAD), sinf((transform.Rotation + collider.rotation) * DEG2RAD) });
 			}
 			else
 			{
@@ -327,31 +329,32 @@ int EditorScene::EditorScene::Render()
 			};
 			scene.RunSystem(drawSystem);
 
-			std::function<void(entt::registry &registry)> createPhysicsBodies = [&](entt::registry &registry) {
-				ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+			std::function<void(entt::registry& registry)> drawPhysicsBodies = [&](entt::registry& registry) {
+				ZoneNamedNC(drawPhysicsBodiesZone, "Lambda Draw Physics Bodies", RandomUniqueColor(), true);
 
 				auto view = registry.view<ECS::Collider, ECS::Transform>();
 				view.use<ECS::Collider>();
 
-				view.each([&](ECS::Collider &collider, ECS::Transform &transform) {
-					ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+				view.each([&](ECS::Collider& collider, ECS::Transform& transform) {
+					ZoneNamedNC(drawSpriteZone, "Lambda Draw Physics Body", RandomUniqueColor(), true);
 
 					if (collider.debug)
 					{
-						const float w = fabsf(transform.Scale[0]),
-							h = fabsf(transform.Scale[1]);
-						b2Vec2 p = b2Body_GetWorldPoint(collider.bodyId, { 0, 0 });
+						const float w = fabsf(transform.Scale[0] * collider.extents[0]),
+									h = fabsf(transform.Scale[1] * collider.extents[1]);
+						b2Vec2 p = b2Body_GetWorldPoint(collider.bodyId, { 0, 0});
 						//b2Transform t;
 
 						b2Rot rotation = b2Body_GetRotation(collider.bodyId);
 						float radians = b2Rot_GetAngle(rotation);
 
 						Rectangle rect = { p.x, p.y , w, h };
-						DrawRectanglePro(rect, { w / 2, h / 2 }, radians * RAD2DEG, { 0, 228, 46, 100 });
+						DrawRectanglePro(rect, { w/2, h/2 }, radians*RAD2DEG, {0, 228, 46, 100});
 					}
 				});
 			};
-			scene.RunSystem(createPhysicsBodies);
+
+			scene.RunSystem(drawPhysicsBodies);
 
 			// Draw a circle at the mouse position, converted to scene coordinates
 			raylib::Vector2 mousePos = GetMousePosition();

@@ -215,7 +215,9 @@ Game::SceneState GameScene::GameScene::Update()
 
             if (!collider.createBody)
             {
-                b2Body_SetTransform(collider.bodyId, { transform.Position[0] + collider.offset[0], transform.Position[1] + collider.offset[1]}, {cosf(transform.Rotation * DEG2RAD), sinf(transform.Rotation * DEG2RAD)});
+				b2Body_SetTransform(collider.bodyId, 
+									{ collider.offset[0] + transform.Position[0], collider.offset[1] + transform.Position[1] }, 
+									{ cosf((transform.Rotation + collider.rotation) * DEG2RAD), sinf((transform.Rotation + collider.rotation) * DEG2RAD) });
             }
             else
             {
