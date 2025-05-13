@@ -59,7 +59,7 @@ function weapon:LoadType(type)
 	scene.SetComponent(self.ID, "Transform", self.trans)
 	
 	-- Create weapon collider
-	local c = collider("Weapon", true, vec2(0, 0), vec2(1.0, 1.0), 0, nil, nil)
+	local c = collider("Weapon", false, vec2(0, 0), vec2(1.0, 1.0), 0, nil, nil)
 
 	scene.SetComponent(self.ID, "Collider", c)
 
@@ -83,7 +83,7 @@ function weapon:OnUpdate(delta)
 			if self.reloadTimer <= 0.0 then
 				self.reloadTimer = 0.0
 				self.isReloading = false
-				print("Done Reloading.")
+				print("Done Reloading.\n")
 			end
 		end
 
@@ -94,7 +94,7 @@ function weapon:OnUpdate(delta)
 				self.isOnCooldown = false
 
 				if self.stats.fireMode == "Auto" then
-					if Input.KeyHeld(Input.Key.KEY_SPACE) then
+					if Input.MouseHeld(Input.Mouse.MOUSE_LEFT) then
 						self:OnShoot()
 					end
 				else
@@ -162,7 +162,7 @@ function weapon:OnShoot()
 
 		-- Get the projectile behaviour to set its stats
 		local projBehaviour = scene.GetComponent(projEnt, "Behaviour")
-		projBehaviour.stats = ammoStats
+		projBehaviour:Initialize(self.stats, ammoStats)
 	end
 
 	self.isOnCooldown = true
@@ -210,8 +210,9 @@ function weapon:OnReload(reserve)
 	self.isReloading = true
 	self.reloadTimer = self.stats.reloadTime
 
-	print("Reloading "..self.loadedAmmoType.." ammo: "..ammoTaken.." / "..ammoInReserve)
-	print("Reserve now: "..caliberReserve[self.loadedAmmoType])
+	print("Reloading "..self.stats.caliber.." ("..self.loadedAmmoType..")")
+	print("Taking: "..ammoTaken.." out of "..ammoInReserve)
+	print("Reserve now: "..caliberReserve[self.loadedAmmoType].."\n")
 
 	return true
 end

@@ -16,32 +16,32 @@ function player:OnCreate()
 	tracy.ZoneBeginN("Lua player:OnCreate")
 	
 	self.trans = transform(scene.GetComponent(self.ID, "Transform"))
-	self.speed = 200.0
 
-	self.interactOptions = nil
+	self.speed = 200.0
+	self.sprintMult = 2.2
+	self.currSpeed = self.speed
+
+	self.interactOptions = {}
 	
 	-- Create player collider
-	local c = collider("Player", true, vec2(0, 0), vec2(1.0, 1.0), 0, function(other) 
-		tracy.ZoneBeginN("Lua Lambda player:Collide")
-
-		print("Colliding")
+	local c = collider("Player", false, vec2(0, 0), vec2(1.0, 1.0), 0, 
+	function(other) -- onEnter
+		tracy.ZoneBeginN("Lua Lambda player:OnCollideEnter")
 
 		local o = scene.GetComponent(other, "Collider")
 		if (o.tag == "Weapon") then
+			-- Ensure that weapon is not already in interactOptions
+			for _, option in ipairs(self.interactOptions) do
+				if other == option then
+					tracy.ZoneEnd()
+					return
+				end
+			end
+
 			-- Ensure that weapon is not currently held
 			if other == self.rHandEntity or other == self.lHandEntity then
 				tracy.ZoneEnd()
 				return
-			end
-
-			-- Ensure that weapon is not already in interactOptions
-			if self.interactOptions then
-				for _, option in ipairs(self.interactOptions) do
-					if other == option then
-						tracy.ZoneEnd()
-						return
-					end
-				end
 			end
 
 			-- Ensure that weapon is not currently holstered
@@ -52,11 +52,20 @@ function player:OnCreate()
 				end
 			end
 			
-			if not self.interactOptions then
-				self.interactOptions = { }
-			end
-
 			table.insert(self.interactOptions, other)
+		end
+
+		tracy.ZoneEnd()
+	end,
+	function(other) -- onExit
+		tracy.ZoneBeginN("Lua Lambda player:OnCollideExit")
+
+		for i, option in ipairs(self.interactOptions) do
+			if other == option then
+				-- Remove the option from the list
+				table.remove(self.interactOptions, i)
+				break
+			end
 		end
 
 		tracy.ZoneEnd()
@@ -127,9 +136,15 @@ function player:OnUpdate(delta)
 		move.x = move.x - 1.0
 	end
 
+	if Input.KeyHeld(Input.Key.KEY_LEFT_SHIFT) then
+		self.currSpeed = self.speed * self.sprintMult
+	else
+		self.currSpeed = self.speed
+	end
+
 	if not gameMath.approx(move:lengthSqr(), 0.0) then
 		move:normalize()
-		self.trans.position = self.trans.position + (move * (self.speed * delta))
+		self.trans.position = self.trans.position + (move * (self.currSpeed * delta))
 	end
 
 	-- Rotate the player to face the cursor
@@ -139,45 +154,34 @@ function player:OnUpdate(delta)
 
 	scene.SetComponent(self.ID, "Transform", self.trans)
 	
-	if self.interactOptions then
-		-- Remove all interact options that are further than 1.25m from the player
-		for i, option in ipairs(self.interactOptions) do
-			local optionTrans = transform(scene.GetComponent(option, "Transform"))
-			local offset = optionTrans.position - self.trans.position
-			local distSqr = offset:lengthSqr()
-			if distSqr > 125*125 then
-				-- Remove the option from the list
-				table.remove(self.interactOptions, i)
-			end
-		end
-
-		if #self.interactOptions == 0 then
-			self.interactOptions = nil
-		end
+	if #self.interactOptions > 0 then
 
 		-- Check if the player is trying to interact
-		if Input.KeyPressed(Input.Key.KEY_E) and self.interactOptions then
+		if Input.KeyPressed(Input.Key.KEY_E) then
 			-- Determine the ideal target out of the options based on distance to cursor
 			
 			local closest = nil
+			local closestI = nil
 			local closestDistSqr = math.huge
 
-			for _, entID in ipairs(self.interactOptions) do
+			for i, entID in ipairs(self.interactOptions) do
 				local entTrans = transform(scene.GetComponent(entID, "Transform"))
 				local distSqr = (entTrans.position - cursorPos):lengthSqr()
 
 				if distSqr < closestDistSqr then
 					closestDistSqr = distSqr
 					closest = entID
+					closestI = i
 				end
 			end
 
 			if closest then
 				local closestBehaviour = scene.GetComponent(closest, "Behaviour")
 				closestBehaviour:Interact()
-			end
 
-			self.interactOptions = nil
+				-- Remove the option from the list
+				table.remove(self.interactOptions, closestI)
+			end
 		end
 	end
 
@@ -248,7 +252,7 @@ function player:UpdateHeldItem(entID, localOffset, allowFire)
 	itemBehaviour.trans = itemTrans
 
 	if allowFire and itemBehaviour.OnShoot ~= nil then
-		if Input.KeyPressed(Input.Key.KEY_SPACE) then
+		if Input.MousePressed(Input.Mouse.MOUSE_LEFT) then
 			itemBehaviour:OnShoot()
 			self.nextHandFire = (self.nextHandFire + 1) % 2
 			self.didFire = true
@@ -271,6 +275,8 @@ function player:DropItems(count)
 	if self.rHandEntity == self.lHandEntity then
 		-- Held item is two-handed, empty both hands
 		local itemBehaviour = scene.GetComponent(self.rHandEntity, "Behaviour")
+
+		table.insert(self.interactOptions, self.rHandEntity)
 		itemBehaviour:Drop()
 
 		self.rHandEntity = nil
@@ -281,12 +287,16 @@ function player:DropItems(count)
 		-- Drop the oldest held item
 		if self.rHandHoldTime > self.lHandHoldTime then
 			local itemBehaviour = scene.GetComponent(self.rHandEntity, "Behaviour")
+
+			table.insert(self.interactOptions, self.rHandEntity)
 			itemBehaviour:Drop()
 
 			self.rHandEntity = nil
 			self.rHandHoldTime = 0.0
 		else
 			local itemBehaviour = scene.GetComponent(self.lHandEntity, "Behaviour")
+
+			table.insert(self.interactOptions, self.lHandEntity)
 			itemBehaviour:Drop()
 
 			self.lHandEntity = nil
@@ -296,6 +306,8 @@ function player:DropItems(count)
 		-- Drop both items
 		if self.rHandEntity then
 			local itemBehaviour = scene.GetComponent(self.rHandEntity, "Behaviour")
+
+			table.insert(self.interactOptions, self.rHandEntity)
 			itemBehaviour:Drop()
 
 			self.rHandEntity = nil
@@ -304,6 +316,8 @@ function player:DropItems(count)
 
 		if self.lHandEntity then
 			local itemBehaviour = scene.GetComponent(self.lHandEntity, "Behaviour")
+
+			table.insert(self.interactOptions, self.lHandEntity)
 			itemBehaviour:Drop()
 
 			self.lHandEntity = nil

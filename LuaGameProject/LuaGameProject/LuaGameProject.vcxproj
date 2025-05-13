@@ -394,8 +394,8 @@
     <None Include="src\Lua\Color.lua" />
     <None Include="src\Lua\Components\Active.lua" />
     <None Include="src\Lua\Components\CameraData.lua" />
+    <None Include="src\Lua\Components\Collider.lua" />
     <None Include="src\Lua\Components\Health.lua" />
-    <None Include="src\Lua\Components\HitboxCircle.lua" />
     <None Include="src\Lua\Components\Sprite.lua" />
     <None Include="src\Lua\Components\Tags.lua" />
     <None Include="src\Lua\Data\Ammo.lua" />

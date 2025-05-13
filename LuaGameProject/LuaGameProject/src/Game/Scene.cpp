@@ -272,6 +272,17 @@ int Scene::lua_SetComponent(lua_State *L)
 		scene->SetComponent<ECS::Collider>(entity, collider);
 		return 1;
 	}
+	else if (type == "Hardness")
+	{
+		if (scene->HasComponents<ECS::Hardness>(entity))
+			scene->RemoveComponent<ECS::Hardness>(entity);
+
+		ECS::Hardness hardness{};
+		hardness.LuaPull(L, 3);
+
+		scene->SetComponent<ECS::Hardness>(entity, hardness);
+		return 1;
+	}
 	else if (type == "Health") 
 	{
 		scene->TryRemoveComponent<ECS::Health>(entity);
@@ -353,14 +364,14 @@ int Scene::lua_HasComponent(lua_State *L)
 	std::string type = lua_tostring(L, 2);
 	
 	bool hasComponent = true;
-	
+		
 	if		(type == "Active")
 	{
 		hasComponent = scene->HasComponents<ECS::Active>(entity);
 	}
-	else if (type == "Transform")
+	else if (type == "Behaviour")
 	{
-		hasComponent = scene->HasComponents<ECS::Transform>(entity);
+		hasComponent = scene->HasComponents<ECS::Behaviour>(entity);
 	}
 	else if (type == "Collider")
 	{
@@ -370,9 +381,9 @@ int Scene::lua_HasComponent(lua_State *L)
 	{
 		hasComponent = scene->HasComponents<ECS::Health>(entity);
 	}
-	else if (type == "Behaviour")
+	else if (type == "Hardness")
 	{
-		hasComponent = scene->HasComponents<ECS::Behaviour>(entity);
+		hasComponent = scene->HasComponents<ECS::Hardness>(entity);
 	}
 	else if (type == "Sprite")
 	{
@@ -381,6 +392,10 @@ int Scene::lua_HasComponent(lua_State *L)
 	else if (type == "CameraData")
 	{
 		hasComponent = scene->HasComponents<ECS::CameraData>(entity);
+	}
+	else if (type == "Transform")
+	{
+		hasComponent = scene->HasComponents<ECS::Transform>(entity);
 	}
 		
 	lua_pushboolean(L, hasComponent);
@@ -431,6 +446,12 @@ int Scene::lua_GetComponent(lua_State *L)
 	{
 		ECS::Behaviour &behaviour = scene->GetComponent<ECS::Behaviour>(entity);
 		behaviour.LuaPush(L);
+		return 1;
+	}
+	else if (type == "Hardness" && scene->HasComponents<ECS::Hardness>(entity))
+	{
+		ECS::Hardness &hardness = scene->GetComponent<ECS::Hardness>(entity);
+		hardness.LuaPush(L);
 		return 1;
 	}
 	else if (type == "Health" && scene->HasComponents<ECS::Health>(entity))

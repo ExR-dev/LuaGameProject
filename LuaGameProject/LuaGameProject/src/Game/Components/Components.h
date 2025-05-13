@@ -24,7 +24,7 @@ namespace ECS
 			lua_createtable(L, 0, 1);
 
 			// Add IsActive to the active table
-			lua_pushnumber(L, IsActive);
+			lua_pushboolean(L, IsActive);
 			lua_setfield(L, -2, "isActive");
 		}
 		void LuaPull(lua_State *L, int index)
@@ -675,6 +675,52 @@ namespace ECS
 			lua_pop(L, 1); // Remove the max value from stack
 		}
 	};
+
+	struct Hardness
+	{
+		float hardness;
+
+		Hardness(float h = 0) : hardness(h) {}
+
+		void LuaPush(lua_State *L) const
+		{
+			ZoneScopedC(RandomUniqueColor());
+
+			lua_createtable(L, 0, 1);
+			lua_pushnumber(L, hardness);
+			lua_setfield(L, -2, "hardness");
+		}
+		void LuaPull(lua_State *L, int index)
+		{
+			ZoneScopedC(RandomUniqueColor());
+			// Make sure the index is absolute (in case it's negative)
+			if (index < 0)
+			{
+				index = lua_gettop(L) + index + 1;
+			}
+
+			// Verify that the value at the given index is a table
+			if (!lua_istable(L, index))
+			{
+				luaL_error(L, "Expected a table for Hardness");
+				return;
+			}
+
+			lua_getfield(L, index, "hardness");
+			if (lua_isnumber(L, -1))
+			{
+				hardness = lua_tonumber(L, -1);
+			}
+			lua_pop(L, 1);
+		}
+
+		void RenderUI()
+		{
+			if (ImGui::InputFloat("Hardness", &hardness, 0.01f, 0.1f))
+				hardness = std::fmaxf(0.0f, hardness);
+		}
+	};
+
 
 	struct CameraData
 	{

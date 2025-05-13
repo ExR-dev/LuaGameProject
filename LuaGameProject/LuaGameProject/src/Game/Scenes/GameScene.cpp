@@ -163,9 +163,6 @@ Game::SceneState GameScene::GameScene::Update()
 
     m_camera.zoom += ((float)GetMouseWheelMove() * 0.05f);
 
-    if (m_camera.zoom > 3.0f) m_camera.zoom = 3.0f;
-    else if (m_camera.zoom < 0.25f) m_camera.zoom = 0.25f;
-
     if (Input::CheckKeyPressed(Input::GAME_KEY_R))
     {
         m_camera.zoom = 1.0f;

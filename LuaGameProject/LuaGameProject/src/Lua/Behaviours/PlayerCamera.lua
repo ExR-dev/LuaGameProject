@@ -60,6 +60,8 @@ function playerCamera:OnUpdate(delta)
 			camData.zoom = camData.zoom / (1.0 - 0.1 * mouseInfo.Scroll)
 		end
 
+		camData.zoom = gameMath.clamp(camData.zoom, 0.4, 3.0);
+
 		scene.SetComponent(self.ID, "CameraData", camData)
 	end
 

@@ -227,8 +227,8 @@ int EditorScene::EditorScene::Render()
 
 				constexpr int lines = 25;
 				constexpr float stepSize = 100.0f;
-				constexpr float innerThickness = 1.0f;
-				constexpr float thickness = 4.0f;
+				constexpr float innerThickness = 2.0f;
+				constexpr float thickness = 3.0f;
 
 				for (int i = -lines; i < lines; i++)
 				{
@@ -259,7 +259,6 @@ int EditorScene::EditorScene::Render()
 					);
 				}
 			}
-
 
 			// Draw sprites
 			std::function<void(entt::registry &registry)> drawSystem = [](entt::registry &registry) {

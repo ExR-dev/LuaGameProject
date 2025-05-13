@@ -152,15 +152,11 @@ for _ = 1, 15 do
 	)
 
 	local s = sprite("Maxwell.png")
-	s.priority = 30
-
-	local c = collider("Enemy", true, vec2(0, 0), vec2(1, 1), 0, nil)
-		
+	s.priority = 30		
 
 	scene.SetComponent(entity, "Transform", t)
 	scene.SetComponent(entity, "Sprite", s)
 	scene.SetComponent(entity, "Behaviour", "Behaviours/Enemy")
-	scene.SetComponent(entity, "Collider", c)
 end
 tracy.ZoneEnd()
 --------------------------------

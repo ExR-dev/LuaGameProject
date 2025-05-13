@@ -1,7 +1,6 @@
 tracy.ZoneBeginN("Lua Ammo.lua")
 
 local calibers = {
-
 	-- Summary
 	--[[
 		["caliber"] = {
@@ -64,126 +63,9 @@ local calibers = {
 			},
 		},
 	--]]
-
-	--[[
-		["9mm"] = { -- Small arms
-			default = "FMJ",
-
-			["FMJ"] = { -- Default
-				damageMult = 1.0,
-				falloff = 0.95,
-				penetration = 0.5,
-				spread = 3.0,
-				recoil = 2.0,
-				burstSize = 1
-			},
-
-			["HP"] = {
-				damageMult = 1.5,
-				falloff = 0.94,
-				penetration = 0.4,
-				spread = 2.0,
-				recoil = 3.5,
-				burstSize = 1
-			},
-
-			["AP"] = {
-				damageMult = 0.75,
-				falloff = 0.96,
-				penetration = 0.675,
-				spread = 5.0,
-				recoil = 4.0,
-				burstSize = 1
-			}
-		},
-
-		["12ga"] = { -- Shotguns
-			default = "Buck",
-
-			["Buck"] = { -- Default
-				damageMult = 0.25,
-				falloff = 0.93,
-				penetration = 0.4,
-				spread = 7.0,
-				recoil = 6.0,
-				burstSize = 6
-			},
-
-			["Slug"] = { -- Much better damage, falloff & spread, but much worse recoil, 
-				damageMult = 1.9,
-				falloff = 0.96,
-				penetration = 0.6,
-				spread = 3.5,
-				recoil = 9.0,
-				burstSize = 1
-			},
-
-			["Dart"] = { -- 
-				damageMult = 1.0,
-				falloff = 0.965,
-				penetration = 0.725,
-				spread = 1.5,
-				recoil = 7.0,
-				burstSize = 1
-			}
-		},
-
-		["5.56"] = { -- Automatic rifles
-			default = "FMJ",
-
-			["FMJ"] = { -- Default
-				damageMult = 1.0,
-				falloff = 0.975,
-				penetration = 0.7,
-				spread = 2.0,
-				recoil = 4.0,
-				burstSize = 1
-			}
-		},
-
-		["308"] = { -- Bolt-action rifles
-			default = "FMJ",
-
-			["FMJ"] = { -- Default
-				damageMult = 1.0,
-				falloff = 0.99,
-				penetration = 0.85,
-				spread = 0.5,
-				recoil = 12.0,
-				burstSize = 1
-			}
-		},
-	--]]
 }
 
--- Get the stats for a specific caliber and ammo type
-local function getStats(caliber, type)
-	local caliberTable = data.ammo.calibers[caliber]
-	if caliberTable ~= nil then
-		return caliberTable[type]
-	end
-	return nil
-end
 
--- Get the default ammo type of a specific caliber
-local function getCaliberDefaultType(caliber)
-	local caliberTable = data.ammo.calibers[caliber]
-
-	if caliberTable.default ~= nil then
-		return caliberTable.default
-	end
-
-	if caliberTable ~= nil then
-		for typeKey, _ in pairs(caliberTable) do
-			return typeKey
-		end
-	end
-
-	return nil
-end
-
-
--- Ensure all prerequisites are met before inserting the ammo data
 if data == nil then
 	data = { }
 end
@@ -192,34 +74,46 @@ if data.ammo == nil then
 	data.ammo = { }
 end
 
-if data.ammo.getStats == nil then
-	data.ammo.getStats = getStats
-end
-
-if data.ammo.getCaliberDefaultType == nil then
-	data.ammo.getCaliberDefaultType = getCaliberDefaultType
-end
-
 if data.ammo.calibers == nil then
 	data.ammo.calibers = { }
 end
 
 
-for caliberKey, caliberValue in pairs(calibers) do 
+if data.ammo.getStats == nil then
 
-	if data.ammo.calibers[caliberKey] == nil then
-		data.ammo.calibers[caliberKey] = caliberValue
-	else
-		for ammoTypeKey, ammoTypeValue in pairs(caliberValue) do 
-
-			-- Warn if the ammo type already exists
-			if (data.ammo.calibers[caliberKey])[ammoTypeKey] ~= nil then
-				print("Overwriting ammo type "..ammoTypeKey.."...")
-			end
-
-			(data.ammo.calibers[caliberKey])[ammoTypeKey] = ammoTypeValue
+	-- Get the stats for a specific caliber and ammo type
+	local function getStats(caliber, type)
+		local caliberTable = data.ammo.calibers[caliber]
+		if caliberTable ~= nil then
+			return caliberTable[type]
 		end
+		return nil
 	end
+
+	data.ammo.getStats = getStats
 end
+
+if data.ammo.getCaliberDefaultType == nil then
+
+	-- Get the default ammo type of a specific caliber
+	local function getCaliberDefaultType(caliber)
+		local caliberTable = data.ammo.calibers[caliber]
+
+		if caliberTable.default ~= nil then
+			return caliberTable.default
+		end
+
+		if caliberTable ~= nil then
+			for typeKey, _ in pairs(caliberTable) do
+				return typeKey
+			end
+		end
+
+		return nil
+	end
+
+	data.ammo.getCaliberDefaultType = getCaliberDefaultType
+end
+
 
 tracy.ZoneEnd()

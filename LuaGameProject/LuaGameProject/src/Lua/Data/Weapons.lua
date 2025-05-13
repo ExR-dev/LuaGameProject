@@ -1,7 +1,6 @@
 tracy.ZoneBeginN("Lua Weapons.lua")
 
 local weapons = {
-
 	-- Summary
 	--[[
 		["weapon"] = {
@@ -88,92 +87,9 @@ local weapons = {
 			}
 		},
 	--]]
-
-	--[[
-		["Glock"] = {
-
-			sprite = nil,
-			width = 10,
-			length = 36,
-
-			stats = {
-				handCount = 1,
-				caliber = "9mm",
-				fireMode = "Semi",
-				capacity = 18,
-				damage = 10.0,
-				fireRate = 8.0,
-				reloadTime = 0.7,
-				spread = 2.0,
-				recoil = 2.0,
-				recovery = 8
-			}
-		},
-
-		["Spas-12"] = {
-
-			sprite = nil,
-			width = 14,
-			length = 64,
-
-			stats = {
-				handCount = 2,
-				caliber = "12ga",
-				fireMode = "Semi",
-				capacity = 8,
-				damage = 40.0,
-				fireRate = 4.0,
-				reloadTime = 2.0,
-				spread = 2.5,
-				recoil = 7.0,
-				recovery = 2
-			}
-		},
-
-		["AR-15"] = {
-
-			sprite = nil,
-			width = 12,
-			length = 48,
-
-			stats = {
-				handCount = 2,
-				caliber = "5.56",
-				fireMode = "Auto",
-				capacity = 30,
-				damage = 35.0,
-				fireRate = 8.0,
-				reloadTime = 1.0,
-				spread = 0.8,
-				recoil = 1.75,
-				recovery = 6
-			}
-		},
-
-		["M700"] = {
-
-			sprite = nil,
-			width = 10,
-			length = 64,
-
-			stats = {
-				handCount = 2,
-				caliber = "308",
-				fireMode = "Semi",
-				capacity = 5,
-				damage = 75.0,
-				fireRate = 1.0,
-				reloadTime = 3.0,
-				spread = 0.3,
-				recoil = 13.0,
-				recovery = 3
-			}
-		},
-	--]]
 }
 
 
--- Ensure all prerequisites are met before inserting the weapon data
 if data == nil then
 	data = { }
 end
@@ -182,15 +98,5 @@ if data.weapons == nil then
 	data.weapons = { }
 end
 
-
-for key, value in pairs(weapons) do
-
-	-- Warn if the weapon already exists
-	if data.weapons[key] ~= nil then
-		print("Overwriting weapon "..key.."...")
-	end
-
-	data.weapons[key] = value
-end
 
 tracy.ZoneEnd()
