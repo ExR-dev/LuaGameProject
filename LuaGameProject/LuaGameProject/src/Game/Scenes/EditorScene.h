@@ -5,7 +5,9 @@
 
 #include "../Utilities/WindowInfo.h"
 #include "../Utilities/LuaGame.h"
+#include "../Utilities/DungeonGenerator.h"
 #include "../PhysicsHandler.h"
+
 
 namespace EditorScene
 {
@@ -78,6 +80,8 @@ namespace EditorScene
 
 		int m_selectedEntity = -1;
 		int m_selectedRoom = -1;
+
+		DungeonGenerator *m_dungeon = nullptr;
 
 		bool m_isDraggingCamera = false;
 		raylib::Vector2 m_dragOrigin = raylib::Vector2(0, 0);

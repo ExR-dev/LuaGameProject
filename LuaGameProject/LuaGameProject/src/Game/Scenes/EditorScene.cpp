@@ -726,6 +726,21 @@ int EditorScene::EditorScene::RenderUI()
 						m_editorModeScenes[m_editorMode].get()->LoadData();
 					}
 					ImGui::PopStyleColor(3);
+
+					if (m_editorMode == EditorMode::DungeonCreator)
+					{
+						// Generate Dungeon
+						ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.3f, 0.75f, 0.2f, 1.0f));
+						ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.2f, 0.85f, 0.1f, 1.0f));
+						ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.1f, 0.65f, 0.1f, 1.0f));
+
+						ImGui::SetCursorPos(buttonsTopRight + ImVec2(-buttonSize.x, buttonSpacing*2));
+						if (ImGui::Button("Generate Dungeon##GenerateDungeonButton", buttonSize))
+						{
+							
+						}
+						ImGui::PopStyleColor(3);
+					}
 				}
 			}
 
