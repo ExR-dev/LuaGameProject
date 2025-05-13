@@ -1,26 +1,29 @@
-tracy.ZoneBeginN("Lua WeaponEditorUI.lua")
+tracy.ZoneBeginN("Lua PresetCreatorUI.lua")
 
-if not dev then
-	dev = {}
-	dev.editingWeapon = nil -- string
-	dev.newWeaponName = nil -- string
-	dev.editedWeaponTable = nil -- table
-end
+local presetCreatorUI = {
 
-local function WeaponEditorUI()
-	if not dev.editingWeapon then
+	weaponEditorUI = {
+		editingWeapon = nil,		-- string
+		newWeaponName = nil,		-- string
+		editedWeaponTable = nil		-- table
+	}
+}
+
+function presetCreatorUI:WeaponEditorUI()
+	tracy.ZoneBeginN("Lua presetCreatorUI:WeaponEditorUI")
+	if not self.weaponEditorUI.editingWeapon then
 		imgui.Begin("Weapon Editor")
 
 		-- List all weapons in data.weapons as buttons
 		for weaponName, _ in pairs(data.weapons) do
 			if imgui.Button(weaponName) then
-				dev.editingWeapon = weaponName
+				self.weaponEditorUI.editingWeapon = weaponName
 			end
 		end
 
 		-- Add a button for creating a new weapon
 		if imgui.Button("New Weapon##NewWeaponButton") then
-			dev.newWeaponName = ""
+			self.weaponEditorUI.newWeaponName = ""
 			imgui.OpenPopup("New Weapon Name##NameWeaponPopup")
 		end
 
@@ -28,11 +31,11 @@ local function WeaponEditorUI()
 		if imgui.BeginPopup("New Weapon Name##NameWeaponPopup") then
 
 			imgui.Text("Enter a name for the new weapon:")
-			dev.newWeaponName = imgui.InputText("##NewWeaponNameInput", dev.newWeaponName, 64)
+			self.weaponEditorUI.newWeaponName = imgui.InputText("##NewWeaponNameInput", self.weaponEditorUI.newWeaponName, 64)
 			
 			if imgui.Button("Confirm") or Input.KeyPressed(Input.Key.KEY_ENTER) then -- Submit if Confirm button or Enter key is pressed
 				local newWeapon = {
-					[dev.newWeaponName] = {
+					[self.weaponEditorUI.newWeaponName] = {
 
 						sprite = nil,
 						width = 12,
@@ -57,8 +60,8 @@ local function WeaponEditorUI()
 				data.modding.loadWeaponMod(newWeapon)
 
 				-- Set the new weapon as the editing weapon
-				dev.editingWeapon = dev.newWeaponName
-				dev.newWeaponName = nil
+				self.weaponEditorUI.editingWeapon = self.weaponEditorUI.newWeaponName
+				self.weaponEditorUI.newWeaponName = nil
 				imgui.CloseCurrentPopup()
 			end
 
@@ -68,9 +71,9 @@ local function WeaponEditorUI()
 		imgui.End()
 	else
 		-- Before editing, copy the original weapon table to perform the edits on
-		if not dev.editedWeaponTable then
-			dev.editedWeaponTable = table.deepCopy(
-				data.weapons[dev.editingWeapon]
+		if not self.weaponEditorUI.editedWeaponTable then
+			self.weaponEditorUI.editedWeaponTable = table.deepCopy(
+				data.weapons[self.weaponEditorUI.editingWeapon]
 			)
 		end
 
@@ -84,7 +87,7 @@ local function WeaponEditorUI()
 		end
 
 		-- Display the weapon name
-		imgui.Text("Editing:         "..dev.editingWeapon)
+		imgui.Text("Editing:         "..self.weaponEditorUI.editingWeapon)
 		imgui.Separator()
 
 		if imgui.BeginChild("Weapon Stats", imgui.imVec2(0.0, 300.0)) then
@@ -92,7 +95,7 @@ local function WeaponEditorUI()
 			local value = nil
 
 			-- Sprite
-			value = dev.editedWeaponTable.sprite or ""
+			value = self.weaponEditorUI.editedWeaponTable.sprite or ""
 
 			imgui.Text("Sprite:         ")
 			imgui.SameLine()
@@ -100,16 +103,16 @@ local function WeaponEditorUI()
 
 			if modified then
 				if value == "" then
-					dev.editedWeaponTable.sprite = nil
+					self.weaponEditorUI.editedWeaponTable.sprite = nil
 				else
-					dev.editedWeaponTable.sprite = value
+					self.weaponEditorUI.editedWeaponTable.sprite = value
 				end
 			end
 		
 			-- Size
 			value = imgui.imVec2(
-				dev.editedWeaponTable.width, 
-				dev.editedWeaponTable.length
+				self.weaponEditorUI.editedWeaponTable.width, 
+				self.weaponEditorUI.editedWeaponTable.length
 			)
 
 			imgui.Text("Size:           ")
@@ -117,120 +120,120 @@ local function WeaponEditorUI()
 			value, modified = imgui.InputFloat2("##WeaponSizeInput", value)
 
 			if modified then
-				dev.editedWeaponTable.width = value.x
-				dev.editedWeaponTable.length = value.y
+				self.weaponEditorUI.editedWeaponTable.width = value.x
+				self.weaponEditorUI.editedWeaponTable.length = value.y
 			end
 
 			-- Hand count
-			value = dev.editedWeaponTable.stats.handCount
+			value = self.weaponEditorUI.editedWeaponTable.stats.handCount
 
 			imgui.Text("Hand Count:     ")
 			imgui.SameLine()
 			value, modified = imgui.SliderInt("##WeaponHandCountInput", value, 1, 2)
 
 			if modified then
-				dev.editedWeaponTable.stats.handCount = value
+				self.weaponEditorUI.editedWeaponTable.stats.handCount = value
 			end
 
 			-- Caliber
 			-- TODO: dropdown
-			value = dev.editedWeaponTable.stats.caliber
+			value = self.weaponEditorUI.editedWeaponTable.stats.caliber
 
 			imgui.Text("Caliber:        ")
 			imgui.SameLine()
 			value, modified = imgui.InputText("##WeaponCaliberInput", value, 64)
 
 			if modified then
-				dev.editedWeaponTable.stats.caliber = value
+				self.weaponEditorUI.editedWeaponTable.stats.caliber = value
 			end
 
 			-- Fire mode
 			-- TODO: dropdown
-			value = dev.editedWeaponTable.stats.fireMode
+			value = self.weaponEditorUI.editedWeaponTable.stats.fireMode
 
 			imgui.Text("Fire Mode:      ")
 			imgui.SameLine()
 			value, modified = imgui.InputText("##WeaponFireModeInput", value, 64)
 
 			if modified then
-				dev.editedWeaponTable.stats.fireMode = value
+				self.weaponEditorUI.editedWeaponTable.stats.fireMode = value
 			end
 
 			-- Capacity
-			local value = dev.editedWeaponTable.stats.capacity
+			local value = self.weaponEditorUI.editedWeaponTable.stats.capacity
 
 			imgui.Text("Capacity:       ")
 			imgui.SameLine()
 			value, modified = imgui.DragInt("##WeaponCapacityInput", value, 0.05, 1)
 
 			if modified then
-				dev.editedWeaponTable.stats.capacity = value
+				self.weaponEditorUI.editedWeaponTable.stats.capacity = value
 			end
 
 			-- Damage
-			local value = dev.editedWeaponTable.stats.damage
+			local value = self.weaponEditorUI.editedWeaponTable.stats.damage
 
 			imgui.Text("Damage:         ")
 			imgui.SameLine()
 			value, modified = imgui.DragFloat("##WeaponDamageInput", value, 0.02)
 
 			if modified then
-				dev.editedWeaponTable.stats.damage = value
+				self.weaponEditorUI.editedWeaponTable.stats.damage = value
 			end
 
 			-- Fire rate
-			local value = dev.editedWeaponTable.stats.fireRate
+			local value = self.weaponEditorUI.editedWeaponTable.stats.fireRate
 
 			imgui.Text("Fire Rate:      ")
 			imgui.SameLine()
 			value, modified = imgui.DragFloat("##WeaponFireRateInput", value, 0.02, 0.00001)
 
 			if modified then
-				dev.editedWeaponTable.stats.fireRate = value
+				self.weaponEditorUI.editedWeaponTable.stats.fireRate = value
 			end
 
 			-- Reload time
-			local value = dev.editedWeaponTable.stats.reloadTime
+			local value = self.weaponEditorUI.editedWeaponTable.stats.reloadTime
 
 			imgui.Text("Reload Time:    ")
 			imgui.SameLine()
 			value, modified = imgui.DragFloat("##WeaponReloadTimeInput", value, 0.02, 0.00001)
 
 			if modified then
-				dev.editedWeaponTable.stats.reloadTime = value
+				self.weaponEditorUI.editedWeaponTable.stats.reloadTime = value
 			end
 
 			-- Spread
-			local value = dev.editedWeaponTable.stats.spread
+			local value = self.weaponEditorUI.editedWeaponTable.stats.spread
 
 			imgui.Text("Spread:         ")
 			imgui.SameLine()
 			value, modified = imgui.DragFloat("##WeaponSpreadInput", value, 0.02)
 
 			if modified then
-				dev.editedWeaponTable.stats.spread = value
+				self.weaponEditorUI.editedWeaponTable.stats.spread = value
 			end
 
 			-- Recoil
-			local value = dev.editedWeaponTable.stats.recoil
+			local value = self.weaponEditorUI.editedWeaponTable.stats.recoil
 
 			imgui.Text("Recoil:         ")
 			imgui.SameLine()
 			value, modified = imgui.DragFloat("##WeaponRecoilInput", value, 0.02)
 
 			if modified then
-				dev.editedWeaponTable.stats.recoil = value
+				self.weaponEditorUI.editedWeaponTable.stats.recoil = value
 			end
 
 			-- Recovery
-			local value = dev.editedWeaponTable.stats.recovery
+			local value = self.weaponEditorUI.editedWeaponTable.stats.recovery
 
 			imgui.Text("Recovery:       ")
 			imgui.SameLine()
 			value, modified = imgui.SliderInt("##WeaponRecoveryInput", value, 0, 24)
 
 			if modified then
-				dev.editedWeaponTable.stats.recovery = value
+				self.weaponEditorUI.editedWeaponTable.stats.recovery = value
 			end
 		end
 		imgui.EndChild()
@@ -239,13 +242,13 @@ local function WeaponEditorUI()
 		-- Confirm button
 		if imgui.Button("Confirm##ConfirmWeaponButton") then
 			resetState = true
-			data.weapons[dev.editingWeapon] = dev.editedWeaponTable
+			data.weapons[self.weaponEditorUI.editingWeapon] = self.weaponEditorUI.editedWeaponTable
 
 			-- Save the weapon to a file
 			local saveTable = {
 				dataPath	= "weapons",				-- Location of this table in the data table
-				elementName = dev.editingWeapon,		-- Name of the element in the dataPath
-				contents	= dev.editedWeaponTable		-- The table stored at data.dataPath[elementName]
+				elementName = self.weaponEditorUI.editingWeapon,		-- Name of the element in the dataPath
+				contents	= self.weaponEditorUI.editedWeaponTable		-- The table stored at data.dataPath[elementName]
 			}
 
 			local err = table.save(saveTable, "src/Mods/Weapons/"..saveTable.elementName..".lts") -- lts: Lua Table Save
@@ -265,17 +268,18 @@ local function WeaponEditorUI()
 		-- Delete button
 		if imgui.Button("Delete##DeleteWeaponButton") then
 			resetState = true
-			data.weapons[dev.editingWeapon] = nil
+			data.weapons[self.weaponEditorUI.editingWeapon] = nil
 		end
 
 		if resetState then
-			dev.editedWeaponTable = nil
-			dev.editingWeapon = nil
+			self.weaponEditorUI.editedWeaponTable = nil
+			self.weaponEditorUI.editingWeapon = nil
 		end
 
 		imgui.End()
 	end
+	tracy.ZoneEnd()
 end
 
-WeaponEditorUI()
 tracy.ZoneEnd()
+return presetCreatorUI

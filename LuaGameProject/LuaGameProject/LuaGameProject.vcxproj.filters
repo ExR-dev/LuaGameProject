@@ -403,13 +403,16 @@
     <None Include="src\Lua\Scenes\InitEditorPrefabCreatorScene.lua" />
     <None Include="src\Lua\Scenes\InitEditorPresetCreatorScene.lua" />
     <None Include="src\Lua\Scenes\InitEditorSandboxScene.lua" />
-    <None Include="src\Lua\Dev\WeaponEditorUI.lua" />
+    <None Include="src\Lua\Dev\PresetCreatorUI.lua" />
     <None Include="src\Lua\Utility\TableSave.lua" />
     <None Include="src\Lua\Utility\TableCopy.lua" />
     <None Include="src\Lua\Dev\Commands.lua" />
     <None Include="src\Lua\Components\Collider.lua" />
     <None Include="src\Lua\Data\Groups.lua" />
     <None Include="src\Lua\Data\Prefabs.lua" />
+    <None Include="src\Lua\Dev\PrefabCreatorUI.lua" />
+    <None Include="src\Lua\Dev\LevelCreatorUI.lua" />
+    <None Include="src\Lua\Dev\SandboxUI.lua" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="raylib.dll" />

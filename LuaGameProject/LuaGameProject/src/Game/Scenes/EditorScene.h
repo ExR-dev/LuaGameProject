@@ -15,7 +15,7 @@ namespace EditorScene
 		EditorScene();
 		~EditorScene();
 
-		int Start(WindowInfo *windowInfo, CmdState *cmdState) override;
+		int Start(WindowInfo *windowInfo, CmdState *cmdState, raylib::RenderTexture *screenRT) override;
 		Game::SceneState Loop() override;
 
 		void OnSwitchToScene() override;
@@ -48,15 +48,73 @@ namespace EditorScene
 			"PrefabCreator"
 		};
 
+
+		struct EditorModeLuaUI
+		{
+		public:
+			void Create(lua_State *L, const char *path)
+			{
+				if (luaRef != LUA_NOREF)
+					Destroy(L);
+
+				// Load the weapon editor UI script
+				LuaDoFileCleaned(L, LuaFilePath(path));
+				lua_pushvalue(L, -1);
+				luaRef = luaL_ref(L, LUA_REGISTRYINDEX);
+			}
+
+			void Destroy(lua_State *L)
+			{
+				if (luaRef != LUA_NOREF)
+				{
+					luaL_unref(L, LUA_REGISTRYINDEX, luaRef);
+					luaRef = LUA_NOREF;
+				}
+			}
+
+			void Run(lua_State *L, const char *funcName) const
+			{
+				// Retrieve the editor table to the top of the stack
+				lua_rawgeti(L, LUA_REGISTRYINDEX, luaRef);
+
+				// Retrieve the requested method from the table
+				lua_getfield(L, -1, funcName);
+
+				// Check if the method exists before calling it
+				if (lua_isnil(L, -1))
+				{
+					lua_pop(L, 1); // Pop nil
+				}
+				else
+				{
+					// Push the table as the first argument to the method
+					lua_pushvalue(L, -2);
+
+					// Call the method, pops the method and its arguments from the stack
+					LuaChk(L, lua_pcall(L, 1, 0, 0));
+				}
+
+				// Pop the editor table from the stack
+				lua_pop(L, 1);
+			}
+
+		private:
+			int luaRef = LUA_NOREF;
+
+		};
+
 		struct EditorModeScene
 		{
 			lua_State *L = nullptr;
 			PhysicsHandler physicsHandler{};
 			Scene scene{};
 			LuaGame::LuaGame luaGame{};
+			EditorModeLuaUI luaUI{};
 
 			~EditorModeScene()
 			{
+				luaUI.Destroy(L);
+
 				if (L)
 				{
 					lua_close(L);

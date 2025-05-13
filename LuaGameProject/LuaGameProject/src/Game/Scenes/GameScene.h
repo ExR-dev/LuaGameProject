@@ -26,7 +26,7 @@ namespace GameScene
         GameScene();
         ~GameScene();
 
-        int Start(WindowInfo *windowInfo, CmdState *cmdState) override;
+        int Start(WindowInfo *windowInfo, CmdState *cmdState, raylib::RenderTexture *screenRT) override;
         Game::SceneState Loop() override;
 
 		void OnSwitchToScene() override;

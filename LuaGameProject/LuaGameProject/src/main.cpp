@@ -11,7 +11,7 @@
 #define new			DEBUG_NEW
 #endif
 
-static int init(WindowInfo &windowInfo, CmdState &cmdState)
+static int init(WindowInfo &windowInfo, CmdState &cmdState, raylib::RenderTexture &screenRT)
 {
     ZoneScopedC(RandomUniqueColor());
 
@@ -31,6 +31,8 @@ static int init(WindowInfo &windowInfo, CmdState &cmdState)
     InitWindow(windowInfo.p_screenWidth, windowInfo.p_screenHeight, "Lua Game");
     InitAudioDevice();
     rlImGuiSetup(true);
+
+	screenRT = raylib::RenderTexture(windowInfo.p_screenWidth, windowInfo.p_screenHeight);
 
     Time::Instance();
     ResourceManager::Instance().LoadResources();
@@ -62,16 +64,17 @@ int main()
 
     WindowInfo windowInfo;
     CmdState cmdState;
+	raylib::RenderTexture screenRT;
 
-	init(windowInfo, cmdState);
+	init(windowInfo, cmdState, screenRT);
 
 	std::unique_ptr<MenuScene::MenuScene> menuScene = std::make_unique<MenuScene::MenuScene>();
     std::unique_ptr<EditorScene::EditorScene> editorScene = std::make_unique<EditorScene::EditorScene>();
     std::unique_ptr<GameScene::GameScene>  gameScene = std::make_unique<GameScene::GameScene>();
 
-    menuScene->Start(&windowInfo, &cmdState);
-    editorScene->Start(&windowInfo, &cmdState);
-    gameScene->Start(&windowInfo, &cmdState);
+    menuScene->Start(&windowInfo, &cmdState, &screenRT);
+    editorScene->Start(&windowInfo, &cmdState, &screenRT);
+    gameScene->Start(&windowInfo, &cmdState, &screenRT);
 
 	SceneTemplate::SceneTemplate *currentScene = static_cast<SceneTemplate::SceneTemplate*>(menuScene.get());
     Game::SceneState sceneState = Game::SceneState::InMenu;
@@ -87,6 +90,7 @@ int main()
 		if (IsWindowResized())
         {
             windowInfo.UpdateWindowSize(GetScreenWidth(), GetScreenHeight());
+			screenRT = raylib::RenderTexture(windowInfo.p_screenWidth, windowInfo.p_screenHeight);
 			currentScene->OnResizeWindow();
         }
 
@@ -136,7 +140,7 @@ int main()
 
             gameScene = nullptr;
 			gameScene = std::make_unique<GameScene::GameScene>();
-            gameScene->Start(&windowInfo, &cmdState);
+            gameScene->Start(&windowInfo, &cmdState, &screenRT);
 
             if (!currentScene)
 				currentScene = gameScene.get();
@@ -150,7 +154,7 @@ int main()
 
             editorScene = nullptr;
             editorScene = std::make_unique<EditorScene::EditorScene>();
-            editorScene->Start(&windowInfo, &cmdState);
+            editorScene->Start(&windowInfo, &cmdState, &screenRT);
 
             if (!currentScene)
 				currentScene = editorScene.get();
@@ -166,6 +170,26 @@ int main()
 		default:
 			break;
 		}   
+
+#ifdef TRACY_SCREEN_CAPTURE
+        {
+            ZoneNamedNC(screenCaptureZone, "Tracy Screen Capture", RandomUniqueColor(), true);
+
+            raylib::Image screenImg = screenRT.GetTexture().GetData();
+            screenImg.Resize(320, 180);
+
+            {
+                ZoneNamedNC(frameImageZone, "Tracy Frame Image", RandomUniqueColor(), true);
+                FrameImage(
+                    screenImg.data,
+                    screenImg.width,
+                    screenImg.height,
+                    0,
+                    false
+                );
+            }
+        }
+#endif
 
         FrameMark;
     }

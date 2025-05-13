@@ -1,27 +1,27 @@
 return {
 -- Table: {1}
 {
-   ["elementName"]="Uzi",
-   ["dataPath"]="weapons",
    ["contents"]={2},
+   ["dataPath"]="weapons",
+   ["elementName"]="Uzi",
 },
 -- Table: {2}
 {
+   ["length"]=40.0,
    ["width"]=13.0,
    ["stats"]={3},
-   ["length"]=40.0,
 },
 -- Table: {3}
 {
    ["handCount"]=1,
-   ["caliber"]="9mm",
+   ["recoil"]=2.0,
+   ["damage"]=6.0,
+   ["recovery"]=7,
+   ["fireRate"]=18.0,
    ["fireMode"]="Auto",
-   ["reloadTime"]=1.2999999523163,
-   ["recoil"]=3.0,
-   ["spread"]=3.0,
-   ["fireRate"]=30.0,
-   ["damage"]=7.0,
    ["capacity"]=30,
-   ["recovery"]=6,
+   ["spread"]=9.0,
+   ["reloadTime"]=1.2999999523163,
+   ["caliber"]="9mm",
 },
 }
