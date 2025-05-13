@@ -141,6 +141,24 @@ void Scene::SystemsOnRender(float delta)
 	}
 }
 
+void Scene::Clear(lua_State *L)
+{
+	std::function<void(entt::registry &registry)> clear = [&](entt::registry &registry) {
+		ZoneNamedNC(createPhysicsBodiesZone, "Lambda Remove All Entities", RandomUniqueColor(), true);
+
+		auto view = registry.view<entt::entity>();
+
+		view.each([&](entt::entity entity) {
+			ZoneNamedNC(drawSpriteZone, "Lambda Remove All Entities", RandomUniqueColor(), true);
+			SetComponent<ECS::Remove>(entity);
+		});
+
+		CleanUp(L);
+	};
+
+	RunSystem(clear);
+}
+
 void Scene::CleanUp(lua_State* L)
 {	
 	std::function<void(entt::registry& registry)> cleanup = [&](entt::registry& registry) {

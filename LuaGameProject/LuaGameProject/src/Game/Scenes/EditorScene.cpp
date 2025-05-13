@@ -435,7 +435,7 @@ int EditorScene::EditorScene::RenderUI()
 	{
 		ZoneNamedNC(renderCustomUIZone, "Render Custom ImGui UI", RandomUniqueColor(), true);
 
-		if (GameMath::EqualsAny(m_editorMode, EditorMode::Sandbox, EditorMode::LevelCreator))
+		if (GameMath::EqualsAny(m_editorMode, EditorMode::Sandbox, EditorMode::LevelCreator, EditorMode::DungeonCreator))
 		{
 			if (ImGui::Begin("Scene Hierarchy"))
 			{
@@ -511,6 +511,68 @@ int EditorScene::EditorScene::RenderUI()
 					ImGui::Text("Select a entity ...");
 				}
 			}
+			ImGui::End();
+		}
+
+		if (m_editorMode == EditorMode::DungeonCreator)
+		{
+			if (ImGui::Begin("Room Selection"))
+			{
+				if (ImGui::BeginPopupContextItem("RoomPopup"))
+				{
+					static char name[ECS::Room::ROOM_NAME_LENGTH];
+					ImGui::InputText("Enter Name", name, IM_ARRAYSIZE(name));
+					if (ImGui::Button("Done"))
+					{
+						int id = modeScene.scene.CreateEntity();
+						ECS::Room room(name);
+						modeScene.scene.SetComponent(id, room);
+						memset(name, '\0', ECS::Room::ROOM_NAME_LENGTH);
+						ImGui::CloseCurrentPopup();
+					}
+					ImGui::EndPopup();
+				}
+
+				if (ImGui::Button("Create new room"))
+					ImGui::OpenPopup("RoomPopup");
+
+				std::function<void(entt::registry &registry)> renderEntityUI = [&](entt::registry &registry) {
+					ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+
+					auto view = registry.view<ECS::Room>();
+
+					view.each([&](const entt::entity &entity, ECS::Room &transform) {
+						ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+
+						const int id = static_cast<int>(entity);
+						if (ImGui::Selectable(transform.RoomName, (id == m_selectedRoom)))
+							if (m_selectedRoom != id)
+							{
+								m_selectedRoom = id;
+								
+								std::function<void(entt::registry &registry)> clear = [&](entt::registry &registry) {
+									ZoneNamedNC(createPhysicsBodiesZone, "Lambda Remove All Entities", RandomUniqueColor(), true);
+
+									auto view = registry.view<entt::entity>(entt::exclude<ECS::Room>);
+
+									view.each([&](entt::entity entity) {
+										ZoneNamedNC(drawSpriteZone, "Lambda Remove All Entities", RandomUniqueColor(), true);
+										modeScene.scene.SetComponent<ECS::Remove>(entity);
+									});
+
+									modeScene.scene.CleanUp(modeScene.L);
+								};
+
+								modeScene.scene.RunSystem(clear);
+
+								// TODO: Load new room
+							}
+					});
+				};
+
+				modeScene.scene.RunSystem(renderEntityUI);
+			}
+
 			ImGui::End();
 		}
 

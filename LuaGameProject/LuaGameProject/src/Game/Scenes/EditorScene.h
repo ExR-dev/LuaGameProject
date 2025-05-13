@@ -38,6 +38,7 @@ namespace EditorScene
 			LevelCreator,
 			PresetCreator, // weapons, ammo, enemies, etc
 			PrefabCreator, // entities/groups of entities
+			DungeonCreator, // Create and generate dungeons
 			COUNT
 		} m_editorMode = Sandbox;
 
@@ -45,7 +46,8 @@ namespace EditorScene
 			"Sandbox",
 			"LevelCreator",
 			"PresetCreator",
-			"PrefabCreator"
+			"PrefabCreator",
+			"DungeonCreator"
 		};
 
 		struct EditorModeScene
@@ -75,6 +77,7 @@ namespace EditorScene
 		raylib::Rectangle m_sceneViewRect{};
 
 		int m_selectedEntity = -1;
+		int m_selectedRoom = -1;
 
 		bool m_isDraggingCamera = false;
 		raylib::Vector2 m_dragOrigin = raylib::Vector2(0, 0);
