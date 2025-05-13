@@ -394,7 +394,6 @@
     <None Include="src\Lua\Components\Tags.lua" />
     <None Include="src\Lua\Behaviours\Weapon.lua" />
     <None Include="src\Lua\Data\Ammo.lua" />
-    <None Include="src\Lua\Data.lua" />
     <None Include="src\Lua\Data\Weapons.lua" />
     <None Include="src\Lua\Utility\PrintEntity.lua" />
     <None Include="src\Lua\Utility\InitData.lua" />
@@ -409,6 +408,8 @@
     <None Include="src\Lua\Utility\TableCopy.lua" />
     <None Include="src\Lua\Dev\Commands.lua" />
     <None Include="src\Lua\Components\Collider.lua" />
+    <None Include="src\Lua\Data\Groups.lua" />
+    <None Include="src\Lua\Data\Prefabs.lua" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="raylib.dll" />

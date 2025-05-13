@@ -399,7 +399,8 @@
     <None Include="src\Lua\Components\Sprite.lua" />
     <None Include="src\Lua\Components\Tags.lua" />
     <None Include="src\Lua\Data\Ammo.lua" />
-    <None Include="src\Lua\Data.lua" />
+    <None Include="src\Lua\Data\Groups.lua" />
+    <None Include="src\Lua\Data\Prefabs.lua" />
     <None Include="src\Lua\Data\Weapons.lua" />
     <None Include="src\Lua\Dev\Commands.lua" />
     <None Include="src\Lua\Dev\WeaponEditorUI.lua" />

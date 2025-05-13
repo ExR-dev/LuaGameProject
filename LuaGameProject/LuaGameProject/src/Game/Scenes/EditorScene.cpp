@@ -439,6 +439,8 @@ int EditorScene::EditorScene::RenderUI()
 		{
 			if (ImGui::Begin("Scene Hierarchy"))
 			{
+				ZoneNamedNC(renderSceneHierarchyZone, "Render Scene Hierarchy", RandomUniqueColor(), true);
+
 				if (ImGui::Button("Create Entity"))
 				{
 					int id = modeScene.scene.CreateEntity();
@@ -466,6 +468,8 @@ int EditorScene::EditorScene::RenderUI()
 
 			if (ImGui::Begin("Entity Editor"))
 			{
+				ZoneNamedNC(renderEntityEditorZone, "Render Entity Editor", RandomUniqueColor(), true);
+
 				if (modeScene.scene.IsEntity(m_selectedEntity))
 				{
 					if (modeScene.scene.HasComponents<ECS::Active>(m_selectedEntity))
@@ -516,6 +520,8 @@ int EditorScene::EditorScene::RenderUI()
 
 		if (m_editorMode == EditorMode::PresetCreator)
 		{
+			ZoneNamedNC(renderPresetCreatorZone, "Render Preset Creator", RandomUniqueColor(), true);
+
 			// HACK: for now, call weapon editor immediately
 			LuaDoFileCleaned(modeScene.L, LuaFilePath("Dev/WeaponEditorUI"));
 		}
