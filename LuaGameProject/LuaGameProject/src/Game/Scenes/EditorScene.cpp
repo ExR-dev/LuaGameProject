@@ -265,11 +265,10 @@ int EditorScene::EditorScene::Render()
 				ZoneNamedNC(drawSpritesZone, "Lambda Draw Sprites", RandomUniqueColor(), true);
 
 				auto view = registry.view<ECS::Sprite, ECS::Transform>();
-				view.use<ECS::Sprite>();
+				std::vector<std::pair<ECS::Transform, ECS::Sprite>> entitiesToRender;
+				entitiesToRender.resize(view.size_hint());
 
 				view.each([&](const entt::entity entity, const ECS::Sprite &sprite, const ECS::Transform &transform) {
-					ZoneNamedNC(drawSpriteZone, "Lambda Draw Sprite", RandomUniqueColor(), true);
-
 					// If the entity has an active component, check if it is active
 					if (registry.all_of<ECS::Active>(entity))
 					{
@@ -277,6 +276,19 @@ int EditorScene::EditorScene::Render()
 						if (!active.IsActive)
 							return; // Skip drawing if the entity is not active
 					}
+
+					entitiesToRender.push_back(std::make_pair(transform, sprite));
+				});
+
+				std::sort(entitiesToRender.begin(), entitiesToRender.end(), [](std::pair<ECS::Transform, ECS::Sprite> ent1, std::pair<ECS::Transform, ECS::Sprite>ent2) -> bool {
+					return ent1.second.Priority < ent2.second.Priority;
+				});
+
+				for (auto entity : entitiesToRender) {
+					ZoneNamedNC(drawSpriteZone, "Lambda Draw Sprite", RandomUniqueColor(), true);
+
+					const ECS::Transform &transform = entity.first;
+					const ECS::Sprite &sprite = entity.second;
 
 					int flip = transform.Scale[1] > 0 ? 1 : -1;
 
@@ -327,7 +339,7 @@ int EditorScene::EditorScene::Render()
 							color
 						);
 					}
-				});
+				}
 			};
 			scene.RunSystem(drawSystem);
 

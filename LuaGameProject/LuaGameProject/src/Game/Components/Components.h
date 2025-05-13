@@ -509,7 +509,7 @@ namespace ECS
 			lua_setfield(L, -2, "color");  // Add color to the sprite table
 
 			// Add priority to the sprite table
-			lua_pushnumber(L, Priority);
+			lua_pushinteger(L, Priority);
 			lua_setfield(L, -2, "priority");
 		}
 		void LuaPull(lua_State* L, int index)
