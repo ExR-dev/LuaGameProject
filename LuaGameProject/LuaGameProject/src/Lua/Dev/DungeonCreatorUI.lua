@@ -17,6 +17,9 @@ function dungeonCreatorUI:PrefabCollection()
 	for name, _ in pairs(data.prefabs) do
 		if imgui.Button(name) then
 			local prefabEntity = game.SpawnPrefab(name)
+			if not prefabEntity then
+				print("Could not instanciate prefab")
+			end
 		end
 	end
 
