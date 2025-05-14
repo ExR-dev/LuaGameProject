@@ -55,15 +55,15 @@ void MenuScene::MenuButton::Render()
 }
 
 
-int MenuScene::MenuScene::Start(WindowInfo *windowInfo, CmdState *cmdState)
+int MenuScene::MenuScene::Start(WindowInfo *windowInfo, CmdState *cmdState, raylib::RenderTexture *screenRT)
 {
     ZoneScopedC(RandomUniqueColor());
 
 	m_windowInfo = windowInfo;
     m_cmdState = cmdState;
+	m_screenRT = screenRT;
 
     m_camera.target = raylib::Vector2(0, 0);
-    //m_camera.offset = raylib::Vector2(m_windowInfo->p_screenWidth / 2.0f, m_windowInfo->p_screenHeight / 2.0f);
     m_camera.rotation = 0.0f;
     m_camera.zoom = 1.0f;
 
@@ -142,14 +142,29 @@ int MenuScene::MenuScene::Render()
 {
     ZoneScopedC(RandomUniqueColor());
 
+	// Draw to the screen render texture
+    m_screenRT->BeginMode();
+    {
+        BeginMode2D(m_camera);
+        ClearBackground(raylib::Color(220, 220, 220));
+
+        for (auto button : m_buttons)
+            button->Render();
+
+        EndMode2D();
+    }
+    m_screenRT->EndMode();
+
+	// Draw the render texture to the screen
     BeginDrawing();
-    BeginMode2D(m_camera);
-    ClearBackground(raylib::Color(220, 220, 220));
-
-    for (auto button : m_buttons)
-        button->Render();
-
-    EndMode2D();
+    {
+        DrawTextureRec(
+            m_screenRT->GetTexture(), 
+			raylib::Rectangle(0, 0, m_windowInfo->p_screenWidth, -m_windowInfo->p_screenHeight),
+			raylib::Vector2(0, 0),
+			raylib::Color(255, 255, 255, 255)
+        );
+    }
     EndDrawing();
 
     return 1;

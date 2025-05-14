@@ -5,17 +5,17 @@
 #define DATA_PATH std::string("src/Lua/Data/")
 #define MOD_PATH std::string("src/Mods/")
 #define FILE_PATH std::string("src/Lua/")
-#define FILE_EXT std::string(".lua")
+#define LUA_EXT std::string(".lua")
+#define LTS_EXT std::string(".lts")
 #define FILE_CMD std::string("f:")
 
-#define LuaFilePath(fileName) (std::string(FILE_PATH + fileName + FILE_EXT).c_str())
-#define LuaModPath(fileName) (std::string(MOD_PATH + fileName + FILE_EXT).c_str())
+#define LuaFilePath(fileName) (std::string(FILE_PATH + fileName + LUA_EXT).c_str())
+#define LuaModPath(fileName) (std::string(MOD_PATH + fileName + LUA_EXT).c_str())
 
-#define LuaDoString(str) if (luaL_dostring(L, str) != LUA_OK) LuaDumpError(L);
-#define LuaDoFile(str) if (luaL_dofile(L, str) != LUA_OK) LuaDumpError(L);
+#define LuaDoString(L, str) if (luaL_dostring(L, str) != LUA_OK) LuaDumpError(L);
+#define LuaDoFile(L, str) if (luaL_dofile(L, str) != LUA_OK) LuaDumpError(L);
 
-#define LuaChk(ret) {if (ret != LUA_OK) LuaDumpError(L);}
-#define LuaChkL(L, ret) {if (ret != LUA_OK) LuaDumpError(L);}
+#define LuaChk(L, ret) {if (ret != LUA_OK) LuaDumpError(L);}
 
 // Reads file and returns the content as a string
 std::string LuaLoadFile(lua_State *L, const char *path);

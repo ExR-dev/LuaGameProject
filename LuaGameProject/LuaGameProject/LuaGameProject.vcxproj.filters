@@ -375,7 +375,7 @@
     <None Include="src\Lua\Tests\Math\Transform2Test.lua" />
     <None Include="src\Lua\Tests\Math\Vec2Test.lua" />
     <None Include="src\Lua\Components\Sprite.lua" />
-    <None Include="src\Lua\InitDevScene.lua" />
+    <None Include="src\Lua\Scenes\InitDevScene.lua" />
     <None Include="src\Lua\Color.lua" />
     <None Include="src\Lua\Components\Health.lua" />
     <None Include="src\Lua\Behaviours\Enemy.lua" />
@@ -390,19 +390,29 @@
     <None Include="src\Lua\Tests\InputTest.lua" />
     <None Include="src\Lua\Tests\Math\GameMathTest.lua" />
     <None Include="src\Lua\Behaviours\Projectile.lua" />
-    <None Include="src\Lua\Components\HitboxCircle.lua" />
     <None Include="src\Lua\Components\Active.lua" />
     <None Include="src\Lua\Components\Tags.lua" />
     <None Include="src\Lua\Behaviours\Weapon.lua" />
     <None Include="src\Lua\Data\Ammo.lua" />
-    <None Include="src\Lua\Data.lua" />
     <None Include="src\Lua\Data\Weapons.lua" />
     <None Include="src\Lua\Utility\PrintEntity.lua" />
-    <None Include="src\Lua\InitEditorScene.lua" />
-    <None Include="src\Mods\GodGun.lua" />
-    <None Include="src\Lua\Utility\InitModData.lua" />
+    <None Include="src\Lua\Utility\InitData.lua" />
     <None Include="src\Lua\Utility\ImLua.lua" />
     <None Include="src\Lua\Behaviours\InputMovement.lua" />
+    <None Include="src\Lua\Scenes\InitEditorLevelCreatorScene.lua" />
+    <None Include="src\Lua\Scenes\InitEditorPrefabCreatorScene.lua" />
+    <None Include="src\Lua\Scenes\InitEditorPresetCreatorScene.lua" />
+    <None Include="src\Lua\Scenes\InitEditorSandboxScene.lua" />
+    <None Include="src\Lua\Dev\PresetCreatorUI.lua" />
+    <None Include="src\Lua\Utility\TableSave.lua" />
+    <None Include="src\Lua\Utility\TableCopy.lua" />
+    <None Include="src\Lua\Dev\Commands.lua" />
+    <None Include="src\Lua\Components\Collider.lua" />
+    <None Include="src\Lua\Data\Groups.lua" />
+    <None Include="src\Lua\Data\Prefabs.lua" />
+    <None Include="src\Lua\Dev\PrefabCreatorUI.lua" />
+    <None Include="src\Lua\Dev\LevelCreatorUI.lua" />
+    <None Include="src\Lua\Dev\SandboxUI.lua" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="raylib.dll" />

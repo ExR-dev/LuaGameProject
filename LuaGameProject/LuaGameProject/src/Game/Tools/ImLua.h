@@ -65,21 +65,45 @@ namespace ImLua
 		static void PushImVec4(lua_State *L, const ImVec4 &value);
 
 
+		// Arguments: string label, bool p_open = nil
+		// Returns: bool isOpen
+		static int lua_Begin(lua_State *L);
+
+		// Arguments: none
+		// Returns: none
+		static int lua_End(lua_State *L);
+
+		// Arguments: string str_id, ImVec2 size = ImVec2(0, 0)
+		// Returns: bool isOpen
+		static int lua_BeginChild(lua_State *L);
+
+		// Arguments: none
+		// Returns: none
+		static int lua_EndChild(lua_State *L);
+
+		// Arguments: string str_id
+		// Returns: none
+		static int lua_OpenPopup(lua_State *L);
+
+		// Arguments: none
+		// Returns: none
+		static int lua_CloseCurrentPopup(lua_State *L);
+
+		// Arguments: string str_id
+		// Returns: bool isOpen
+		static int lua_BeginPopup(lua_State *L);
+
+		// Arguments: string name, bool p_open
+		// Returns: bool p_open, bool isModified
+		static int lua_BeginPopupModal(lua_State *L);
+
+		// Arguments: none
+		// Returns: none
+		static int lua_EndPopup(lua_State *L);
+
 		// Arguments: string label = nil
 		// Returns: none
 		static int lua_Separator(lua_State *L);
-
-		// Arguments: string label
-		// Returns: none
-		static int lua_Text(lua_State *L);
-
-		// Arguments: string label, string buf, int buf_size = -1
-		// Returns: string buf, bool isModified
-		static int lua_InputText(lua_State *L);
-
-		// Arguments: string label, float v, float v_speed = (1.0F), float v_min = (0.0F), float v_max = (0.0F), string format = "#.3f"
-		// Returns: float v, bool isModified
-		static int lua_DragFloat(lua_State *L);
 
 		// Arguments: string label, ImVec2 size = ImVec2(0, 0)
 		// Returns: bool pressed
@@ -97,9 +121,48 @@ namespace ImLua
 		// Returns: int v, bool isPressed
 		static int lua_RadioButtonInt(lua_State *L);
 
+		// Arguments: string label
+		// Returns: none
+		static int lua_Text(lua_State *L);
+
+		// Arguments: string label, string buf, int buf_size = -1
+		// Returns: string buf, bool isModified
+		static int lua_InputText(lua_State *L);
+
+		// Arguments: string label, float v, float step = 0.0f, float step_fast = 0.0f, string format = "%.3f"
+		// Returns: float v, bool isModified
+		static int lua_InputFloat(lua_State *L);
+
+		// Arguments: string label, ImVec2 v, string format = "%.3f"
+		// Returns: ImVec2 v, bool isModified
+		static int lua_InputFloat2(lua_State *L);
+
+		// Arguments: string label, int v, int step = 1, int step_fast = 100
+		// Returns: int v, bool isModified
+		static int lua_InputInt(lua_State *L);
+
+		// Arguments: string label, float v, float v_speed = (1.0F), float v_min = (0.0F), float v_max = (0.0F), string format = "%.3f"
+		// Returns: float v, bool isModified
+		static int lua_DragFloat(lua_State *L);
+
+		// Arguments: string label, int v, float v_speed = (1.0F), int v_min = 0, int v_max = 0, string format = "%d"
+		// Returns: int v, bool isModified
+		static int lua_DragInt(lua_State *L);
+
 		// Arguments: string label, float v, float v_min, float v_max, string format = "%.3f"
 		// Returns: float v, bool isModified
 		static int lua_SliderFloat(lua_State *L);
+
+		// Arguments: string label, int v, int v_min, int v_max, string format = "%d"
+		// Returns: int v, bool isModified
+		static int lua_SliderInt(lua_State *L);
+
+		// Arguments: float offset_from_start_x = 0.0f, float spacing = -1.0f
+		// Returns: none
+		static int lua_SameLine(lua_State *L);
+
+
+
 
 
 
@@ -109,14 +172,6 @@ namespace ImLua
 		// Returns: float v_rad, bool isModified
 		static int lua_SliderAngle(lua_State *L);
 
-		// Arguments: string label, int v, int v_min, int v_max, string format = "%d"
-		// Returns: int v, bool isModified
-		static int lua_SliderInt(lua_State *L);
-
-		// Arguments: string label, int v, int step = 1, int step_fast = 100
-		// Returns: int v, bool isModified
-		static int lua_InputInt(lua_State *L);
-
 		// Arguments: string label, ImVec4 col
 		// Returns: ImVec4 col, bool isModified
 		static int lua_ColorEdit4(lua_State *L);
@@ -124,6 +179,8 @@ namespace ImLua
 		// Arguments: string label, ImVec4 col, ImVec4 ref_col = NULL
 		// Returns: ImVec4 col, bool isModified
 		static int lua_ColorPicker4(lua_State *L);
+
+
 
 
 		// TODO: Complete comments
@@ -160,14 +217,6 @@ namespace ImLua
 		// Returns: 
 		static int lua_EndCombo(lua_State *L);
 
-		// Arguments: string str_id, ImVec2 size = ImVec2(0, 0)
-		// Returns: 
-		static int lua_BeginChild(lua_State *L);
-
-		// Arguments: 
-		// Returns: 
-		static int lua_EndChild(lua_State *L);
-
 		// Arguments: 
 		// Returns: 
 		static int lua_BeginGroup(lua_State *L);
@@ -192,18 +241,6 @@ namespace ImLua
 		// Returns: 
 		static int lua_EndTooltip(lua_State *L);
 
-		// Arguments: string str_id
-		// Returns: 
-		static int lua_BeginPopup(lua_State *L);
-
-		// Arguments: string name, bool p_open
-		// Returns: bool p_open, bool isModified
-		static int lua_BeginPopupModal(lua_State *L);
-
-		// Arguments: 
-		// Returns: 
-		static int lua_EndPopup(lua_State *L);
-
 		// Arguments: string str_id, int columns, ImVec2 outer_size = ImVec2(0.0f, 0.0f), float inner_width = 0.0f
 		// Returns: 
 		static int lua_BeginTable(lua_State *L);
@@ -223,10 +260,6 @@ namespace ImLua
 		// Arguments: 
 		// Returns: 
 		static int lua_TableSetColumnIndex(lua_State *L);
-
-		// Arguments: float offset_from_start_x = 0.0f, float spacing = -1.0f
-		// Returns: 
-		static int lua_SameLine(lua_State *L);
 
 		// Arguments: 
 		// Returns: 
@@ -347,74 +380,5 @@ namespace ImLua
 		// Arguments: string text
 		// Returns: 
 		static int lua_SetClipboardText(lua_State *L);
-
-
-
-
-
-
-		/*
-		lua_SliderAngle
-		lua_SliderInt
-		lua_InputInt
-		lua_ColorEdit4
-		lua_ColorPicker4
-		lua_ColorButton
-		lua_ProgressBar
-		lua_Image
-		lua_TreeNode
-		lua_TreePop
-		lua_CollapsingHeader
-		lua_BeginCombo
-		lua_EndCombo
-		lua_BeginChild
-		lua_EndChild
-		lua_BeginGroup
-		lua_EndGroup
-		lua_PushID
-		lua_PopID
-		lua_BeginTooltip
-		lua_EndTooltip
-		lua_BeginPopup
-		lua_BeginPopupModal
-		lua_EndPopup
-		lua_BeginTable
-		lua_EndTable
-		lua_TableNextRow
-		lua_TableNextColumn
-		lua_TableSetColumnIndex
-		lua_SameLine
-		lua_NewLine
-		lua_Spacing
-		lua_Dummy
-		lua_Indent
-		lua_Unindent
-		lua_SetNextItemWidth
-		lua_CalcItemWidth
-		lua_GetCursorScreenPos
-		lua_SetCursorScreenPos
-		lua_GetCursorPos
-		lua_SetCursorPos
-		lua_GetWindowPos
-		lua_GetWindowSize
-		lua_SetWindowPos
-		lua_SetWindowSize
-		lua_IsItemHovered
-		lua_IsItemActive
-		lua_IsItemFocused
-		lua_IsItemClicked
-		lua_IsItemVisible
-		lua_IsItemEdited
-		lua_IsItemActivated
-		lua_IsItemToggledOpen
-		lua_GetItemID
-		lua_GetItemRectMin
-		lua_GetItemRectMax
-		lua_GetItemRectSize
-		lua_CalcTextSize
-		lua_GetClipboardText
-		lua_SetClipboardText
-
-		*/
 	};
 }

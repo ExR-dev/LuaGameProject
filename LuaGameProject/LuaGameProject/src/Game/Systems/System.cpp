@@ -69,7 +69,7 @@ bool BehaviourSystem::OnNamedMethod(entt::registry &registry, const char *name, 
 				paramFunc(L);
 
 			// Call the method, pops the method and its arguments from the stack
-			LuaChk(lua_pcall(L, 2, 0, 0));
+			LuaChk(L, lua_pcall(L, 2, 0, 0));
 		}
 
 		// Pop the behaviour table from the stack
@@ -116,7 +116,7 @@ bool BehaviourSystem::RunDeltaMethod(entt::registry &registry, float delta, cons
 			lua_pushnumber(L, delta);
 
 			// Call the method, pops the method and its arguments from the stack
-			LuaChk(lua_pcall(L, 2, 0, 0));
+			LuaChk(L, lua_pcall(L, 2, 0, 0));
 		}
 
 		// Pop the behaviour table from the stack

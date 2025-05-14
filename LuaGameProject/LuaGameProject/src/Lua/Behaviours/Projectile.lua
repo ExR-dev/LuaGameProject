@@ -16,11 +16,21 @@ function projectile:OnCreate()
 	scene.SetComponent(self.ID, "Sprite", s)
 
 	self.trans = transform(scene.GetComponent(self.ID, "Transform"))
-	self.speed = 1337.0 * 1.5
 
-	local c = collider("Projectile", false, vec2(0, 0), vec2(1.1, 1.1), function(other) 
+	local speedVariation = 1.0 + (0.15 * gameMath.randomND())
+	self.speed = 1337.0 * 4.0 * speedVariation
+
+	-- Make collider longer to account for high speed
+	local c = collider("Projectile", false, vec2(0, 0), vec2(2.5, 1.0), 0, function(other)
 		tracy.ZoneBeginN("Lua Lambda projectile:Collide")
 
+		-- First apply penetration penalty if the collided entity has a hardness component
+		if scene.HasComponent(other, "Hardness") then
+			local h = scene.GetComponent(other, "Hardness")
+			self.stats.damage = self.stats.damage * self.stats.penetration^(h.hardness)
+		end
+
+		-- TODO: More sophisticated hit code, ex: using health collider
 		local o = scene.GetComponent(other, "Collider")
 		if (o.tag == "Enemy") then
 			scene.RemoveEntity(other)
@@ -32,22 +42,46 @@ function projectile:OnCreate()
 
 	scene.SetComponent(self.ID, "Collider", c)
 
-	self.expiration = 2.5
+	self.expiration = 0.5 -- seconds
+	self.decayThreshold = nil
+	self.stats = nil
 
-	self.stats = nil -- Set after spawning projectile using data.ammo.getStats()
+	tracy.ZoneEnd()
+end
+
+function projectile:Initialize(weaponStats, ammoStats)
+	tracy.ZoneBeginN("Lua projectile:Initialize")	
+
+	self.stats = {
+		damage = weaponStats.damage * ammoStats.damageMult,
+		falloff = ammoStats.falloff,
+		penetration = ammoStats.penetration,
+	}
+
+	self.decayThreshold = self.stats.damage * 0.25
 
 	tracy.ZoneEnd()
 end
 
 function projectile:OnUpdate(delta)
 	tracy.ZoneBeginN("Lua projectile:OnUpdate")
+
+	-- Expire projectile if too old
 	if self.expiration <= 0.0 then
 		self:OnRemove()
 		tracy.ZoneEnd()
 		return
 	end
-
 	self.expiration = self.expiration - delta
+
+	-- Random chance to decay the projectile if it's lost too much damage
+	if self.stats.damage < self.decayThreshold then
+		if self.stats.damage < (math.random() * self.decayThreshold) then
+			self:OnRemove()
+			tracy.ZoneEnd()
+			return
+		end
+	end
 
 	self.trans = transform(scene.GetComponent(self.ID, "Transform"))
 
@@ -55,8 +89,14 @@ function projectile:OnUpdate(delta)
 		self.travelDir = self.trans:getForward()
 	end
 
-	self.trans.position = self.trans.position + (self.travelDir * (self.speed * delta))
+	local stepLength = self.speed * delta
+
+	self.trans.position = self.trans.position + (self.travelDir * stepLength)
 	scene.SetComponent(self.ID, "Transform", self.trans)
+
+	-- Modify stats over distance travelled
+	local stepInMeters = stepLength * gameMath.pixelsToMeters
+	self.stats.damage = self.stats.damage * self.stats.falloff^(stepInMeters)
 
 	tracy.ZoneEnd()
 end

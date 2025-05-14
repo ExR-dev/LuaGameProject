@@ -1,4 +1,4 @@
-tracy.ZoneBeginN("Lua InitEditorScene.lua")
+tracy.ZoneBeginN("Lua InitEditorPresetCreatorScene.lua")
 
 local gameMath = require("Utility/GameMath")
 local vec2 = require("Vec2")

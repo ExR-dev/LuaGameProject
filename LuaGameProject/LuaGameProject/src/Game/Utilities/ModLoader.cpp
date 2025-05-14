@@ -18,7 +18,7 @@ namespace ModLoader
 
 		for (auto &p : std::filesystem::recursive_directory_iterator(dataDir))
 		{
-			if (p.path().extension() == FILE_EXT)
+			if (p.path().extension() == LUA_EXT)
 			{
 				// Paths cannot contain ':', so we can use it as a separator
 				dataFiles.push_back(p.path().string() + ":" + p.path().stem().string());
@@ -63,14 +63,11 @@ namespace ModLoader
 			return;
 		}
 
-		// Run InitModData.lua first
-		LuaDoFileCleaned(L, LuaFilePath("Utility/InitModData"));
-
 		std::vector<std::string> modFiles;
 
 		for (auto &p : std::filesystem::recursive_directory_iterator(modsDir))
 		{
-			if (p.path().extension() == FILE_EXT)
+			if (p.path().extension() == LTS_EXT)
 			{
 				// Paths cannot contain ':', so we can use it as a separator
 				modFiles.push_back(p.path().string() + ":" + p.path().stem().string());
@@ -82,7 +79,10 @@ namespace ModLoader
 			size_t pos = m.find(':');
 
 			// Everything before the ':' is the path
-			const std::string scriptPath = m.substr(0, pos);
+			std::string scriptPath = m.substr(0, pos);
+
+			// Replace '\\' with '/'
+			std::replace(scriptPath.begin(), scriptPath.end(), '\\', '/');
 
 			// Everything after the ':' is the name
 			const std::string scriptName = m.substr(pos + 1);
@@ -96,6 +96,18 @@ namespace ModLoader
 		ZoneScopedC(RandomUniqueColor());
 
 		std::cout << std::format("Loading Mod '{}'\n", modName);
+		if (luaL_dostring(L, std::format("data.modding.loadLuaTableSave('{}')", fullPath).c_str()) != LUA_OK)
+		{
+			if (lua_gettop(L) && lua_isstring(L, -1))
+			{
+				std::cout << "Mod Failed to Load with the Error:\n" << lua_tostring(L, -1) << "\n";
+				lua_pop(L, 1);
+				return false;
+			}
+		}
+
+		/*
+		LuaDoFileCleaned(L, fullPath.c_str());
 
 		if (luaL_dofile(L, fullPath.c_str()) != LUA_OK)
 		{
@@ -106,6 +118,7 @@ namespace ModLoader
 				return false;
 			}
 		}
+		*/
 
 		return true;
 	}

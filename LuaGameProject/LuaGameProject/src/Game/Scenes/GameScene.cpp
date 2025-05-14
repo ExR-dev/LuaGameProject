@@ -37,12 +37,13 @@ GameScene::GameScene::~GameScene()
 	}
 }
 
-int GameScene::GameScene::Start(WindowInfo *windowInfo, CmdState *cmdState)
+int GameScene::GameScene::Start(WindowInfo *windowInfo, CmdState *cmdState, raylib::RenderTexture *screenRT)
 {
     ZoneScopedC(RandomUniqueColor());
 
 	m_windowInfo = windowInfo;
 	m_cmdState = cmdState;
+	m_screenRT = screenRT;
 
     // Setup Box2D
     m_physicsHandler.Setup();
@@ -52,6 +53,10 @@ int GameScene::GameScene::Start(WindowInfo *windowInfo, CmdState *cmdState)
     // Create internal lua state
     L = luaL_newstate();
     luaL_openlibs(L);
+
+    // Add Lua require path
+    std::string luaScriptPath = std::format("{}/{}?{}", fs::current_path().generic_string(), FILE_PATH, LUA_EXT);
+    LuaDoString(L, std::format("package.path = \"{};\" .. package.path", luaScriptPath).c_str());
 
     m_windowInfo->BindLuaWindow(L);
 
@@ -77,17 +82,13 @@ int GameScene::GameScene::Start(WindowInfo *windowInfo, CmdState *cmdState)
 
     BindLuaInput(L);
 
-    // Add Lua require path
-    std::string luaScriptPath = std::format("{}/{}?{}", fs::current_path().generic_string(), FILE_PATH, FILE_EXT);
-    LuaDoString(std::format("package.path = \"{};\" .. package.path", luaScriptPath).c_str());
-
     // Initialize Lua data & mods
     ModLoader::LuaLoadData(L, DATA_PATH);
 	ModLoader::LuaLoadMods(L, MOD_PATH);
 
     m_scene.SystemsInitialize(L);
 
-    LuaDoFileCleaned(L, LuaFilePath("InitDevScene")); // Creates entities
+    LuaDoFileCleaned(L, LuaFilePath("Scenes/InitDevScene")); // Creates entities
 
     return 1;
 }
@@ -135,11 +136,16 @@ void GameScene::GameScene::OnResizeWindow()
     ZoneScopedC(RandomUniqueColor());
 
     m_windowInfo->BindLuaWindow(L);
+
+    m_camera.offset = raylib::Vector2(m_windowInfo->p_screenWidth / 2.0f, m_windowInfo->p_screenHeight / 2.0f);
 }
 
 Game::SceneState GameScene::GameScene::Update()
 {
     ZoneScopedC(RandomUniqueColor());
+
+    auto mouseWorldPos = Input::GetMouseInfo().position;
+    m_luaGame.SetMouseWorldPos(mouseWorldPos.x, mouseWorldPos.y);
 
     // Toggle mouse
     if (Input::CheckMousePressed(Input::GAME_MOUSE_RIGHT))
@@ -157,9 +163,6 @@ Game::SceneState GameScene::GameScene::Update()
     }
 
     m_camera.zoom += ((float)GetMouseWheelMove() * 0.05f);
-
-    if (m_camera.zoom > 3.0f) m_camera.zoom = 3.0f;
-    else if (m_camera.zoom < 0.25f) m_camera.zoom = 0.25f;
 
     if (Input::CheckKeyPressed(Input::GAME_KEY_R))
     {
@@ -213,7 +216,9 @@ Game::SceneState GameScene::GameScene::Update()
 
             if (!collider.createBody)
             {
-                b2Body_SetTransform(collider.bodyId, { transform.Position[0] + collider.offset[0], transform.Position[1] + collider.offset[1]}, {cosf(transform.Rotation * DEG2RAD), sinf(transform.Rotation * DEG2RAD)});
+				b2Body_SetTransform(collider.bodyId, 
+									{ collider.offset[0] + transform.Position[0], collider.offset[1] + transform.Position[1] }, 
+									{ cosf((transform.Rotation + collider.rotation) * DEG2RAD), sinf((transform.Rotation + collider.rotation) * DEG2RAD) });
             }
             else
             {
@@ -235,140 +240,154 @@ int GameScene::GameScene::Render()
 {
     ZoneScopedC(RandomUniqueColor());
 
-    BeginDrawing();
-    ClearBackground(LIGHTGRAY);
-
-    // Update systems
-    m_scene.SystemsOnRender(Time::DeltaTime());
-
-    // Scene
+    // Draw to the screen render texture
+    m_screenRT->BeginMode();
     {
-        ZoneNamedNC(renderSceneZone, "Render Scene", RandomUniqueColor(), true);
-        BeginMode2D(m_camera);
+        ClearBackground(LIGHTGRAY);
 
-        // Draw sprites
-        std::function<void(entt::registry &registry)> drawSystem = [](entt::registry &registry) {
-            ZoneNamedNC(drawSpritesZone, "Lambda Draw Sprites", RandomUniqueColor(), true);
+        // Update systems
+        m_scene.SystemsOnRender(Time::DeltaTime());
 
-            auto view = registry.view<ECS::Sprite, ECS::Transform>();
-            view.use<ECS::Sprite>();
+        // Scene
+        {
+            ZoneNamedNC(renderSceneZone, "Render Scene", RandomUniqueColor(), true);
+            BeginMode2D(m_camera);
 
-            view.each([&](const entt::entity entity, const ECS::Sprite &sprite, const ECS::Transform &transform) {
-                ZoneNamedNC(drawSpriteZone, "Lambda Draw Sprite", RandomUniqueColor(), true);
+            // Draw sprites
+            std::function<void(entt::registry &registry)> drawSystem = [](entt::registry &registry) {
+                ZoneNamedNC(drawSpritesZone, "Lambda Draw Sprites", RandomUniqueColor(), true);
 
-                // If the entity has an active component, check if it is active
-                if (registry.all_of<ECS::Active>(entity))
-                {
-                    ECS::Active &active = registry.get<ECS::Active>(entity);
-                    if (!active.IsActive)
-						return; // Skip drawing if the entity is not active
-                }
+                auto view = registry.view<ECS::Sprite, ECS::Transform>();
+                view.use<ECS::Sprite>();
 
-                int flip = transform.Scale[1] > 0 ? 1 : -1;
+                view.each([&](const entt::entity entity, const ECS::Sprite &sprite, const ECS::Transform &transform) {
+                    ZoneNamedNC(drawSpriteZone, "Lambda Draw Sprite", RandomUniqueColor(), true);
 
-                raylib::Color color(*(raylib::Vector4 *)(&(sprite.Color)));
-                raylib::Rectangle rect(
-                    transform.Position[0],
-                    transform.Position[1],
-                    transform.Scale[0],
-                    transform.Scale[1] * flip
-                );
-
-                raylib::Vector2 origin(
-                    (transform.Scale[0] / 2),
-                    (transform.Scale[1] / 2) * flip
-                );
-
-                std::string textureName = sprite.SpriteName;
-                const raylib::Texture2D *texture = nullptr;
-
-                if (textureName != "")
-                {
-                    texture = ResourceManager::Instance().GetTextureResource(textureName);
-
-                    if (!texture)
+                    // If the entity has an active component, check if it is active
+                    if (registry.all_of<ECS::Active>(entity))
                     {
-                        ResourceManager::Instance().LoadTextureResource(textureName);
-                        texture = ResourceManager::Instance().GetTextureResource(textureName);
+                        ECS::Active &active = registry.get<ECS::Active>(entity);
+                        if (!active.IsActive)
+                            return; // Skip drawing if the entity is not active
                     }
-                }
 
-                if (texture)
-                {
-                    DrawTexturePro(
-                        *texture,
-                        raylib::Rectangle(0, 0, (float)texture->width, (float)(texture->height * flip)),
-                        rect,
-                        origin,
-                        transform.Rotation,
-                        color
+                    int flip = transform.Scale[1] > 0 ? 1 : -1;
+
+                    raylib::Color color(*(raylib::Vector4 *)(&(sprite.Color)));
+                    raylib::Rectangle rect(
+                        transform.Position[0],
+                        transform.Position[1],
+                        transform.Scale[0],
+                        transform.Scale[1] * flip
                     );
-                }
-                else
-                {
-                    DrawRectanglePro(
-                        rect, 
-                        origin, 
-                        transform.Rotation, 
-                        color
+
+                    raylib::Vector2 origin(
+                        (transform.Scale[0] / 2),
+                        (transform.Scale[1] / 2) * flip
                     );
-                }
-            });
-        };
-		m_scene.RunSystem(drawSystem);
 
-		std::function<void(entt::registry& registry)> drawPhysicsBodies = [&](entt::registry& registry) {
-			ZoneNamedNC(drawPhysicsBodiesZone, "Lambda Draw Physics Bodies", RandomUniqueColor(), true);
+                    std::string textureName = sprite.SpriteName;
+                    const raylib::Texture2D *texture = nullptr;
 
-			auto view = registry.view<ECS::Collider, ECS::Transform>();
-			view.use<ECS::Collider>();
+                    if (textureName != "")
+                    {
+                        texture = ResourceManager::Instance().GetTextureResource(textureName);
 
-			view.each([&](ECS::Collider& collider, ECS::Transform& transform) {
-				ZoneNamedNC(drawSpriteZone, "Lambda Draw Physics Body", RandomUniqueColor(), true);
+                        if (!texture)
+                        {
+                            ResourceManager::Instance().LoadTextureResource(textureName);
+                            texture = ResourceManager::Instance().GetTextureResource(textureName);
+                        }
+                    }
 
-                if (collider.debug)
-                {
-					const float w = fabsf(transform.Scale[0] * collider.extents[0]),
-								h = fabsf(transform.Scale[1] * collider.extents[1]);
-					b2Vec2 p = b2Body_GetWorldPoint(collider.bodyId, { 0, 0});
-					//b2Transform t;
+                    if (texture)
+                    {
+                        DrawTexturePro(
+                            *texture,
+                            raylib::Rectangle(0, 0, (float)texture->width, (float)(texture->height * flip)),
+                            rect,
+                            origin,
+                            transform.Rotation,
+                            color
+                        );
+                    }
+                    else
+                    {
+                        DrawRectanglePro(
+                            rect,
+                            origin,
+                            transform.Rotation,
+                            color
+                        );
+                    }
+                });
+            };
+            m_scene.RunSystem(drawSystem);
 
-					b2Rot rotation = b2Body_GetRotation(collider.bodyId);
-					float radians = b2Rot_GetAngle(rotation);
+            std::function<void(entt::registry &registry)> drawPhysicsBodies = [&](entt::registry &registry) {
+                ZoneNamedNC(drawPhysicsBodiesZone, "Lambda Draw Physics Bodies", RandomUniqueColor(), true);
 
-					Rectangle rect = { p.x, p.y , w, h };
-					DrawRectanglePro(rect, { w/2, h/2 }, radians*RAD2DEG, {0, 228, 46, 100});
-                }
-			});
-		};
+                auto view = registry.view<ECS::Collider, ECS::Transform>();
+                view.use<ECS::Collider>();
 
-		m_scene.RunSystem(drawPhysicsBodies);
+                view.each([&](ECS::Collider &collider, ECS::Transform &transform) {
+                    ZoneNamedNC(drawSpriteZone, "Lambda Draw Physics Body", RandomUniqueColor(), true);
 
-		// Draw the dungeon
-        m_dungeon->Draw();
+                    if (collider.debug)
+                    {
+                        const float w = fabsf(transform.Scale[0] * collider.extents[0]),
+                            h = fabsf(transform.Scale[1] * collider.extents[1]);
+                        b2Vec2 p = b2Body_GetWorldPoint(collider.bodyId, { 0, 0 });
+                        //b2Transform t;
 
-        EndMode2D();
+                        b2Rot rotation = b2Body_GetRotation(collider.bodyId);
+                        float radians = b2Rot_GetAngle(rotation);
+
+                        Rectangle rect = { p.x, p.y , w, h };
+                        DrawRectanglePro(rect, { w / 2, h / 2 }, radians * RAD2DEG, { 0, 228, 46, 100 });
+                    }
+                });
+            };
+
+            m_scene.RunSystem(drawPhysicsBodies);
+
+            // Draw the dungeon
+            m_dungeon->Draw();
+
+            EndMode2D();
+        }
+
+        // UI
+        {
+            ZoneNamedNC(GameSceneRenderScene, "Render UI", RandomUniqueColor(), true);
+            static const char *cameraDescriptions[CAMERA_OPTIONS] = {
+                "Follow player center",
+                "Free camera movement",
+            };
+
+            DrawText("Controls:", 20, 20, 10, BLACK);
+            DrawText("- A/D to move", 40, 40, 10, DARKGRAY);
+            DrawText("- W/Space to jump", 40, 60, 10, DARKGRAY);
+            DrawText("- Mouse Wheel to Zoom in-out, R to reset zoom", 40, 80, 10, DARKGRAY);
+            DrawText("- C to change camera mode", 40, 100, 10, DARKGRAY);
+            DrawText("Current camera mode:", 20, 120, 10, BLACK);
+            DrawText(cameraDescriptions[m_cameraOption], 40, 140, 10, DARKGRAY);
+
+            DrawFPS(340, 10);
+        }
     }
+    m_screenRT->EndMode();
 
-    // UI
+    // Draw the render texture to the screen
+    BeginDrawing();
     {
-        ZoneNamedNC(GameSceneRenderScene, "Render UI", RandomUniqueColor(), true);
-        static const char *cameraDescriptions[CAMERA_OPTIONS] = {
-            "Follow player center",
-            "Free camera movement",
-        };
-
-        DrawText("Controls:", 20, 20, 10, BLACK);
-        DrawText("- A/D to move", 40, 40, 10, DARKGRAY);
-        DrawText("- W/Space to jump", 40, 60, 10, DARKGRAY);
-        DrawText("- Mouse Wheel to Zoom in-out, R to reset zoom", 40, 80, 10, DARKGRAY);
-        DrawText("- C to change camera mode", 40, 100, 10, DARKGRAY);
-        DrawText("Current camera mode:", 20, 120, 10, BLACK);
-        DrawText(cameraDescriptions[m_cameraOption], 40, 140, 10, DARKGRAY);
-
-        DrawFPS(340, 10);
+        DrawTextureRec(
+            m_screenRT->GetTexture(),
+            raylib::Rectangle(0, 0, m_windowInfo->p_screenWidth, -m_windowInfo->p_screenHeight),
+            raylib::Vector2(0, 0),
+            raylib::Color(255, 255, 255, 255)
+        );
     }
-
     EndDrawing();
 
 	return 1;

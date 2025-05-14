@@ -1,12 +1,6 @@
 #include "stdafx.h"
 #include "LuaInput.h"
 
-#include "LuaUtils.h"
-
-#include "InputHandler.h"
-
-#include <iostream>
-
 #ifdef LEAK_DETECTION
 #define new			DEBUG_NEW
 #endif
@@ -175,6 +169,7 @@ static int LuaGetMouseInfo(lua_State *L)
 
 	return 1;
 }
+
 
 void BindLuaInput(lua_State *L)
 {

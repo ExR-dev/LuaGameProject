@@ -1,0 +1,27 @@
+return {
+-- Table: {1}
+{
+   ["dataPath"]="weapons",
+   ["elementName"]="God Gun",
+   ["contents"]={2},
+},
+-- Table: {2}
+{
+   ["stats"]={3},
+   ["length"]=96,
+   ["width"]=24,
+},
+-- Table: {3}
+{
+   ["caliber"]="God Ammo",
+   ["spread"]=0.0,
+   ["recoil"]=0.0,
+   ["capacity"]=99999,
+   ["damage"]=9999.0,
+   ["recovery"]=4,
+   ["fireMode"]="Auto",
+   ["handCount"]=1,
+   ["reloadTime"]=0.0,
+   ["fireRate"]=90.0,
+},
+}

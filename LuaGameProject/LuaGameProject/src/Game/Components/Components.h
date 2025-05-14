@@ -24,7 +24,7 @@ namespace ECS
 			lua_createtable(L, 0, 1);
 
 			// Add IsActive to the active table
-			lua_pushnumber(L, IsActive);
+			lua_pushboolean(L, IsActive);
 			lua_setfield(L, -2, "isActive");
 		}
 		void LuaPull(lua_State *L, int index)
@@ -37,19 +37,13 @@ namespace ECS
 			}
 
 			// Verify that the value at the given index is a table
-			if (!lua_istable(L, index))
+			if (lua_istable(L, index))
 			{
-				luaL_error(L, "Expected a table for Active");
-				return;
+				lua_getfield(L, index, "isActive");
+				if (lua_isboolean(L, -1))
+					IsActive = lua_toboolean(L, -1);
+				lua_pop(L, 1);
 			}
-
-			// Get Max field
-			lua_getfield(L, index, "isActive");
-			if (lua_isboolean(L, -1))
-			{
-				IsActive = lua_toboolean(L, -1);
-			}
-			lua_pop(L, 1); // Remove the isActive value from stack
 		}
 
 		void RenderUI()
@@ -101,7 +95,7 @@ namespace ECS
 			else
 			{
 				lua_pushvalue(L, -2); // Push the table as argument
-				LuaChk(lua_pcall(L, 1, 0, 0));
+				LuaChk(L, lua_pcall(L, 1, 0, 0));
 			}
 
 			memset(ScriptPath, '\0', SCRIPT_PATH_LENGTH);
@@ -190,7 +184,7 @@ namespace ECS
 						lua_pushvalue(m_refState, -2);
 
 						// Call the method, pops the method and its arguments from the stack
-						LuaChkL(m_refState, lua_pcall(m_refState, 1, 0, 0));
+						LuaChk(m_refState, lua_pcall(m_refState, 1, 0, 0));
 					}
 
 					// Pop the behaviour table from the stack
@@ -257,30 +251,35 @@ namespace ECS
 			if (lua_istable(L, -1))
 			{
 				lua_getfield(L, -1, "x");
-				Position[0] = (float)lua_tonumber(L, -1);
+				if (lua_isnumber(L, -1))
+					Position[0] = (float)lua_tonumber(L, -1);
 				lua_pop(L, 1);
 
 				lua_getfield(L, -1, "y");
-				Position[1] = (float)lua_tonumber(L, -1);
+				if (lua_isnumber(L, -1))
+					Position[1] = (float)lua_tonumber(L, -1);
 				lua_pop(L, 1);
 			}
 			lua_pop(L, 1); // Pop Position table
 
 			// Get Rotation
 			lua_getfield(L, index, "rotation");
-			Rotation = (float)lua_tonumber(L, -1);
-			lua_pop(L, 1); // Pop Rotation table
+			if (lua_isnumber(L, -1))
+				Rotation = (float)lua_tonumber(L, -1);
+			lua_pop(L, 1); // Pop Rotation number
 
 			// Get Scale subtable
 			lua_getfield(L, index, "scale");
 			if (lua_istable(L, -1))
 			{
 				lua_getfield(L, -1, "x");
-				Scale[0] = (float)lua_tonumber(L, -1);
+				if (lua_isnumber(L, -1))
+					Scale[0] = (float)lua_tonumber(L, -1);
 				lua_pop(L, 1);
 
 				lua_getfield(L, -1, "y");
-				Scale[1] = (float)lua_tonumber(L, -1);
+				if (lua_isnumber(L, -1))
+					Scale[1] = (float)lua_tonumber(L, -1);
 				lua_pop(L, 1);
 			}
 			lua_pop(L, 1); // Pop Scale table
@@ -304,19 +303,24 @@ namespace ECS
 		b2BodyId bodyId = b2_nullBodyId;
 		bool createBody = false;
 		bool debug = false;
-		int luaRef;
+		int onEnterRef, onExitRef;
 		static constexpr int MAX_TAG_LENGTH = 32;
 		char tag[MAX_TAG_LENGTH];
 		float offset[2] { 0 };
 		float extents[2] { 1, 1 };
+		float rotation = 0;
 
-		Collider(): createBody(true) {}
+		Collider(bool recreating = false)
+		{
+			createBody = !recreating;
+		}
 
 		void Destroy(lua_State* L)
 		{
 			b2DestroyBody(bodyId);
 			bodyId = b2_nullBodyId;
-			luaL_unref(L, LUA_REGISTRYINDEX, luaRef);
+			luaL_unref(L, LUA_REGISTRYINDEX, onEnterRef);
+			luaL_unref(L, LUA_REGISTRYINDEX, onExitRef);
 		}
 
 		void LuaPush(lua_State* L) const
@@ -345,8 +349,14 @@ namespace ECS
 			lua_setfield(L, -2, "y");
 			lua_setfield(L, -2, "extents");	
 
-            lua_rawgeti(L, LUA_REGISTRYINDEX, luaRef);
-			lua_setfield(L, -2, "callback");
+			lua_pushnumber(L, rotation);
+			lua_setfield(L, -2, "rotation");
+
+            lua_rawgeti(L, LUA_REGISTRYINDEX, onEnterRef);
+			lua_setfield(L, -2, "onEnterCallback");
+
+			lua_rawgeti(L, LUA_REGISTRYINDEX, onExitRef);
+			lua_setfield(L, -2, "onExitCallback");
 		}
 		void LuaPull(lua_State *L, int index)
 		{
@@ -361,8 +371,6 @@ namespace ECS
 				luaL_error(L, "Expected a table for Collider");
 				return;
 			}
-
-			createBody = true;
 
 			lua_getfield(L, index, "tag");
 			if (lua_isstring(L, -1)) 
@@ -382,11 +390,13 @@ namespace ECS
 			if (lua_istable(L, -1))
 			{
 				lua_getfield(L, -1, "x");
-				offset[0] = (float)lua_tonumber(L, -1);
+				if (lua_isnumber(L, -1))
+					offset[0] = (float)lua_tonumber(L, -1);
 				lua_pop(L, 1);
 
 				lua_getfield(L, -1, "y");
-				offset[1] = (float)lua_tonumber(L, -1);
+				if (lua_isnumber(L, -1))
+					offset[1] = (float)lua_tonumber(L, -1);
 				lua_pop(L, 1);
 			}
 
@@ -394,27 +404,44 @@ namespace ECS
 			if (lua_istable(L, -1))
 			{
 				lua_getfield(L, -1, "x");
-				float temp = (float)lua_tonumber(L, -1);
-				if (temp != extents[0])
+				if (lua_isnumber(L, -1))
 				{
-					extents[0] = temp;
-					createBody = true;
+					float temp = (float)lua_tonumber(L, -1);
+					if (temp != extents[0])
+					{
+						extents[0] = temp;
+						createBody = true;
+					}
 				}
 				lua_pop(L, 1);
 
 				lua_getfield(L, -1, "y");
-				temp = (float)lua_tonumber(L, -1);
-				if (temp != extents[1])
+				if (lua_isnumber(L, -1))
 				{
-					extents[1] = temp;
-					createBody = true;
+					float temp = (float)lua_tonumber(L, -1);
+					if (temp != extents[1])
+					{
+						extents[1] = temp;
+						createBody = true;
+					}
 				}
 				lua_pop(L, 1);
 			}
 
-			lua_getfield(L, index, "callback");
+			lua_getfield(L, index, "rotation");
+			if (lua_isnumber(L, -1))
+			{
+				rotation = (float)lua_tonumber(L, -1);
+				lua_pop(L, 1);
+			}
+
+			lua_getfield(L, index, "onEnterCallback");
 			if (lua_isfunction(L, -1))
-				luaRef = luaL_ref(L, LUA_REGISTRYINDEX);
+				onEnterRef = luaL_ref(L, LUA_REGISTRYINDEX);
+
+			lua_getfield(L, index, "onExitCallback");
+			if (lua_isfunction(L, -1))
+				onExitRef = luaL_ref(L, LUA_REGISTRYINDEX);
 		}
 	
 		void RenderUI()
@@ -423,7 +450,14 @@ namespace ECS
 			{
 				// TODO: This is'nt working
 				ImGui::DragFloat2("Offset", offset, 0.1f, -1000, 1000);
-				createBody |= ImGui::DragFloat2("Extents", extents, 0.1f, -1000, 1000);
+				createBody |= ImGui::DragFloat2("Extents", extents, 0.001f, 0.001f, 1000);
+				if (ImGui::DragFloat("Rotation", &rotation, 0.1f, -1.0f, 361.0f))
+				{
+					if (rotation >= 0)
+						rotation = std::fmodf(rotation, 360.0f);
+					else
+						rotation = 360 - std::fmodf(-1*rotation, 360.0f);
+				}
 
 				ImGui::Checkbox("Debug", &debug);
 
@@ -482,71 +516,67 @@ namespace ECS
 			lua_setfield(L, -2, "color");  // Add color to the sprite table
 
 			// Add priority to the sprite table
-			lua_pushnumber(L, Priority);
+			lua_pushinteger(L, Priority);
 			lua_setfield(L, -2, "priority");
 		}
 		void LuaPull(lua_State* L, int index)
 		{
 			ZoneScopedC(RandomUniqueColor());
 			// Make sure the index is absolute (in case it's negative)
-			if (index < 0) {
+			if (index < 0) 
+			{
 				index = lua_gettop(L) + index + 1;
 			}
 
 			// Verify that the value at the given index is a table
-			if (!lua_istable(L, index)) {
-				luaL_error(L, "Expected a table for Sprite");
-				return;
-			}
-
-			// Get spriteName field
-			lua_getfield(L, index, "spriteName");
-			if (lua_isstring(L, -1)) {
-				const char* name = lua_tostring(L, -1);
-				memset(SpriteName, '\0', SPRITE_NAME_LENGTH);
-				strncpy_s(SpriteName, name, SPRITE_NAME_LENGTH - 1);
-			}
-			lua_pop(L, 1); // Remove the spriteName value from stack
-
-			// Get color table
-			lua_getfield(L, index, "color");
-			if (lua_istable(L, -1)) {
-				// Get r component
-				lua_getfield(L, -1, "r");
-				if (lua_isnumber(L, -1)) {
-					Color[0] = (float)lua_tonumber(L, -1);
+			if (lua_istable(L, index)) 
+			{
+				// Get spriteName field
+				lua_getfield(L, index, "spriteName");
+				if (lua_isstring(L, -1)) 
+				{
+					const char* name = lua_tostring(L, -1);
+					memset(SpriteName, '\0', SPRITE_NAME_LENGTH);
+					strncpy_s(SpriteName, name, SPRITE_NAME_LENGTH - 1);
 				}
-				lua_pop(L, 1);
+				lua_pop(L, 1); // Remove the spriteName value from stack
 
-				// Get g component
-				lua_getfield(L, -1, "g");
-				if (lua_isnumber(L, -1)) {
-					Color[1] = (float)lua_tonumber(L, -1);
-				}
-				lua_pop(L, 1);
+				// Get color table
+				lua_getfield(L, index, "color");
+				if (lua_istable(L, -1)) 
+				{
+					// Get r component
+					lua_getfield(L, -1, "r");
+					if (lua_isnumber(L, -1)) 
+						Color[0] = (float)lua_tonumber(L, -1);
+					lua_pop(L, 1);
 
-				// Get b component
-				lua_getfield(L, -1, "b");
-				if (lua_isnumber(L, -1)) {
-					Color[2] = (float)lua_tonumber(L, -1);
-				}
-				lua_pop(L, 1);
+					// Get g component
+					lua_getfield(L, -1, "g");
+					if (lua_isnumber(L, -1)) 
+						Color[1] = (float)lua_tonumber(L, -1);
+					lua_pop(L, 1);
 
-				// Get a component
-				lua_getfield(L, -1, "a");
-				if (lua_isnumber(L, -1)) {
-					Color[3] = (float)lua_tonumber(L, -1);
+					// Get b component
+					lua_getfield(L, -1, "b");
+					if (lua_isnumber(L, -1)) 
+						Color[2] = (float)lua_tonumber(L, -1);
+					lua_pop(L, 1);
+
+					// Get a component
+					lua_getfield(L, -1, "a");
+					if (lua_isnumber(L, -1))
+						Color[3] = (float)lua_tonumber(L, -1);
+					lua_pop(L, 1);
 				}
-				lua_pop(L, 1);
+				lua_pop(L, 1); // Remove the color table from stack
+
+				// Get priority field
+				lua_getfield(L, index, "priority");
+				if (lua_isnumber(L, -1))
+					Priority = (int)lua_tonumber(L, -1);
+				lua_pop(L, 1); // Remove the priority value from stack
 			}
-			lua_pop(L, 1); // Remove the color table from stack
-
-			// Get priority field
-			lua_getfield(L, index, "priority");
-			if (lua_isnumber(L, -1)) {
-				Priority = (int)lua_tonumber(L, -1);
-			}
-			lua_pop(L, 1); // Remove the priority value from stack
 		}
 
 		void RenderUI()
@@ -625,27 +655,77 @@ namespace ECS
 			}
 
 			// Verify that the value at the given index is a table
-			if (!lua_istable(L, index))
+			if (lua_istable(L, index))
 			{
-				luaL_error(L, "Expected a table for Health");
-				return;
+				// Get Current field
+				lua_getfield(L, index, "current");
+				if (lua_isnumber(L, -1))
+					Current = (float)lua_tonumber(L, -1);
+				lua_pop(L, 1); // Remove the current value from stack
+
+				// Get Max field
+				lua_getfield(L, index, "max");
+				if (lua_isnumber(L, -1))
+					Max = (float)lua_tonumber(L, -1);
+				lua_pop(L, 1); // Remove the max value from stack
+			}
+		}
+	};
+
+	struct Hardness
+	{
+		float hardness;
+
+		Hardness(float h = 0) : hardness(h) {}
+
+		void LuaPush(lua_State *L) const
+		{
+			ZoneScopedC(RandomUniqueColor());
+
+			lua_createtable(L, 0, 1);
+			lua_pushnumber(L, hardness);
+			lua_setfield(L, -2, "hardness");
+		}
+		void LuaPull(lua_State *L, int index)
+		{
+			ZoneScopedC(RandomUniqueColor());
+			// Make sure the index is absolute (in case it's negative)
+			if (index < 0)
+			{
+				index = lua_gettop(L) + index + 1;
 			}
 
-			// Get Current field
-			lua_getfield(L, index, "current");
-			if (lua_isnumber(L, -1))
+			// Verify that the value at the given index is a table
+			if (lua_istable(L, index))
 			{
-				Current = (float)lua_tonumber(L, -1);
+				lua_getfield(L, index, "hardness");
+				if (lua_isnumber(L, -1))
+					hardness = lua_tonumber(L, -1);
+				lua_pop(L, 1);
 			}
-			lua_pop(L, 1); // Remove the current value from stack
+		}
 
-			// Get Max field
-			lua_getfield(L, index, "max");
-			if (lua_isnumber(L, -1))
-			{
-				Max = (float)lua_tonumber(L, -1);
-			}
-			lua_pop(L, 1); // Remove the max value from stack
+		void RenderUI()
+		{
+			if (ImGui::InputFloat("Hardness", &hardness, 0.01f, 0.1f))
+				hardness = std::fmaxf(0.0f, hardness);
+		}
+	};
+
+	struct Room
+	{
+		static const int ROOM_NAME_LENGTH = 32;
+		char RoomName[ROOM_NAME_LENGTH];
+
+		Room()
+		{
+			memset(RoomName, '\0', ROOM_NAME_LENGTH);
+		}
+
+		Room(const char *name)
+		{
+			memset(RoomName, '\0', ROOM_NAME_LENGTH);
+			strcpy_s(RoomName, name);
 		}
 	};
 
@@ -684,11 +764,13 @@ namespace ECS
 			if (lua_istable(L, -1))
 			{
 				lua_getfield(L, -1, "x");
-				Size[0] = (int)lua_tonumber(L, -1);
+				if (lua_isnumber(L, -1))
+					Size[0] = (int)lua_tonumber(L, -1);
 				lua_pop(L, 1);
 
 				lua_getfield(L, -1, "y");
-				Size[1] = (int)lua_tonumber(L, -1);
+				if (lua_isnumber(L, -1))
+					Size[1] = (int)lua_tonumber(L, -1);
 				lua_pop(L, 1);
 			}
 			lua_pop(L, 1); // Pop Size table
@@ -696,15 +778,13 @@ namespace ECS
 			// Get Zoom field
 			lua_getfield(L, index, "zoom");
 			if (lua_isnumber(L, -1))
-			{
 				Zoom = (float)lua_tonumber(L, -1);
-			}
 			lua_pop(L, 1); // Remove the zoom value from stack
 		}
 	};
 
-	struct Remove {
-		//bool _ : 1; // Place holder
+	struct Remove 
+	{
 		int _; // Place holder
 	};
 }

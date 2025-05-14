@@ -8,9 +8,10 @@
 tracy.ZoneBeginN("Lua Enemy.lua")
 local enemy = {}
 
-local vec = require("Vec2")
+local vec2 = require("Vec2")
 local transform = require("Transform2")
 local gameMath = require("Utility/GameMath")
+local collider = require("Components/Collider")
 
 -- Guaranteed to be called before OnUpdate from the C environment.
 -- Can set up more fields in self.
@@ -18,8 +19,12 @@ function enemy:OnCreate()
 	tracy.ZoneBeginN("Lua enemy:OnCreate")
 	local t = transform(scene.GetComponent(self.ID, "Transform"))
 
-	self.wanderPoint = t.position + vec(math.random(-75, 75), math.random(-75, 75));
+	self.wanderPoint = t.position + vec2(math.random(-75, 75), math.random(-75, 75));
 	self.speed = math.random(15, 35)
+
+	local c = collider("Enemy", false, vec2(0, 0), vec2(1, 1), 0, nil)
+	scene.SetComponent(self.ID, "Collider", c)
+
 	tracy.ZoneEnd()
 end
 
@@ -36,7 +41,7 @@ function enemy:OnUpdate(delta)
 
 	-- If the distance to the goal is small, pick a new random point, otherwise move towards it
 	if lengthSqr < 2.0 then
-		self.wanderPoint = t.position + vec(math.random(-75, 75), math.random(-75, 75));
+		self.wanderPoint = t.position + vec2(math.random(-75, 75), math.random(-75, 75));
 	else
 		t.position = t.position + toGoal * (self.speed * delta)
 	end

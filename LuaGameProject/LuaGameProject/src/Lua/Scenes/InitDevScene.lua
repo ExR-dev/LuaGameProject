@@ -10,44 +10,6 @@ local playerCamera = require("Behaviours/PlayerCamera")
 local collider = require("Components/Collider")
 
 
--- Create Unit Cube ------------
-tracy.ZoneBeginN("Lua Unit Cube")
-local unitEnt = scene.CreateEntity()
-
-local unitT = transform(
-	vec2(0, 0), 
-	0.0,
-	vec2(gameMath.metersToPixels, gameMath.metersToPixels)
-)
-
-local unitS = sprite("", color(0, 0, 0, 1))
-
-scene.SetComponent(unitEnt, "Transform", unitT)
-scene.SetComponent(unitEnt, "Sprite", unitS)
-tracy.ZoneEnd()
---------------------------------
-
--- Create Walls ----------------
-tracy.ZoneBeginN("Lua Create Walls")
-for _ = 1, 5 do
-	local entity = scene.CreateEntity()
-
-	local t = transform(
-		vec2(math.random() + math.random(500, 1200), math.random() + math.random(-150, 550)), 
-		0.0,
-		vec2(math.random() + math.random(1, 100), math.random() + math.random(1, 100))
-	)
-
-	local col = color(math.random(), math.random(), math.random(), math.random())
-	local s = sprite("", col)
-	s.priority = math.random(50, 100)
-
-	scene.SetComponent(entity, "Transform", t)
-	scene.SetComponent(entity, "Sprite", s)
-end
-tracy.ZoneEnd()
---------------------------------
-
 -- Don't spawn player if already exists
 if game.GetPlayer == nil then
 	-- Create Player ---------------
@@ -103,30 +65,96 @@ if game.GetPlayer == nil then
 
 	tracy.ZoneEnd()
 	--------------------------------
+	
+	local function MakeWeaponFunc(name, pos)
+		-- Create Weapon ---------------
+		tracy.ZoneBeginN("Lua Create Weapon")
+		local weaponEnt = scene.CreateEntity()
 
+		local weaponT = transform()
+		weaponT.position = pos
 
-	-- Create Weapon ---------------
-	tracy.ZoneBeginN("Lua Create Weapon")
-	local weaponEnt = scene.CreateEntity()
+		scene.SetComponent(weaponEnt, "Transform", weaponT)
+		scene.SetComponent(weaponEnt, "Behaviour", "Behaviours/Weapon")
 
-	local weaponT = transform()
-	scene.SetComponent(weaponEnt, "Transform", weaponT)
-	scene.SetComponent(weaponEnt, "Behaviour", "Behaviours/Weapon")
+		-- Get the weapon behaviour to set the stats
+		local weaponBehaviour = scene.GetComponent(weaponEnt, "Behaviour")
+		weaponBehaviour:LoadType(name)
 
-	-- Get the weapon behaviour to set the stats
-	local weaponBehaviour = scene.GetComponent(weaponEnt, "Behaviour")
-	--weaponBehaviour:LoadType("Glock")
-	--weaponBehaviour:LoadType("Spas-12")
-	--weaponBehaviour:LoadType("AR-15")
-	--weaponBehaviour:LoadType("M700")
-	weaponBehaviour:LoadType("God Gun")
+		tracy.ZoneEnd()
+		--------------------------------
+	end
 
-	-- Pick it up
-	weaponBehaviour:TryPickUp()
+	MakeWeaponFunc("Glock", vec2(0, 512))
+	MakeWeaponFunc("Glock", vec2(0, 640))
 
-	tracy.ZoneEnd()
-	--------------------------------
+	MakeWeaponFunc("Spas-12", vec2(128, 512))
+	MakeWeaponFunc("Spas-12", vec2(128, 640))
+
+	MakeWeaponFunc("AR-15", vec2(256, 512))
+	MakeWeaponFunc("AR-15", vec2(256, 640))
+
+	MakeWeaponFunc("M700", vec2(384, 512))
+	MakeWeaponFunc("M700", vec2(384, 640))
+
+	MakeWeaponFunc("God Gun", vec2(512, 512))
+	MakeWeaponFunc("God Gun", vec2(512, 640))
+	
 end
+
+
+-- Create Enemy Prefab ---------
+local prefabEntity = game.SpawnPrefab("Enemy")
+
+if not prefabEntity then
+	print("FUCK SHIT FUCK IT DIDNT WORK")
+else
+	local prefabT = scene.GetComponent(prefabEntity, "Transform")
+	prefabT.position = vec2(200, 400)
+	scene.SetComponent(prefabEntity, "Transform", prefabT)
+end
+--------------------------------
+
+
+-- Create Unit Cube ------------
+tracy.ZoneBeginN("Lua Unit Cube")
+local unitEnt = scene.CreateEntity()
+
+local unitT = transform(
+	vec2(0, 0), 
+	0.0,
+	vec2(gameMath.metersToPixels, gameMath.metersToPixels)
+)
+
+local unitS = sprite("", color(0, 0, 0, 1))
+
+scene.SetComponent(unitEnt, "Transform", unitT)
+scene.SetComponent(unitEnt, "Sprite", unitS)
+tracy.ZoneEnd()
+--------------------------------
+
+
+-- Create Walls ----------------
+tracy.ZoneBeginN("Lua Create Walls")
+for _ = 1, 5 do
+	local entity = scene.CreateEntity()
+
+	local t = transform(
+		vec2(math.random() + math.random(500, 1200), math.random() + math.random(-150, 550)), 
+		0.0,
+		vec2(math.random() + math.random(1, 100), math.random() + math.random(1, 100))
+	)
+
+	local col = color(math.random(), math.random(), math.random(), math.random())
+	local s = sprite("", col)
+	s.priority = math.random(50, 100)
+
+	scene.SetComponent(entity, "Transform", t)
+	scene.SetComponent(entity, "Sprite", s)
+end
+tracy.ZoneEnd()
+--------------------------------
+
 
 -- Create Enemies --------------
 tracy.ZoneBeginN("Lua Create Enemies")
@@ -140,15 +168,11 @@ for _ = 1, 15 do
 	)
 
 	local s = sprite("Maxwell.png")
-	s.priority = 30
-
-	local c = collider("Enemy", true, vec2(0, 0), vec2(1, 1), function(other) end)
-		
+	s.priority = 30		
 
 	scene.SetComponent(entity, "Transform", t)
 	scene.SetComponent(entity, "Sprite", s)
 	scene.SetComponent(entity, "Behaviour", "Behaviours/Enemy")
-	scene.SetComponent(entity, "Collider", c)
 end
 tracy.ZoneEnd()
 --------------------------------
