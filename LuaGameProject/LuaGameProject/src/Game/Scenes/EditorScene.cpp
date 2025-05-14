@@ -751,15 +751,61 @@ int EditorScene::EditorScene::RenderUI()
 					if (m_editorMode == EditorMode::DungeonCreator)
 					{
 						// Generate Dungeon
+						{
+							ImGuiStyle oldStyle = ImGui::GetStyle();
+							ImGui::GetStyle() = ImGuiStyle();
+
+							if (ImGui::BeginPopupContextItem("RoomSelectionPopup"))
+							{
+								ImGui::Text("Select rooms");
+
+								static std::vector<int> selectedRooms;
+
+								if (ImGui::Button("Done"))
+								{
+									// Generate Dungeon
+									ImGui::CloseCurrentPopup();
+								}
+
+								ImGui::Separator();
+
+								std::function<void(entt::registry &registry)> roomSelection = [&](entt::registry &registry) {
+									ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+
+									auto view = registry.view<ECS::Room>();
+
+									view.each([&](const entt::entity &entity, ECS::Room &transform) {
+										ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+
+										const int id = static_cast<int>(entity);
+										auto findRes = std::find(selectedRooms.begin(), selectedRooms.end(), id);
+										bool isSelected = findRes != selectedRooms.end();
+										if (ImGui::Selectable(transform.RoomName, isSelected, ImGuiSelectableFlags_NoAutoClosePopups))
+										{
+											if (isSelected)
+												std::erase(selectedRooms, id);
+											else
+												selectedRooms.push_back(id);
+										}
+									});
+								};
+
+								modeScene.scene.RunSystem(roomSelection);
+						
+								ImGui::EndPopup();
+
+								ImGui::GetStyle() = oldStyle;
+							}
+						}
+
 						ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.3f, 0.75f, 0.2f, 1.0f));
 						ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.2f, 0.85f, 0.1f, 1.0f));
 						ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.1f, 0.65f, 0.1f, 1.0f));
 
 						ImGui::SetCursorPos(buttonsTopRight + ImVec2(-buttonSize.x, buttonSpacing*2));
 						if (ImGui::Button("Generate Dungeon##GenerateDungeonButton", buttonSize))
-						{
-							
-						}
+							ImGui::OpenPopup("RoomSelectionPopup");
+
 						ImGui::PopStyleColor(3);
 					}
 				}
