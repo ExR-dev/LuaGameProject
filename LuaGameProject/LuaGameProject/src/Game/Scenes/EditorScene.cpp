@@ -588,6 +588,7 @@ int EditorScene::EditorScene::RenderUI()
 								m_selectedRoom = id;
 								modeScene.scene.RunSystem(clear);
 
+								// TODO: Save current room
 								// TODO: Load new room
 							}
 					});
@@ -597,19 +598,6 @@ int EditorScene::EditorScene::RenderUI()
 			}
 
 			ImGui::End();
-
-			std::function<void(entt::registry &registry)> assignToRoom = [&](entt::registry &registry) {
-				ZoneNamedNC(createPhysicsBodiesZone, "Lambda Remove All Entities", RandomUniqueColor(), true);
-
-				auto view = registry.view<entt::entity>(entt::exclude<ECS::Room, ECS::RoomLinker>);
-
-				view.each([&](entt::entity entity) {
-					ZoneNamedNC(drawSpriteZone, "Lambda Remove Entity", RandomUniqueColor(), true);
-					modeScene.scene.SetComponent<ECS::RoomLinker>(entity, m_selectedRoom);
-				});
-
-				modeScene.scene.CleanUp(modeScene.L);
-			};
 		}
 
 		if (m_editorMode == EditorMode::PresetCreator)
