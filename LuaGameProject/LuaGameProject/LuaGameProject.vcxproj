@@ -414,7 +414,7 @@
     <None Include="src\Lua\Scenes\InitEditorSandboxScene.lua" />
     <None Include="src\Lua\InputDemo.lua" />
     <None Include="src\Lua\Tests\Math\GameMathTest.lua" />
-    <None Include="src\Lua\Utility\TableCopy.lua" />
+    <None Include="src\Lua\Utility\TableUtils.lua" />
     <None Include="src\Lua\Utility\GameMath.lua" />
     <None Include="src\Lua\PrintTable.lua" />
     <None Include="src\Lua\Tests\InputTest.lua" />

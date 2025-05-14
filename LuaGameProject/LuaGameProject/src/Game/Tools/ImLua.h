@@ -47,6 +47,14 @@ namespace ImLua
 			}
 		};
 
+		struct ImGuiFlag
+		{
+			std::string flagName;
+			std::vector<std::pair<std::string, int>> values;
+		};
+
+		static const std::vector<ImGuiFlag> &GetFlags();
+
 
 		static bool PopBool(lua_State *L, int &index, bool &value);
 		static bool PopInt(lua_State *L, int &index, int &value);
@@ -129,6 +137,10 @@ namespace ImLua
 		// Returns: none
 		static int lua_Text(lua_State *L);
 
+		// Arguments: string label
+		// Returns: none
+		static int lua_TextWrapped(lua_State *L);
+
 		// Arguments: string label, string buf, int buf_size = -1
 		// Returns: string buf, bool isModified
 		static int lua_InputText(lua_State *L);
@@ -164,6 +176,18 @@ namespace ImLua
 		// Arguments: float offset_from_start_x = 0.0f, float spacing = -1.0f
 		// Returns: none
 		static int lua_SameLine(lua_State *L);
+
+		// Arguments: string label, string previewValue
+		// Returns: bool isOpen
+		static int lua_BeginCombo(lua_State *L);
+
+		// Arguments: string label, int currentItem, string itemsSeparatedByNewlines, int popupMaxHeightInItems = -1
+		// Returns: bool selected, int currentItem
+		static int lua_Combo(lua_State *L);
+
+		// Arguments: none
+		// Returns: none
+		static int lua_EndCombo(lua_State *L);
 
 
 
@@ -212,14 +236,6 @@ namespace ImLua
 		// Arguments: string label, bool p_visible
 		// Returns: bool p_visible, bool isModified
 		static int lua_CollapsingHeader(lua_State *L);
-
-		// Arguments: string label, string preview_value
-		// Returns: 
-		static int lua_BeginCombo(lua_State *L);
-
-		// Arguments: 
-		// Returns: 
-		static int lua_EndCombo(lua_State *L);
 
 		// Arguments: 
 		// Returns: 

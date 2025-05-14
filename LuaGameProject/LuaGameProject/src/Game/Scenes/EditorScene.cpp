@@ -940,12 +940,88 @@ int EditorScene::EditorScene::RenderUI()
 			RoomSelectionUI();
 		}
 
-		if (m_editorMode == EditorMode::PresetCreator)
+		switch (m_editorMode)
 		{
-			ZoneNamedNC(renderPresetCreatorZone, "Render Preset Creator", RandomUniqueColor(), true);
+			case EditorScene::EditorScene::Sandbox: {
+				ZoneNamedNC(renderEditorModeZone, "Render Sandbox Lua UI", RandomUniqueColor(), true);
 
-			// HACK: for now, call weapon editor immediately
-			modeScene.luaUI.Run(modeScene.L, "WeaponEditorUI");
+				break;
+			}
+
+			case EditorScene::EditorScene::LevelCreator: {
+				ZoneNamedNC(renderEditorModeZone, "Render Level Creator Lua UI", RandomUniqueColor(), true);
+
+				break;
+			}
+
+			case EditorScene::EditorScene::PresetCreator: {
+				ZoneNamedNC(renderEditorModeZone, "Render Preset Creator Lua UI", RandomUniqueColor(), true);
+
+				// HACK: for now, call weapon editor immediately
+				modeScene.luaUI.Run(modeScene.L, "WeaponEditorUI");
+				break;
+			}
+
+			case EditorScene::EditorScene::PrefabCreator: {
+				ZoneNamedNC(renderEditorModeZone, "Render Prefab Creator Lua UI", RandomUniqueColor(), true);
+
+				// HACK: Copied from Sandbox
+				if (ImGui::Begin("Entity Editor"))
+				{
+					ZoneNamedNC(renderEntityEditorZone, "Render Entity Editor", RandomUniqueColor(), true);
+
+					m_selectedEntity = 0;
+
+					if (modeScene.scene.IsEntity(m_selectedEntity))
+					{
+						if (modeScene.scene.HasComponents<ECS::Active>(m_selectedEntity))
+							modeScene.scene.GetComponent<ECS::Active>(m_selectedEntity).RenderUI();
+
+						if (modeScene.scene.HasComponents<ECS::Transform>(m_selectedEntity))
+							modeScene.scene.GetComponent<ECS::Transform>(m_selectedEntity).RenderUI();
+
+						if (modeScene.scene.HasComponents<ECS::Collider>(m_selectedEntity))
+							modeScene.scene.GetComponent<ECS::Collider>(m_selectedEntity).RenderUI();
+
+						if (modeScene.scene.HasComponents<ECS::Sprite>(m_selectedEntity))
+							modeScene.scene.GetComponent<ECS::Sprite>(m_selectedEntity).RenderUI();
+
+						if (modeScene.scene.HasComponents<ECS::Behaviour>(m_selectedEntity))
+							modeScene.scene.GetComponent<ECS::Behaviour>(m_selectedEntity).RenderUI();
+
+						std::string items[] = { "Collider", "Sprite", "Behaviour" };
+
+						if (ImGui::BeginCombo("##AddComponentCombo", "Add Component"))
+						{
+							for (int n = 0; n < IM_ARRAYSIZE(items); n++)
+							{
+								std::string current = items[n];
+								if (ImGui::Selectable(current.c_str()))
+								{
+									if (current == "Collider")
+										modeScene.scene.SetComponent<ECS::Collider>(m_selectedEntity, ECS::Collider());
+									else if (current == "Behaviour")
+										modeScene.scene.SetComponent<ECS::Behaviour>(m_selectedEntity, ECS::Behaviour("Behaviours/Enemy", m_selectedEntity, modeScene.L));
+									else if (current == "Sprite")
+									{
+										const float color[4]{ 0, 0, 0, 1 };
+										modeScene.scene.SetComponent<ECS::Sprite>(m_selectedEntity, ECS::Sprite("\0", color, 0));
+									}
+								}
+							}
+							ImGui::EndCombo();
+						}
+					}
+				}
+				ImGui::End();
+
+				modeScene.luaUI.Run(modeScene.L, "CreatePrefab");
+				break;
+			}
+
+			case EditorScene::EditorScene::COUNT: default:
+				Warn("Disallowed editor mode!");
+				break;
 		}
 
 		// Render the render texture window

@@ -640,7 +640,7 @@ namespace ECS
 
 			// Add Current and Max to the health table
 			lua_pushnumber(L, Current);
-			lua_setfield(L, -1, "current");
+			lua_setfield(L, -2, "current");
 
 			lua_pushnumber(L, Max);
 			lua_setfield(L, -2, "max");

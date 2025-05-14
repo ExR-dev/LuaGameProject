@@ -1,3 +1,24 @@
+require("Utility/TableSave")
+
+
+function table.hasKey(tbl, key)
+    for k, _ in pairs(tbl) do
+        if k == key then
+            return true
+        end
+    end
+    return false
+end
+
+function table.hasValue(tbl, val)
+    for i, v in pairs(tbl) do
+        if v == val then
+            return true, i
+        end
+    end
+    return false
+end
+
 
 function table.copy(orig)
     local orig_type = type(orig)
