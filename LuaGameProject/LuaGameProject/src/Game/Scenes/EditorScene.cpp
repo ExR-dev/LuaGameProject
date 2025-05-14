@@ -519,9 +519,13 @@ void EditorScene::EditorScene::RoomSelectionUI()
 		if (ImGui::BeginPopupContextItem("RoomPopup"))
 		{
 			static char name[ECS::Room::ROOM_NAME_LENGTH];
-			ImGui::InputText("Enter Name", name, IM_ARRAYSIZE(name));
-			if (ImGui::Button("Done"))
+			if (IsWindowFocused() && !ImGui::IsAnyItemActive() && !ImGui::IsMouseClicked(0))
+				ImGui::SetKeyboardFocusHere(0);
+			bool done = ImGui::InputText("Enter Name", name, IM_ARRAYSIZE(name), ImGuiInputTextFlags_EnterReturnsTrue);
+			if ((ImGui::Button("Done") || done) && name[0] != '\0')
 			{
+				// TODO: check if name already exists
+
 				int id = modeScene.scene.CreateEntity();
 				ECS::Room room(name);
 				modeScene.scene.SetComponent(id, room);
@@ -531,6 +535,14 @@ void EditorScene::EditorScene::RoomSelectionUI()
 				modeScene.scene.RunSystem(clear);
 				ImGui::CloseCurrentPopup();
 			}
+
+			ImGui::SameLine();
+			if (ImGui::Button("Cancel"))
+			{
+				memset(name, '\0', ECS::Room::ROOM_NAME_LENGTH);
+				ImGui::CloseCurrentPopup();
+			}
+
 			ImGui::EndPopup();
 		}
 
