@@ -406,6 +406,399 @@ int EditorScene::EditorScene::Render()
 #pragma endregion
 
 #pragma region Private
+
+void EditorScene::EditorScene::SceneHierarchyUI()
+{
+	auto &modeScene = *(m_editorModeScenes[m_editorMode].get());
+
+	if (ImGui::Begin("Scene Hierarchy"))
+	{
+		ZoneNamedNC(renderSceneHierarchyZone, "Render Scene Hierarchy", RandomUniqueColor(), true);
+
+		if (ImGui::Button("Create Entity"))
+		{
+			int id = modeScene.scene.CreateEntity();
+			ECS::Transform transform{ {0, 0}, 0, {100, 100} };
+			modeScene.scene.SetComponent(id, transform);
+		}
+
+		std::function<void(entt::registry &registry)> renderEntityUI = [&](entt::registry &registry) {
+			ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+
+			auto view = registry.view<ECS::Transform>();
+
+			view.each([&](const entt::entity &entity, ECS::Transform &transform) {
+				ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+
+				const int id = static_cast<int>(entity);
+				if (ImGui::Selectable(std::format("Entity {}", id).c_str(), (id == m_selectedEntity)))
+					m_selectedEntity = id;
+			});
+		};
+
+		modeScene.scene.RunSystem(renderEntityUI);
+	}
+	ImGui::End();
+}
+
+void EditorScene::EditorScene::EntityEditorUI()
+{
+	auto &modeScene = *(m_editorModeScenes[m_editorMode].get());
+
+	if (ImGui::Begin("Entity Editor"))
+	{
+		ZoneNamedNC(renderEntityEditorZone, "Render Entity Editor", RandomUniqueColor(), true);
+
+		if (modeScene.scene.IsEntity(m_selectedEntity))
+		{
+			if (modeScene.scene.HasComponents<ECS::Active>(m_selectedEntity))
+				modeScene.scene.GetComponent<ECS::Active>(m_selectedEntity).RenderUI();
+
+			if (modeScene.scene.HasComponents<ECS::Transform>(m_selectedEntity))
+				modeScene.scene.GetComponent<ECS::Transform>(m_selectedEntity).RenderUI();
+
+			if (modeScene.scene.HasComponents<ECS::Collider>(m_selectedEntity))
+				modeScene.scene.GetComponent<ECS::Collider>(m_selectedEntity).RenderUI();
+
+			if (modeScene.scene.HasComponents<ECS::Sprite>(m_selectedEntity))
+				modeScene.scene.GetComponent<ECS::Sprite>(m_selectedEntity).RenderUI();
+
+			if (modeScene.scene.HasComponents<ECS::Behaviour>(m_selectedEntity))
+				modeScene.scene.GetComponent<ECS::Behaviour>(m_selectedEntity).RenderUI();
+
+			std::string items[] = { "Collider", "Sprite", "Behaviour" };
+
+			if (ImGui::BeginCombo("##AddComponentCombo", "Add Component"))
+			{
+				for (int n = 0; n < IM_ARRAYSIZE(items); n++)
+				{
+					std::string current = items[n];
+					if (ImGui::Selectable(current.c_str()))
+					{
+						if (current == "Collider")
+							modeScene.scene.SetComponent<ECS::Collider>(m_selectedEntity, ECS::Collider());
+						else if (current == "Behaviour")
+							modeScene.scene.SetComponent<ECS::Behaviour>(m_selectedEntity, ECS::Behaviour("Behaviours/Enemy", m_selectedEntity, modeScene.L));
+						else if (current == "Sprite")
+						{
+							const float color[4]{ 0, 0, 0, 1 };
+							modeScene.scene.SetComponent<ECS::Sprite>(m_selectedEntity, ECS::Sprite("\0", color, 0));
+						}
+					}
+				}
+				ImGui::EndCombo();
+			}
+		}
+		else
+		{
+			ImGui::Text("Select a entity ...");
+		}
+	}
+	ImGui::End();
+}
+
+void EditorScene::EditorScene::RoomSelectionUI()
+{
+	auto &modeScene = *(m_editorModeScenes[m_editorMode].get());
+
+	if (ImGui::Begin("Room Selection"))
+	{
+		std::function<void(entt::registry &registry)> clear = [&](entt::registry &registry) {
+			ZoneNamedNC(createPhysicsBodiesZone, "Lambda Remove All Entities", RandomUniqueColor(), true);
+
+			auto view = registry.view<entt::entity>(entt::exclude<ECS::Room>);
+
+			view.each([&](entt::entity entity) {
+				ZoneNamedNC(drawSpriteZone, "Lambda Remove Entity", RandomUniqueColor(), true);
+				modeScene.scene.SetComponent<ECS::Remove>(entity);
+			});
+
+			modeScene.scene.CleanUp(modeScene.L);
+		};
+
+		if (ImGui::BeginPopupContextItem("RoomPopup"))
+		{
+			static char name[ECS::Room::ROOM_NAME_LENGTH];
+			ImGui::InputText("Enter Name", name, IM_ARRAYSIZE(name));
+			if (ImGui::Button("Done"))
+			{
+				int id = modeScene.scene.CreateEntity();
+				ECS::Room room(name);
+				modeScene.scene.SetComponent(id, room);
+				memset(name, '\0', ECS::Room::ROOM_NAME_LENGTH);
+
+				m_selectedRoom = id;
+				modeScene.scene.RunSystem(clear);
+				ImGui::CloseCurrentPopup();
+			}
+			ImGui::EndPopup();
+		}
+
+		if (ImGui::Button("Create new room"))
+			ImGui::OpenPopup("RoomPopup");
+
+		std::function<void(entt::registry &registry)> renderEntityUI = [&](entt::registry &registry) {
+			ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+
+			auto view = registry.view<ECS::Room>();
+
+			view.each([&](const entt::entity &entity, ECS::Room &transform) {
+				ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+
+				const int id = static_cast<int>(entity);
+				if (ImGui::Selectable(transform.RoomName, (id == m_selectedRoom)))
+					if (m_selectedRoom != id)
+					{
+						m_selectedRoom = id;
+						modeScene.scene.RunSystem(clear);
+
+						// TODO: Save current room
+						// TODO: Load new room
+					}
+			});
+		};
+
+		modeScene.scene.RunSystem(renderEntityUI);
+	}
+
+	ImGui::End();
+}
+
+void EditorScene::EditorScene::RenderWindowUI()
+{
+	ZoneNamedNC(renderSceneWindowZone, "Render Scene Window", RandomUniqueColor(), true);
+
+	auto &modeScene = *(m_editorModeScenes[m_editorMode].get());
+
+	ImGuiWindowFlags viewFlags = ImGuiWindowFlags_None;
+	viewFlags |= ImGuiWindowFlags_NoScrollbar;
+
+	int stylesPushed = 0;
+	stylesPushed++; ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
+	stylesPushed++; ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0);
+
+	if (ImGui::Begin("View##RenderTextureWindow", &m_sceneViewOpen, viewFlags))
+	{
+		ImVec2 imGuiWindowPos = ImGui::GetWindowPos();
+		ImVec2 imGuiWindowSize = ImGui::GetWindowSize();
+
+		ImVec2 imGuiWindowContentRegionMin = ImGui::GetWindowContentRegionMin();
+		ImVec2 imGuiWindowContentRegionMax = ImGui::GetWindowContentRegionMax();
+
+		float renderAspect = (float)m_renderTexture.texture.width / (float)m_renderTexture.texture.height;
+
+		ImVec2 viewCenter = ImVec2(
+			imGuiWindowSize.x / 2 - m_renderTexture.texture.width / 2,
+			imGuiWindowSize.y / 2 - m_renderTexture.texture.height / 2
+		);
+
+		ImVec2 sceneViewSize = (imGuiWindowContentRegionMax - imGuiWindowContentRegionMin);
+		ImVec2 sceneViewCenter = (imGuiWindowContentRegionMin + imGuiWindowContentRegionMax) * 0.5f;
+
+		// Draw the render texture
+		float viewAspect = sceneViewSize.x / sceneViewSize.y;
+
+		ImVec2 scaledBounds = ImVec2(0, 0);
+		if (renderAspect > viewAspect)
+		{
+			scaledBounds.x = sceneViewSize.x;
+			scaledBounds.y = sceneViewSize.x / renderAspect;
+		}
+		else
+		{
+			scaledBounds.x = sceneViewSize.y * renderAspect;
+			scaledBounds.y = sceneViewSize.y;
+		}
+
+		ImVec2 renderTextureCorner = sceneViewCenter - (scaledBounds * 0.5f);
+		ImGui::SetCursorPos(renderTextureCorner);
+
+		ImGui::Image(
+			(ImTextureID)m_renderTexture.texture.id,
+			scaledBounds,
+			ImVec2(0, 1), // Top left
+			ImVec2(1, 0)  // Bottom right
+		);
+
+		// Get the scene view bounds
+		m_sceneViewRect = raylib::Rectangle(
+			GameMath::ImToRayVec(renderTextureCorner + imGuiWindowPos),
+			GameMath::ImToRayVec(scaledBounds)
+		);
+
+		// Draw FPS Counter
+		int fps = GetFPS();
+		ImGui::SetCursorPos(imGuiWindowContentRegionMin + ImVec2(8, 8));
+		ImGui::Text("FPS: %d", fps);
+
+		// Draw Play/Freeze/Pause buttons
+		{
+			int styleVars = 0, styleCols = 0;
+			styleVars++; ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(-1, -1));
+			styleCols++; ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1, 1, 1, 0.15f));
+			styleCols++; ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0, 0, 0, 0.1f));
+			styleCols++; ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0, 0, 0, 0.3f));
+
+			ImVec2 buttonsMid = imGuiWindowContentRegionMin + ImVec2(sceneViewSize.x * 0.5f, 16.0f);
+			ImVec2 buttonSize = ImVec2(32, 32);
+			int buttonSpacing = 48;
+
+			// Play
+			ImGui::SetCursorPos(buttonsMid + ImVec2(-buttonSpacing, 0));
+			if (ImGui::ImageButton("##PlayButton",
+				(ImTextureID)ResourceManager::GetTextureResource("PlayIcon.png")->id,
+				buttonSize, ImVec2(0, 0), ImVec2(1, 1), ImVec4(0, 0, 0, 0),
+				(m_sceneUpdateMode == SceneUpdateMode::Running) ? ImVec4(.5f, .5f, .5f, 1.f) : ImVec4(1, 1, 1, 1)
+			))
+			{
+				m_sceneUpdateMode = SceneUpdateMode::Running;
+			}
+
+			// Freeze
+			ImGui::SetCursorPos(buttonsMid);
+			if (ImGui::ImageButton("##FreezeButton",
+				(ImTextureID)ResourceManager::GetTextureResource("FreezeIcon.png")->id,
+				buttonSize, ImVec2(0, 0), ImVec2(1, 1), ImVec4(0, 0, 0, 0),
+				(m_sceneUpdateMode == SceneUpdateMode::Frozen) ? ImVec4(.5f, .5f, .5f, 1.f) : ImVec4(1, 1, 1, 1)
+			))
+			{
+				m_sceneUpdateMode = SceneUpdateMode::Frozen;
+			}
+
+			// Pause
+			ImGui::SetCursorPos(buttonsMid + ImVec2(buttonSpacing, 0));
+			if (ImGui::ImageButton("##PauseButton",
+				(ImTextureID)ResourceManager::GetTextureResource("PauseIcon.png")->id,
+				buttonSize, ImVec2(0, 0), ImVec2(1, 1), ImVec4(0, 0, 0, 0),
+				(m_sceneUpdateMode == SceneUpdateMode::Paused) ? ImVec4(.5f, .5f, .5f, 1.f) : ImVec4(1, 1, 1, 1)
+			))
+			{
+				m_sceneUpdateMode = SceneUpdateMode::Paused;
+			}
+			ImGui::PopStyleColor(styleCols);
+			ImGui::PopStyleVar(styleVars);
+		}
+
+		// Draw Reset Scene/Reload Data buttons
+		{
+			ImVec2 buttonsTopRight = imGuiWindowContentRegionMin + ImVec2(sceneViewSize.x - 16.0f, 16.0f);
+			ImVec2 buttonSize = ImVec2(64, 24);
+			int buttonSpacing = buttonSize.y + 16;
+
+			// Reset Scene
+			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.9f, 0.2f, 0.15f, 1.0f));
+			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.75f, 0.3f, 0.25f, 1.0f));
+			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.65f, 0.1f, 0.05f, 1.0f));
+
+			ImGui::SetCursorPos(buttonsTopRight + ImVec2(-buttonSize.x, 0));
+			if (ImGui::Button("Reset##ResetSceneButton", buttonSize))
+			{
+				m_selectedEntity = -1;
+				m_editorModeScenes[m_editorMode] = std::make_unique<EditorModeScene>();
+				m_editorModeScenes[m_editorMode].get()->Init(m_windowInfo, m_editorModeNames[m_editorMode]);
+			}
+			ImGui::PopStyleColor(3);
+
+			// Reload Data
+			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.75f, 0.75f, 0.2f, 1.0f));
+			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.65f, 0.65f, 0.3f, 1.0f));
+			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.55f, 0.55f, 0.075f, 1.0f));
+
+			ImGui::SetCursorPos(buttonsTopRight + ImVec2(-buttonSize.x, buttonSpacing));
+			if (ImGui::Button("Reload##ReloadDataButton", buttonSize))
+			{
+				m_editorModeScenes[m_editorMode].get()->LoadData();
+			}
+			ImGui::PopStyleColor(3);
+
+			if (m_editorMode == EditorMode::DungeonCreator)
+			{
+				// Generate Dungeon
+				{
+					ImGuiStyle oldStyle = ImGui::GetStyle();
+					ImGui::GetStyle() = ImGuiStyle();
+
+					if (ImGui::BeginPopupContextItem("RoomSelectionPopup"))
+					{
+						ImGui::Text("Select rooms");
+
+						static std::vector<int> selectedRooms;
+
+						if (ImGui::Button("Done"))
+						{
+							// Generate Dungeon
+							ImGui::CloseCurrentPopup();
+						}
+
+						ImGui::Separator();
+
+						std::function<void(entt::registry &registry)> roomSelection = [&](entt::registry &registry) {
+							ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+
+							auto view = registry.view<ECS::Room>();
+
+							view.each([&](const entt::entity &entity, ECS::Room &transform) {
+								ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+
+								const int id = static_cast<int>(entity);
+								auto findRes = std::find(selectedRooms.begin(), selectedRooms.end(), id);
+								bool isSelected = findRes != selectedRooms.end();
+								if (ImGui::Selectable(transform.RoomName, isSelected, ImGuiSelectableFlags_NoAutoClosePopups))
+								{
+									if (isSelected)
+										std::erase(selectedRooms, id);
+									else
+										selectedRooms.push_back(id);
+								}
+							});
+						};
+
+						modeScene.scene.RunSystem(roomSelection);
+
+						ImGui::EndPopup();
+
+						ImGui::GetStyle() = oldStyle;
+					}
+				}
+
+				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.3f, 0.75f, 0.2f, 1.0f));
+				ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.2f, 0.85f, 0.1f, 1.0f));
+				ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.1f, 0.65f, 0.1f, 1.0f));
+
+				ImGui::SetCursorPos(buttonsTopRight + ImVec2(-buttonSize.x, buttonSpacing * 2));
+				if (ImGui::Button("Generate Dungeon##GenerateDungeonButton", buttonSize))
+					ImGui::OpenPopup("RoomSelectionPopup");
+
+				ImGui::PopStyleColor(3);
+			}
+		}
+	}
+
+	ImGui::End();
+	ImGui::PopStyleVar(stylesPushed);
+}
+
+void EditorScene::EditorScene::EditorSelectorUI()
+{
+	if (ImGui::Begin("Editor Settings##EditorSettingsWindow"))
+	{
+		for (int i = 0; i < EditorMode::COUNT; i++)
+		{
+			bool isSelected = (m_editorMode == i);
+			std::string modeName = m_editorModeNames[i];
+
+			if (ImGui::Selectable(std::format("{}##EditorMode{}", modeName, i).c_str(), &isSelected))
+			{
+				if (isSelected)
+				{
+					SwitchEditorMode(static_cast<EditorMode>(i));
+				}
+			}
+		}
+	}
+	ImGui::End();
+}
+
 int EditorScene::EditorScene::RenderUI()
 {
 	ZoneScopedC(RandomUniqueColor());
@@ -452,152 +845,14 @@ int EditorScene::EditorScene::RenderUI()
 
 		if (GameMath::EqualsAny(m_editorMode, EditorMode::Sandbox, EditorMode::LevelCreator, EditorMode::DungeonCreator))
 		{
-			if (ImGui::Begin("Scene Hierarchy"))
-			{
-				ZoneNamedNC(renderSceneHierarchyZone, "Render Scene Hierarchy", RandomUniqueColor(), true);
-
-				if (ImGui::Button("Create Entity"))
-				{
-					int id = modeScene.scene.CreateEntity();
-					ECS::Transform transform{ {0, 0}, 0, {100, 100} };
-					modeScene.scene.SetComponent(id, transform);
-				}
-
-				std::function<void(entt::registry &registry)> renderEntityUI = [&](entt::registry &registry) {
-					ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
-
-					auto view = registry.view<ECS::Transform>();
-
-					view.each([&](const entt::entity &entity, ECS::Transform &transform) {
-						ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
-
-						const int id = static_cast<int>(entity);
-						if (ImGui::Selectable(std::format("Entity {}", id).c_str(), (id == m_selectedEntity)))
-							m_selectedEntity = id;
-					});
-				};
-
-				modeScene.scene.RunSystem(renderEntityUI);
-			}
-			ImGui::End();
-
-			if (ImGui::Begin("Entity Editor"))
-			{
-				ZoneNamedNC(renderEntityEditorZone, "Render Entity Editor", RandomUniqueColor(), true);
-
-				if (modeScene.scene.IsEntity(m_selectedEntity))
-				{
-					if (modeScene.scene.HasComponents<ECS::Active>(m_selectedEntity))
-						modeScene.scene.GetComponent<ECS::Active>(m_selectedEntity).RenderUI();
-
-					if (modeScene.scene.HasComponents<ECS::Transform>(m_selectedEntity))
-						modeScene.scene.GetComponent<ECS::Transform>(m_selectedEntity).RenderUI();
-
-					if (modeScene.scene.HasComponents<ECS::Collider>(m_selectedEntity))
-						modeScene.scene.GetComponent<ECS::Collider>(m_selectedEntity).RenderUI();
-
-					if (modeScene.scene.HasComponents<ECS::Sprite>(m_selectedEntity))
-						modeScene.scene.GetComponent<ECS::Sprite>(m_selectedEntity).RenderUI();
-
-					if (modeScene.scene.HasComponents<ECS::Behaviour>(m_selectedEntity))
-						modeScene.scene.GetComponent<ECS::Behaviour>(m_selectedEntity).RenderUI();
-
-					std::string items[] = { "Collider", "Sprite", "Behaviour" };
-
-					if (ImGui::BeginCombo("##AddComponentCombo", "Add Component"))
-					{
-						for (int n = 0; n < IM_ARRAYSIZE(items); n++)
-						{
-							std::string current = items[n];
-							if (ImGui::Selectable(current.c_str()))
-							{
-								if (current == "Collider")
-									modeScene.scene.SetComponent<ECS::Collider>(m_selectedEntity, ECS::Collider());
-								else if (current == "Behaviour")
-									modeScene.scene.SetComponent<ECS::Behaviour>(m_selectedEntity, ECS::Behaviour("Behaviours/Enemy", m_selectedEntity, modeScene.L));
-								else if (current == "Sprite")
-								{
-									const float color[4]{ 0, 0, 0, 1 };
-									modeScene.scene.SetComponent<ECS::Sprite>(m_selectedEntity, ECS::Sprite("\0", color, 0));
-								}
-							}
-						}
-						ImGui::EndCombo();
-					}
-				}
-				else
-				{
-					ImGui::Text("Select a entity ...");
-				}
-			}
-			ImGui::End();
+			SceneHierarchyUI();
+			EntityEditorUI();
 		}
 
 		if (m_editorMode == EditorMode::DungeonCreator)
 		{
 			modeScene.luaUI.Run(modeScene.L, "PrefabCollection");
-
-			if (ImGui::Begin("Room Selection"))
-			{
-				std::function<void(entt::registry &registry)> clear = [&](entt::registry &registry) {
-					ZoneNamedNC(createPhysicsBodiesZone, "Lambda Remove All Entities", RandomUniqueColor(), true);
-
-					auto view = registry.view<entt::entity>(entt::exclude<ECS::Room>);
-
-					view.each([&](entt::entity entity) {
-						ZoneNamedNC(drawSpriteZone, "Lambda Remove Entity", RandomUniqueColor(), true);
-						modeScene.scene.SetComponent<ECS::Remove>(entity);
-					});
-
-					modeScene.scene.CleanUp(modeScene.L);
-				};
-
-				if (ImGui::BeginPopupContextItem("RoomPopup"))
-				{
-					static char name[ECS::Room::ROOM_NAME_LENGTH];
-					ImGui::InputText("Enter Name", name, IM_ARRAYSIZE(name));
-					if (ImGui::Button("Done"))
-					{
-						int id = modeScene.scene.CreateEntity();
-						ECS::Room room(name);
-						modeScene.scene.SetComponent(id, room);
-						memset(name, '\0', ECS::Room::ROOM_NAME_LENGTH);
-
-						m_selectedRoom = id;
-						modeScene.scene.RunSystem(clear);
-						ImGui::CloseCurrentPopup();
-					}
-					ImGui::EndPopup();
-				}
-
-				if (ImGui::Button("Create new room"))
-					ImGui::OpenPopup("RoomPopup");
-
-				std::function<void(entt::registry &registry)> renderEntityUI = [&](entt::registry &registry) {
-					ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
-
-					auto view = registry.view<ECS::Room>();
-
-					view.each([&](const entt::entity &entity, ECS::Room &transform) {
-						ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
-
-						const int id = static_cast<int>(entity);
-						if (ImGui::Selectable(transform.RoomName, (id == m_selectedRoom)))
-							if (m_selectedRoom != id)
-							{
-								m_selectedRoom = id;
-								modeScene.scene.RunSystem(clear);
-
-								// TODO: Save current room
-								// TODO: Load new room
-							}
-					});
-				};
-
-				modeScene.scene.RunSystem(renderEntityUI);
-			}
-
-			ImGui::End();
+			RoomSelectionUI();
 		}
 
 		if (m_editorMode == EditorMode::PresetCreator)
@@ -609,234 +864,9 @@ int EditorScene::EditorScene::RenderUI()
 		}
 
 		// Render the render texture window
-		{
-			ZoneNamedNC(renderSceneWindowZone, "Render Scene Window", RandomUniqueColor(), true);
+		RenderWindowUI();
 
-			ImGuiWindowFlags viewFlags = ImGuiWindowFlags_None;
-			viewFlags |= ImGuiWindowFlags_NoScrollbar;
-
-			int stylesPushed = 0;
-			stylesPushed++; ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
-			stylesPushed++; ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0);
-
-			if (ImGui::Begin("View##RenderTextureWindow", &m_sceneViewOpen, viewFlags))
-			{
-				ImVec2 imGuiWindowPos = ImGui::GetWindowPos();
-				ImVec2 imGuiWindowSize = ImGui::GetWindowSize();
-
-				ImVec2 imGuiWindowContentRegionMin = ImGui::GetWindowContentRegionMin();
-				ImVec2 imGuiWindowContentRegionMax = ImGui::GetWindowContentRegionMax();
-
-				float renderAspect = (float)m_renderTexture.texture.width / (float)m_renderTexture.texture.height;
-
-				ImVec2 viewCenter = ImVec2(
-					imGuiWindowSize.x / 2 - m_renderTexture.texture.width / 2,
-					imGuiWindowSize.y / 2 - m_renderTexture.texture.height / 2
-				);
-
-				ImVec2 sceneViewSize = (imGuiWindowContentRegionMax - imGuiWindowContentRegionMin);
-				ImVec2 sceneViewCenter = (imGuiWindowContentRegionMin + imGuiWindowContentRegionMax) * 0.5f;
-
-				// Draw the render texture
-				float viewAspect = sceneViewSize.x / sceneViewSize.y;
-
-				ImVec2 scaledBounds = ImVec2(0, 0);
-				if (renderAspect > viewAspect)
-				{
-					scaledBounds.x = sceneViewSize.x;
-					scaledBounds.y = sceneViewSize.x / renderAspect;
-				}
-				else
-				{
-					scaledBounds.x = sceneViewSize.y * renderAspect;
-					scaledBounds.y = sceneViewSize.y;
-				}
-
-				ImVec2 renderTextureCorner = sceneViewCenter - (scaledBounds * 0.5f);
-				ImGui::SetCursorPos(renderTextureCorner);
-
-				ImGui::Image(
-					(ImTextureID)m_renderTexture.texture.id,
-					scaledBounds,
-					ImVec2(0, 1), // Top left
-					ImVec2(1, 0)  // Bottom right
-				);
-
-				// Get the scene view bounds
-				m_sceneViewRect = raylib::Rectangle(
-					GameMath::ImToRayVec(renderTextureCorner + imGuiWindowPos),
-					GameMath::ImToRayVec(scaledBounds)
-				);
-
-				// Draw FPS Counter
-				int fps = GetFPS();
-				ImGui::SetCursorPos(imGuiWindowContentRegionMin + ImVec2(8, 8));
-				ImGui::Text("FPS: %d", fps);
-
-				// Draw Play/Freeze/Pause buttons
-				{
-					int styleVars = 0, styleCols = 0;
-					styleVars++; ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(-1, -1));
-					styleCols++; ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1, 1, 1, 0.15f));
-					styleCols++; ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0, 0, 0, 0.1f));
-					styleCols++; ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0, 0, 0, 0.3f));
-
-					ImVec2 buttonsMid = imGuiWindowContentRegionMin + ImVec2(sceneViewSize.x * 0.5f, 16.0f);
-					ImVec2 buttonSize = ImVec2(32, 32);
-					int buttonSpacing = 48;
-
-					// Play
-					ImGui::SetCursorPos(buttonsMid + ImVec2(-buttonSpacing, 0));
-					if (ImGui::ImageButton("##PlayButton",
-						(ImTextureID)ResourceManager::GetTextureResource("PlayIcon.png")->id,
-						buttonSize, ImVec2(0, 0), ImVec2(1, 1), ImVec4(0, 0, 0, 0),
-						(m_sceneUpdateMode == SceneUpdateMode::Running) ? ImVec4(.5f, .5f, .5f, 1.f) : ImVec4(1, 1, 1, 1)
-					))
-					{
-						m_sceneUpdateMode = SceneUpdateMode::Running;
-					}
-
-					// Freeze
-					ImGui::SetCursorPos(buttonsMid);
-					if (ImGui::ImageButton("##FreezeButton",
-						(ImTextureID)ResourceManager::GetTextureResource("FreezeIcon.png")->id,
-						buttonSize, ImVec2(0, 0), ImVec2(1, 1), ImVec4(0, 0, 0, 0),
-						(m_sceneUpdateMode == SceneUpdateMode::Frozen) ? ImVec4(.5f, .5f, .5f, 1.f) : ImVec4(1, 1, 1, 1)
-					))
-					{
-						m_sceneUpdateMode = SceneUpdateMode::Frozen;
-					}
-
-					// Pause
-					ImGui::SetCursorPos(buttonsMid + ImVec2(buttonSpacing, 0));
-					if (ImGui::ImageButton("##PauseButton",
-						(ImTextureID)ResourceManager::GetTextureResource("PauseIcon.png")->id,
-						buttonSize, ImVec2(0, 0), ImVec2(1, 1), ImVec4(0, 0, 0, 0),
-						(m_sceneUpdateMode == SceneUpdateMode::Paused) ? ImVec4(.5f, .5f, .5f, 1.f) : ImVec4(1, 1, 1, 1)
-					))
-					{
-						m_sceneUpdateMode = SceneUpdateMode::Paused;
-					}
-					ImGui::PopStyleColor(styleCols);
-					ImGui::PopStyleVar(styleVars);
-				}
-
-				// Draw Reset Scene/Reload Data buttons
-				{
-					ImVec2 buttonsTopRight = imGuiWindowContentRegionMin + ImVec2(sceneViewSize.x - 16.0f, 16.0f);
-					ImVec2 buttonSize = ImVec2(64, 24);
-					int buttonSpacing = buttonSize.y + 16;
-
-					// Reset Scene
-					ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.9f, 0.2f, 0.15f, 1.0f));
-					ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.75f, 0.3f, 0.25f, 1.0f));
-					ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.65f, 0.1f, 0.05f, 1.0f));
-
-					ImGui::SetCursorPos(buttonsTopRight + ImVec2(-buttonSize.x, 0));
-					if (ImGui::Button("Reset##ResetSceneButton", buttonSize))
-					{
-						m_selectedEntity = -1;
-						m_editorModeScenes[m_editorMode] = std::make_unique<EditorModeScene>();
-						m_editorModeScenes[m_editorMode].get()->Init(m_windowInfo, m_editorModeNames[m_editorMode]);
-					}
-					ImGui::PopStyleColor(3);
-
-					// Reload Data
-					ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.75f, 0.75f, 0.2f, 1.0f));
-					ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.65f, 0.65f, 0.3f, 1.0f));
-					ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.55f, 0.55f, 0.075f, 1.0f));
-
-					ImGui::SetCursorPos(buttonsTopRight + ImVec2(-buttonSize.x, buttonSpacing));
-					if (ImGui::Button("Reload##ReloadDataButton", buttonSize))
-					{
-						m_editorModeScenes[m_editorMode].get()->LoadData();
-					}
-					ImGui::PopStyleColor(3);
-
-					if (m_editorMode == EditorMode::DungeonCreator)
-					{
-						// Generate Dungeon
-						{
-							ImGuiStyle oldStyle = ImGui::GetStyle();
-							ImGui::GetStyle() = ImGuiStyle();
-
-							if (ImGui::BeginPopupContextItem("RoomSelectionPopup"))
-							{
-								ImGui::Text("Select rooms");
-
-								static std::vector<int> selectedRooms;
-
-								if (ImGui::Button("Done"))
-								{
-									// Generate Dungeon
-									ImGui::CloseCurrentPopup();
-								}
-
-								ImGui::Separator();
-
-								std::function<void(entt::registry &registry)> roomSelection = [&](entt::registry &registry) {
-									ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
-
-									auto view = registry.view<ECS::Room>();
-
-									view.each([&](const entt::entity &entity, ECS::Room &transform) {
-										ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
-
-										const int id = static_cast<int>(entity);
-										auto findRes = std::find(selectedRooms.begin(), selectedRooms.end(), id);
-										bool isSelected = findRes != selectedRooms.end();
-										if (ImGui::Selectable(transform.RoomName, isSelected, ImGuiSelectableFlags_NoAutoClosePopups))
-										{
-											if (isSelected)
-												std::erase(selectedRooms, id);
-											else
-												selectedRooms.push_back(id);
-										}
-									});
-								};
-
-								modeScene.scene.RunSystem(roomSelection);
-						
-								ImGui::EndPopup();
-
-								ImGui::GetStyle() = oldStyle;
-							}
-						}
-
-						ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.3f, 0.75f, 0.2f, 1.0f));
-						ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.2f, 0.85f, 0.1f, 1.0f));
-						ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.1f, 0.65f, 0.1f, 1.0f));
-
-						ImGui::SetCursorPos(buttonsTopRight + ImVec2(-buttonSize.x, buttonSpacing*2));
-						if (ImGui::Button("Generate Dungeon##GenerateDungeonButton", buttonSize))
-							ImGui::OpenPopup("RoomSelectionPopup");
-
-						ImGui::PopStyleColor(3);
-					}
-				}
-			}
-
-			ImGui::End();
-			ImGui::PopStyleVar(stylesPushed);
-		}
-
-		if (ImGui::Begin("Editor Settings##EditorSettingsWindow"))
-		{
-			for (int i = 0; i < EditorMode::COUNT; i++)
-			{
-				bool isSelected = (m_editorMode == i);
-				std::string modeName = m_editorModeNames[i];
-
-				if (ImGui::Selectable(std::format("{}##EditorMode{}", modeName, i).c_str(), &isSelected))
-				{
-					if (isSelected)
-					{
-						SwitchEditorMode(static_cast<EditorMode>(i));
-					}
-				}
-			}
-		}
-		ImGui::End();
+		EditorSelectorUI();
 	}
 
 	ImGui::End();

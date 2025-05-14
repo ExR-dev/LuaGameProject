@@ -146,6 +146,13 @@ namespace EditorScene
 		raylib::Vector2 m_dragOffset = raylib::Vector2(0, 0);
 
 
+		// UI Functions
+		void SceneHierarchyUI();
+		void EntityEditorUI();
+		void RoomSelectionUI();
+		void RenderWindowUI();
+		void EditorSelectorUI();
+
 		int RenderUI();
 
 		void SwitchEditorMode(EditorMode mode);
