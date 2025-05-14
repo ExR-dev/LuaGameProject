@@ -712,6 +712,23 @@ namespace ECS
 		}
 	};
 
+	struct Room
+	{
+		static const int ROOM_NAME_LENGTH = 32;
+		char RoomName[ROOM_NAME_LENGTH];
+
+		Room()
+		{
+			memset(RoomName, '\0', ROOM_NAME_LENGTH);
+		}
+
+		Room(const char *name)
+		{
+			memset(RoomName, '\0', ROOM_NAME_LENGTH);
+			strcpy_s(RoomName, name);
+		}
+	};
+
 	struct CameraData
 	{
 		int Size[2];
