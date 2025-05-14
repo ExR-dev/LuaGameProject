@@ -6,6 +6,8 @@ data.modding = { }
 data.weapons = { }
 data.ammo = { }
 data.ammo.calibers = { }
+data.prefabs = { }
+data.groups = { }
 
 
 -- Define mod loading functions

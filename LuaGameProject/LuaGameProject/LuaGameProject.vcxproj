@@ -399,10 +399,14 @@
     <None Include="src\Lua\Components\Sprite.lua" />
     <None Include="src\Lua\Components\Tags.lua" />
     <None Include="src\Lua\Data\Ammo.lua" />
-    <None Include="src\Lua\Data.lua" />
+    <None Include="src\Lua\Data\Groups.lua" />
+    <None Include="src\Lua\Data\Prefabs.lua" />
     <None Include="src\Lua\Data\Weapons.lua" />
     <None Include="src\Lua\Dev\Commands.lua" />
-    <None Include="src\Lua\Dev\WeaponEditorUI.lua" />
+    <None Include="src\Lua\Dev\LevelCreatorUI.lua" />
+    <None Include="src\Lua\Dev\PrefabCreatorUI.lua" />
+    <None Include="src\Lua\Dev\PresetCreatorUI.lua" />
+    <None Include="src\Lua\Dev\SandboxUI.lua" />
     <None Include="src\Lua\Scenes\InitDevScene.lua" />
     <None Include="src\Lua\Scenes\InitEditorLevelCreatorScene.lua" />
     <None Include="src\Lua\Scenes\InitEditorPrefabCreatorScene.lua" />

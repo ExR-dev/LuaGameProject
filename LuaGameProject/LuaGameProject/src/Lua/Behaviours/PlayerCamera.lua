@@ -24,11 +24,15 @@ end
 
 function playerCamera:OnUpdate(delta)
 	tracy.ZoneBeginN("Lua playerCamera:OnUpdate")
-
+	
 	if self.trackedEntity < 0 then
-		-- No entity to track
-		tracy.ZoneEnd()
-		return
+		if game.GetPlayer then
+			self.trackedEntity = game.GetPlayer().ID
+		else
+			-- No entity to track
+			tracy.ZoneEnd()
+			return
+		end
 	end
 
 	local entT = transform(scene.GetComponent(self.trackedEntity, "Transform"))

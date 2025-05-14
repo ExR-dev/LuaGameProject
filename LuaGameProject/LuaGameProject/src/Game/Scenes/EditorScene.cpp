@@ -28,12 +28,13 @@ EditorScene::EditorScene::~EditorScene()
 		m_editorModeScenes[i] = nullptr;
 }
 
-int EditorScene::EditorScene::Start(WindowInfo *windowInfo, CmdState *cmdState)
+int EditorScene::EditorScene::Start(WindowInfo *windowInfo, CmdState *cmdState, raylib::RenderTexture *screenRT)
 {
 	ZoneScopedC(RandomUniqueColor());
 
 	m_windowInfo = windowInfo;
 	m_cmdState = cmdState;
+	m_screenRT = screenRT;
 	m_renderTexture = raylib::RenderTexture(m_windowInfo->p_screenWidth, m_windowInfo->p_screenHeight);
 
 	m_camera.target = raylib::Vector2(0, 0);
@@ -205,9 +206,6 @@ int EditorScene::EditorScene::Render()
 	auto &scene = modeScene.scene;
 	auto &L = modeScene.L;
 
-	BeginDrawing();
-	ClearBackground(raylib::Color(24, 18, 13));
-
 	// Draw Scene
 	m_renderTexture.BeginMode();
 	{
@@ -234,26 +232,26 @@ int EditorScene::EditorScene::Render()
 				{
 					DrawLineEx(
 						raylib::Vector2(i * stepSize, -lines * stepSize),
-						raylib::Vector2(i * stepSize,  lines * stepSize),
+						raylib::Vector2(i * stepSize, lines * stepSize),
 						innerThickness,
 						raylib::Color(25, 25, 25, 128)
 					);
 					DrawLineEx(
 						raylib::Vector2(i * stepSize, -lines * stepSize),
-						raylib::Vector2(i * stepSize,  lines * stepSize),
+						raylib::Vector2(i * stepSize, lines * stepSize),
 						thickness,
 						raylib::Color(25, 25, 25, 64)
 					);
 
 					DrawLineEx(
 						raylib::Vector2(-lines * stepSize, i * stepSize),
-						raylib::Vector2( lines * stepSize, i * stepSize),
+						raylib::Vector2(lines * stepSize, i * stepSize),
 						innerThickness,
 						raylib::Color(25, 25, 25, 128)
 					);
 					DrawLineEx(
 						raylib::Vector2(-lines * stepSize, i * stepSize),
-						raylib::Vector2( lines * stepSize, i * stepSize),
+						raylib::Vector2(lines * stepSize, i * stepSize),
 						thickness,
 						raylib::Color(25, 25, 25, 64)
 					);
@@ -343,27 +341,27 @@ int EditorScene::EditorScene::Render()
 			};
 			scene.RunSystem(drawSystem);
 
-			std::function<void(entt::registry& registry)> drawPhysicsBodies = [&](entt::registry& registry) {
+			std::function<void(entt::registry &registry)> drawPhysicsBodies = [&](entt::registry &registry) {
 				ZoneNamedNC(drawPhysicsBodiesZone, "Lambda Draw Physics Bodies", RandomUniqueColor(), true);
 
 				auto view = registry.view<ECS::Collider, ECS::Transform>();
 				view.use<ECS::Collider>();
 
-				view.each([&](ECS::Collider& collider, ECS::Transform& transform) {
+				view.each([&](ECS::Collider &collider, ECS::Transform &transform) {
 					ZoneNamedNC(drawSpriteZone, "Lambda Draw Physics Body", RandomUniqueColor(), true);
 
 					if (collider.debug)
 					{
 						const float w = fabsf(transform.Scale[0] * collider.extents[0]),
-									h = fabsf(transform.Scale[1] * collider.extents[1]);
-						b2Vec2 p = b2Body_GetWorldPoint(collider.bodyId, { 0, 0});
+							h = fabsf(transform.Scale[1] * collider.extents[1]);
+						b2Vec2 p = b2Body_GetWorldPoint(collider.bodyId, { 0, 0 });
 						//b2Transform t;
 
 						b2Rot rotation = b2Body_GetRotation(collider.bodyId);
 						float radians = b2Rot_GetAngle(rotation);
 
 						Rectangle rect = { p.x, p.y , w, h };
-						DrawRectanglePro(rect, { w/2, h/2 }, radians*RAD2DEG, {0, 228, 46, 100});
+						DrawRectanglePro(rect, { w / 2, h / 2 }, radians * RAD2DEG, { 0, 228, 46, 100 });
 					}
 				});
 			};
@@ -383,8 +381,25 @@ int EditorScene::EditorScene::Render()
 	}
 	m_renderTexture.EndMode();
 
-	RenderUI();
+	// Draw to the screen render texture
+	m_screenRT->BeginMode();
+	{
+		ClearBackground(raylib::Color(24, 18, 13));
 
+		RenderUI();
+	}
+	m_screenRT->EndMode();
+
+	// Draw the render texture to the screen
+	BeginDrawing();
+	{
+		DrawTextureRec(
+			m_screenRT->GetTexture(),
+			raylib::Rectangle(0, 0, m_windowInfo->p_screenWidth, -m_windowInfo->p_screenHeight),
+			raylib::Vector2(0, 0),
+			raylib::Color(255, 255, 255, 255)
+		);
+	}
 	EndDrawing();
 	return 1;
 }
@@ -439,6 +454,8 @@ int EditorScene::EditorScene::RenderUI()
 		{
 			if (ImGui::Begin("Scene Hierarchy"))
 			{
+				ZoneNamedNC(renderSceneHierarchyZone, "Render Scene Hierarchy", RandomUniqueColor(), true);
+
 				if (ImGui::Button("Create Entity"))
 				{
 					int id = modeScene.scene.CreateEntity();
@@ -466,6 +483,8 @@ int EditorScene::EditorScene::RenderUI()
 
 			if (ImGui::Begin("Entity Editor"))
 			{
+				ZoneNamedNC(renderEntityEditorZone, "Render Entity Editor", RandomUniqueColor(), true);
+
 				if (modeScene.scene.IsEntity(m_selectedEntity))
 				{
 					if (modeScene.scene.HasComponents<ECS::Active>(m_selectedEntity))
@@ -578,8 +597,10 @@ int EditorScene::EditorScene::RenderUI()
 
 		if (m_editorMode == EditorMode::PresetCreator)
 		{
+			ZoneNamedNC(renderPresetCreatorZone, "Render Preset Creator", RandomUniqueColor(), true);
+
 			// HACK: for now, call weapon editor immediately
-			LuaDoFileCleaned(modeScene.L, LuaFilePath("Dev/WeaponEditorUI"));
+			modeScene.luaUI.Run(modeScene.L, "WeaponEditorUI");
 		}
 
 		// Render the render texture window
@@ -849,6 +870,8 @@ void EditorScene::EditorScene::EditorModeScene::Init(WindowInfo *windowInfo, con
 	scene.SystemsInitialize(L);
 
 	LuaDoFileCleaned(L, LuaFilePath(std::format("Scenes/InitEditor{}Scene", name))); // Creates entities
+
+	luaUI.Create(L, std::format("Dev/{}UI", name).c_str());
 }
 void EditorScene::EditorScene::EditorModeScene::LoadData() const
 {
