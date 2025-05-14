@@ -535,6 +535,8 @@ int EditorScene::EditorScene::RenderUI()
 
 		if (m_editorMode == EditorMode::DungeonCreator)
 		{
+			modeScene.luaUI.Run(modeScene.L, "PrefabCollection");
+
 			if (ImGui::Begin("Room Selection"))
 			{
 				if (ImGui::BeginPopupContextItem("RoomPopup"))
