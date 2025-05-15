@@ -370,6 +370,9 @@ int EditorScene::EditorScene::Render()
 
 			scene.RunSystem(drawPhysicsBodies);
 
+			if (m_dungeon && m_selectedRoom == -1)
+				m_dungeon->Draw();
+
 			// Draw a circle at the mouse position, converted to scene coordinates
 			raylib::Vector2 mousePos = GetMousePosition();
 			if (IsWithinSceneView(mousePos))
@@ -378,8 +381,8 @@ int EditorScene::EditorScene::Render()
 				DrawCircleV(scenePos, 5.0f / m_camera.zoom, raylib::Color(255, 0, 0, 255));
 			}
 
-			if (m_dungeon && m_selectedRoom == -1)
-				m_dungeon->Draw();
+
+			// TODO: 
 
 			EndMode2D();
 		}
@@ -650,8 +653,8 @@ void EditorScene::EditorScene::GenerateDungeonUI()
 				else
 					selectedRooms.push_back(id);
 			}
-			});
-		};
+		});
+	};
 
 	modeScene.scene.RunSystem(roomSelection);
 
@@ -933,6 +936,7 @@ int EditorScene::EditorScene::RenderUI()
 		if (m_editorMode == EditorMode::DungeonCreator)
 		{
 			modeScene.luaUI.Run(modeScene.L, "PrefabCollection");
+			modeScene.luaUI.Run(modeScene.L, "RoomSelection");
 			RoomSelectionUI();
 		}
 
