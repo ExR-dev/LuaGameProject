@@ -527,7 +527,7 @@ void EditorScene::EditorScene::RoomSelectionUI()
 		if (ImGui::BeginPopupContextItem("RoomPopup"))
 		{
 			static char name[ECS::Room::ROOM_NAME_LENGTH];
-			if (IsWindowFocused() && !ImGui::IsAnyItemActive() && !ImGui::IsMouseClicked(0))
+			if (!ImGui::IsAnyItemActive() && !ImGui::IsMouseClicked(0))
 				ImGui::SetKeyboardFocusHere(0);
 			bool done = ImGui::InputText("Enter Name", name, IM_ARRAYSIZE(name), ImGuiInputTextFlags_EnterReturnsTrue);
 			if ((ImGui::Button("Done") || done) && name[0] != '\0')
