@@ -10,8 +10,14 @@ local dungeonCreatorUI = {
 	},
 	roomCollection = {
 		roomCount = 0,
-		selectedRoom = "",
-		rooms = {}
+		selectedRoom = -1,
+		rooms = {
+		-- 	0 = {
+		--		name = ""
+		--  	prefabsCount = 0,
+		--     	roomPrefabs = {}
+		-- 	}
+		}
 	}
 }
 
@@ -22,10 +28,11 @@ function dungeonCreatorUI:PrefabCollection()
 	imgui.Begin("Prefab Collection")
 
 	for name, _ in pairs(data.prefabs) do
-		if imgui.Button(name) then
+		if imgui.Button(name) and self.roomCollection.selectedRoom ~= -1 then
 			if game.SpawnPrefab(name) then
-				self.prefabCollection.prefabsCount = self.prefabCollection.prefabsCount + 1
-				self.prefabCollection.roomPrefabs[self.prefabCollection.prefabsCount] = name
+				local count = self.roomCollection.rooms[self.roomCollection.selectedRoom].prefabsCount + 1
+				self.roomCollection.rooms[self.roomCollection.selectedRoom].prefabsCount = count
+				self.roomCollection.rooms[self.roomCollection.selectedRoom].roomPrefabs[count] = name
 			else
 				print("Could not instanciate prefab")
 			end
@@ -50,7 +57,11 @@ function dungeonCreatorUI:RoomSelection()
 		buffer, done = imgui.InputText("Enter name", buffer, 16)
 		if (imgui.Button("Done") and buffer ~= "") then
 			self.roomCollection.roomCount = self.roomCollection.roomCount + 1
-			self.roomCollection.rooms[self.roomCollection.roomCount] = buffer
+			self.roomCollection.rooms[self.roomCollection.roomCount] = {
+				name = buffer,
+				prefabsCount = 0,
+				roomPrefabs = {}
+			}
 
 			buffer = ""
 			imgui.CloseCurrentPopup()
@@ -71,14 +82,18 @@ function dungeonCreatorUI:RoomSelection()
 	end
 
 	-- Room Display
-
-	for i, name in ipairs(self.roomCollection.rooms) do
-		if imgui.Selectable(name, self.roomCollection.selectedRoom == name) then
-			self.roomCollection.selectedRoom = name
+	for i, room in ipairs(self.roomCollection.rooms) do
+		if imgui.Selectable(room.name, self.roomCollection.selectedRoom == i) then
+			-- Reset scene
+			self.roomCollection.selectedRoom = i
 			scene.Clear()
-			-- TODO: Save current room
-			-- TODO: Clear scene
-			-- TODO: Load new room
+
+			-- Load new room
+			if self.roomCollection.rooms[i] ~= nil then
+				for j, prefab in ipairs(self.roomCollection.rooms[i].roomPrefabs) do
+					game.SpawnPrefab(prefab)
+				end
+			end
 		end
 	end
 
