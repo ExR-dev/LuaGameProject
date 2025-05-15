@@ -97,6 +97,10 @@ namespace ImLua
 		// Returns: bool p_open, bool isModified
 		static int lua_BeginPopupModal(lua_State *L);
 
+		// Arguments: string name
+		// Returns: bool p_open
+		static int lua_BeginPopupContextItem(lua_State* L);
+
 		// Arguments: none
 		// Returns: none
 		static int lua_EndPopup(lua_State *L);
