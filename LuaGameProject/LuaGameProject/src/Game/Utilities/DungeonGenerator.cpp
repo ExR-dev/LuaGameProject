@@ -7,7 +7,13 @@
 #define new			DEBUG_NEW
 #endif
 
-int Room::_ID = 0;
+int Room::m_ID = 0;
+
+Room::Room(raylib::Vector2 size, raylib::Color color) :
+	m_id(m_ID++), pos({ 0, 0 }), size(size), color(color)
+{
+}
+
 
 using namespace Math;
 
@@ -19,14 +25,20 @@ bool DungeonGenerator::Intersecting(const Room &r1, const Room &r2)
 		   (r1.pos.y - r1.size.y / 2) < (r2.pos.y + r2.size.y / 2);
 }
 
+DungeonGenerator::DungeonGenerator():
+	m_position({0, 0})
+{
+	Initialize();
+}
+
 DungeonGenerator::DungeonGenerator(Vector2 pos):
-	_position(pos)
+	m_position(pos)
 {
 	Initialize();
 }
 DungeonGenerator::DungeonGenerator(raylib::Vector2 pos)
 {
-	_position = Vector2(pos.x, pos.y);
+	m_position = Vector2(pos.x, pos.y);
 	Initialize();
 }
 
@@ -34,11 +46,11 @@ void DungeonGenerator::Initialize()
 {
 	ZoneScopedC(RandomUniqueColor());
 
-	if (_rooms.size() > 0)
+	if (m_rooms.size() > 0)
 	{
-		_rooms.clear();
-		_selectedRooms.clear();
-		_graph.clear();
+		m_rooms.clear();
+		m_selectedRooms.clear();
+		m_graph.clear();
 	}
 
 	for (int _ = 0; _ < 100; _++)
@@ -48,7 +60,7 @@ void DungeonGenerator::Initialize()
 
 void DungeonGenerator::AddRoom(const Room &room)
 {
-	_rooms.push_back(room);
+	m_rooms.push_back(room);
 }
 
 void DungeonGenerator::Generate(float radius)
@@ -56,8 +68,8 @@ void DungeonGenerator::Generate(float radius)
 	ZoneScopedC(RandomUniqueColor());
 
 	// Set room positions
-	for (auto &room : _rooms)
-		room.pos = Vector2Add(_position, Math::RandomGridPointCircle(radius, _tileSize));
+	for (auto &room : m_rooms)
+		room.pos = Vector2Add(m_position, Math::RandomGridPointCircle(radius, _tileSize));
 }
 
 void DungeonGenerator::SeparateRooms()
@@ -88,9 +100,9 @@ bool DungeonGenerator::GridSeparation()
 	for (int i = 0; i < MAX_ITERATIONS && foundIntersection; i++)
 	{
 		foundIntersection = false;
-		for (auto &room : _rooms)
+		for (auto &room : m_rooms)
 		{
-			for (auto &other : _rooms)
+			for (auto &other : m_rooms)
 			{
 				if (room != other && Intersecting(room, other))
 				{
@@ -119,7 +131,7 @@ bool DungeonGenerator::GridSeparation()
 		}
 
 		// Snap to tile grid
-		for (auto &room : _rooms) {
+		for (auto &room : m_rooms) {
 			room.pos.x = roundf(room.pos.x / _tileSize) * _tileSize;
 			room.pos.y = roundf(room.pos.y / _tileSize) * _tileSize;
 		}
@@ -135,7 +147,7 @@ bool DungeonGenerator::PhysicalSeparation()
 	bool foundIntersection = true;
 
 	std::vector<std::pair<Room*, Vector2>> resolutions;
-	resolutions.reserve(_rooms.size());
+	resolutions.reserve(m_rooms.size());
 
 	// Separate all rooms
 	for (int i = 0; i < MAX_ITERATIONS && foundIntersection; i++)
@@ -143,9 +155,9 @@ bool DungeonGenerator::PhysicalSeparation()
 		foundIntersection = false;
 		resolutions.clear();
 
-		for (auto &room : _rooms)
+		for (auto &room : m_rooms)
 		{
-			for (auto &other : _rooms)
+			for (auto &other : m_rooms)
 			{
 				if (room != other && Intersecting(room, other))
 				{
@@ -175,23 +187,23 @@ void DungeonGenerator::RoomSelection()
 {
 	ZoneScopedC(RandomUniqueColor());
 
-	if (_selectedRooms.size() > 0)
-		_selectedRooms.clear();
+	if (m_selectedRooms.size() > 0)
+		m_selectedRooms.clear();
 
 	// Compute total area
 	float totalArea = 0;
-	for (const auto &room : _rooms)
+	for (const auto &room : m_rooms)
 		totalArea += (room.size.x * room.size.y);
 
-	const float nRooms = _rooms.size();
+	const float nRooms = m_rooms.size();
 	const float avgArea = totalArea / nRooms;
 
 	const float selectionThreshold = 1.5f;
 
 	// Select main-rooms based on area
-	for (int i = 0; i < _rooms.size(); i++)
-		if ((_rooms[i].size.x * _rooms[i].size.y) > selectionThreshold * avgArea)
-			_selectedRooms.push_back(i);
+	for (int i = 0; i < m_rooms.size(); i++)
+		if ((m_rooms[i].size.x * m_rooms[i].size.y) > selectionThreshold * avgArea)
+			m_selectedRooms.push_back(i);
 }
 
 void DungeonGenerator::GenerateGraph()
@@ -200,8 +212,8 @@ void DungeonGenerator::GenerateGraph()
 
 	std::vector<Point> points;
 	
-	for (const auto &room : _selectedRooms)
-		points.push_back(_rooms[room].pos);
+	for (const auto &room : m_selectedRooms)
+		points.push_back(m_rooms[room].pos);
 
 	// Do Delaunay Triangulation
 	std::vector<Triangle> triangles = BowyerWatson(points);
@@ -214,23 +226,23 @@ void DungeonGenerator::GenerateGraph()
 			found = false;
 			Line edge = triangle.GetEdge(e);
 
-			for (const auto &line : _graph)
+			for (const auto &line : m_graph)
 				found |= (line == edge);
 
 			if (!found)
-				_graph.push_back(edge);
+				m_graph.push_back(edge);
 		}
 
 	// Create MST
-	std::vector<Line> oldGraph(_graph);
-	_graph = Kruskal(_graph);
+	std::vector<Line> oldGraph(m_graph);
+	m_graph = Kruskal(m_graph);
 
 	// Add some of the removed lines back
 	const float addBackRate = 0.15f;
 	for (int i = 0; i < oldGraph.size(); i++)
-		if (std::find(_graph.begin(), _graph.end(), oldGraph[i]) == _graph.end())
+		if (std::find(m_graph.begin(), m_graph.end(), oldGraph[i]) == m_graph.end())
 			if (Random01f() < addBackRate)
-				_graph.push_back(oldGraph[i]);
+				m_graph.push_back(oldGraph[i]);
 
 }
 
@@ -239,7 +251,7 @@ void DungeonGenerator::Draw()
 	ZoneScopedC(RandomUniqueColor());
 
 	const float padding = 4;
-	for (const auto &room : _rooms)
+	for (const auto &room : m_rooms)
 	{
 		DrawRectangle(room.pos.x - room.size.x/2, room.pos.y - room.size.y/2, room.size.x, room.size.y, {255, 255, 255, 255});
 		DrawRectangle(room.pos.x - (room.size.x-padding)/2, room.pos.y - (room.size.y-padding)/2, room.size.x - padding, room.size.y - padding, {0, 0, 255, 255});
@@ -247,18 +259,12 @@ void DungeonGenerator::Draw()
 		DrawCircle(room.pos.x, room.pos.y, 3, { 255, 0, 0, 255 });
 	}
 
-	for (int i = 0; i < _selectedRooms.size(); i++)
+	for (int i = 0; i < m_selectedRooms.size(); i++)
 	{
-		Room room = _rooms[_selectedRooms[i]];
+		Room room = m_rooms[m_selectedRooms[i]];
 		DrawCircle(room.pos.x, room.pos.y, 3, { 0, 255, 0, 255 });
 	}
 
-	for (const auto &edge : _graph)
+	for (const auto &edge : m_graph)
 		DrawLine(edge.p1.x, edge.p1.y, edge.p2.x, edge.p2.y, { 0, 255, 0, 255 });
-}
-
-
-Room::Room(raylib::Vector2 size, raylib::Color color) :
-	_id(_ID++), pos({ 0, 0 }), size(size), color(color)
-{
 }

@@ -16,17 +16,17 @@ struct Room
 
 	bool operator==(const Room &other) 
 	{
-		return _id == other._id;
+		return m_id == other.m_id;
 	};
 
 	bool operator!=(const Room &other)
 	{
-		return _id != other._id;
+		return m_id != other.m_id;
 	}
 
 private:
-	static int _ID;
-	const int _id;
+	static int m_ID;
+	const int m_id;
 };
 
 #define MAX_ITERATIONS 1000
@@ -34,17 +34,18 @@ private:
 class DungeonGenerator
 {
 private:
-	std::vector<Room> _rooms;
-	std::vector<int> _selectedRooms;
-	std::vector<Math::Line> _graph;
+	std::vector<Room> m_rooms;
+	std::vector<int> m_selectedRooms;
+	std::vector<Math::Line> m_graph;
 
 	const unsigned int _tileSize = 10;
 
-	Vector2 _position;
+	Vector2 m_position;
 
 	bool Intersecting(const Room &r1, const Room &r2);
 
 public:
+	DungeonGenerator();
 	DungeonGenerator(Vector2 pos);
 	DungeonGenerator(raylib::Vector2 pos);
 
