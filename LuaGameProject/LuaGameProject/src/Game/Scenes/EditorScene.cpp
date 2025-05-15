@@ -26,6 +26,8 @@ EditorScene::EditorScene::~EditorScene()
 
 	for (int i = 0; i < EditorMode::COUNT; i++)
 		m_editorModeScenes[i] = nullptr;
+
+	delete m_dungeon;
 }
 
 int EditorScene::EditorScene::Start(WindowInfo *windowInfo, CmdState *cmdState, raylib::RenderTexture *screenRT)
@@ -376,7 +378,7 @@ int EditorScene::EditorScene::Render()
 				DrawCircleV(scenePos, 5.0f / m_camera.zoom, raylib::Color(255, 0, 0, 255));
 			}
 
-			if (m_dungeon)
+			if (m_dungeon && m_selectedRoom == -1)
 				m_dungeon->Draw();
 
 			EndMode2D();
@@ -587,33 +589,35 @@ void EditorScene::EditorScene::GenerateDungeonUI()
 
 	static std::vector<int> selectedRooms;
 
-	if (ImGui::Button("Generate"))
-	{
-		// Clear current scene
-		std::function<void(entt::registry& registry)> clear = [&](entt::registry& registry) {
-			ZoneNamedNC(createPhysicsBodiesZone, "Lambda Remove All Entities", RandomUniqueColor(), true);
+	static float radius = 100;
 
-			auto view = registry.view<entt::entity>(entt::exclude<ECS::Room>);
+	// Clear current scene
+	std::function<void(entt::registry& registry)> clear = [&](entt::registry& registry) {
+		ZoneNamedNC(createPhysicsBodiesZone, "Lambda Remove All Entities", RandomUniqueColor(), true);
 
-			view.each([&](entt::entity entity) {
-				ZoneNamedNC(drawSpriteZone, "Lambda Remove Entity", RandomUniqueColor(), true);
-				modeScene.scene.SetComponent<ECS::Remove>(entity);
-				});
+		auto view = registry.view<entt::entity>(entt::exclude<ECS::Room>);
 
-			modeScene.scene.CleanUp(modeScene.L);
+		view.each([&](entt::entity entity) {
+			ZoneNamedNC(drawSpriteZone, "Lambda Remove Entity", RandomUniqueColor(), true);
+			modeScene.scene.SetComponent<ECS::Remove>(entity);
+			});
+
+		modeScene.scene.CleanUp(modeScene.L);
 		};
 
+	if (ImGui::Button("Generate"))
+	{
 		modeScene.scene.RunSystem(clear);
 
 		// Generate Dungeon
 		if (m_dungeon)
 			delete m_dungeon;
-
 		m_dungeon = new DungeonGenerator(Vector2(0, 0));
 
-		m_dungeon->Generate(100);
+		m_dungeon->Generate(radius);
 		m_dungeon->SeparateRooms();
 
+		m_selectedRoom = -1;
 	}
 
 	ImGui::SameLine();
@@ -622,7 +626,11 @@ void EditorScene::EditorScene::GenerateDungeonUI()
 		// TODO: Save dungeon
 	}
 
-	ImGui::Separator();
+	ImGui::SeparatorText("Settings");
+
+	ImGui::DragFloat("Radius", &radius, 0.1f, 0.01f, 10000.0f);
+
+	ImGui::SeparatorText("Room Selection");
 
 	std::function<void(entt::registry& registry)> roomSelection = [&](entt::registry& registry) {
 		ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
@@ -646,6 +654,24 @@ void EditorScene::EditorScene::GenerateDungeonUI()
 		};
 
 	modeScene.scene.RunSystem(roomSelection);
+
+
+	ImGui::SeparatorText("Debug Options");
+
+	if (ImGui::Button("Spawn Rooms"))
+	{
+		modeScene.scene.RunSystem(clear);
+
+		if (m_dungeon)
+			delete m_dungeon;
+		m_dungeon = new DungeonGenerator(Vector2(0, 0));
+		m_dungeon->Generate(radius);
+
+		m_selectedRoom = -1;
+	}
+
+	if (ImGui::Button("Separate Rooms"))
+		m_dungeon->SeparateRooms();
 
 	ImGui::Separator();
 
