@@ -118,6 +118,10 @@ private:
 	// Arguments: entity (int), state (bool)
 	// Returns: none
 	static int lua_SetActive(lua_State *L);
+
+	// Arguments: none
+	// Returns: none
+	static int lua_Clear(lua_State* L);
 };
 
 

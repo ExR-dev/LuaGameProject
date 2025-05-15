@@ -209,6 +209,7 @@ void Scene::lua_openscene(lua_State *L, Scene *scene)
 		{ "RemoveComponent",	lua_RemoveComponent	},
 		{ "IsActive",			lua_IsActive		},
 		{ "SetActive",			lua_SetActive		},
+		{ "Clear",				lua_Clear			},
 		{ NULL,					NULL				}
 	};
 
@@ -566,4 +567,14 @@ int Scene::lua_SetActive(lua_State *L)
 
 	scene->SetActive(entity, state);
 	return 1;
+}
+
+int Scene::lua_Clear(lua_State* L)
+{
+	ZoneScopedC(RandomUniqueColor());
+
+	Scene* scene = lua_GetScene(L);
+	scene->Clear(L);
+
+	return 0;
 }

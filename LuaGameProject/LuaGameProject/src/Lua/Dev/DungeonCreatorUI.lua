@@ -75,6 +75,7 @@ function dungeonCreatorUI:RoomSelection()
 	for i, name in ipairs(self.roomCollection.rooms) do
 		if imgui.Selectable(name, self.roomCollection.selectedRoom == name) then
 			self.roomCollection.selectedRoom = name
+			scene.Clear()
 			-- TODO: Save current room
 			-- TODO: Clear scene
 			-- TODO: Load new room
