@@ -57,6 +57,7 @@ void ImLua::ImLua::lua_openimgui(lua_State *L)
 		{ "TableNextColumn",		lua_TableNextColumn			},
 		{ "TableSetColumnIndex",	lua_TableSetColumnIndex		},
 		{ "SameLine",				lua_SameLine				},
+		{ "Selectable",				lua_Selectable				},
 		{ "NewLine",				lua_NewLine					},
 		{ "Spacing",				lua_Spacing					},
 		{ "Dummy",					lua_Dummy					},
@@ -885,6 +886,29 @@ int ImLua::ImLua::lua_SameLine(lua_State *L)
 	ImGui::SameLine(offsetFromStartX, spacing);
 
 	return 0;
+}
+
+int ImLua::ImLua::lua_Selectable(lua_State* L)
+{
+	int idx = 1;
+
+	// Required
+	std::string label;
+	bool selected = false;
+
+	if (!PopString(L, idx, label))
+		luaL_error(L, "Expected parameter string");
+
+	if (!PopBool(L, idx, selected))
+		luaL_error(L, "Expected parameter int");
+
+	// Do ImGui command
+	bool pressed = ImGui::Selectable(label.c_str(), selected);
+
+	// Return result
+	PushBool(L, pressed);
+
+	return 1;
 }
 
 

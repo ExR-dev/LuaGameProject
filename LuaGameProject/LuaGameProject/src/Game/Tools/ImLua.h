@@ -165,6 +165,10 @@ namespace ImLua
 		// Returns: none
 		static int lua_SameLine(lua_State *L);
 
+		// Arguments: string label, bool selected
+		// Returns: bool pressed
+		static int lua_Selectable(lua_State* L);
+
 
 
 
