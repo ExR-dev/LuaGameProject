@@ -150,6 +150,7 @@ namespace EditorScene
 		void SceneHierarchyUI();
 		void EntityEditorUI();
 		void RoomSelectionUI();
+		void GenerateDungeonUI();
 		void RenderWindowUI();
 		void EditorSelectorUI();
 

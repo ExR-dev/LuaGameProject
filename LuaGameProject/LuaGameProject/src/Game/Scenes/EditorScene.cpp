@@ -26,6 +26,8 @@ EditorScene::EditorScene::~EditorScene()
 
 	for (int i = 0; i < EditorMode::COUNT; i++)
 		m_editorModeScenes[i] = nullptr;
+
+	delete m_dungeon;
 }
 
 int EditorScene::EditorScene::Start(WindowInfo *windowInfo, CmdState *cmdState, raylib::RenderTexture *screenRT)
@@ -368,6 +370,9 @@ int EditorScene::EditorScene::Render()
 
 			scene.RunSystem(drawPhysicsBodies);
 
+			if (m_dungeon && m_selectedRoom == -1)
+				m_dungeon->Draw();
+
 			// Draw a circle at the mouse position, converted to scene coordinates
 			raylib::Vector2 mousePos = GetMousePosition();
 			if (IsWithinSceneView(mousePos))
@@ -375,6 +380,9 @@ int EditorScene::EditorScene::Render()
 				raylib::Vector2 scenePos = ScreenToWorldPos(mousePos);
 				DrawCircleV(scenePos, 5.0f / m_camera.zoom, raylib::Color(255, 0, 0, 255));
 			}
+
+
+			// TODO: 
 
 			EndMode2D();
 		}
@@ -576,6 +584,104 @@ void EditorScene::EditorScene::RoomSelectionUI()
 	ImGui::End();
 }
 
+void EditorScene::EditorScene::GenerateDungeonUI()
+{
+	auto& modeScene = *(m_editorModeScenes[m_editorMode].get());
+
+	ImGui::Text("Select rooms");
+
+	static std::vector<int> selectedRooms;
+
+	static float radius = 100;
+
+	// Clear current scene
+	std::function<void(entt::registry& registry)> clear = [&](entt::registry& registry) {
+		ZoneNamedNC(createPhysicsBodiesZone, "Lambda Remove All Entities", RandomUniqueColor(), true);
+
+		auto view = registry.view<entt::entity>(entt::exclude<ECS::Room>);
+
+		view.each([&](entt::entity entity) {
+			ZoneNamedNC(drawSpriteZone, "Lambda Remove Entity", RandomUniqueColor(), true);
+			modeScene.scene.SetComponent<ECS::Remove>(entity);
+			});
+
+		modeScene.scene.CleanUp(modeScene.L);
+		};
+
+	if (ImGui::Button("Generate"))
+	{
+		modeScene.scene.RunSystem(clear);
+
+		// Generate Dungeon
+		if (m_dungeon)
+			delete m_dungeon;
+		m_dungeon = new DungeonGenerator(Vector2(0, 0));
+
+		m_dungeon->Generate(radius);
+		m_dungeon->SeparateRooms();
+
+		m_selectedRoom = -1;
+	}
+
+	ImGui::SameLine();
+	if (ImGui::Button("Save"))
+	{
+		// TODO: Save dungeon
+	}
+
+	ImGui::SeparatorText("Settings");
+
+	ImGui::DragFloat("Radius", &radius, 0.1f, 0.01f, 10000.0f);
+
+	ImGui::SeparatorText("Room Selection");
+
+	std::function<void(entt::registry& registry)> roomSelection = [&](entt::registry& registry) {
+		ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+
+		auto view = registry.view<ECS::Room>();
+
+		view.each([&](const entt::entity& entity, ECS::Room& transform) {
+			ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
+
+			const int id = static_cast<int>(entity);
+			auto findRes = std::find(selectedRooms.begin(), selectedRooms.end(), id);
+			bool isSelected = findRes != selectedRooms.end();
+			if (ImGui::Selectable(transform.RoomName, isSelected, ImGuiSelectableFlags_NoAutoClosePopups))
+			{
+				if (isSelected)
+					std::erase(selectedRooms, id);
+				else
+					selectedRooms.push_back(id);
+			}
+		});
+	};
+
+	modeScene.scene.RunSystem(roomSelection);
+
+
+	ImGui::SeparatorText("Debug Options");
+
+	if (ImGui::Button("Spawn Rooms"))
+	{
+		modeScene.scene.RunSystem(clear);
+
+		if (m_dungeon)
+			delete m_dungeon;
+		m_dungeon = new DungeonGenerator(Vector2(0, 0));
+		m_dungeon->Generate(radius);
+
+		m_selectedRoom = -1;
+	}
+
+	if (ImGui::Button("Separate Rooms"))
+		m_dungeon->SeparateRooms();
+
+	ImGui::Separator();
+
+	if (ImGui::Button("Close"))
+		ImGui::CloseCurrentPopup();
+}
+
 void EditorScene::EditorScene::RenderWindowUI()
 {
 	ZoneNamedNC(renderSceneWindowZone, "Render Scene Window", RandomUniqueColor(), true);
@@ -732,43 +838,9 @@ void EditorScene::EditorScene::RenderWindowUI()
 
 					if (ImGui::BeginPopupContextItem("RoomSelectionPopup"))
 					{
-						ImGui::Text("Select rooms");
-
-						static std::vector<int> selectedRooms;
-
-						if (ImGui::Button("Done"))
-						{
-							// Generate Dungeon
-							ImGui::CloseCurrentPopup();
-						}
-
-						ImGui::Separator();
-
-						std::function<void(entt::registry &registry)> roomSelection = [&](entt::registry &registry) {
-							ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
-
-							auto view = registry.view<ECS::Room>();
-
-							view.each([&](const entt::entity &entity, ECS::Room &transform) {
-								ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
-
-								const int id = static_cast<int>(entity);
-								auto findRes = std::find(selectedRooms.begin(), selectedRooms.end(), id);
-								bool isSelected = findRes != selectedRooms.end();
-								if (ImGui::Selectable(transform.RoomName, isSelected, ImGuiSelectableFlags_NoAutoClosePopups))
-								{
-									if (isSelected)
-										std::erase(selectedRooms, id);
-									else
-										selectedRooms.push_back(id);
-								}
-							});
-						};
-
-						modeScene.scene.RunSystem(roomSelection);
+						GenerateDungeonUI();
 
 						ImGui::EndPopup();
-
 						ImGui::GetStyle() = oldStyle;
 					}
 				}
@@ -864,6 +936,7 @@ int EditorScene::EditorScene::RenderUI()
 		if (m_editorMode == EditorMode::DungeonCreator)
 		{
 			modeScene.luaUI.Run(modeScene.L, "PrefabCollection");
+			modeScene.luaUI.Run(modeScene.L, "RoomSelection");
 			RoomSelectionUI();
 		}
 
