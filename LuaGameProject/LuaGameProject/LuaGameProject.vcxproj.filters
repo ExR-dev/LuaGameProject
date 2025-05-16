@@ -413,6 +413,10 @@
     <None Include="src\Lua\Dev\PrefabCreatorUI.lua" />
     <None Include="src\Lua\Dev\LevelCreatorUI.lua" />
     <None Include="src\Lua\Dev\SandboxUI.lua" />
+    <None Include="src\Lua\Dungeons\Dungeon.lua" />
+    <None Include="src\Lua\Dungeons\Rooms\Room.lua" />
+    <None Include="src\Lua\Dev\DungeonCreatorUI.lua" />
+    <None Include="src\Lua\Scenes\InitEditorDungeonCreatorScene.lua" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="raylib.dll" />

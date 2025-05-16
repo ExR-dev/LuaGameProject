@@ -9,6 +9,7 @@ local prefabCreatorUI = {
 	
 	createPrefab = {
 		stage = -1,
+		prefabToLoad = -1,
 		prefabName = "",
 		savedCompList = { },
 		popupOpen = false,
@@ -84,10 +85,11 @@ function prefabCreatorUI:CreatePrefab()
 
 			
 			-- Button to load an existing prefab
+			local openLoadPrefab = false
 			if imgui.Button("Load Existing Prefab##LoadPrefabButton") then
-				-- TODO
+				ctx.popupOpen = true
+				openLoadPrefab = true
 			end
-			imgui.SameLine(0.0, 32.0)
 
 			-- Button to reset the entity
 			if imgui.Button("Reset Entity##ResetEntityButton") then
@@ -95,9 +97,62 @@ function prefabCreatorUI:CreatePrefab()
 			end
 			imgui.Separator()
 
+
 			-- Button for saving entity as a prefab
 			if imgui.Button("Save as Prefab##SaveAsPrefabButton") then
 				ctx.stage = ctx.stage + 1
+			end
+
+
+			-- Popup to pick which prefab to load
+			if openLoadPrefab then
+				imgui.OpenPopup("Load Prefab##LoadPrefabPopup")
+			end
+
+			if imgui.BeginPopupModal("Load Prefab##LoadPrefabPopup") then
+				imgui.TextWrapped("Pick which prefab you would like to load.")
+				imgui.Separator()
+				
+
+				local existingPrefabList = { }
+				for existingPrefabName, _ in pairs(data.prefabs) do
+					table.insert(existingPrefabList, existingPrefabName)
+				end
+				
+				local existingPrefabString = table.concat(existingPrefabList, "\n").."\n\n"
+				local pressed = false
+
+				-- Dropdown to select which prefab to load
+				pressed, ctx.prefabToLoad = imgui.Combo("Select Prefab##LoadPrefabPopup", ctx.prefabToLoad, existingPrefabString)
+				
+				local prefabToLoadName = nil
+				if ctx.prefabToLoad >= 0 then
+					prefabToLoadName = existingPrefabList[ctx.prefabToLoad + 1]
+				end
+				imgui.Separator()
+
+
+				if imgui.Button("Confirm##LoadPrefabPopup") or Input.KeyPressed(Input.Key.KEY_ENTER) then
+					if prefabToLoadName ~= nil then
+						if scene.IsEntity(self.entityID) then
+							scene.RemoveEntity(self.entityID)
+						end
+
+						self.entityID = game.SpawnPrefab(prefabToLoadName)
+						ctx.popupOpen = false
+					end
+				end
+				imgui.SameLine(0.0, 32.0)
+
+				if imgui.Button("Cancel##LoadPrefabPopup") then
+					ctx.popupOpen = false
+				end
+
+				if not ctx.popupOpen then
+					imgui.CloseCurrentPopup()
+				end
+
+				imgui.EndPopup()
 			end
 		elseif ctx.stage == 0 then	-- Naming Stage
 			-- Description
@@ -383,6 +438,7 @@ function prefabCreatorUI:ResetStage(resetEntity)
 	end
 
 	ctx.stage = -1
+	ctx.prefabToLoad = -1
 	ctx.prefabName = ""
 	ctx.savedCompList = { }
 end

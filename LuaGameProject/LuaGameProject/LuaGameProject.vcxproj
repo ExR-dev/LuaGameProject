@@ -407,11 +407,15 @@
     <None Include="src\Lua\Data\Prefabs.lua" />
     <None Include="src\Lua\Data\Weapons.lua" />
     <None Include="src\Lua\Dev\Commands.lua" />
+    <None Include="src\Lua\Dev\DungeonCreatorUI.lua" />
     <None Include="src\Lua\Dev\LevelCreatorUI.lua" />
     <None Include="src\Lua\Dev\PrefabCreatorUI.lua" />
     <None Include="src\Lua\Dev\PresetCreatorUI.lua" />
     <None Include="src\Lua\Dev\SandboxUI.lua" />
+    <None Include="src\Lua\Dungeons\Dungeon.lua" />
+    <None Include="src\Lua\Dungeons\Rooms\Room.lua" />
     <None Include="src\Lua\Scenes\InitDevScene.lua" />
+    <None Include="src\Lua\Scenes\InitEditorDungeonCreatorScene.lua" />
     <None Include="src\Lua\Scenes\InitEditorLevelCreatorScene.lua" />
     <None Include="src\Lua\Scenes\InitEditorPrefabCreatorScene.lua" />
     <None Include="src\Lua\Scenes\InitEditorPresetCreatorScene.lua" />
