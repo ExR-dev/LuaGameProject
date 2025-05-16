@@ -12,88 +12,91 @@ namespace ImLua
 		lua_newtable(L);
 
 			// Not all are implemented yet, check function bodies
-	  luaL_Reg methods[] = {
-      { "Begin",					lua_Begin					},
-      { "End",					lua_End						},
-      { "BeginChild",				lua_BeginChild				},
-      { "EndChild",				lua_EndChild				},
-      { "OpenPopup",				lua_OpenPopup				},
-      { "CloseCurrentPopup",		lua_CloseCurrentPopup		},
-      { "BeginPopup",				lua_BeginPopup				},
-      { "BeginPopupModal",		lua_BeginPopupModal			},
-      { "BeginPopupContextItem",	lua_BeginPopupContextItem	},
-      { "EndPopup",				lua_EndPopup				},
-      { "Separator",				lua_Separator				},
-      { "Text",					lua_Text					},
-      { "InputText",				lua_InputText				},
-      { "DragFloat",				lua_DragFloat				},
-      { "DragInt",				lua_DragInt					},
-      { "Button",					lua_Button					},
-      { "Checkbox",				lua_Checkbox				},
-      { "RadioButton",			lua_RadioButton				},
-      { "RadioButtonInt",			lua_RadioButtonInt			},
-      { "InputFloat",				lua_InputFloat				},
-      { "SliderFloat",			lua_SliderFloat				},
-      { "InputFloat2",			lua_InputFloat2				},
-      { "SliderInt",				lua_SliderInt				},
-      { "SliderAngle",			lua_SliderAngle				},
-      { "InputInt",				lua_InputInt				},
-      { "ColorEdit4",				lua_ColorEdit4				},
-      { "ColorPicker4",			lua_ColorPicker4			},
-      { "ColorButton",			lua_ColorButton				},
-      { "ProgressBar",			lua_ProgressBar				},
-      { "Image",					lua_Image					},
-      { "TreeNode",				lua_TreeNode				},
-      { "TreePop",				lua_TreePop					},
-      { "CollapsingHeader",		lua_CollapsingHeader		},
-      { "BeginCombo",				lua_BeginCombo				},
-      { "EndCombo",				lua_EndCombo				},
-      { "BeginGroup",				lua_BeginGroup				},
-      { "EndGroup",				lua_EndGroup				},
-      { "PushID",					lua_PushID					},
-      { "PopID",					lua_PopID					},
-      { "BeginTooltip",			lua_BeginTooltip			},
-      { "EndTooltip",				lua_EndTooltip				},
-      { "BeginTable",				lua_BeginTable				},
-      { "EndTable",				lua_EndTable				},
-      { "TableNextRow",			lua_TableNextRow			},
-      { "TableNextColumn",		lua_TableNextColumn			},
-      { "TableSetColumnIndex",	lua_TableSetColumnIndex		},
-      { "SameLine",				lua_SameLine				},
-      { "Selectable",				lua_Selectable				},
-      { "NewLine",				lua_NewLine					},
-      { "Spacing",				lua_Spacing					},
-      { "Dummy",					lua_Dummy					},
-      { "Indent",					lua_Indent					},
-      { "Unindent",				lua_Unindent				},
-      { "SetNextItemWidth",		lua_SetNextItemWidth		},
-      { "CalcItemWidth",			lua_CalcItemWidth			},
-      { "GetCursorScreenPos",		lua_GetCursorScreenPos		},
-      { "SetCursorScreenPos",		lua_SetCursorScreenPos		},
-      { "GetCursorPos",			lua_GetCursorPos			},
-      { "SetCursorPos",			lua_SetCursorPos			},
-      { "GetWindowPos",			lua_GetWindowPos			},
-      { "GetWindowSize",			lua_GetWindowSize			},
-      { "SetWindowPos",			lua_SetWindowPos			},
-      { "SetWindowSize",			lua_SetWindowSize			},
-      { "IsItemHovered",			lua_IsItemHovered			},
-      { "IsItemActive",			lua_IsItemActive			},
-      { "IsItemFocused",			lua_IsItemFocused			},
-      { "IsItemClicked",			lua_IsItemClicked			},
-      { "IsItemVisible",			lua_IsItemVisible			},
-      { "IsItemEdited",			lua_IsItemEdited			},
-      { "IsItemActivated",		lua_IsItemActivated			},
-      { "IsItemToggledOpen",		lua_IsItemToggledOpen		},
-      { "GetItemID",				lua_GetItemID				},
-      { "GetItemRectMin",			lua_GetItemRectMin			},
-      { "GetItemRectMax",			lua_GetItemRectMax			},
-      { "GetItemRectSize",		lua_GetItemRectSize			},
-      { "CalcTextSize",			lua_CalcTextSize			},
-      { "GetClipboardText",		lua_GetClipboardText		},
-      { "SetClipboardText",		lua_SetClipboardText		},
+		luaL_Reg methods[] = {
+			{ "Begin",						lua_Begin					},
+			{ "End",						lua_End						},
+			{ "BeginChild",					lua_BeginChild				},
+			{ "EndChild",					lua_EndChild				},
+			{ "OpenPopup",					lua_OpenPopup				},
+			{ "IsPopupOpen",				lua_IsPopupOpen				},
+			{ "CloseCurrentPopup",			lua_CloseCurrentPopup		},
+			{ "BeginPopup",					lua_BeginPopup				},
+			{ "BeginPopupModal",			lua_BeginPopupModal			},
+			{ "BeginPopupContextItem",		lua_BeginPopupContextItem	},
+			{ "EndPopup",					lua_EndPopup				},
+			{ "Separator",					lua_Separator				},
+			{ "Text",						lua_Text					},
+			{ "TextWrapped",				lua_TextWrapped				},
+			{ "InputText",					lua_InputText				},
+			{ "DragFloat",					lua_DragFloat				},
+			{ "DragInt",					lua_DragInt					},
+			{ "Button",						lua_Button					},
+			{ "Checkbox",					lua_Checkbox				},
+			{ "RadioButton",				lua_RadioButton				},
+			{ "RadioButtonInt",				lua_RadioButtonInt			},
+			{ "InputFloat",					lua_InputFloat				},
+			{ "SliderFloat",				lua_SliderFloat				},
+			{ "InputFloat2",				lua_InputFloat2				},
+			{ "SliderInt",					lua_SliderInt				},
+			{ "SliderAngle",				lua_SliderAngle				},
+			{ "InputInt",					lua_InputInt				},
+			{ "ColorEdit4",					lua_ColorEdit4				},
+			{ "ColorPicker4",				lua_ColorPicker4			},
+			{ "ColorButton",				lua_ColorButton				},
+			{ "ProgressBar",				lua_ProgressBar				},
+			{ "Image",						lua_Image					},
+			{ "TreeNode",					lua_TreeNode				},
+			{ "TreePop",					lua_TreePop					},
+			{ "CollapsingHeader",			lua_CollapsingHeader		},
+			{ "BeginCombo",					lua_BeginCombo				},
+			{ "Combo",						lua_Combo					},
+			{ "EndCombo",					lua_EndCombo				},
+			{ "BeginGroup",					lua_BeginGroup				},
+			{ "EndGroup",					lua_EndGroup				},
+			{ "PushID",						lua_PushID					},
+			{ "PopID",						lua_PopID					},
+			{ "BeginTooltip",				lua_BeginTooltip			},
+			{ "EndTooltip",					lua_EndTooltip				},
+			{ "BeginTable",					lua_BeginTable				},
+			{ "EndTable",					lua_EndTable				},
+			{ "TableNextRow",				lua_TableNextRow			},
+			{ "TableNextColumn",			lua_TableNextColumn			},
+			{ "TableSetColumnIndex",		lua_TableSetColumnIndex		},
+			{ "SameLine",					lua_SameLine				},
+			{ "Selectable",					lua_Selectable				},
+			{ "NewLine",					lua_NewLine					},
+			{ "Spacing",					lua_Spacing					},
+			{ "Dummy",						lua_Dummy					},
+			{ "Indent",						lua_Indent					},
+			{ "Unindent",					lua_Unindent				},
+			{ "SetNextItemWidth",			lua_SetNextItemWidth		},
+			{ "CalcItemWidth",				lua_CalcItemWidth			},
+			{ "GetCursorScreenPos",			lua_GetCursorScreenPos		},
+			{ "SetCursorScreenPos",			lua_SetCursorScreenPos		},
+			{ "GetCursorPos",				lua_GetCursorPos			},
+			{ "SetCursorPos",				lua_SetCursorPos			},
+			{ "GetWindowPos",				lua_GetWindowPos			},
+			{ "GetWindowSize",				lua_GetWindowSize			},
+			{ "SetWindowPos",				lua_SetWindowPos			},
+			{ "SetWindowSize",				lua_SetWindowSize			},
+			{ "IsItemHovered",				lua_IsItemHovered			},
+			{ "IsItemActive",				lua_IsItemActive			},
+			{ "IsItemFocused",				lua_IsItemFocused			},
+			{ "IsItemClicked",				lua_IsItemClicked			},
+			{ "IsItemVisible",				lua_IsItemVisible			},
+			{ "IsItemEdited",				lua_IsItemEdited			},
+			{ "IsItemActivated",			lua_IsItemActivated			},
+			{ "IsItemToggledOpen",			lua_IsItemToggledOpen		},
+			{ "GetItemID",					lua_GetItemID				},
+			{ "GetItemRectMin",				lua_GetItemRectMin			},
+			{ "GetItemRectMax",				lua_GetItemRectMax			},
+			{ "GetItemRectSize",			lua_GetItemRectSize			},
+			{ "CalcTextSize",				lua_CalcTextSize			},
+			{ "GetClipboardText",			lua_GetClipboardText		},
+			{ "SetClipboardText",			lua_SetClipboardText		},
 
-      { NULL,						NULL						}
-	  };
+			{ NULL,							NULL						}
+		};
 
 		luaL_setfuncs(L, methods, 0);
 
@@ -1050,31 +1053,28 @@ namespace ImLua
 		return 0;
 	}
 
+	int ImLua::ImLua::lua_Selectable(lua_State* L)
+	{
+		int idx = 1;
 
+		// Required
+		std::string label;
+		bool selected = false;
 
+		if (!PopString(L, idx, label))
+			luaL_error(L, "Expected parameter string");
 
-int ImLua::ImLua::lua_Selectable(lua_State* L)
-{
-	int idx = 1;
+		if (!PopBool(L, idx, selected))
+			luaL_error(L, "Expected parameter int");
 
-	// Required
-	std::string label;
-	bool selected = false;
+		// Do ImGui command
+		bool pressed = ImGui::Selectable(label.c_str(), selected);
 
-	if (!PopString(L, idx, label))
-		luaL_error(L, "Expected parameter string");
+		// Return result
+		PushBool(L, pressed);
 
-	if (!PopBool(L, idx, selected))
-		luaL_error(L, "Expected parameter int");
-
-	// Do ImGui command
-	bool pressed = ImGui::Selectable(label.c_str(), selected);
-
-	// Return result
-	PushBool(L, pressed);
-
-	return 1;
-}
+		return 1;
+	}
 
 
 
