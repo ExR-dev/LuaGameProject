@@ -10,7 +10,8 @@ data.prefabs = { }
 data.groups = { }
 
 
--- Define mod loading functions
+-- Define mod loading & saving functions
+
 function data.modding.loadWeaponMod(weaponData)
 	for key, value in pairs(weaponData) do
 		-- Warn if the weapon already exists
@@ -42,7 +43,7 @@ function data.modding.loadAmmoMod(ammoData)
 end
 
 function data.modding.loadLuaTableSave(path)
-	-- path is the filepath of a lua table save, created using table.save
+	-- path is the filepath of a lua table save created using table.save. With or without the extension, but preferrably with.
 	-- local luaTableSave = {
 	-- 	   dataPath		(string)	-- Location of this table in the data table, ex: "weapons", "ammo.caliber"
 	-- 	   elementName	(string)	-- Name of the element in the dataPath, ex: "AK47", "45acp"
@@ -52,8 +53,12 @@ function data.modding.loadLuaTableSave(path)
 	local luaTableSave = table.load(path)
 
 	if luaTableSave == nil then
-		print("Error loading LTS file: "..path)
-		return
+		luaTableSave = table.load(path..".lts")
+		
+		if luaTableSave == nil then
+			print("Error loading LTS file: "..path)
+			return
+		end
 	end
 
 	-- split the dataPath into steps, separated by "."
@@ -85,6 +90,39 @@ function data.modding.loadLuaTableSave(path)
 		print("Overwriting data."..dataPath.."."..elementName.."...")
 	end
 	current[elementName] = luaTableSave.contents
+end
+
+
+--[[
+	parameters:
+		folderPath	- Where to create the file
+		dataPath	- Location of this table in the data table
+		elementName - Name of the element in the dataPath
+		contents	- The table stored at data.dataPath[elementName]
+
+	returns:
+		nil if succeeded, string if failed
+--]]
+function data.modding.createLuaTableSave(folderPath, dataPath, elementName, contents)
+	if folderPath:len() > 0 then
+		if folderPath:sub(0, 1) == "/" then -- Remove unnecessary slash in the beginning of the folder path
+			folderPath = folderPath:sub(2, -1)
+		end
+	end
+		
+	if folderPath:len() > 0 then
+		if folderPath:sub(-1) ~= "/" then -- Add a slash to the end of the folder path if there isn't one
+			folderPath = folderPath.."/"
+		end
+	end
+	
+	local lts = {
+		dataPath	= dataPath,
+		elementName = elementName,
+		contents	= contents
+	}
+
+	return table.save(lts, folderPath..elementName..".lts") -- lts: Lua Table Save
 end
 
 tracy.ZoneEnd()

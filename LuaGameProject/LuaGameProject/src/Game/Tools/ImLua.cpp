@@ -17,6 +17,7 @@ namespace ImLua
 			{ "BeginChild",				lua_BeginChild				},
 			{ "EndChild",				lua_EndChild				},
 			{ "OpenPopup",				lua_OpenPopup				},
+			{ "IsPopupOpen",			lua_IsPopupOpen				},
 			{ "CloseCurrentPopup",		lua_CloseCurrentPopup		},
 			{ "BeginPopup",				lua_BeginPopup				},
 			{ "BeginPopupModal",		lua_BeginPopupModal			},
@@ -329,6 +330,27 @@ namespace ImLua
 		return 0;
 	}
 
+	int ImLua::lua_IsPopupOpen(lua_State *L)
+	{
+		ZoneScopedC(RandomUniqueColor());
+		int idx = 1;
+
+		// Required
+		std::string str_id;
+
+		// Get required parameters
+		if (!PopString(L, idx, str_id))
+			luaL_error(L, "Expected parameter string");
+
+		// Do ImGui command
+		bool isOpen = ImGui::IsPopupOpen(str_id.c_str());
+
+		// Return result
+		PushBool(L, isOpen);
+
+		return 1;
+	}
+
 	int ImLua::lua_CloseCurrentPopup(lua_State *L)
 	{
 		ZoneScopedC(RandomUniqueColor());
@@ -361,8 +383,38 @@ namespace ImLua
 
 	int ImLua::lua_BeginPopupModal(lua_State *L)
 	{
-		// TODO: Implement this function
-		return 0;
+		ZoneScopedC(RandomUniqueColor());
+		int idx = 1;
+
+		// Required
+		std::string name;
+		// Optional
+		bool open = false;
+
+		// Get required parameters
+		if (!PopString(L, idx, name))
+			luaL_error(L, "Expected parameter string");
+
+		bool *p_open = &open;
+		// Get optional parameters
+		do
+		{
+			if (!PopBool(L, idx, open))
+			{
+				p_open = nullptr;
+				break;
+			}
+
+		} while (false);
+
+		// Do ImGui command
+		bool isOpen = ImGui::BeginPopupModal(name.c_str(), p_open);
+
+		// Return result
+		PushBool(L, isOpen);
+		PushBool(L, open);
+
+		return 1;
 	}
 
 	int ImLua::lua_EndPopup(lua_State *L)
@@ -1152,13 +1204,45 @@ namespace ImLua
 
 	int ImLua::lua_Indent(lua_State *L)
 	{
-		// TODO: Implement this function
+		ZoneScopedC(RandomUniqueColor());
+		int idx = 1;
+
+		// Optional
+		float indent_w = 0.0f;
+
+		// Get optional parameters
+		do
+		{
+			if (!PopFloat(L, idx, indent_w))
+				break;
+
+		} while (false);
+
+		// Do ImGui command
+		ImGui::Indent(indent_w);
+
 		return 0;
 	}
 
 	int ImLua::lua_Unindent(lua_State *L)
 	{
-		// TODO: Implement this function
+		ZoneScopedC(RandomUniqueColor());
+		int idx = 1;
+
+		// Optional
+		float indent_w = 0.0f;
+
+		// Get optional parameters
+		do
+		{
+			if (!PopFloat(L, idx, indent_w))
+				break;
+
+		} while (false);
+
+		// Do ImGui command
+		ImGui::Unindent(indent_w);
+
 		return 0;
 	}
 

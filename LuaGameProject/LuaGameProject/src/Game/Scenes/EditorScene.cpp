@@ -965,7 +965,6 @@ int EditorScene::EditorScene::RenderUI()
 			case EditorScene::EditorScene::PrefabCreator: {
 				ZoneNamedNC(renderEditorModeZone, "Render Prefab Creator Lua UI", RandomUniqueColor(), true);
 
-				// HACK: Copied from Sandbox
 				if (ImGui::Begin("Entity Editor"))
 				{
 					ZoneNamedNC(renderEntityEditorZone, "Render Entity Editor", RandomUniqueColor(), true);
@@ -974,43 +973,35 @@ int EditorScene::EditorScene::RenderUI()
 
 					if (modeScene.scene.IsEntity(m_selectedEntity))
 					{
-						if (modeScene.scene.HasComponents<ECS::Active>(m_selectedEntity))
-							modeScene.scene.GetComponent<ECS::Active>(m_selectedEntity).RenderUI();
-
 						if (modeScene.scene.HasComponents<ECS::Transform>(m_selectedEntity))
 							modeScene.scene.GetComponent<ECS::Transform>(m_selectedEntity).RenderUI();
-
-						if (modeScene.scene.HasComponents<ECS::Collider>(m_selectedEntity))
-							modeScene.scene.GetComponent<ECS::Collider>(m_selectedEntity).RenderUI();
-
-						if (modeScene.scene.HasComponents<ECS::Sprite>(m_selectedEntity))
-							modeScene.scene.GetComponent<ECS::Sprite>(m_selectedEntity).RenderUI();
 
 						if (modeScene.scene.HasComponents<ECS::Behaviour>(m_selectedEntity))
 							modeScene.scene.GetComponent<ECS::Behaviour>(m_selectedEntity).RenderUI();
 
-						std::string items[] = { "Collider", "Sprite", "Behaviour" };
+						if (modeScene.scene.HasComponents<ECS::Sprite>(m_selectedEntity))
+							modeScene.scene.GetComponent<ECS::Sprite>(m_selectedEntity).RenderUI();
 
-						if (ImGui::BeginCombo("##AddComponentCombo", "Add Component"))
-						{
-							for (int n = 0; n < IM_ARRAYSIZE(items); n++)
-							{
-								std::string current = items[n];
-								if (ImGui::Selectable(current.c_str()))
-								{
-									if (current == "Collider")
-										modeScene.scene.SetComponent<ECS::Collider>(m_selectedEntity, ECS::Collider());
-									else if (current == "Behaviour")
-										modeScene.scene.SetComponent<ECS::Behaviour>(m_selectedEntity, ECS::Behaviour("Behaviours/Enemy", m_selectedEntity, modeScene.L));
-									else if (current == "Sprite")
-									{
-										const float color[4]{ 0, 0, 0, 1 };
-										modeScene.scene.SetComponent<ECS::Sprite>(m_selectedEntity, ECS::Sprite("\0", color, 0));
-									}
-								}
-							}
-							ImGui::EndCombo();
-						}
+						if (modeScene.scene.HasComponents<ECS::Collider>(m_selectedEntity))
+							modeScene.scene.GetComponent<ECS::Collider>(m_selectedEntity).RenderUI();
+
+						if (modeScene.scene.HasComponents<ECS::Health>(m_selectedEntity))
+							modeScene.scene.GetComponent<ECS::Health>(m_selectedEntity).RenderUI();
+
+						if (modeScene.scene.HasComponents<ECS::Hardness>(m_selectedEntity))
+							modeScene.scene.GetComponent<ECS::Hardness>(m_selectedEntity).RenderUI();
+
+						if (modeScene.scene.HasComponents<ECS::CameraData>(m_selectedEntity))
+							modeScene.scene.GetComponent<ECS::CameraData>(m_selectedEntity).RenderUI();
+
+						if (modeScene.scene.HasComponents<ECS::Active>(m_selectedEntity))
+							modeScene.scene.GetComponent<ECS::Active>(m_selectedEntity).RenderUI();
+
+						if (modeScene.scene.HasComponents<ECS::Remove>(m_selectedEntity))
+							modeScene.scene.GetComponent<ECS::Remove>(m_selectedEntity).RenderUI();
+
+
+						modeScene.luaUI.Run(modeScene.L, "EditEntity");
 					}
 				}
 				ImGui::End();

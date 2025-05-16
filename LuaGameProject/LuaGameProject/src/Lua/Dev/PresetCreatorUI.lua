@@ -438,14 +438,12 @@ function presetCreatorUI:WeaponEditorUI()
 			resetState = true
 			data.weapons[self.weaponEditorUI.editingWeapon] = self.weaponEditorUI.editedWeaponTable
 
-			-- Save the weapon to a file
-			local saveTable = {
-				dataPath	= "weapons",				-- Location of this table in the data table
-				elementName = self.weaponEditorUI.editingWeapon,		-- Name of the element in the dataPath
-				contents	= self.weaponEditorUI.editedWeaponTable		-- The table stored at data.dataPath[elementName]
-			}
-
-			local err = table.save(saveTable, "src/Mods/Weapons/"..saveTable.elementName..".lts") -- lts: Lua Table Save
+			local err = data.modding.createLuaTableSave(
+				"src/Mods/Weapons/", 
+				"weapons",
+				self.weaponEditorUI.editingWeapon,
+				self.weaponEditorUI.editedWeaponTable
+			)
 
 			if err then
 				print("Error saving weapon: "..err)

@@ -670,6 +670,16 @@ namespace ECS
 				lua_pop(L, 1); // Remove the max value from stack
 			}
 		}
+
+		void RenderUI()
+		{
+			if (ImGui::TreeNode("Health"))
+			{
+				// TODO
+
+				ImGui::TreePop();
+			}
+		}
 	};
 
 	struct Hardness
@@ -730,7 +740,7 @@ namespace ECS
 	};
 
 	struct CameraData
-	{
+	{ 
 		int Size[2];
 		float Zoom;
 
@@ -781,10 +791,30 @@ namespace ECS
 				Zoom = (float)lua_tonumber(L, -1);
 			lua_pop(L, 1); // Remove the zoom value from stack
 		}
+
+		void RenderUI()
+		{
+			if (ImGui::TreeNode("CameraData"))
+			{
+				// TODO
+
+				ImGui::TreePop();
+			}
+		}
 	};
 
 	struct Remove 
 	{
 		int _; // Place holder
+
+		void RenderUI()
+		{
+			if (ImGui::TreeNode("Remove"))
+			{
+				// TODO
+
+				ImGui::TreePop();
+			}
+		}
 	};
 }

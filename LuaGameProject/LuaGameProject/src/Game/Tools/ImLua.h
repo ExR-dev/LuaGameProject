@@ -13,37 +13,48 @@ namespace ImLua
 	private:
 		struct TempString
 		{
-			char *Value;
+		public:
 			size_t Size;
 
 			TempString(const char *input, size_t size = -1)
 			{
-				size_t inputSize = strlen(input) + 1;
-				Size = (size > inputSize) ? size : inputSize * 2;
-				Value = new char[Size];
-
-				strcpy_s(Value, Size, input);
+				Make(input, size);
 			}
 			TempString(const std::string &input, size_t size = -1)
 			{
-				size_t inputSize = input.size();
-				Size = (size > inputSize) ? size : inputSize * 2;
-				Value = new char[Size];
-
-				strcpy_s(Value, Size, input.c_str());
+				Make(input.c_str(), size);
 			}
 			~TempString()
 			{
-				delete[] Value;
+				if (value)
+					delete[] value;
+				value = nullptr;
 			}
 
 			operator const char *() const
 			{
-				return Value;
+				return value;
 			}
 			operator char *() const
 			{
-				return Value;
+				return value;
+			}
+
+		private:
+			char *value = nullptr;
+
+			void Make(const char *input, size_t size)
+			{
+				if (value)
+					delete[] value;
+
+				if (size != 0 && size != -1)
+					Size = size;
+				else
+					Size = std::max((strlen(input) + 1) * 2, 32ULL); // ULL = unsigned long long
+
+				value = new char[Size];
+				strcpy_s(value, Size, input);
 			}
 		};
 
@@ -93,6 +104,10 @@ namespace ImLua
 		// Returns: none
 		static int lua_OpenPopup(lua_State *L);
 
+		// Arguments: string str_id
+		// Returns: bool isOpen
+		static int lua_IsPopupOpen(lua_State *L);
+
 		// Arguments: none
 		// Returns: none
 		static int lua_CloseCurrentPopup(lua_State *L);
@@ -102,7 +117,7 @@ namespace ImLua
 		static int lua_BeginPopup(lua_State *L);
 
 		// Arguments: string name, bool p_open
-		// Returns: bool p_open, bool isModified
+		// Returns: bool isOpen, bool p_open
 		static int lua_BeginPopupModal(lua_State *L);
 
 		// Arguments: string name
