@@ -6,5 +6,5 @@ namespace ModLoader
 {
 	void LuaLoadData(lua_State *L, const std::string &dataDir);
 	void LuaLoadMods(lua_State *L, const std::string &modsDir);
-	bool LuaLoadMod(lua_State *L, const std::string &fullPath, const std::string &modName);
+	bool LuaLoadMod(lua_State *L, const std::string &fullPath);
 }

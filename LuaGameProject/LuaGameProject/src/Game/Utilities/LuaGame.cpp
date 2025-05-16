@@ -34,8 +34,7 @@ void LuaGame::LuaGame::lua_opengame(lua_State *L, LuaGame *game)
 
 	LuaDoFileCleaned(L, LuaFilePath("Utility/InitData"));
 
-	LuaDoFileCleaned(L, LuaFilePath("Utility/TableCopy"));
-	LuaDoFileCleaned(L, LuaFilePath("Utility/TableSave"));
+	LuaDoFileCleaned(L, LuaFilePath("Utility/TableUtils"));
 
 #ifdef LUA_DEBUG
 	LuaDoFileCleaned(L, LuaFilePath("Dev/Commands"));
