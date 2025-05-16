@@ -255,9 +255,7 @@ namespace ImLua
 			valuePtr = &value;
 
 		// Do ImGui command
-		DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
 		bool isOpen = ImGui::Begin(label.c_str(), valuePtr);
-		DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
 
 		// Return result
 		PushBool(L, isOpen);
@@ -269,9 +267,7 @@ namespace ImLua
 	{
 		ZoneScopedC(RandomUniqueColor());
 
-		DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
 		ImGui::End();
-		DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
 
 		return 0;
 	}
@@ -299,9 +295,7 @@ namespace ImLua
 		} while (false);
 
 		// Do ImGui command
-		DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
 		bool isOpen = ImGui::BeginChild(label.c_str(), size);
-		DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
 
 		// Return result
 		PushBool(L, isOpen);
@@ -313,9 +307,7 @@ namespace ImLua
 	{
 		ZoneScopedC(RandomUniqueColor());
 
-		DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
 		ImGui::EndChild();
-		DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
 
 		return 0;
 	}
@@ -333,9 +325,7 @@ namespace ImLua
 			luaL_error(L, "Expected parameter string");
 
 		// Do ImGui command
-		DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
 		ImGui::OpenPopup(label.c_str());
-		DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
 
 		return 0;
 	}
@@ -353,9 +343,7 @@ namespace ImLua
 			luaL_error(L, "Expected parameter string");
 
 		// Do ImGui command
-		DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
 		bool isOpen = ImGui::IsPopupOpen(str_id.c_str());
-		DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
 
 		// Return result
 		PushBool(L, isOpen);
@@ -367,9 +355,7 @@ namespace ImLua
 	{
 		ZoneScopedC(RandomUniqueColor());
 
-		DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
 		ImGui::CloseCurrentPopup();
-		DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
 
 		return 0;
 	}
@@ -387,9 +373,7 @@ namespace ImLua
 			luaL_error(L, "Expected parameter string");
 
 		// Do ImGui command
-		DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
 		bool isOpen = ImGui::BeginPopup(label.c_str());
-		DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
 
 		// Return result
 		PushBool(L, isOpen);
@@ -405,43 +389,38 @@ namespace ImLua
 		// Required
 		std::string name;
 		// Optional
-		bool open = false;
+		bool open = true;
 
 		// Get required parameters
 		if (!PopString(L, idx, name))
 			luaL_error(L, "Expected parameter string");
 
-		bool *p_open = &open;
+		bool *p_open = nullptr;
 		// Get optional parameters
 		do
 		{
-			if (!PopBool(L, idx, open))
-			{
-				p_open = nullptr;
+			if (PopBool(L, idx, open))
+				p_open = &open;
+			else
 				break;
-			}
 
 		} while (false);
 
 		// Do ImGui command
-		DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
 		bool isOpen = ImGui::BeginPopupModal(name.c_str(), p_open);
-		DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
 
 		// Return result
 		PushBool(L, isOpen);
 		PushBool(L, open);
 
-		return 1;
+		return 2;
 	}
 
 	int ImLua::lua_EndPopup(lua_State *L)
 	{
 		ZoneScopedC(RandomUniqueColor());
 
-		DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
 		ImGui::EndPopup();
-		DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
 
 		return 0;
 	}

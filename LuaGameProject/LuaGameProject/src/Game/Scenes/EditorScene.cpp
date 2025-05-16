@@ -940,13 +940,9 @@ int EditorScene::EditorScene::RenderUI()
 	editorFlags |= ImGuiWindowFlags_NoDocking;
 	editorFlags |= ImGuiWindowFlags_NoBackground;
 
-	DbgMsg("Start");
-
 	ImGui::Begin("Editor##EditorWindow", nullptr, editorFlags);
 	ImGui::SetWindowPos(ImVec2(io.DisplaySize.x / 2 - ImGui::GetWindowWidth() / 2, 0));
 	ImGui::SetWindowSize(ImVec2(io.DisplaySize.x, io.DisplaySize.y));
-
-	DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
 
 	// Insert ImGui code here
 	{
@@ -990,13 +986,9 @@ int EditorScene::EditorScene::RenderUI()
 			case EditorScene::EditorScene::PrefabCreator: {
 				ZoneNamedNC(renderEditorModeZone, "Render Prefab Creator Lua UI", RandomUniqueColor(), true);
 
-				DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
-
 				if (ImGui::Begin("Entity Editor"))
 				{
 					ZoneNamedNC(renderEntityEditorZone, "Render Entity Editor", RandomUniqueColor(), true);
-
-					DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
 
 					if (!modeScene.scene.IsEntity(m_selectedEntity))
 					{
@@ -1042,21 +1034,13 @@ int EditorScene::EditorScene::RenderUI()
 						if (modeScene.scene.HasComponents<ECS::Remove>(m_selectedEntity))
 							modeScene.scene.GetComponent<ECS::Remove>(m_selectedEntity).RenderUI();
 
-						DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
-
 						// Run lua code for adding components
 						modeScene.luaUI.Run(modeScene.L, "EditEntity");
-
-						DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
 					}
 				}
 				ImGui::End();
 
-				DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
-
 				modeScene.luaUI.Run(modeScene.L, "CreatePrefab");
-
-				DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
 				break;
 			}
 
@@ -1071,11 +1055,7 @@ int EditorScene::EditorScene::RenderUI()
 		EditorSelectorUI();
 	}
 
-	DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
 	ImGui::End();
-	DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
-
-	DbgMsg("End (Should be at 3628964924)");
 
 	rlImGuiEnd();
 	return 1;

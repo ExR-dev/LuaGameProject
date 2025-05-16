@@ -70,11 +70,10 @@ function prefabCreatorUI:CreatePrefab()
 		self.entityID = scene.CreateEntity()
 	end
 
-	local openMessageBox = false
-	local namingCollision = false
-
 	imgui.Begin("Prefab Creator##PrefabCreatorWindow")
 	do
+		local openMessageBox = false
+
 		if ctx.stage == -1 then		-- Initial Stage
 			-- Description
 			imgui.TextWrapped(
@@ -113,6 +112,7 @@ function prefabCreatorUI:CreatePrefab()
 
 
 			-- Check if name is valid and proceed to next stage
+			local namingCollision = false
 			if imgui.Button("Next##SavePrefabStage0") or (Input.KeyPressed(Input.Key.KEY_ENTER) and not ctx.popupOpen) then
 				local failedNaming = false
 
@@ -147,6 +147,36 @@ function prefabCreatorUI:CreatePrefab()
 			-- Cancel saving entity as prefab
 			if imgui.Button("Cancel##SavePrefabStage0") then
 				self:ResetStage(false)
+			end
+			
+
+			-- Popup to confirm whether to override existing prefab
+			if namingCollision then
+				imgui.OpenPopup("Override Prefab")
+			end
+
+			if imgui.BeginPopupModal("Override Prefab") then
+				imgui.TextWrapped(
+					"A prefab with the name "..ctx.prefabName.." already exists.\n"..
+					"Do you want to override it?"
+				)
+				imgui.Separator()
+
+				if imgui.Button("Yes##ConfirmOverridePrefabPopup") or Input.KeyPressed(Input.Key.KEY_ENTER) then
+					ctx.stage = ctx.stage + 1
+					ctx.popupOpen = false
+				end
+				imgui.SameLine(0.0, 32.0)
+
+				if imgui.Button("No##DenyOverridePrefabPopup") then
+					ctx.popupOpen = false
+				end
+
+				if not ctx.popupOpen then
+					imgui.CloseCurrentPopup()
+				end
+
+				imgui.EndPopup()
 			end
 		elseif ctx.stage == 1 then	-- Component & Property Stage
 			-- Description
@@ -309,64 +339,35 @@ function prefabCreatorUI:CreatePrefab()
 				self:ResetStage(false)
 			end
 		end
+
+
+		-- Message box popup
+		if openMessageBox then
+			ctx.popupOpen = true
+			imgui.OpenPopup("Message Box")
+		end
+
+		if imgui.BeginPopupModal("Message Box") then
+			imgui.TextWrapped(ctx.openMessage)
+			imgui.Separator()
+
+			if imgui.Button("Ok##MessageBoxPopup") or Input.KeyPressed(Input.Key.KEY_ENTER) then
+				ctx.popupOpen = false
+			end
+			imgui.SameLine(0.0, 32.0)
+
+			if imgui.Button("Cancel##MessageBoxPopup") then
+				self:ResetStage(false)
+				ctx.popupOpen = false
+			end
+
+			if not ctx.popupOpen then
+				imgui.CloseCurrentPopup()
+			end
+			imgui.EndPopup()
+		end
 	end
 	imgui.End()
-
-	-- Popup to confirm whether to override existing prefab
-	if namingCollision then
-		imgui.OpenPopup("Override Prefab")
-	end
-
-	if imgui.BeginPopupModal("Override Prefab") then
-		imgui.TextWrapped(
-			"A prefab with the name "..ctx.prefabName.." already exists.\n"..
-			"Do you want to override it?"
-		)
-		imgui.Separator()
-
-		if imgui.Button("Yes##ConfirmOverridePrefabPopup") or Input.KeyPressed(Input.Key.KEY_ENTER) then
-			ctx.stage = ctx.stage + 1
-			ctx.popupOpen = false
-		end
-		imgui.SameLine(0.0, 32.0)
-
-		if imgui.Button("No##DenyOverridePrefabPopup") then
-			ctx.popupOpen = false
-		end
-
-		if not ctx.popupOpen then
-			imgui.CloseCurrentPopup()
-		end
-
-		imgui.EndPopup()
-	end
-
-
-	-- Message box popup
-	if openMessageBox then
-		ctx.popupOpen = true
-		imgui.OpenPopup("Message Box")
-	end
-
-	if imgui.BeginPopupModal("Message Box") then
-		imgui.TextWrapped(ctx.openMessage)
-		imgui.Separator()
-
-		if imgui.Button("Ok##MessageBoxPopup") or Input.KeyPressed(Input.Key.KEY_ENTER) then
-			ctx.popupOpen = false
-		end
-		imgui.SameLine(0.0, 32.0)
-
-		if imgui.Button("Cancel##MessageBoxPopup") then
-			self:ResetStage(false)
-			ctx.popupOpen = false
-		end
-
-		if not ctx.popupOpen then
-			imgui.CloseCurrentPopup()
-		end
-		imgui.EndPopup()
-	end
 
 	tracy.ZoneEnd()
 end
