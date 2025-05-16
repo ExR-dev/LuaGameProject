@@ -287,7 +287,7 @@ int EditorScene::EditorScene::Render()
 					return ent1.second.Priority < ent2.second.Priority;
 				});
 
-				for (auto entity : entitiesToRender) {
+				for (auto &entity : entitiesToRender) {
 					ZoneNamedNC(drawSpriteZone, "Lambda Draw Sprite", RandomUniqueColor(), true);
 
 					const ECS::Transform &transform = entity.first;
@@ -882,26 +882,8 @@ void EditorScene::EditorScene::EditorSelectorUI()
 			}
 		}
 	}
+
 	ImGui::End();
-}
-
-if (ImGui::Begin("Editor Settings##EditorSettingsWindow"))
-{
-	for (int i = 0; i < EditorMode::COUNT; i++)
-	{
-		bool isSelected = (m_editorMode == i);
-		std::string modeName = m_editorModeNames[i];
-
-		if (ImGui::Selectable(std::format("{}##EditorMode{}", modeName, i).c_str(), &isSelected))
-		{
-			if (isSelected)
-			{
-				SwitchEditorMode(static_cast<EditorMode>(i));
-			}
-		}
-	}
-}
-ImGui::End();
 }
 
 int EditorScene::EditorScene::RenderUI()
