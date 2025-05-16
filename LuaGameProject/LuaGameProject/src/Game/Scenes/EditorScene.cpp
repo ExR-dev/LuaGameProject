@@ -936,12 +936,6 @@ int EditorScene::EditorScene::RenderUI()
 			EntityEditorUI();
 		}
 
-		if (m_editorMode == EditorMode::DungeonCreator)
-		{
-			modeScene.luaUI.Run(modeScene.L, "PrefabCollection");
-			modeScene.luaUI.Run(modeScene.L, "RoomSelection");
-			RoomSelectionUI();
-		}
 
 		switch (m_editorMode)
 		{
@@ -1023,6 +1017,14 @@ int EditorScene::EditorScene::RenderUI()
 				ImGui::End();
 
 				modeScene.luaUI.Run(modeScene.L, "CreatePrefab");
+				break;
+			}
+
+			case EditorScene::EditorScene::DungeonCreator: {
+				ZoneNamedNC(renderEditorModeZone, "Render Dungeon Creator Lua UI", RandomUniqueColor(), true);
+				modeScene.luaUI.Run(modeScene.L, "PrefabCollection");
+				modeScene.luaUI.Run(modeScene.L, "RoomSelection");
+				RoomSelectionUI();
 				break;
 			}
 
