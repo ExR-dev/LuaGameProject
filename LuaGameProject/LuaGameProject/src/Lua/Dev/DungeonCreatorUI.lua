@@ -50,12 +50,21 @@ local done = false
 function dungeonCreatorUI:RoomSelection()
 	imgui.Begin("Room Selection (new)")
 
+	if imgui.Button("Spawn") then
+		game.SpawnGroup("Test")
+	end
+
+	imgui.SameLine()
+	if imgui.Button("Save") then
+		game.CreateGroupFromScene(self.roomCollection.rooms[self.roomCollection.selectedRoom].name)
+	end
+
 	-- Room Creator
-	if (imgui.BeginPopupContextItem("RoomPopup")) then
+	if imgui.BeginPopupContextItem("RoomPopup") then
 
 		-- TODO: Add flag for enter option
 		buffer, done = imgui.InputText("Enter name", buffer, 16)
-		if (imgui.Button("Done") and buffer ~= "") then
+		if imgui.Button("Done") and buffer ~= "" then
 			self.roomCollection.roomCount = self.roomCollection.roomCount + 1
 			self.roomCollection.rooms[self.roomCollection.roomCount] = {
 				name = buffer,
@@ -89,11 +98,7 @@ function dungeonCreatorUI:RoomSelection()
 			scene.Clear()
 
 			-- Load new room
-			if self.roomCollection.rooms[i] ~= nil then
-				for j, prefab in ipairs(self.roomCollection.rooms[i].roomPrefabs) do
-					game.SpawnPrefab(prefab)
-				end
-			end
+			game.SpawnGroup(self.roomCollection.rooms[self.roomCollection.selectedRoom].name)
 		end
 	end
 

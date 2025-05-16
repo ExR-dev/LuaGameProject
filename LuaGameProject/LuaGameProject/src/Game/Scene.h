@@ -91,6 +91,10 @@ private:
 	// Returns: number of entities in the scene (int)
 	static int lua_GetEntityCount(lua_State *L);
 
+	// Aguments: none
+	// Returns: table of all current entity id:s
+	static int lua_GetEntities(lua_State* L);
+
 	// Arguments: entity (int)
 	// Returns: (bool)
 	static int lua_IsEntity(lua_State *L);

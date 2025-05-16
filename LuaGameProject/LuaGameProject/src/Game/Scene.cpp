@@ -202,6 +202,7 @@ void Scene::lua_openscene(lua_State *L, Scene *scene)
 		{ "CreateEntity",		lua_CreateEntity	},
 		{ "SetComponent",		lua_SetComponent	},
 		{ "GetEntityCount",		lua_GetEntityCount	},
+		{ "GetEntities",		lua_GetEntities		},
 		{ "IsEntity",			lua_IsEntity		},
 		{ "RemoveEntity",		lua_RemoveEntity	},
 		{ "HasComponent",		lua_HasComponent	},
@@ -348,6 +349,33 @@ int Scene::lua_GetEntityCount(lua_State *L)
 	Scene *scene = lua_GetScene(L);
 	int count = scene->GetEntityCount();
 	lua_pushinteger(L, count);
+	return 1;
+}
+
+int Scene::lua_GetEntities(lua_State* L)
+{
+	ZoneScopedC(RandomUniqueColor());
+
+	Scene* scene = lua_GetScene(L);
+	
+	lua_createtable(L, 0, scene->GetEntityCount());
+
+	std::function<void(entt::registry& registry)> pushEntities = [&](entt::registry& registry) {
+		ZoneNamedNC(createPhysicsBodiesZone, "Lambda Push All Entities", RandomUniqueColor(), true);
+
+		unsigned int index = 1;
+		auto view = registry.view<entt::entity>(entt::exclude<ECS::Room>);
+
+		view.each([&](entt::entity entity) {
+			ZoneNamedNC(drawSpriteZone, "Lambda Push Entity", RandomUniqueColor(), true);
+			lua_pushinteger(L, index++);
+			lua_pushinteger(L, static_cast<int>(entity));
+			lua_settable(L, -3);
+		});
+	};
+
+	scene->RunSystem(pushEntities);
+
 	return 1;
 }
 
