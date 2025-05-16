@@ -13,39 +13,58 @@ namespace ImLua
 	private:
 		struct TempString
 		{
-			char *Value;
+		public:
 			size_t Size;
 
 			TempString(const char *input, size_t size = -1)
 			{
-				size_t inputSize = strlen(input) + 1;
-				Size = (size > inputSize) ? size : inputSize * 2;
-				Value = new char[Size];
-
-				strcpy_s(Value, Size, input);
+				Make(input, size);
 			}
 			TempString(const std::string &input, size_t size = -1)
 			{
-				size_t inputSize = input.size();
-				Size = (size > inputSize) ? size : inputSize * 2;
-				Value = new char[Size];
-
-				strcpy_s(Value, Size, input.c_str());
+				Make(input.c_str(), size);
 			}
 			~TempString()
 			{
-				delete[] Value;
+				if (value)
+					delete[] value;
+				value = nullptr;
 			}
 
 			operator const char *() const
 			{
-				return Value;
+				return value;
 			}
 			operator char *() const
 			{
-				return Value;
+				return value;
+			}
+
+		private:
+			char *value = nullptr;
+
+			void Make(const char *input, size_t size)
+			{
+				if (value)
+					delete[] value;
+
+				if (size != 0 && size != -1)
+					Size = size;
+				else
+					Size = std::max((strlen(input) + 1) * 2, 32ULL); // ULL = unsigned long long
+
+				value = new char[Size];
+				strcpy_s(value, Size, input);
 			}
 		};
+
+		struct ImGuiFlag
+		{
+			std::string flagName;
+			std::vector<std::pair<std::string, int>> values;
+		};
+
+		static const std::vector<ImGuiFlag> &GetFlags();
 
 
 		static bool PopBool(lua_State *L, int &index, bool &value);
@@ -85,6 +104,10 @@ namespace ImLua
 		// Returns: none
 		static int lua_OpenPopup(lua_State *L);
 
+		// Arguments: string str_id
+		// Returns: bool isOpen
+		static int lua_IsPopupOpen(lua_State *L);
+
 		// Arguments: none
 		// Returns: none
 		static int lua_CloseCurrentPopup(lua_State *L);
@@ -94,7 +117,7 @@ namespace ImLua
 		static int lua_BeginPopup(lua_State *L);
 
 		// Arguments: string name, bool p_open
-		// Returns: bool p_open, bool isModified
+		// Returns: bool isOpen, bool p_open
 		static int lua_BeginPopupModal(lua_State *L);
 
 		// Arguments: string name
@@ -128,6 +151,10 @@ namespace ImLua
 		// Arguments: string label
 		// Returns: none
 		static int lua_Text(lua_State *L);
+
+		// Arguments: string label
+		// Returns: none
+		static int lua_TextWrapped(lua_State *L);
 
 		// Arguments: string label, string buf, int buf_size = -1
 		// Returns: string buf, bool isModified
@@ -169,6 +196,17 @@ namespace ImLua
 		// Returns: bool pressed
 		static int lua_Selectable(lua_State* L);
 
+		// Arguments: string label, string previewValue
+		// Returns: bool isOpen
+		static int lua_BeginCombo(lua_State *L);
+
+		// Arguments: string label, int currentItem, string itemsSeparatedByNewlines, int popupMaxHeightInItems = -1
+		// Returns: bool selected, int currentItem
+		static int lua_Combo(lua_State *L);
+
+		// Arguments: none
+		// Returns: none
+		static int lua_EndCombo(lua_State *L);
 
 
 
@@ -216,14 +254,6 @@ namespace ImLua
 		// Arguments: string label, bool p_visible
 		// Returns: bool p_visible, bool isModified
 		static int lua_CollapsingHeader(lua_State *L);
-
-		// Arguments: string label, string preview_value
-		// Returns: 
-		static int lua_BeginCombo(lua_State *L);
-
-		// Arguments: 
-		// Returns: 
-		static int lua_EndCombo(lua_State *L);
 
 		// Arguments: 
 		// Returns: 

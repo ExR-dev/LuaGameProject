@@ -180,6 +180,9 @@ Game::SceneState EditorScene::EditorScene::Update()
 			// Create body
 			if (!collider.createBody)
 			{
+				// TODO: "b2Body_SetTransform" fails if collider has been set more than once on this entity
+				// See Cmd.lua for reproducible example
+
 				b2Body_SetTransform(collider.bodyId, 
 									{ collider.offset[0] + transform.Position[0], collider.offset[1] + transform.Position[1] }, 
 									{ cosf((transform.Rotation + collider.rotation) * DEG2RAD), sinf((transform.Rotation + collider.rotation) * DEG2RAD) });
@@ -284,7 +287,7 @@ int EditorScene::EditorScene::Render()
 					return ent1.second.Priority < ent2.second.Priority;
 				});
 
-				for (auto entity : entitiesToRender) {
+				for (auto &entity : entitiesToRender) {
 					ZoneNamedNC(drawSpriteZone, "Lambda Draw Sprite", RandomUniqueColor(), true);
 
 					const ECS::Transform &transform = entity.first;
@@ -367,7 +370,6 @@ int EditorScene::EditorScene::Render()
 					}
 				});
 			};
-
 			scene.RunSystem(drawPhysicsBodies);
 
 			if (m_dungeon && m_selectedRoom == -1)
@@ -880,6 +882,7 @@ void EditorScene::EditorScene::EditorSelectorUI()
 			}
 		}
 	}
+
 	ImGui::End();
 }
 
@@ -940,12 +943,92 @@ int EditorScene::EditorScene::RenderUI()
 			RoomSelectionUI();
 		}
 
-		if (m_editorMode == EditorMode::PresetCreator)
+		switch (m_editorMode)
 		{
-			ZoneNamedNC(renderPresetCreatorZone, "Render Preset Creator", RandomUniqueColor(), true);
+			case EditorScene::EditorScene::Sandbox: {
+				ZoneNamedNC(renderEditorModeZone, "Render Sandbox Lua UI", RandomUniqueColor(), true);
 
-			// HACK: for now, call weapon editor immediately
-			modeScene.luaUI.Run(modeScene.L, "WeaponEditorUI");
+				break;
+			}
+
+			case EditorScene::EditorScene::LevelCreator: {
+				ZoneNamedNC(renderEditorModeZone, "Render Level Creator Lua UI", RandomUniqueColor(), true);
+
+				break;
+			}
+
+			case EditorScene::EditorScene::PresetCreator: {
+				ZoneNamedNC(renderEditorModeZone, "Render Preset Creator Lua UI", RandomUniqueColor(), true);
+
+				// HACK: for now, call weapon editor immediately
+				modeScene.luaUI.Run(modeScene.L, "WeaponEditorUI");
+				break;
+			}
+
+			case EditorScene::EditorScene::PrefabCreator: {
+				ZoneNamedNC(renderEditorModeZone, "Render Prefab Creator Lua UI", RandomUniqueColor(), true);
+
+				if (ImGui::Begin("Entity Editor"))
+				{
+					ZoneNamedNC(renderEntityEditorZone, "Render Entity Editor", RandomUniqueColor(), true);
+
+					if (!modeScene.scene.IsEntity(m_selectedEntity))
+					{
+						std::function<void(entt::registry &registry)> getEntitySystem = [&](entt::registry &registry) {
+							ZoneNamedNC(getEntityZone, "Lambda Get Entity", RandomUniqueColor(), true);
+
+							auto view = registry.view<entt::entity>();
+							for (auto &ent : view)
+							{
+								m_selectedEntity = (int)ent;
+								break;
+							}
+						};
+						modeScene.scene.RunSystem(getEntitySystem);
+					}
+
+					if (modeScene.scene.IsEntity(m_selectedEntity))
+					{
+						if (modeScene.scene.HasComponents<ECS::Transform>(m_selectedEntity))
+							modeScene.scene.GetComponent<ECS::Transform>(m_selectedEntity).RenderUI();
+
+						if (modeScene.scene.HasComponents<ECS::Behaviour>(m_selectedEntity))
+							modeScene.scene.GetComponent<ECS::Behaviour>(m_selectedEntity).RenderUI();
+
+						if (modeScene.scene.HasComponents<ECS::Sprite>(m_selectedEntity))
+							modeScene.scene.GetComponent<ECS::Sprite>(m_selectedEntity).RenderUI();
+
+						if (modeScene.scene.HasComponents<ECS::Collider>(m_selectedEntity))
+							modeScene.scene.GetComponent<ECS::Collider>(m_selectedEntity).RenderUI();
+
+						if (modeScene.scene.HasComponents<ECS::Health>(m_selectedEntity))
+							modeScene.scene.GetComponent<ECS::Health>(m_selectedEntity).RenderUI();
+
+						if (modeScene.scene.HasComponents<ECS::Hardness>(m_selectedEntity))
+							modeScene.scene.GetComponent<ECS::Hardness>(m_selectedEntity).RenderUI();
+
+						if (modeScene.scene.HasComponents<ECS::CameraData>(m_selectedEntity))
+							modeScene.scene.GetComponent<ECS::CameraData>(m_selectedEntity).RenderUI();
+
+						if (modeScene.scene.HasComponents<ECS::Active>(m_selectedEntity))
+							modeScene.scene.GetComponent<ECS::Active>(m_selectedEntity).RenderUI();
+
+						if (modeScene.scene.HasComponents<ECS::Remove>(m_selectedEntity))
+							modeScene.scene.GetComponent<ECS::Remove>(m_selectedEntity).RenderUI();
+
+						// Run lua code for adding components
+						modeScene.luaUI.Run(modeScene.L, "EditEntity");
+					}
+				}
+				ImGui::End();
+
+				modeScene.luaUI.Run(modeScene.L, "CreatePrefab");
+				break;
+			}
+
+			case EditorScene::EditorScene::COUNT: default:
+				Warn("Disallowed editor mode!");
+				break;
 		}
 
 		// Render the render texture window
@@ -955,6 +1038,7 @@ int EditorScene::EditorScene::RenderUI()
 	}
 
 	ImGui::End();
+
 	rlImGuiEnd();
 	return 1;
 }

@@ -9,6 +9,7 @@ local presetCreatorUI = {
 	}
 }
 
+
 function presetCreatorUI:WeaponEditorUI()
 	tracy.ZoneBeginN("Lua presetCreatorUI:WeaponEditorUI")
 	if not self.weaponEditorUI.editingWeapon then
@@ -90,150 +91,343 @@ function presetCreatorUI:WeaponEditorUI()
 		imgui.Text("Editing:         "..self.weaponEditorUI.editingWeapon)
 		imgui.Separator()
 
-		if imgui.BeginChild("Weapon Stats", imgui.imVec2(0.0, 300.0)) then
+		-- Display the weapon stats
+		if imgui.BeginChild("Weapon Stats", imgui.imVec2(0.0, 550.0)) then
 			local modified = false
 			local value = nil
 
 			-- Sprite
-			value = self.weaponEditorUI.editedWeaponTable.sprite or ""
+			do
+				value = self.weaponEditorUI.editedWeaponTable.sprite or ""
 
-			imgui.Text("Sprite:         ")
-			imgui.SameLine()
-			value, modified = imgui.InputText("##WeaponSpriteInput", value, 64)
+				imgui.Separator("Sprite")
+				imgui.Text("Desc:       ")
+				imgui.SameLine()
+				imgui.TextWrapped("Name of an image located in the texture folder, including extension.")
+				imgui.Text("Equation:   ")
+				imgui.SameLine()
+				imgui.TextWrapped("_")
+				imgui.Text("Range:      ")
+				imgui.SameLine()
+				imgui.TextWrapped("_")
+				imgui.Text("Average:    ")
+				imgui.SameLine()
+				imgui.TextWrapped("_")
+				imgui.Text("Value:      ")
+				imgui.SameLine()
+				value, modified = imgui.InputText("##WeaponSpriteInput", value, 64)
+				imgui.Text("")
 
-			if modified then
-				if value == "" then
-					self.weaponEditorUI.editedWeaponTable.sprite = nil
-				else
-					self.weaponEditorUI.editedWeaponTable.sprite = value
+				if modified then
+					if value == "" then
+						self.weaponEditorUI.editedWeaponTable.sprite = nil
+					else
+						self.weaponEditorUI.editedWeaponTable.sprite = value
+					end
 				end
 			end
 		
 			-- Size
-			value = imgui.imVec2(
-				self.weaponEditorUI.editedWeaponTable.width, 
-				self.weaponEditorUI.editedWeaponTable.length
-			)
+			do
+				value = imgui.imVec2(
+					self.weaponEditorUI.editedWeaponTable.width, 
+					self.weaponEditorUI.editedWeaponTable.length
+				)
 
-			imgui.Text("Size:           ")
-			imgui.SameLine()
-			value, modified = imgui.InputFloat2("##WeaponSizeInput", value)
+				imgui.Separator("Size")
+				imgui.Text("Desc:       ")
+				imgui.SameLine()
+				imgui.TextWrapped("Size of the weapon in pixesl. Width, then length.")
+				imgui.Text("Equation:   ")
+				imgui.SameLine()
+				imgui.TextWrapped("_")
+				imgui.Text("Range:      ")
+				imgui.SameLine()
+				imgui.TextWrapped("[(1, 1), (inf, inf)]")
+				imgui.Text("Average:    ")
+				imgui.SameLine()
+				imgui.TextWrapped("(12, 28)")
+				imgui.Text("Value:      ")
+				imgui.SameLine()
+				value, modified = imgui.InputFloat2("##WeaponSizeInput", value)
+				imgui.Text("")
 
-			if modified then
-				self.weaponEditorUI.editedWeaponTable.width = value.x
-				self.weaponEditorUI.editedWeaponTable.length = value.y
+				if modified then
+					self.weaponEditorUI.editedWeaponTable.width = value.x
+					self.weaponEditorUI.editedWeaponTable.length = value.y
+				end
 			end
 
 			-- Hand count
-			value = self.weaponEditorUI.editedWeaponTable.stats.handCount
+			do
+				value = self.weaponEditorUI.editedWeaponTable.stats.handCount
 
-			imgui.Text("Hand Count:     ")
-			imgui.SameLine()
-			value, modified = imgui.SliderInt("##WeaponHandCountInput", value, 1, 2)
+				imgui.Separator("Hand Count")
+				imgui.Text("Desc:       ")
+				imgui.SameLine()
+				imgui.TextWrapped("Whether the weapon is one-handed or two-handed.")
+				imgui.Text("Equation:   ")
+				imgui.SameLine()
+				imgui.TextWrapped("_")
+				imgui.Text("Range:      ")
+				imgui.SameLine()
+				imgui.TextWrapped("[1, 2]")
+				imgui.Text("Average:    ")
+				imgui.SameLine()
+				imgui.TextWrapped("2")
+				imgui.Text("Value:      ")
+				imgui.SameLine()
+				value, modified = imgui.SliderInt("##WeaponHandCountInput", value, 1, 2)
+				imgui.Text("")
 
-			if modified then
-				self.weaponEditorUI.editedWeaponTable.stats.handCount = value
+				if modified then
+					self.weaponEditorUI.editedWeaponTable.stats.handCount = value
+				end
 			end
 
 			-- Caliber
-			-- TODO: dropdown
-			value = self.weaponEditorUI.editedWeaponTable.stats.caliber
+			do
+				-- TODO: dropdown
+				value = self.weaponEditorUI.editedWeaponTable.stats.caliber
 
-			imgui.Text("Caliber:        ")
-			imgui.SameLine()
-			value, modified = imgui.InputText("##WeaponCaliberInput", value, 64)
+				imgui.Separator("Caliber")
+				imgui.Text("Desc:       ")
+				imgui.SameLine()
+				imgui.TextWrapped("Name of the weapons caliber. Defines what ammo it uses.")
+				imgui.Text("Equation:   ")
+				imgui.SameLine()
+				imgui.TextWrapped("_")
+				imgui.Text("Range:      ")
+				imgui.SameLine()
+				imgui.TextWrapped("_")
+				imgui.Text("Average:    ")
+				imgui.SameLine()
+				imgui.TextWrapped("9mm")
+				imgui.Text("Value:      ")
+				imgui.SameLine()
+				value, modified = imgui.InputText("##WeaponCaliberInput", value, 64)
+				imgui.Text("")
 
-			if modified then
-				self.weaponEditorUI.editedWeaponTable.stats.caliber = value
+				if modified then
+					self.weaponEditorUI.editedWeaponTable.stats.caliber = value
+				end
 			end
 
 			-- Fire mode
-			-- TODO: dropdown
-			value = self.weaponEditorUI.editedWeaponTable.stats.fireMode
+			do
+				-- TODO: dropdown
+				value = self.weaponEditorUI.editedWeaponTable.stats.fireMode
 
-			imgui.Text("Fire Mode:      ")
-			imgui.SameLine()
-			value, modified = imgui.InputText("##WeaponFireModeInput", value, 64)
+				imgui.Separator("Fire Mode")
+				imgui.Text("Desc:       ")
+				imgui.SameLine()
+				imgui.TextWrapped("Whether the weapon is semi-automatic or automatic.")
+				imgui.Text("Equation:   ")
+				imgui.SameLine()
+				imgui.TextWrapped("_")
+				imgui.Text("Range:      ")
+				imgui.SameLine()
+				imgui.TextWrapped("[Semi, Auto]")
+				imgui.Text("Average:    ")
+				imgui.SameLine()
+				imgui.TextWrapped("Semi")
+				imgui.Text("Value:      ")
+				imgui.SameLine()
+				value, modified = imgui.InputText("##WeaponFireModeInput", value, 64)
+				imgui.Text("")
 
-			if modified then
-				self.weaponEditorUI.editedWeaponTable.stats.fireMode = value
+				if modified then
+					self.weaponEditorUI.editedWeaponTable.stats.fireMode = value
+				end
 			end
 
 			-- Capacity
-			local value = self.weaponEditorUI.editedWeaponTable.stats.capacity
+			do
+				local value = self.weaponEditorUI.editedWeaponTable.stats.capacity
 
-			imgui.Text("Capacity:       ")
-			imgui.SameLine()
-			value, modified = imgui.DragInt("##WeaponCapacityInput", value, 0.05, 1)
+				imgui.Separator("Capacity")
+				imgui.Text("Desc:       ")
+				imgui.SameLine()
+				imgui.TextWrapped("Magazine size of the weapon.")
+				imgui.Text("Equation:   ")
+				imgui.SameLine()
+				imgui.TextWrapped("_")
+				imgui.Text("Range:      ")
+				imgui.SameLine()
+				imgui.TextWrapped("[0, inf)")
+				imgui.Text("Average:    ")
+				imgui.SameLine()
+				imgui.TextWrapped("15")
+				imgui.Text("Value:      ")
+				imgui.SameLine()
+				value, modified = imgui.DragInt("##WeaponCapacityInput", value, 0.05, 1)
+				imgui.Text("")
 
-			if modified then
-				self.weaponEditorUI.editedWeaponTable.stats.capacity = value
+				if modified then
+					self.weaponEditorUI.editedWeaponTable.stats.capacity = value
+				end
 			end
 
 			-- Damage
-			local value = self.weaponEditorUI.editedWeaponTable.stats.damage
+			do
+				local value = self.weaponEditorUI.editedWeaponTable.stats.damage
 
-			imgui.Text("Damage:         ")
-			imgui.SameLine()
-			value, modified = imgui.DragFloat("##WeaponDamageInput", value, 0.02)
+				imgui.Separator("Damage")
+				imgui.Text("Desc:       ")
+				imgui.SameLine()
+				imgui.TextWrapped("Base damage at the moment of firing, before accounting for ammo type.")
+				imgui.Text("Equation:   ")
+				imgui.SameLine()
+				imgui.TextWrapped("damage = damage * ammoDamageMult")
+				imgui.Text("Range:      ")
+				imgui.SameLine()
+				imgui.TextWrapped("[0, inf)")
+				imgui.Text("Average:    ")
+				imgui.SameLine()
+				imgui.TextWrapped("15.0")
+				imgui.Text("Value:      ")
+				imgui.SameLine()
+				value, modified = imgui.DragFloat("##WeaponDamageInput", value, 0.02)
+				imgui.Text("")
 
-			if modified then
-				self.weaponEditorUI.editedWeaponTable.stats.damage = value
+				if modified then
+					self.weaponEditorUI.editedWeaponTable.stats.damage = value
+				end
 			end
 
 			-- Fire rate
-			local value = self.weaponEditorUI.editedWeaponTable.stats.fireRate
+			do
+				local value = self.weaponEditorUI.editedWeaponTable.stats.fireRate
 
-			imgui.Text("Fire Rate:      ")
-			imgui.SameLine()
-			value, modified = imgui.DragFloat("##WeaponFireRateInput", value, 0.02, 0.00001)
+				imgui.Separator("Fire Rate")
+				imgui.Text("Desc:       ")
+				imgui.SameLine()
+				imgui.TextWrapped("Rate of fire in bullets per second.")
+				imgui.Text("Equation:   ")
+				imgui.SameLine()
+				imgui.TextWrapped("cooldown = 1.0 / fireRate")
+				imgui.Text("Range:      ")
+				imgui.SameLine()
+				imgui.TextWrapped("[0, inf)")
+				imgui.Text("Average:    ")
+				imgui.SameLine()
+				imgui.TextWrapped("3.0")
+				imgui.Text("Value:      ")
+				imgui.SameLine()
+				value, modified = imgui.DragFloat("##WeaponFireRateInput", value, 0.02, 0.00001)
+				imgui.Text("")
 
-			if modified then
-				self.weaponEditorUI.editedWeaponTable.stats.fireRate = value
+				if modified then
+					self.weaponEditorUI.editedWeaponTable.stats.fireRate = value
+				end
 			end
 
 			-- Reload time
-			local value = self.weaponEditorUI.editedWeaponTable.stats.reloadTime
+			do
+				local value = self.weaponEditorUI.editedWeaponTable.stats.reloadTime
 
-			imgui.Text("Reload Time:    ")
-			imgui.SameLine()
-			value, modified = imgui.DragFloat("##WeaponReloadTimeInput", value, 0.02, 0.00001)
+				imgui.Separator("Reload Time")
+				imgui.Text("Desc:       ")
+				imgui.SameLine()
+				imgui.TextWrapped("Time needed to reload the weapon.")
+				imgui.Text("Equation:   ")
+				imgui.SameLine()
+				imgui.TextWrapped("_")
+				imgui.Text("Range:      ")
+				imgui.SameLine()
+				imgui.TextWrapped("[0, inf)")
+				imgui.Text("Average:    ")
+				imgui.SameLine()
+				imgui.TextWrapped("2.0")
+				imgui.Text("Value:      ")
+				imgui.SameLine()
+				value, modified = imgui.DragFloat("##WeaponReloadTimeInput", value, 0.02, 0.00001)
+				imgui.Text("")
 
-			if modified then
-				self.weaponEditorUI.editedWeaponTable.stats.reloadTime = value
+				if modified then
+					self.weaponEditorUI.editedWeaponTable.stats.reloadTime = value
+				end
 			end
 
 			-- Spread
-			local value = self.weaponEditorUI.editedWeaponTable.stats.spread
+			do
+				local value = self.weaponEditorUI.editedWeaponTable.stats.spread
 
-			imgui.Text("Spread:         ")
-			imgui.SameLine()
-			value, modified = imgui.DragFloat("##WeaponSpreadInput", value, 0.02)
+				imgui.Separator("Spread")
+				imgui.Text("Desc:       ")
+				imgui.SameLine()
+				imgui.TextWrapped("The base accuracy of the weapon in degrees, before accounting for ammo type.")
+				imgui.Text("Equation:   ")
+				imgui.SameLine()
+				imgui.TextWrapped("totalSpread = math.max(0.0, spread + ammoSpread)")
+				imgui.Text("Range:      ")
+				imgui.SameLine()
+				imgui.TextWrapped("(-inf, inf)")
+				imgui.Text("Average:    ")
+				imgui.SameLine()
+				imgui.TextWrapped("0.0")
+				imgui.Text("Value:      ")
+				imgui.SameLine()
+				value, modified = imgui.DragFloat("##WeaponSpreadInput", value, 0.02)
+				imgui.Text("")
 
-			if modified then
-				self.weaponEditorUI.editedWeaponTable.stats.spread = value
+				if modified then
+					self.weaponEditorUI.editedWeaponTable.stats.spread = value
+				end
 			end
 
 			-- Recoil
-			local value = self.weaponEditorUI.editedWeaponTable.stats.recoil
+			do
+				local value = self.weaponEditorUI.editedWeaponTable.stats.recoil
 
-			imgui.Text("Recoil:         ")
-			imgui.SameLine()
-			value, modified = imgui.DragFloat("##WeaponRecoilInput", value, 0.02)
+				imgui.Separator("Recoil")
+				imgui.Text("Desc:       ")
+				imgui.SameLine()
+				imgui.TextWrapped("Cumulative drift to the aiming direction after firing, decaying over time.")
+				imgui.Text("Equation:   ")
+				imgui.SameLine()
+				imgui.TextWrapped("currentRecoil = math.max(0.0, currentRecoil + recoil + ammoRecoil)")
+				imgui.Text("Range:      ")
+				imgui.SameLine()
+				imgui.TextWrapped("(-inf, inf)")
+				imgui.Text("Average:    ")
+				imgui.SameLine()
+				imgui.TextWrapped("0.0")
+				imgui.Text("Value:      ")
+				imgui.SameLine()
+				value, modified = imgui.DragFloat("##WeaponRecoilInput", value, 0.02)
+				imgui.Text("")
 
-			if modified then
-				self.weaponEditorUI.editedWeaponTable.stats.recoil = value
+				if modified then
+					self.weaponEditorUI.editedWeaponTable.stats.recoil = value
+				end
 			end
 
 			-- Recovery
-			local value = self.weaponEditorUI.editedWeaponTable.stats.recovery
+			do
+				local value = self.weaponEditorUI.editedWeaponTable.stats.recovery
+			
+				imgui.Separator("Recovery")
+				imgui.Text("Desc:       ")
+				imgui.SameLine()
+				imgui.TextWrapped("How fast the recoil decays, higher values means faster recovery.")
+				imgui.Text("Equation:   ")
+				imgui.SameLine()
+				imgui.TextWrapped("See gameMath.expDecay(), recovery is passed as the d parameter")
+				imgui.Text("Range:      ")
+				imgui.SameLine()
+				imgui.TextWrapped("[1, inf)")
+				imgui.Text("Average:    ")
+				imgui.SameLine()
+				imgui.TextWrapped("5")
+				imgui.Text("Value:      ")
+				imgui.SameLine()
+				value, modified = imgui.SliderInt("##WeaponRecoveryInput", value, 0, 24)
+				imgui.Text("")
 
-			imgui.Text("Recovery:       ")
-			imgui.SameLine()
-			value, modified = imgui.SliderInt("##WeaponRecoveryInput", value, 0, 24)
-
-			if modified then
-				self.weaponEditorUI.editedWeaponTable.stats.recovery = value
+				if modified then
+					self.weaponEditorUI.editedWeaponTable.stats.recovery = value
+				end
 			end
 		end
 		imgui.EndChild()
@@ -244,14 +438,12 @@ function presetCreatorUI:WeaponEditorUI()
 			resetState = true
 			data.weapons[self.weaponEditorUI.editingWeapon] = self.weaponEditorUI.editedWeaponTable
 
-			-- Save the weapon to a file
-			local saveTable = {
-				dataPath	= "weapons",				-- Location of this table in the data table
-				elementName = self.weaponEditorUI.editingWeapon,		-- Name of the element in the dataPath
-				contents	= self.weaponEditorUI.editedWeaponTable		-- The table stored at data.dataPath[elementName]
-			}
-
-			local err = table.save(saveTable, "src/Mods/Weapons/"..saveTable.elementName..".lts") -- lts: Lua Table Save
+			local err = data.modding.createLuaTableSave(
+				"src/Mods/Weapons/", 
+				"weapons",
+				self.weaponEditorUI.editingWeapon,
+				self.weaponEditorUI.editedWeaponTable
+			)
 
 			if err then
 				print("Error saving weapon: "..err)

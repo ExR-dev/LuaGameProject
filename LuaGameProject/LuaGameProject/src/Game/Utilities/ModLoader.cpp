@@ -84,18 +84,15 @@ namespace ModLoader
 			// Replace '\\' with '/'
 			std::replace(scriptPath.begin(), scriptPath.end(), '\\', '/');
 
-			// Everything after the ':' is the name
-			const std::string scriptName = m.substr(pos + 1);
-
-			LuaLoadMod(L, scriptPath, scriptName);
+			LuaLoadMod(L, scriptPath);
 		}
 	}
 
-	bool LuaLoadMod(lua_State *L, const std::string &fullPath, const std::string &modName)
+	bool LuaLoadMod(lua_State *L, const std::string &fullPath)
 	{
 		ZoneScopedC(RandomUniqueColor());
 
-		std::cout << std::format("Loading Mod '{}'\n", modName);
+		std::cout << std::format("Loading Mod '{}'\n", fullPath);
 		if (luaL_dostring(L, std::format("data.modding.loadLuaTableSave('{}')", fullPath).c_str()) != LUA_OK)
 		{
 			if (lua_gettop(L) && lua_isstring(L, -1))
@@ -105,20 +102,6 @@ namespace ModLoader
 				return false;
 			}
 		}
-
-		/*
-		LuaDoFileCleaned(L, fullPath.c_str());
-
-		if (luaL_dofile(L, fullPath.c_str()) != LUA_OK)
-		{
-			if (lua_gettop(L) && lua_isstring(L, -1))
-			{
-				std::cout << "Mod Failed to Load with the Error:\n" << lua_tostring(L, -1) << "\n";
-				lua_pop(L, 1);
-				return false;
-			}
-		}
-		*/
 
 		return true;
 	}
