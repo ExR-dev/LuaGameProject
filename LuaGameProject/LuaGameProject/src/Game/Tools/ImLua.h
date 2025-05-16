@@ -63,7 +63,6 @@ namespace ImLua
 			std::string flagName;
 			std::vector<std::pair<std::string, int>> values;
 		};
-
 		static const std::vector<ImGuiFlag> &GetFlags();
 
 
@@ -84,7 +83,7 @@ namespace ImLua
 		static void PushImVec4(lua_State *L, const ImVec4 &value);
 
 
-		// Arguments: string label, bool p_open = nil
+		// Arguments: string label, bool p_open = NULL, ImGuiWindowFlags flags = 0
 		// Returns: bool isOpen
 		static int lua_Begin(lua_State *L);
 
@@ -92,7 +91,7 @@ namespace ImLua
 		// Returns: none
 		static int lua_End(lua_State *L);
 
-		// Arguments: string str_id, ImVec2 size = ImVec2(0, 0)
+		// Arguments: string str_id, ImVec2 size = ImVec2(0, 0), ImGuiChildFlags child_flags = 0, ImGuiWindowFlags window_flags = 0
 		// Returns: bool isOpen
 		static int lua_BeginChild(lua_State *L);
 
@@ -100,11 +99,11 @@ namespace ImLua
 		// Returns: none
 		static int lua_EndChild(lua_State *L);
 
-		// Arguments: string str_id
+		// Arguments: string str_id, ImGuiPopupFlags popup_flags = 0
 		// Returns: none
 		static int lua_OpenPopup(lua_State *L);
 
-		// Arguments: string str_id
+		// Arguments: string str_id, ImGuiPopupFlags flags = 0
 		// Returns: bool isOpen
 		static int lua_IsPopupOpen(lua_State *L);
 
@@ -112,15 +111,15 @@ namespace ImLua
 		// Returns: none
 		static int lua_CloseCurrentPopup(lua_State *L);
 
-		// Arguments: string str_id
+		// Arguments: string str_id, ImGuiWindowFlags flags = 0
 		// Returns: bool isOpen
 		static int lua_BeginPopup(lua_State *L);
 
-		// Arguments: string name, bool p_open
+		// Arguments: string name, bool p_open, ImGuiWindowFlags flags = 0
 		// Returns: bool isOpen, bool p_open
 		static int lua_BeginPopupModal(lua_State *L);
 
-		// Arguments: string name
+		// Arguments: string name = NULL, ImGuiPopupFlags popup_flags = 1
 		// Returns: bool p_open
 		static int lua_BeginPopupContextItem(lua_State* L);
 
@@ -128,7 +127,7 @@ namespace ImLua
 		// Returns: none
 		static int lua_EndPopup(lua_State *L);
 
-		// Arguments: string label = nil
+		// Arguments: string label = NULL
 		// Returns: none
 		static int lua_Separator(lua_State *L);
 
@@ -192,7 +191,7 @@ namespace ImLua
 		// Returns: none
 		static int lua_SameLine(lua_State *L);
 
-		// Arguments: string label, bool selected
+		// Arguments: string label, bool selected, ImGuiSelectableFlags flags = 0, ImVec2 size = ImVec2(0, 0)
 		// Returns: bool pressed
 		static int lua_Selectable(lua_State* L);
 

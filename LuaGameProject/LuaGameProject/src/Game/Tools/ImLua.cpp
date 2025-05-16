@@ -246,18 +246,27 @@ namespace ImLua
 		std::string label;
 		// Optional
 		bool value = true;
-		bool *valuePtr = (bool*)0;
+		ImGuiWindowFlags flags = 0;
 
 		// Get required parameters
 		if (!PopString(L, idx, label))
 			luaL_error(L, "Expected parameter string");
 
+		bool *valuePtr = (bool*)0;
 		// Get optional parameters
-		if (PopBool(L, idx, value))
+		do
+		{
+			if (!PopBool(L, idx, value))
+				break;
 			valuePtr = &value;
 
+			if (!PopInt(L, idx, flags))
+				break;
+
+		} while (false);
+
 		// Do ImGui command
-		bool isOpen = ImGui::Begin(label.c_str(), valuePtr);
+		bool isOpen = ImGui::Begin(label.c_str(), valuePtr, flags);
 
 		// Return result
 		PushBool(L, isOpen);
@@ -283,6 +292,8 @@ namespace ImLua
 		std::string label;
 		// Optional
 		ImVec2 size = ImVec2(0, 0);
+		ImGuiChildFlags child_flags = 0;
+		ImGuiWindowFlags window_flags = 0;
 
 		// Get required parameters
 		if (!PopString(L, idx, label))
@@ -294,10 +305,16 @@ namespace ImLua
 			if (!PopImVec2(L, idx, size))
 				break;
 
+			if (!PopInt(L, idx, child_flags))
+				break;
+
+			if (!PopInt(L, idx, window_flags))
+				break;
+
 		} while (false);
 
 		// Do ImGui command
-		bool isOpen = ImGui::BeginChild(label.c_str(), size);
+		bool isOpen = ImGui::BeginChild(label.c_str(), size, child_flags, window_flags);
 
 		// Return result
 		PushBool(L, isOpen);
@@ -321,13 +338,23 @@ namespace ImLua
 
 		// Required
 		std::string label;
+		// Optional
+		ImGuiPopupFlags popup_flags = 0;
 
 		// Get required parameters
 		if (!PopString(L, idx, label))
 			luaL_error(L, "Expected parameter string");
 
+		// Get optional parameters
+		do
+		{
+			if (!PopInt(L, idx, popup_flags))
+				break;
+
+		} while (false);
+
 		// Do ImGui command
-		ImGui::OpenPopup(label.c_str());
+		ImGui::OpenPopup(label.c_str(), popup_flags);
 
 		return 0;
 	}
@@ -339,13 +366,23 @@ namespace ImLua
 
 		// Required
 		std::string str_id;
+		// Optional
+		ImGuiPopupFlags flags = 0;
 
 		// Get required parameters
 		if (!PopString(L, idx, str_id))
 			luaL_error(L, "Expected parameter string");
 
+		// Get optional parameters
+		do
+		{
+			if (!PopInt(L, idx, flags))
+				break;
+
+		} while (false);
+
 		// Do ImGui command
-		bool isOpen = ImGui::IsPopupOpen(str_id.c_str());
+		bool isOpen = ImGui::IsPopupOpen(str_id.c_str(), flags);
 
 		// Return result
 		PushBool(L, isOpen);
@@ -369,13 +406,23 @@ namespace ImLua
 
 		// Required
 		std::string label;
+		// Optional
+		ImGuiWindowFlags flags = 0;
 
 		// Get required parameters
 		if (!PopString(L, idx, label))
 			luaL_error(L, "Expected parameter string");
 
+		// Get optional parameters
+		do
+		{
+			if (!PopInt(L, idx, flags))
+				break;
+
+		} while (false);
+
 		// Do ImGui command
-		bool isOpen = ImGui::BeginPopup(label.c_str());
+		bool isOpen = ImGui::BeginPopup(label.c_str(), flags);
 
 		// Return result
 		PushBool(L, isOpen);
@@ -392,6 +439,7 @@ namespace ImLua
 		std::string name;
 		// Optional
 		bool open = true;
+		ImGuiWindowFlags flags = 0;
 
 		// Get required parameters
 		if (!PopString(L, idx, name))
@@ -401,21 +449,52 @@ namespace ImLua
 		// Get optional parameters
 		do
 		{
-			if (PopBool(L, idx, open))
-				p_open = &open;
-			else
+			if (!PopBool(L, idx, open))
+				break;
+			p_open = &open;
+
+			if (!PopInt(L, idx, flags))
 				break;
 
 		} while (false);
 
 		// Do ImGui command
-		bool isOpen = ImGui::BeginPopupModal(name.c_str(), p_open);
+		bool isOpen = ImGui::BeginPopupModal(name.c_str(), p_open, flags);
 
 		// Return result
 		PushBool(L, isOpen);
 		PushBool(L, open);
 
 		return 2;
+	}
+
+	int ImLua::ImLua::lua_BeginPopupContextItem(lua_State *L)
+	{
+		ZoneScopedC(RandomUniqueColor());
+		int idx = 1;
+
+		// Optional
+		std::string str_id;
+		ImGuiPopupFlags popup_flags = 1;
+
+		// Get optional parameters
+		const char *str_id_ptr = nullptr;
+		do
+		{
+			if (!PopString(L, idx, str_id))
+				break;
+			str_id_ptr = str_id.c_str();
+
+			if (!PopInt(L, idx, popup_flags))
+				break;
+
+		} while (false);
+
+		bool isOpen = ImGui::BeginPopupContextItem(str_id_ptr, popup_flags);
+
+		PushBool(L, isOpen);
+
+		return 1;
 	}
 
 	int ImLua::lua_EndPopup(lua_State *L)
@@ -425,25 +504,6 @@ namespace ImLua
 		ImGui::EndPopup();
 
 		return 0;
-	}
-
-	int ImLua::ImLua::lua_BeginPopupContextItem(lua_State *L)
-	{
-		ZoneScopedC(RandomUniqueColor());
-		int idx = 1;
-
-		// Required
-		std::string label;
-
-		// Get required parameters
-		if (!PopString(L, idx, label))
-			luaL_error(L, "Expected parameter string");
-
-		bool isOpen = ImGui::BeginPopupContextItem(label.c_str());
-
-		PushBool(L, isOpen);
-
-		return 1;
 	}
 
 	int ImLua::lua_Separator(lua_State *L)
@@ -1060,6 +1120,9 @@ namespace ImLua
 		// Required
 		std::string label;
 		bool selected = false;
+		// Optional
+		ImGuiSelectableFlags flags = 0;
+		ImVec2 size(0, 0);
 
 		if (!PopString(L, idx, label))
 			luaL_error(L, "Expected parameter string");
@@ -1067,8 +1130,19 @@ namespace ImLua
 		if (!PopBool(L, idx, selected))
 			luaL_error(L, "Expected parameter int");
 
+		// Get optional parameters
+		do
+		{
+			if (!PopInt(L, idx, flags))
+				break;
+
+			if (!PopImVec2(L, idx, size))
+				break;
+
+		} while (false);
+
 		// Do ImGui command
-		bool pressed = ImGui::Selectable(label.c_str(), selected);
+		bool pressed = ImGui::Selectable(label.c_str(), selected, 0, size);
 
 		// Return result
 		PushBool(L, pressed);
@@ -1462,6 +1536,31 @@ namespace ImLua
 				std::make_pair<std::string, int>("AlwaysAutoResize", ImGuiChildFlags_AlwaysAutoResize),
 				std::make_pair<std::string, int>("FrameStyle", ImGuiChildFlags_FrameStyle),
 				std::make_pair<std::string, int>("NavFlattened", ImGuiChildFlags_NavFlattened),
+			}),
+
+			ImGuiFlag("ImGuiPopupFlags", {
+				std::make_pair<std::string, int>("None", ImGuiPopupFlags_None),
+				std::make_pair<std::string, int>("MouseButtonLeft", ImGuiPopupFlags_MouseButtonLeft),
+				std::make_pair<std::string, int>("MouseButtonRight", ImGuiPopupFlags_MouseButtonRight),
+				std::make_pair<std::string, int>("MouseButtonMiddle", ImGuiPopupFlags_MouseButtonMiddle),
+				std::make_pair<std::string, int>("MouseButtonMask_", ImGuiPopupFlags_MouseButtonMask_),
+				std::make_pair<std::string, int>("MouseButtonDefault_", ImGuiPopupFlags_MouseButtonDefault_),
+				std::make_pair<std::string, int>("NoReopen", ImGuiPopupFlags_NoReopen),
+				std::make_pair<std::string, int>("NoOpenOverExistingPopup", ImGuiPopupFlags_NoOpenOverExistingPopup),
+				std::make_pair<std::string, int>("NoOpenOverItems", ImGuiPopupFlags_NoOpenOverItems),
+				std::make_pair<std::string, int>("AnyPopupId", ImGuiPopupFlags_AnyPopupId),
+				std::make_pair<std::string, int>("AnyPopupLevel", ImGuiPopupFlags_AnyPopupLevel),
+				std::make_pair<std::string, int>("AnyPopup", ImGuiPopupFlags_AnyPopup),
+			}),
+
+			ImGuiFlag("ImGuiSelectableFlags", {
+				std::make_pair<std::string, int>("None", ImGuiSelectableFlags_None),
+				std::make_pair<std::string, int>("NoAutoClosePopups", ImGuiSelectableFlags_NoAutoClosePopups),
+				std::make_pair<std::string, int>("SpanAllColumns", ImGuiSelectableFlags_SpanAllColumns),
+				std::make_pair<std::string, int>("AllowDoubleClick", ImGuiSelectableFlags_AllowDoubleClick),
+				std::make_pair<std::string, int>("Disabled", ImGuiSelectableFlags_Disabled),
+				std::make_pair<std::string, int>("AllowOverlap", ImGuiSelectableFlags_AllowOverlap),
+				std::make_pair<std::string, int>("Highlight", ImGuiSelectableFlags_Highlight),
 			}),
 		};
 
