@@ -30,9 +30,7 @@ local groups = {
 		},
 	--]]
 
-	["Room"] = {
-        size = vec2(500, 500),
-
+	["TestRoom"] = {
         entities = {
             [1] = {
                 behaviour = {
@@ -122,7 +120,7 @@ local groups = {
                         ["color"] = {r=1,g=1,b=1,a=1}
                     }
                 }
-            }, 
+            } 
         }
 	}
 }
@@ -201,7 +199,6 @@ if game.CreateGroupFromScene == nil then
         end
 
         data.groups[groupName] = {
-            size = vec2(500, 500),
             entities = {}
         }
 
