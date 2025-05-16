@@ -116,6 +116,25 @@ function weapon:OnUpdate(delta)
 	tracy.ZoneEnd()
 end
 
+-- Called during ImGui rendering if the entity is selected
+function weapon:OnGUI()
+	tracy.ZoneBeginN("Lua weapon:OnGUI")
+
+	local strInput = self.presetInputStr or ""
+	local modified = false
+	strInput, modified = imgui.InputText("Stat Preset", strInput)
+
+	if modified then
+		self.presetInputStr = strInput
+	end
+
+	if imgui.Button("Load Preset") then
+		self:LoadType(self.presetInputStr)
+	end
+
+	tracy.ZoneEnd()
+end
+
 function weapon:OnShoot()
 	tracy.ZoneBeginN("Lua weapon:OnShoot")
 

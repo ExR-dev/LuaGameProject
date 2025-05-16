@@ -1,0 +1,64 @@
+return {
+-- Table: {1}
+{
+   ["contents"]={2},
+   ["elementName"]="GlockPrefab",
+   ["dataPath"]="prefabs",
+},
+-- Table: {2}
+{
+   ["behaviour"]={3},
+   ["components"]={4},
+},
+-- Table: {3}
+{
+   ["path"]="Behaviours/Weapon",
+   ["properties"]={5},
+},
+-- Table: {4}
+{
+   ["Transform"]={6},
+   ["Sprite"]={7},
+},
+-- Table: {5}
+{
+   ["stats"]={8},
+   ["loadedAmmoType"]="FMJ",
+   ["loadedAmmoCount"]=18,
+},
+-- Table: {6}
+{
+   ["scale"]={9},
+},
+-- Table: {7}
+{
+   ["priority"]=21,
+   ["color"]={10},
+   ["spriteName"]="",
+},
+-- Table: {8}
+{
+   ["capacity"]=18,
+   ["fireMode"]="Semi",
+   ["recoil"]=2.0,
+   ["fireRate"]=8.0,
+   ["damage"]=10.0,
+   ["recovery"]=8,
+   ["handCount"]=1,
+   ["spread"]=2.0,
+   ["caliber"]="9mm",
+   ["reloadTime"]=0.7,
+},
+-- Table: {9}
+{
+   ["y"]=10.0,
+   ["x"]=36.0,
+},
+-- Table: {10}
+{
+   ["a"]=1.0,
+   ["r"]=0.20000000298023,
+   ["g"]=0.17499999701977,
+   ["b"]=0.10000000149012,
+},
+}
