@@ -48,7 +48,13 @@ namespace ECS
 
 		void RenderUI()
 		{
-			ImGui::Checkbox("Active", &IsActive);
+			if (ImGui::TreeNode("Active"))
+			{
+				ImGui::Checkbox("IsActive", &IsActive);
+
+				ImGui::Separator();
+				ImGui::TreePop();
+			}
 		}
 	};
 
@@ -156,8 +162,6 @@ namespace ECS
 
 				ImGui::InputText("Path", ScriptPath, SCRIPT_PATH_LENGTH);
 
-
-				ImGui::SeparatorText("Lua Gui");
 				// Run OnGUI if it exists
 				do
 				{
@@ -165,6 +169,8 @@ namespace ECS
 
 					if (IsUnownedMethod(name))
 						break;
+
+					ImGui::SeparatorText("Lua Gui");
 
 					// Retrieve the behaviour table to the top of the stack
 					lua_rawgeti(m_refState, LUA_REGISTRYINDEX, LuaRef);
@@ -191,8 +197,8 @@ namespace ECS
 					lua_pop(m_refState, 1);
 
 				} while (false);
-				ImGui::Separator();
 
+				ImGui::Separator();
 				ImGui::TreePop();
 			}
 		}
@@ -293,6 +299,7 @@ namespace ECS
 				ImGui::DragFloat2("Scale", Scale, 0.1f, -1000, 1000);
 				ImGui::DragFloat("Rotation", &Rotation, 0.1f, -1000, 1000);
 
+				ImGui::Separator();
 				ImGui::TreePop();
 			}
 		}
@@ -317,6 +324,8 @@ namespace ECS
 
 		void Destroy(lua_State* L)
 		{
+			if (!b2Body_IsValid(bodyId))
+				return;
 			b2DestroyBody(bodyId);
 			bodyId = b2_nullBodyId;
 			luaL_unref(L, LUA_REGISTRYINDEX, onEnterRef);
@@ -461,6 +470,7 @@ namespace ECS
 
 				ImGui::Checkbox("Debug", &debug);
 
+				ImGui::Separator();
 				ImGui::TreePop();
 			}
 		}
@@ -622,6 +632,7 @@ namespace ECS
 
 				ImGui::ColorPicker4("Color", Color);
 
+				ImGui::Separator();
 				ImGui::TreePop();
 			}
 		}
@@ -677,6 +688,7 @@ namespace ECS
 			{
 				// TODO
 
+				ImGui::Separator();
 				ImGui::TreePop();
 			}
 		}
@@ -717,8 +729,14 @@ namespace ECS
 
 		void RenderUI()
 		{
-			if (ImGui::InputFloat("Hardness", &hardness, 0.01f, 0.1f))
-				hardness = std::fmaxf(0.0f, hardness);
+			if (ImGui::TreeNode("Hardness"))
+			{
+				if (ImGui::InputFloat("Hardness", &hardness, 0.01f, 0.1f))
+					hardness = std::fmaxf(0.0f, hardness);
+
+				ImGui::Separator();
+				ImGui::TreePop();
+			}
 		}
 	};
 
@@ -798,6 +816,7 @@ namespace ECS
 			{
 				// TODO
 
+				ImGui::Separator();
 				ImGui::TreePop();
 			}
 		}
@@ -813,6 +832,7 @@ namespace ECS
 			{
 				// TODO
 
+				ImGui::Separator();
 				ImGui::TreePop();
 			}
 		}

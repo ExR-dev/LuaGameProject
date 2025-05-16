@@ -4,7 +4,7 @@ local prefabCreatorUI = {
 	entityID = -1,
 
 	editEntity = {
-
+		selectedComp = -1
 	},
 	
 	createPrefab = {
@@ -34,9 +34,26 @@ function prefabCreatorUI:EditEntity()
 	if not scene.IsEntity(self.entityID) then
 		self.entityID = scene.CreateEntity()
 	end
+	imgui.Separator()
 
+	-- Dropdown to add a new component
 	do
-		-- TODO
+		local compListString = table.concat(self.existingComponentsList, "\n").."\n\n"
+		local pressed = false
+		pressed, ctx.selectedComp = imgui.Combo("Add Component##PrefabEditorAddComponent", ctx.selectedComp, compListString)
+
+		if pressed and ctx.selectedComp >= 0 then
+			local selectedCompName = self.existingComponentsList[ctx.selectedComp + 1]
+			
+			if selectedCompName == "Behaviour" then
+				local scriptPath = "Behaviours/InputMovement"
+				scene.SetComponent(self.entityID, selectedCompName, scriptPath)
+			else
+				scene.SetComponent(self.entityID, selectedCompName, { })
+			end
+
+			ctx.selectedComp = -1
+		end
 	end
 
 	tracy.ZoneEnd()
@@ -52,6 +69,9 @@ function prefabCreatorUI:CreatePrefab()
 	if not scene.IsEntity(self.entityID) then
 		self.entityID = scene.CreateEntity()
 	end
+
+	local openMessageBox = false
+	local namingCollision = false
 
 	imgui.Begin("Prefab Creator##PrefabCreatorWindow")
 	do
@@ -76,7 +96,6 @@ function prefabCreatorUI:CreatePrefab()
 			end
 			imgui.Separator()
 
-
 			-- Button for saving entity as a prefab
 			if imgui.Button("Save as Prefab##SaveAsPrefabButton") then
 				ctx.stage = ctx.stage + 1
@@ -87,13 +106,13 @@ function prefabCreatorUI:CreatePrefab()
 			imgui.Separator();
 
 
-			imgui.Text("Name: ##PrefabNameText")
+			imgui.Text("Name: ")
 			imgui.SameLine()
 			ctx.prefabName = imgui.InputText("##PrefabNameInput", ctx.prefabName)
 			imgui.Separator()
 
 
-			-- Proceed to next stage
+			-- Check if name is valid and proceed to next stage
 			if imgui.Button("Next##SavePrefabStage0") or (Input.KeyPressed(Input.Key.KEY_ENTER) and not ctx.popupOpen) then
 				local failedNaming = false
 
@@ -103,15 +122,14 @@ function prefabCreatorUI:CreatePrefab()
 					ctx.popupOpen = true
 
 					ctx.openMessage = "Prefab name cannot be empty."
-					imgui.OpenPopup("Message##MessageBoxPopup")
+					openMessageBox = true
 				end
 
 				-- Check if the name is already taken
 				if table.hasKey(data.prefabs, ctx.prefabName) then
 					failedNaming = true
 					ctx.popupOpen = true
-
-					imgui.OpenPopup("Override Existing Prefab?##OverridePrefabPopup")
+					namingCollision = true
 				end
 
 				if not failedNaming then
@@ -130,30 +148,6 @@ function prefabCreatorUI:CreatePrefab()
 			if imgui.Button("Cancel##SavePrefabStage0") then
 				self:ResetStage(false)
 			end
-
-
-			-- Popup to confirm whether to override existing prefab
-			if imgui.BeginPopupModal("Override Existing Prefab?##OverridePrefabPopup") then
-
-				imgui.TextWrapped("A prefab with the name "..ctx.prefabName.." already exists.\nDo you want to override it?")
-				imgui.Separator()
-
-				if imgui.Button("Yes##ConfirmOverridePrefab") or Input.KeyPressed(Input.Key.KEY_ENTER) then
-					ctx.stage = 1
-					ctx.popupOpen = false
-				end
-
-				imgui.SameLine(0.0, 32.0)
-
-				if imgui.Button("No##DenyOverridePrefab") then
-					ctx.popupOpen = false
-				end
-
-				if not ctx.popupOpen then
-					imgui.CloseCurrentPopup()
-				end
-				imgui.EndPopup()
-			end
 		elseif ctx.stage == 1 then	-- Component & Property Stage
 			-- Description
 			imgui.TextWrapped("Set what data is included in the prefab.")
@@ -169,7 +163,7 @@ function prefabCreatorUI:CreatePrefab()
 					-- Add a checkbox signifying if this component should be saved
 					doSaveComp, pressedSave = imgui.Checkbox("##"..compName.."CompSaveCheckbox", doSaveComp)
 					imgui.SameLine()
-					imgui.Text(compName.."##"..compName.."CompSaveText")
+					imgui.Text(compName)
 
 					if pressedSave then -- Checkbox was pressed, invert component save state
 						if doSaveComp then -- Add component to save list
@@ -182,18 +176,31 @@ function prefabCreatorUI:CreatePrefab()
 					local compData = scene.GetComponent(self.entityID, compName)
 
 					if compData ~= nil then
+
+						local skippedProps = { }
+						local skippedTypes = { "function" }
+
+						if compName == "Behaviour" then
+							-- Entity ID and behaviour script path are handelled automatically
+							-- Therefore, do not show them
+							table.insert(skippedProps, "ID")
+							table.insert(skippedProps, "path")
+						end
+
 						-- Indent, then list all properties of the current component
 						-- Add a checkbox before each property signifying if it should be saved
 						-- Checking a property will also mark the component as saved if it isn't already
-						imgui.Indent(48.0)
-						if compName == "Behaviour" then
-							-- LuaRef requires special handling
-							-- TODO
-						elseif compName == "Collider" then
-							-- LuaRef requires special handling
-							-- TODO
-						else
-							for propName, propData in pairs(compData) do
+						imgui.Indent(32.0)
+						for propName, propData in pairs(compData) do
+							local propType = type(propData)
+
+							-- Skip property if name or type is in the skip list
+							local skipProp = (
+								table.hasValue(skippedProps, propName) or 
+								table.hasValue(skippedTypes, propType)
+							)
+
+							if not skipProp then
 								local doSaveProp = false
 								if doSaveComp then -- Property is always unsaved if the component is
 									doSaveProp = (ctx.savedCompList[compName][propName] ~= nil)
@@ -201,7 +208,7 @@ function prefabCreatorUI:CreatePrefab()
 
 								doSaveProp, pressedSave = imgui.Checkbox("##"..compName.."Comp"..propName.."PropSaveCheckbox", doSaveProp)
 								imgui.SameLine()
-								imgui.Text(propName.." ("..type(propData)..")##"..compName.."Comp"..propName.."PropSaveText")
+								imgui.Text(propName.." ("..propType..")")
 							
 								if pressedSave then -- Checkbox was pressed, invert property save state
 									if doSaveProp then -- Add property to component in save list
@@ -216,7 +223,7 @@ function prefabCreatorUI:CreatePrefab()
 								end
 							end
 						end
-						imgui.Unindent(48.0)
+						imgui.Unindent(32.0)
 					end
 				end
 			end
@@ -241,61 +248,40 @@ function prefabCreatorUI:CreatePrefab()
 			imgui.TextWrapped("Before creating the prefab, confirm that the generated table is correct.")
 			imgui.Separator();
 
-
-			-- Go through all conponents + properties in the save list
-			-- Find their respective values in the entity and
 			
+			-- Table containing all saved values
 			local prefabTable = { 
 				components = {
 				}
 			}
-			--[[
-				prefabTable = {
 
-					behaviour = {
-						path = "",
-
-						properties = {
-							["property"] = value,
-						},
-					},
-			
-					components = {
-						["component name"] = {
-							["property"] = value,
-						},
-					},
-				}
-			--]]
-
+			-- Go through all saved components + properties and fetch their values to the prefab table
 			for compName, props in pairs(ctx.savedCompList) do
 				if scene.HasComponent(self.entityID, compName) then
 					local compData = scene.GetComponent(self.entityID, compName)
+					local compTable = nil
 
 					if compName == "Behaviour" then
-						-- TODO: Implement
-						prefabTable.behaviour = { }
+						prefabTable.behaviour = { 
+							path = compData.path,
+							properties = { }
+						}
+						compTable = prefabTable.behaviour.properties
 					else
 						prefabTable.components[compName] = { }
+						compTable = prefabTable.components[compName]
+					end
 
-						if compName == "Collider" then
-							-- TODO: Does this need to be separate?
-						else
-							for propName, i in pairs(props) do
-								if compData[propName] ~= nil then
-									prefabTable.components[compName][propName] = compData[propName]
-								else
-									-- TODO: Handle this better
-									print("ERROR: Failed to find property "..propName.." in component "..compName.."!")
-								end
-							end
-						end
+					for propName, i in pairs(props) do
+						compTable[propName] = compData[propName]
 					end
 				else
-					-- TODO: Handle this better
+					-- TODO: Handle this in a better way
 					print("ERROR: Failed to find component "..compName.."!")
 				end
 			end
+
+			imgui.Text(ctx.prefabName.." = "..table.toString(prefabTable))
 			imgui.Separator();
 
 
@@ -322,33 +308,65 @@ function prefabCreatorUI:CreatePrefab()
 			if imgui.Button("Cancel##SavePrefabStage2") then
 				self:ResetStage(false)
 			end
-		end	
-
-
-		-- Message box popup
-		if imgui.BeginPopupModal("Message##MessageBoxPopup") then
-
-			imgui.Text(ctx.openMessage)
-			imgui.Separator()
-
-			if imgui.Button("Ok") or Input.KeyPressed(Input.Key.KEY_ENTER) then
-				ctx.popupOpen = false
-			end
-
-			imgui.SameLine(0.0, 32.0)
-
-			if imgui.Button("Cancel") then
-				self:ResetStage(false)
-				ctx.popupOpen = false
-			end
-
-			if not ctx.popupOpen then
-				imgui.CloseCurrentPopup()
-			end
-			imgui.EndPopup()
 		end
 	end
 	imgui.End()
+
+	-- Popup to confirm whether to override existing prefab
+	if namingCollision then
+		imgui.OpenPopup("Override Prefab")
+	end
+
+	if imgui.BeginPopupModal("Override Prefab") then
+		imgui.TextWrapped(
+			"A prefab with the name "..ctx.prefabName.." already exists.\n"..
+			"Do you want to override it?"
+		)
+		imgui.Separator()
+
+		if imgui.Button("Yes##ConfirmOverridePrefabPopup") or Input.KeyPressed(Input.Key.KEY_ENTER) then
+			ctx.stage = ctx.stage + 1
+			ctx.popupOpen = false
+		end
+		imgui.SameLine(0.0, 32.0)
+
+		if imgui.Button("No##DenyOverridePrefabPopup") then
+			ctx.popupOpen = false
+		end
+
+		if not ctx.popupOpen then
+			imgui.CloseCurrentPopup()
+		end
+
+		imgui.EndPopup()
+	end
+
+
+	-- Message box popup
+	if openMessageBox then
+		ctx.popupOpen = true
+		imgui.OpenPopup("Message Box")
+	end
+
+	if imgui.BeginPopupModal("Message Box") then
+		imgui.TextWrapped(ctx.openMessage)
+		imgui.Separator()
+
+		if imgui.Button("Ok##MessageBoxPopup") or Input.KeyPressed(Input.Key.KEY_ENTER) then
+			ctx.popupOpen = false
+		end
+		imgui.SameLine(0.0, 32.0)
+
+		if imgui.Button("Cancel##MessageBoxPopup") then
+			self:ResetStage(false)
+			ctx.popupOpen = false
+		end
+
+		if not ctx.popupOpen then
+			imgui.CloseCurrentPopup()
+		end
+		imgui.EndPopup()
+	end
 
 	tracy.ZoneEnd()
 end

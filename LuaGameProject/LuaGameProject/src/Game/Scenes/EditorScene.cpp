@@ -180,6 +180,9 @@ Game::SceneState EditorScene::EditorScene::Update()
 			// Create body
 			if (!collider.createBody)
 			{
+				// TODO: "b2Body_SetTransform" fails if collider has been set more than once on this entity
+				// See Cmd.lua for reproducible example
+
 				b2Body_SetTransform(collider.bodyId, 
 									{ collider.offset[0] + transform.Position[0], collider.offset[1] + transform.Position[1] }, 
 									{ cosf((transform.Rotation + collider.rotation) * DEG2RAD), sinf((transform.Rotation + collider.rotation) * DEG2RAD) });
@@ -367,7 +370,6 @@ int EditorScene::EditorScene::Render()
 					}
 				});
 			};
-
 			scene.RunSystem(drawPhysicsBodies);
 
 			if (m_dungeon && m_selectedRoom == -1)
@@ -883,6 +885,25 @@ void EditorScene::EditorScene::EditorSelectorUI()
 	ImGui::End();
 }
 
+if (ImGui::Begin("Editor Settings##EditorSettingsWindow"))
+{
+	for (int i = 0; i < EditorMode::COUNT; i++)
+	{
+		bool isSelected = (m_editorMode == i);
+		std::string modeName = m_editorModeNames[i];
+
+		if (ImGui::Selectable(std::format("{}##EditorMode{}", modeName, i).c_str(), &isSelected))
+		{
+			if (isSelected)
+			{
+				SwitchEditorMode(static_cast<EditorMode>(i));
+			}
+		}
+	}
+}
+ImGui::End();
+}
+
 int EditorScene::EditorScene::RenderUI()
 {
 	ZoneScopedC(RandomUniqueColor());
@@ -919,9 +940,13 @@ int EditorScene::EditorScene::RenderUI()
 	editorFlags |= ImGuiWindowFlags_NoDocking;
 	editorFlags |= ImGuiWindowFlags_NoBackground;
 
+	DbgMsg("Start");
+
 	ImGui::Begin("Editor##EditorWindow", nullptr, editorFlags);
 	ImGui::SetWindowPos(ImVec2(io.DisplaySize.x / 2 - ImGui::GetWindowWidth() / 2, 0));
 	ImGui::SetWindowSize(ImVec2(io.DisplaySize.x, io.DisplaySize.y));
+
+	DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
 
 	// Insert ImGui code here
 	{
@@ -965,11 +990,28 @@ int EditorScene::EditorScene::RenderUI()
 			case EditorScene::EditorScene::PrefabCreator: {
 				ZoneNamedNC(renderEditorModeZone, "Render Prefab Creator Lua UI", RandomUniqueColor(), true);
 
+				DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
+
 				if (ImGui::Begin("Entity Editor"))
 				{
 					ZoneNamedNC(renderEntityEditorZone, "Render Entity Editor", RandomUniqueColor(), true);
 
-					m_selectedEntity = 0;
+					DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
+
+					if (!modeScene.scene.IsEntity(m_selectedEntity))
+					{
+						std::function<void(entt::registry &registry)> getEntitySystem = [&](entt::registry &registry) {
+							ZoneNamedNC(getEntityZone, "Lambda Get Entity", RandomUniqueColor(), true);
+
+							auto view = registry.view<entt::entity>();
+							for (auto &ent : view)
+							{
+								m_selectedEntity = (int)ent;
+								break;
+							}
+						};
+						modeScene.scene.RunSystem(getEntitySystem);
+					}
 
 					if (modeScene.scene.IsEntity(m_selectedEntity))
 					{
@@ -1000,13 +1042,21 @@ int EditorScene::EditorScene::RenderUI()
 						if (modeScene.scene.HasComponents<ECS::Remove>(m_selectedEntity))
 							modeScene.scene.GetComponent<ECS::Remove>(m_selectedEntity).RenderUI();
 
+						DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
 
+						// Run lua code for adding components
 						modeScene.luaUI.Run(modeScene.L, "EditEntity");
+
+						DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
 					}
 				}
 				ImGui::End();
 
+				DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
+
 				modeScene.luaUI.Run(modeScene.L, "CreatePrefab");
+
+				DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
 				break;
 			}
 
@@ -1021,7 +1071,12 @@ int EditorScene::EditorScene::RenderUI()
 		EditorSelectorUI();
 	}
 
+	DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
 	ImGui::End();
+	DbgMsg(std::format("ID: {} \t\t(L:{}, F:{})", ImGui::GetItemID(), __LINE__, __FILE__)); // TODO
+
+	DbgMsg("End (Should be at 3628964924)");
+
 	rlImGuiEnd();
 	return 1;
 }

@@ -22,36 +22,6 @@ local prefabs = {
 			},
 		}
 	--]]
-
-	["Enemy"] = {
-		behaviour = {
-			path = "Behaviours/Enemy",
-
-			properties = {
-
-			}
-		},
-
-		components = {
-			["Transform"] = {
-				["scale"] = vec2(60, 60)
-			},
-
-			["Collider"] = {
-				["tag"] = "Enemy",
-				["debug"] = false,
-				["offset"] = vec2(0, 0),
-				["extents"] = vec2(1, 1),
-				["rotation"] = 0
-			},
-			
-			["Sprite"] = {
-				["spriteName"] = "Maxwell.png",
-				["priority"] = 30,
-				["color"] = {r=1,g=1,b=1,a=1}
-			}
-		}
-	}
 }
 
 

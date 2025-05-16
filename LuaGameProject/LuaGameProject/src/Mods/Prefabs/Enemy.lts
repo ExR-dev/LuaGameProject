@@ -1,0 +1,66 @@
+return {
+-- Table: {1}
+{
+   ["dataPath"]="prefabs",
+   ["elementName"]="Enemy",
+   ["contents"]={2},
+},
+-- Table: {2}
+{
+   ["components"]={3},
+   ["behaviour"]={4},
+},
+-- Table: {3}
+{
+   ["Sprite"]={5},
+   ["Transform"]={6},
+   ["Collider"]={7},
+},
+-- Table: {4}
+{
+   ["properties"]={8},
+   ["path"]="Behaviours/Enemy",
+},
+-- Table: {5}
+{
+   ["color"]={9},
+   ["spriteName"]="Maxwell.png",
+   ["priority"]=30,
+},
+-- Table: {6}
+{
+   ["scale"]={10},
+},
+-- Table: {7}
+{
+   ["tag"]="Enemy",
+   ["rotation"]=0,
+   ["extents"]={11},
+   ["offset"]={12},
+},
+-- Table: {8}
+{
+},
+-- Table: {9}
+{
+   ["b"]=1,
+   ["g"]=1,
+   ["r"]=1,
+   ["a"]=1,
+},
+-- Table: {10}
+{
+   ["x"]=60,
+   ["y"]=60,
+},
+-- Table: {11}
+{
+   ["x"]=1,
+   ["y"]=1,
+},
+-- Table: {12}
+{
+   ["x"]=0,
+   ["y"]=0,
+},
+}
