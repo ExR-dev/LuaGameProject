@@ -49,8 +49,9 @@ if game.SpawnPrefab == nil then
 		local entity = scene.CreateEntity()
 		
 		-- First add collider if present
-		if prefabData.components.collider then
-			scene.SetComponent(entity, "Collider", prefabData.components.collider)
+		local colliderTable = prefabData.components["Collider"]
+		if colliderTable ~= nil then
+			scene.SetComponent(entity, "Collider", colliderTable)
 		end
 
 		-- Add behaviour

@@ -98,12 +98,12 @@ end
 		folderPath	- Where to create the file
 		dataPath	- Location of this table in the data table
 		elementName - Name of the element in the dataPath
-		contents	- The table stored at data.dataPath[elementName]
+		tbl	- The table stored at data.dataPath[elementName]
 
 	returns:
 		nil if succeeded, string if failed
 --]]
-function data.modding.createLuaTableSave(folderPath, dataPath, elementName, contents)
+function data.modding.createLuaTableSave(folderPath, dataPath, elementName, tbl)
 	if folderPath:len() > 0 then
 		if folderPath:sub(0, 1) == "/" then -- Remove unnecessary slash in the beginning of the folder path
 			folderPath = folderPath:sub(2, -1)
@@ -119,7 +119,7 @@ function data.modding.createLuaTableSave(folderPath, dataPath, elementName, cont
 	local lts = {
 		dataPath	= dataPath,
 		elementName = elementName,
-		contents	= contents
+		contents	= tbl
 	}
 
 	return table.save(lts, folderPath..elementName..".lts") -- lts: Lua Table Save

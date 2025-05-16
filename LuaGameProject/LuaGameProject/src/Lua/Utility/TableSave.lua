@@ -61,6 +61,8 @@ do
 					file:write(  charS..exportstring( v )..","..charE )
 				elseif stype == "number" then
 					file:write(  charS..tostring( v )..","..charE )
+				elseif stype == "boolean" then
+					file:write(  charS..tostring( v )..","..charE )
 				end
 			end
 
@@ -81,6 +83,8 @@ do
 						str = charS.."["..exportstring( i ).."]="
 					elseif stype == "number" then
 						str = charS.."["..tostring( i ).."]="
+					elseif stype == "boolean" then
+						str = charS.."["..tostring( i ).."]="
 					end
 				
 					if str ~= "" then
@@ -95,6 +99,8 @@ do
 						elseif stype == "string" then
 							file:write( str..exportstring( v )..","..charE )
 						elseif stype == "number" then
+							file:write( str..tostring( v )..","..charE )
+						elseif stype == "boolean" then
 							file:write( str..tostring( v )..","..charE )
 						end
 					end
