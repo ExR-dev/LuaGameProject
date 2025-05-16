@@ -14,53 +14,35 @@ return {
 {
    ["Sprite"]={5},
    ["Transform"]={6},
-   ["Collider"]={7},
 },
 -- Table: {4}
 {
-   ["properties"]={8},
+   ["properties"]={7},
    ["path"]="Behaviours/Enemy",
 },
 -- Table: {5}
 {
-   ["color"]={9},
+   ["color"]={8},
    ["spriteName"]="Maxwell.png",
    ["priority"]=30,
 },
 -- Table: {6}
 {
-   ["scale"]={10},
+   ["scale"]={9},
 },
 -- Table: {7}
 {
-   ["tag"]="Enemy",
-   ["rotation"]=0,
-   ["extents"]={11},
-   ["offset"]={12},
 },
 -- Table: {8}
-{
-},
--- Table: {9}
 {
    ["b"]=1,
    ["g"]=1,
    ["r"]=1,
    ["a"]=1,
 },
--- Table: {10}
+-- Table: {9}
 {
    ["x"]=60,
    ["y"]=60,
-},
--- Table: {11}
-{
-   ["x"]=1,
-   ["y"]=1,
-},
--- Table: {12}
-{
-   ["x"]=0,
-   ["y"]=0,
 },
 }

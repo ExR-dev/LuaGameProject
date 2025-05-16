@@ -216,6 +216,9 @@ Game::SceneState GameScene::GameScene::Update()
 
             if (!collider.createBody)
             {
+                // TODO: "b2Body_SetTransform" fails if collider has been set more than once on this entity
+                // See Cmd.lua for reproducible example
+
 				b2Body_SetTransform(collider.bodyId, 
 									{ collider.offset[0] + transform.Position[0], collider.offset[1] + transform.Position[1] }, 
 									{ cosf((transform.Rotation + collider.rotation) * DEG2RAD), sinf((transform.Rotation + collider.rotation) * DEG2RAD) });
