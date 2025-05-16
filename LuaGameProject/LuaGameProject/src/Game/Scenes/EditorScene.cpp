@@ -529,7 +529,7 @@ void EditorScene::EditorScene::RoomSelectionUI()
 		if (ImGui::BeginPopupContextItem("RoomPopup"))
 		{
 			static char name[ECS::Room::ROOM_NAME_LENGTH];
-			if (IsWindowFocused() && !ImGui::IsAnyItemActive() && !ImGui::IsMouseClicked(0))
+			if (!ImGui::IsAnyItemActive() && !ImGui::IsMouseClicked(0))
 				ImGui::SetKeyboardFocusHere(0);
 			bool done = ImGui::InputText("Enter Name", name, IM_ARRAYSIZE(name), ImGuiInputTextFlags_EnterReturnsTrue);
 			if ((ImGui::Button("Done") || done) && name[0] != '\0')
@@ -936,12 +936,6 @@ int EditorScene::EditorScene::RenderUI()
 			EntityEditorUI();
 		}
 
-		if (m_editorMode == EditorMode::DungeonCreator)
-		{
-			modeScene.luaUI.Run(modeScene.L, "PrefabCollection");
-			modeScene.luaUI.Run(modeScene.L, "RoomSelection");
-			RoomSelectionUI();
-		}
 
 		switch (m_editorMode)
 		{
@@ -1023,6 +1017,14 @@ int EditorScene::EditorScene::RenderUI()
 				ImGui::End();
 
 				modeScene.luaUI.Run(modeScene.L, "CreatePrefab");
+				break;
+			}
+
+			case EditorScene::EditorScene::DungeonCreator: {
+				ZoneNamedNC(renderEditorModeZone, "Render Dungeon Creator Lua UI", RandomUniqueColor(), true);
+				modeScene.luaUI.Run(modeScene.L, "PrefabCollection");
+				modeScene.luaUI.Run(modeScene.L, "RoomSelection");
+				RoomSelectionUI();
 				break;
 			}
 

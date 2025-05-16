@@ -192,6 +192,10 @@ namespace ImLua
 		// Returns: none
 		static int lua_SameLine(lua_State *L);
 
+		// Arguments: string label, bool selected
+		// Returns: bool pressed
+		static int lua_Selectable(lua_State* L);
+
 		// Arguments: string label, string previewValue
 		// Returns: bool isOpen
 		static int lua_BeginCombo(lua_State *L);
@@ -203,7 +207,6 @@ namespace ImLua
 		// Arguments: none
 		// Returns: none
 		static int lua_EndCombo(lua_State *L);
-
 
 
 
