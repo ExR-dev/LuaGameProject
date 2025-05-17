@@ -29,6 +29,7 @@ namespace ImLua
 			{ "TextWrapped",				lua_TextWrapped				},
 			{ "InputText",					lua_InputText				},
 			{ "DragFloat",					lua_DragFloat				},
+			{ "DragFloat2",					lua_DragFloat2				},
 			{ "DragInt",					lua_DragInt					},
 			{ "Button",						lua_Button					},
 			{ "Checkbox",					lua_Checkbox				},
@@ -634,6 +635,54 @@ namespace ImLua
 
 		// Return result
 		PushFloat(L, value);
+		PushBool(L, isModified);
+
+		return 2;
+	}
+
+	int ImLua::lua_DragFloat2(lua_State* L)
+	{
+		ZoneScopedC(RandomUniqueColor());
+		int idx = 1;
+
+		// Required
+		std::string label;
+		ImVec2 value;
+		// Optional
+		float vSpeed = 1.0f;
+		float vMin = 0.0f;
+		float vMax = 0.0f;
+		std::string format = "%.3f";
+
+		// Get required parameters
+		if (!PopString(L, idx, label))
+			luaL_error(L, "Expected parameter string");
+
+		if (!PopImVec2(L, idx, value))
+			luaL_error(L, "Expected parameter ImVec2");
+
+		// Get optional parameters
+		do
+		{
+			if (!PopFloat(L, idx, vSpeed))
+				break;
+
+			if (!PopFloat(L, idx, vMin))
+				break;
+
+			if (!PopFloat(L, idx, vMax))
+				break;
+
+			if (!PopString(L, idx, format))
+				break;
+
+		} while (false);
+
+		// Do ImGui command
+		bool isModified = ImGui::DragFloat2(label.c_str(), (float*)&value, vSpeed, vMin, vMax, format.c_str());
+
+		// Return result
+		PushImVec2(L, value);
 		PushBool(L, isModified);
 
 		return 2;

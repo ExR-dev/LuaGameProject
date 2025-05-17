@@ -175,6 +175,10 @@ namespace ImLua
 		// Returns: float v, bool isModified
 		static int lua_DragFloat(lua_State *L);
 
+		// Arguments: string label, ImVec2 v, float v_speed = (1.0F), float v_min = (0.0F), float v_max = (0.0F), string format = "%.3f"
+		// Returns: ImVec2 v, bool isModified
+		static int lua_DragFloat2(lua_State* L);
+
 		// Arguments: string label, int v, float v_speed = (1.0F), int v_min = 0, int v_max = 0, string format = "%d"
 		// Returns: int v, bool isModified
 		static int lua_DragInt(lua_State *L);

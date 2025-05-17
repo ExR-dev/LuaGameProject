@@ -190,7 +190,9 @@ local componentNames = {
 }
 
 if game.CreateGroupFromScene == nil then
-    local function CreateGroupFromScene(groupName)
+    local function CreateGroupFromScene(groupName, excludeDebug)
+        local excludeDbg = excludeDebug or true;
+
         if data.groups[groupName] ~= nil then
             print("Group '" .. groupName .. "' has been overwritten!")
         end
@@ -201,14 +203,16 @@ if game.CreateGroupFromScene == nil then
 
         local entities = scene.GetEntities()
         for i, entity in ipairs(entities) do
-            data.groups[groupName].entities[i] = {
-                components = {}
-            }
+            if (excludeDbg and scene.HasComponent(entity, "Debug")) == false then
+                data.groups[groupName].entities[i] = {
+                    components = {}
+                }
 
-            for _, comp in ipairs(componentNames) do
-                local component = scene.GetComponent(entity, comp)
-                if (component ~= nil) then
-                    data.groups[groupName].entities[i].components[comp] = component
+                for _, comp in ipairs(componentNames) do
+                    local component = scene.GetComponent(entity, comp)
+                    if (component ~= nil) then
+                        data.groups[groupName].entities[i].components[comp] = component
+                    end
                 end
             end
         end
