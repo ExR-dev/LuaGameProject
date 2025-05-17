@@ -24,12 +24,13 @@ std::string LuaLoadFile(lua_State *L, const char *path)
 	return content;
 }
 
-void LuaDoFileCleaned(lua_State *L, const char *str)
+bool LuaDoFileCleaned(lua_State *L, const char *str)
 {
+	bool ret = true;
 #ifdef TRACY_ENABLE 
 	// Do not remove tracy commands before loading
-	LuaDoFile(L, str);
-#else 
+	ret = LuaDoFile(L, str);
+#else
 	// Remove tracy commands before loading
 	std::string content(LuaLoadFile(L, str));
 
@@ -47,14 +48,16 @@ void LuaDoFileCleaned(lua_State *L, const char *str)
 		{
 			std::cout << std::format("Lua Error: {} {}", str, lua_tostring(L, -1)) << std::endl;
 			lua_pop(L, 1);
+			ret = false;
 		}
 	}
 
 	delete[] cleanedContent;
 #endif
+	return ret;
 }
 
-void LuaDumpError(lua_State *L)
+bool LuaDumpError(lua_State *L)
 {
 	ZoneScopedC(RandomUniqueColor());
 
@@ -62,7 +65,9 @@ void LuaDumpError(lua_State *L)
 	{
 		std::cout << std::format("Lua Error: {}", lua_tostring(L, -1)) << std::endl;
 		lua_pop(L, 1);
+		return false;
 	}
+	return true;
 }
 
 void LuaDumpStack(lua_State *L)

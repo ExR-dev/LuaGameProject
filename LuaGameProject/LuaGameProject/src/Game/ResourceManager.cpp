@@ -51,12 +51,20 @@ void ResourceManager::LoadResources()
 	ZoneScopedC(RandomUniqueColor());
 
 	Instance().m_textures.clear();
+	Instance().m_fonts.clear();
 	Instance().m_sounds.clear();
 
-	// Find all textures in the texture subfolder
-	std::vector<std::string> textureFiles;
-	std::string texturePath(RESOURCE_PATH + TEXTURE_FOLDER);
+	std::string 
+		texturePath(RESOURCE_PATH + TEXTURE_FOLDER), 
+		fontPath(RESOURCE_PATH + FONT_FOLDER),
+		soundPath(RESOURCE_PATH + SOUND_FOLDER);
 
+	std::vector<std::string> 
+		textureFiles, 
+		fontFiles,
+		soundFiles;
+
+	// Find all textures in the texture subfolder
 	for (const auto &entry : fs::directory_iterator(texturePath))
 	{
 		if (entry.is_regular_file())
@@ -65,16 +73,16 @@ void ResourceManager::LoadResources()
 		}
 	}
 
-	// Load all textures
-	for (const auto &file : textureFiles)
+	// Find all fonts in the font subfolder
+	for (const auto &entry : fs::directory_iterator(fontPath))
 	{
-		LoadTextureResource(file);
+		if (entry.is_regular_file())
+		{
+			fontFiles.push_back(entry.path().filename().string());
+		}
 	}
 
 	// Find all sounds in the sound subfolder
-	std::vector<std::string> soundFiles;
-	std::string soundPath(RESOURCE_PATH + SOUND_FOLDER);
-
 	for (const auto &entry : fs::directory_iterator(soundPath))
 	{
 		if (entry.is_regular_file())
@@ -83,11 +91,17 @@ void ResourceManager::LoadResources()
 		}
 	}
 
+	// Load all textures
+	for (const auto &file : textureFiles)
+		LoadTextureResource(file);
+
+	// Load all fonts
+	for (const auto &file : fontFiles)
+		LoadFontResource(file);
+
 	// Load all sounds
 	for (const auto &file : soundFiles)
-	{
 		LoadSoundResource(file);
-	}
 }
 
 void ResourceManager::UnloadResources()
@@ -95,8 +109,10 @@ void ResourceManager::UnloadResources()
 	ZoneScopedC(RandomUniqueColor());
 
 	Instance().m_textures.clear();
+	Instance().m_fonts.clear();
 	Instance().m_sounds.clear();
 }
+
 
 void ResourceManager::LoadTextureResource(const std::string &name)
 {
@@ -124,6 +140,32 @@ void ResourceManager::LoadTextureResource(const std::string &name)
 	Instance().m_textures.emplace(name, res);
 }
 
+void ResourceManager::LoadFontResource(const std::string &name)
+{
+	std::string filePath = RESOURCE_PATH + FONT_FOLDER + name;
+	raylib::Font *res = nullptr;
+	try
+	{
+		res = new raylib::Font(filePath.c_str());
+	}
+	catch (const raylib::RaylibException &)
+	{
+		DbgMsg("Font failed to load!");
+
+		if (res)
+			delete res;
+		return;
+	}
+
+	if (!res->IsValid())
+	{
+		delete res;
+		return;
+	}
+
+	Instance().m_fonts.emplace(name, res);
+}
+
 void ResourceManager::LoadSoundResource(const std::string &name)
 {
 	Resource::SoundPool *res = new Resource::SoundPool();
@@ -138,6 +180,7 @@ void ResourceManager::LoadSoundResource(const std::string &name)
 	Instance().m_sounds.emplace(name, res);
 }
 
+
 const raylib::Texture2D *ResourceManager::GetTextureResource(const std::string &name)
 {
 	return GetResourceFromMap(name, Instance().m_textures);
@@ -148,6 +191,20 @@ std::vector<std::string> ResourceManager::GetTextureNames()
 	std::vector<std::string> values;
 	values.reserve(Instance().m_textures.size());
 	for (auto &[k, v] : Instance().m_textures)
+		values.push_back(k);
+	return values;
+}
+
+const raylib::Font *ResourceManager::GetFontResource(const std::string &name)
+{
+	return GetResourceFromMap(name, Instance().m_fonts);
+}
+
+std::vector<std::string> ResourceManager::GetFontNames()
+{
+	std::vector<std::string> values;
+	values.reserve(Instance().m_fonts.size());
+	for (auto &[k, v] : Instance().m_fonts)
 		values.push_back(k);
 	return values;
 }

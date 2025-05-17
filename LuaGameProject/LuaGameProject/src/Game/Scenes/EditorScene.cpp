@@ -400,17 +400,6 @@ int EditorScene::EditorScene::Render()
 	}
 	m_screenRT->EndMode();
 
-	// Draw the render texture to the screen
-	BeginDrawing();
-	{
-		DrawTextureRec(
-			m_screenRT->GetTexture(),
-			raylib::Rectangle(0, 0, m_windowInfo->p_screenWidth, -m_windowInfo->p_screenHeight),
-			raylib::Vector2(0, 0),
-			raylib::Color(255, 255, 255, 255)
-		);
-	}
-	EndDrawing();
 	return 1;
 }
 #pragma endregion
