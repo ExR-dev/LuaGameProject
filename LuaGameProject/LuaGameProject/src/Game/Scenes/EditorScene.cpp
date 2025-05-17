@@ -435,7 +435,7 @@ void EditorScene::EditorScene::SceneHierarchyUI()
 		std::function<void(entt::registry &registry)> renderEntityUI = [&](entt::registry &registry) {
 			ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
 
-			auto view = registry.view<ECS::Transform>();
+			auto view = registry.view<ECS::Transform>(entt::exclude<ECS::Debug>);
 
 			view.each([&](const entt::entity &entity, ECS::Transform &transform) {
 				ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
@@ -1024,7 +1024,6 @@ int EditorScene::EditorScene::RenderUI()
 				ZoneNamedNC(renderEditorModeZone, "Render Dungeon Creator Lua UI", RandomUniqueColor(), true);
 				modeScene.luaUI.Run(modeScene.L, "PrefabCollection");
 				modeScene.luaUI.Run(modeScene.L, "RoomSelection");
-				RoomSelectionUI();
 				break;
 			}
 

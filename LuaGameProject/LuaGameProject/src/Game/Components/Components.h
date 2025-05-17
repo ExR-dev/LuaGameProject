@@ -839,4 +839,9 @@ namespace ECS
 			}
 		}
 	};
+
+	struct Debug
+	{
+		char _; // Place holder
+	};
 }

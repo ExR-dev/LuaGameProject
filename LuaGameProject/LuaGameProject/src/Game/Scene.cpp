@@ -146,7 +146,7 @@ void Scene::Clear(lua_State *L)
 	std::function<void(entt::registry &registry)> clear = [&](entt::registry &registry) {
 		ZoneNamedNC(createPhysicsBodiesZone, "Lambda Remove All Entities", RandomUniqueColor(), true);
 
-		auto view = registry.view<entt::entity>();
+		auto view = registry.view<entt::entity>(entt::exclude<ECS::Debug>);
 
 		view.each([&](entt::entity entity) {
 			ZoneNamedNC(drawSpriteZone, "Lambda Remove All Entities", RandomUniqueColor(), true);
@@ -338,6 +338,14 @@ int Scene::lua_SetComponent(lua_State *L)
 		scene->SetComponent<ECS::CameraData>(entity, cameraData);
 		return 1;
 	}
+	else if (type == "Debug")
+	{
+		if (scene->HasComponents<ECS::Debug>(entity))
+			scene->RemoveComponent<ECS::Debug>(entity);
+
+		scene->SetComponent<ECS::Debug>(entity);
+		return 1;
+	}
 
 	return 0;
 }
@@ -443,6 +451,10 @@ int Scene::lua_HasComponent(lua_State *L)
 	else if (type == "Transform")
 	{
 		hasComponent = scene->HasComponents<ECS::Transform>(entity);
+	}
+	else if (type == "Debug")
+	{
+		hasComponent = scene->HasComponents<ECS::Debug>(entity);
 	}
 		
 	lua_pushboolean(L, hasComponent);
@@ -568,6 +580,10 @@ int Scene::lua_RemoveComponent(lua_State *L)
 	else if (type == "CameraData" && scene->HasComponents<ECS::CameraData>(entity))
 	{
 		scene->RemoveComponent<ECS::CameraData>(entity);
+	}
+	else if (type == "Debug" && scene->HasComponents<ECS::Debug>(entity))
+	{
+		scene->RemoveComponent<ECS::Debug>(entity);
 	}
 	// else if...
 

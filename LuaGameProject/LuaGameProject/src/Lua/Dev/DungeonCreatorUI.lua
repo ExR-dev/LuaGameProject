@@ -13,14 +13,14 @@ local dungeonCreatorUI = {
 		selectedRoom = -1,
 		rooms = {
 		-- 	0 = {
-		--		name = ""
+		--		name = "",
+		-- 		size = vec2(500, 500),
 		--  	prefabsCount = 0,
 		--     	roomPrefabs = {}
 		-- 	}
 		}
 	}
 }
-
 
 function dungeonCreatorUI:PrefabCollection()
 	tracy.ZoneBeginN("Lua dungeonCreatorUI:PrefabCollection")
@@ -48,16 +48,31 @@ local buffer = ""
 local done = false
 
 function dungeonCreatorUI:RoomSelection()
-	imgui.Begin("Room Selection (new)")
+	imgui.Begin("Room Selection")
 
-	if imgui.Button("Spawn") then
-		game.SpawnGroup("Test")
+	imgui.Text("Current room settings")
+
+	-- Set Bounds
+	if self.roomCollection.selectedRoom ~= -1 then
+		if imgui.Button("Save") then
+			game.CreateGroupFromScene(self.roomCollection.rooms[self.roomCollection.selectedRoom].name)
+		end
+
+		local trans = transform(scene.GetComponent(RoomBounds, "Transform"))
+
+		local value = imgui.imVec2(self.roomCollection.rooms[self.roomCollection.selectedRoom].size.x,
+								   self.roomCollection.rooms[self.roomCollection.selectedRoom].size.y)
+
+		value, _ = imgui.DragFloat2("Room Size", value)
+
+		self.roomCollection.rooms[self.roomCollection.selectedRoom].size.x = value.x
+		self.roomCollection.rooms[self.roomCollection.selectedRoom].size.y = value.y
+
+		trans.scale = self.roomCollection.rooms[self.roomCollection.selectedRoom].size
+		scene.SetComponent(RoomBounds, "Transform", trans)
 	end
 
-	imgui.SameLine()
-	if imgui.Button("Save") then
-		game.CreateGroupFromScene(self.roomCollection.rooms[self.roomCollection.selectedRoom].name)
-	end
+    imgui.Separator();
 
 	-- Room Creator
 	if imgui.BeginPopupContextItem("RoomPopup") then
@@ -68,6 +83,7 @@ function dungeonCreatorUI:RoomSelection()
 			self.roomCollection.roomCount = self.roomCollection.roomCount + 1
 			self.roomCollection.rooms[self.roomCollection.roomCount] = {
 				name = buffer,
+				size = vec2(500, 500),
 				prefabsCount = 0,
 				roomPrefabs = {}
 			}
@@ -92,7 +108,12 @@ function dungeonCreatorUI:RoomSelection()
 
 	-- Room Display
 	for i, room in ipairs(self.roomCollection.rooms) do
-		if imgui.Selectable(room.name, self.roomCollection.selectedRoom == i) then
+		if imgui.Selectable(room.name, self.roomCollection.selectedRoom == i) and self.roomCollection.selectedRoom ~= i then
+			-- Save current scene
+			if self.roomCollection.selectedRoom ~= -1 then
+				game.CreateGroupFromScene(self.roomCollection.rooms[self.roomCollection.selectedRoom].name, true)
+			end
+
 			-- Reset scene
 			self.roomCollection.selectedRoom = i
 			scene.Clear()
