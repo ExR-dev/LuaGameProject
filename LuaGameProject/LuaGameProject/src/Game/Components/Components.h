@@ -73,8 +73,10 @@ namespace ECS
 
 		void Initialize(const char *path)
 		{
-			lua_State *L = m_refState;
 			ZoneScopedC(RandomUniqueColor());
+
+			lua_State *L = m_refState;
+			m_unownedMethods.clear();
 
 			// Returns the behaviour table on top of the stack
 			LuaDoFileCleaned(L, LuaFilePath(path));
