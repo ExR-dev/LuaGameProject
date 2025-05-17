@@ -153,11 +153,6 @@ if game.SpawnGroup == nil then
 
             local entity = scene.CreateEntity()
 
-            -- First add collider if present
-            if prefabData.components.collider then
-                scene.SetComponent(entity, "Collider", prefabData.components.collider)
-            end
-
             -- Add behaviour
             if prefabData.behaviour then
                 scene.SetComponent(entity, "Behaviour", prefabData.behaviour.path)
@@ -175,10 +170,7 @@ if game.SpawnGroup == nil then
 
             -- Add other components
             for componentName, componentData in pairs(prefabData.components) do
-                if componentName ~= "Collider" then -- Skip collider
-                    print(componentName)
                     scene.SetComponent(entity, componentName, componentData)
-                end
 		    end
 
         end
@@ -186,16 +178,21 @@ if game.SpawnGroup == nil then
 	game.SpawnGroup = SpawnGroup
 end
 
+-- TODO: Save behaviour
 local componentNames = {
     "Transform",
-    "Sprite"
+    "Sprite",
+    "Collider", -- TODO: Verify
+    "Active",
+    "Hardness",
+    "Health",
+    "CameraData"
 }
 
 if game.CreateGroupFromScene == nil then
     local function CreateGroupFromScene(groupName)
         if data.groups[groupName] ~= nil then
-            print("Group '" .. groupName .. "' has been replaced!")
-            return
+            print("Group '" .. groupName .. "' has been overwritten!")
         end
 
         data.groups[groupName] = {
@@ -210,7 +207,6 @@ if game.CreateGroupFromScene == nil then
 
             for _, comp in ipairs(componentNames) do
                 local component = scene.GetComponent(entity, comp)
-                print("id: " .. entity .. " val: ", component)
                 if (component ~= nil) then
                     data.groups[groupName].entities[i].components[comp] = component
                 end

@@ -48,13 +48,8 @@ local buffer = ""
 local done = false
 
 function dungeonCreatorUI:RoomSelection()
-	imgui.Begin("Room Selection (new)")
+	imgui.Begin("Room Selection")
 
-	if imgui.Button("Spawn") then
-		game.SpawnGroup("Test")
-	end
-
-	imgui.SameLine()
 	if imgui.Button("Save") then
 		game.CreateGroupFromScene(self.roomCollection.rooms[self.roomCollection.selectedRoom].name)
 	end
@@ -92,7 +87,12 @@ function dungeonCreatorUI:RoomSelection()
 
 	-- Room Display
 	for i, room in ipairs(self.roomCollection.rooms) do
-		if imgui.Selectable(room.name, self.roomCollection.selectedRoom == i) then
+		if imgui.Selectable(room.name, self.roomCollection.selectedRoom == i) and self.roomCollection.selectedRoom ~= i then
+			-- Save current scene
+			if self.roomCollection.selectedRoom ~= -1 then
+				game.CreateGroupFromScene(self.roomCollection.rooms[self.roomCollection.selectedRoom].name)
+			end
+
 			-- Reset scene
 			self.roomCollection.selectedRoom = i
 			scene.Clear()

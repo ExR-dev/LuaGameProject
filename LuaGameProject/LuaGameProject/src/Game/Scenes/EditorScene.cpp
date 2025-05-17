@@ -1024,7 +1024,6 @@ int EditorScene::EditorScene::RenderUI()
 				ZoneNamedNC(renderEditorModeZone, "Render Dungeon Creator Lua UI", RandomUniqueColor(), true);
 				modeScene.luaUI.Run(modeScene.L, "PrefabCollection");
 				modeScene.luaUI.Run(modeScene.L, "RoomSelection");
-				RoomSelectionUI();
 				break;
 			}
 
