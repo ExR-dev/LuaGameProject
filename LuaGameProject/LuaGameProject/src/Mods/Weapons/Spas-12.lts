@@ -1,27 +1,27 @@
 return {
 -- Table: {1}
 {
-   ["contents"]={2},
    ["dataPath"]="weapons",
    ["elementName"]="Spas-12",
+   ["contents"]={2},
 },
 -- Table: {2}
 {
-   ["width"]=14,
    ["stats"]={3},
    ["length"]=64,
+   ["width"]=14,
 },
 -- Table: {3}
 {
-   ["fireMode"]="Semi",
-   ["reloadTime"]=2.0,
-   ["recoil"]=7.0,
-   ["caliber"]="12ga",
-   ["recovery"]=2,
    ["fireRate"]=2.5,
-   ["handCount"]=2,
-   ["damage"]=60.0,
-   ["capacity"]=8,
    ["spread"]=2.5,
+   ["recoil"]=9.0,
+   ["caliber"]="12ga",
+   ["handCount"]=2,
+   ["fireMode"]="Semi",
+   ["capacity"]=8,
+   ["reloadTime"]=2.0,
+   ["recovery"]=2,
+   ["damage"]=60.0,
 },
 }

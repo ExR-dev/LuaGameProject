@@ -833,8 +833,7 @@ int EditorScene::EditorScene::RenderUI()
 			case EditorScene::EditorScene::PresetCreator: {
 				ZoneNamedNC(renderEditorModeZone, "Render Preset Creator Lua UI", RandomUniqueColor(), true);
 
-				// HACK: for now, call weapon editor immediately
-				modeScene.luaUI.Run(modeScene.L, "WeaponEditorUI");
+				modeScene.luaUI.Run(modeScene.L, "PresetEditorUI");
 				break;
 			}
 

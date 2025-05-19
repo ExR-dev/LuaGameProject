@@ -40,17 +40,28 @@ function gameMath.approx(a, b, t)
 end
 
 function gameMath.lerp(a, b, t)
-	assert(type(t) == "number", "gameMath lerp - expected args: (number, number, number) or (vec2, vec2, number)")
+	assert(type(t) == "number", "gameMath lerp - expected args: (table, table, number) or (number, number, number) or (vec2, vec2, number)")
 
 	if vec2.isvec2(a) then
-		assert(vec2.isvec2(b), "gameMath lerp - expected args: (number, number, number) or (vec2, vec2, number)")
+		assert(vec2.isvec2(b), "gameMath lerp - expected args: (table, table, number) or (number, number, number) or (vec2, vec2, number)")
 		return vec2(
 			a.x + (b.x - a.x) * t, 
 			a.y + (b.y - a.y) * t
 		)
-	else
-		assert(type(a) == "number" and type(b) == "number", "gameMath lerp - expected args: (number, number, number) or (vec2, vec2, number)")
+	elseif type(a) == "number" then
+		assert(type(b) == "number", "gameMath lerp - expected args: table or (number, number, number) or (vec2, vec2, number)")
 		return (a + (b - a) * t)
+	else
+		local tbl = {}
+		for k, v in pairs(a) do
+			if type(v) == "number" then
+				tbl[k] = v + (b[k] - v) * t
+			else
+				tbl[k] = v
+			end
+		end
+		
+		return tbl
 	end
 end
 
