@@ -1,18 +1,18 @@
 return {
 -- Table: {1}
 {
-   ["dataPath"]="rooms",
-   ["contents"]={2},
    ["elementName"]="test",
+   ["contents"]={2},
+   ["dataPath"]="rooms",
 },
 -- Table: {2}
 {
-   ["size"]={3},
    ["groupName"]="test",
+   ["size"]={3},
 },
 -- Table: {3}
 {
-   ["x"]=500.0,
-   ["y"]=500.0,
+   ["x"]=463.0,
+   ["y"]=382.0,
 },
 }

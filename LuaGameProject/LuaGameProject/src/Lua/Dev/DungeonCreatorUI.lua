@@ -7,9 +7,9 @@ local dungeonCreatorUI = {
 	roomCollection = {
 		selectedRoom = nil,
 		rooms = {
-		-- 	[groupName] = {
-		-- 		size = vec2(500, 500),
-		-- 	}
+		--	[groupName] = {
+		--		size = vec2(500, 500),
+		--	}
 		}
 	}
 }
@@ -65,12 +65,12 @@ function dungeonCreatorUI:RoomSelection()
 	imgui.SameLine()
 
 	if imgui.Button("Refresh") then
-		self.roomCollection.rooms = data.rooms
+		for name, room in pairs(data.rooms) do
+			self.roomCollection.rooms[name] = room
+		end
 	end
 
-	imgui.Separator()
-
-	imgui.Text("Current room settings")
+	imgui.Separator("Current room settings")
 
 	-- Set Bounds
 	if self.roomCollection.selectedRoom ~= nil then
@@ -93,7 +93,7 @@ function dungeonCreatorUI:RoomSelection()
 		scene.SetComponent(RoomBounds, "Transform", trans)
 	end
 
-    imgui.Separator();
+    imgui.Separator("Rooms");
 
 	-- Room Creator
 	if imgui.BeginPopupContextItem("RoomPopup") then

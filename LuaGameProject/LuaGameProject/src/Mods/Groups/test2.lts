@@ -1,9 +1,9 @@
 return {
 -- Table: {1}
 {
-   ["dataPath"]="groups",
-   ["contents"]={2},
    ["elementName"]="test2",
+   ["contents"]={2},
+   ["dataPath"]="groups",
 },
 -- Table: {2}
 {
@@ -12,62 +12,87 @@ return {
 -- Table: {3}
 {
    {4},
+   {5},
 },
 -- Table: {4}
 {
-   ["components"]={5},
+   ["components"]={6},
 },
 -- Table: {5}
 {
-   ["Collider"]={6},
-   ["Transform"]={7},
-   ["Sprite"]={8},
+   ["components"]={7},
 },
 -- Table: {6}
 {
-   ["rotation"]=0.0,
-   ["extents"]={9},
-   ["tag"]="Enemy",
-   ["debug"]=false,
-   ["offset"]={10},
+   ["Transform"]={8},
 },
 -- Table: {7}
 {
-   ["rotation"]=191.08195495605,
-   ["position"]={11},
-   ["scale"]={12},
+   ["Collider"]={9},
+   ["Sprite"]={10},
+   ["Transform"]={11},
 },
 -- Table: {8}
 {
-   ["priority"]=30,
-   ["color"]={13},
-   ["spriteName"]="Maxwell.png",
+   ["position"]={12},
+   ["scale"]={13},
+   ["rotation"]=0.0,
 },
 -- Table: {9}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["rotation"]=0.0,
+   ["tag"]="Enemy",
+   ["extents"]={14},
+   ["offset"]={15},
+   ["debug"]=false,
 },
 -- Table: {10}
+{
+   ["spriteName"]="Maxwell.png",
+   ["priority"]=30,
+   ["color"]={16},
+},
+-- Table: {11}
+{
+   ["position"]={17},
+   ["scale"]={18},
+   ["rotation"]=26.519289016724,
+},
+-- Table: {12}
 {
    ["x"]=0.0,
    ["y"]=0.0,
 },
--- Table: {11}
-{
-   ["x"]=141.80000305176,
-   ["y"]=0.0,
-},
--- Table: {12}
-{
-   ["x"]=60.0,
-   ["y"]=-60.0,
-},
 -- Table: {13}
 {
-   ["r"]=0.79456013441086,
-   ["g"]=1.0,
-   ["b"]=0.013888895511627,
+   ["x"]=100.0,
+   ["y"]=100.0,
+},
+-- Table: {14}
+{
+   ["x"]=1.0,
+   ["y"]=1.0,
+},
+-- Table: {15}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {16}
+{
+   ["b"]=1.0,
    ["a"]=1.0,
+   ["r"]=1.0,
+   ["g"]=1.0,
+},
+-- Table: {17}
+{
+   ["x"]=-115.19999694824,
+   ["y"]=0.0,
+},
+-- Table: {18}
+{
+   ["x"]=60.0,
+   ["y"]=60.0,
 },
 }

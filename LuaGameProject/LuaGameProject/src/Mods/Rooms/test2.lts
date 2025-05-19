@@ -1,9 +1,9 @@
 return {
 -- Table: {1}
 {
-   ["dataPath"]="rooms",
-   ["contents"]={2},
    ["elementName"]="test2",
+   ["contents"]={2},
+   ["dataPath"]="rooms",
 },
 -- Table: {2}
 {
