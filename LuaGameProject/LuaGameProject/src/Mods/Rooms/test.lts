@@ -1,14 +1,14 @@
 return {
 -- Table: {1}
 {
+   ["dataPath"]="rooms",
    ["contents"]={2},
    ["elementName"]="test",
-   ["dataPath"]="rooms",
 },
 -- Table: {2}
 {
-   ["size"]={3},
    ["groupName"]="test",
+   ["size"]={3},
 },
 -- Table: {3}
 {
