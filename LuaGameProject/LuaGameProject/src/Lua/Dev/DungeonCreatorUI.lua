@@ -17,7 +17,7 @@ local dungeonCreatorUI = {
 	}
 }
 
-dungeonCreatorUI.roomCollection.rooms = data.rooms
+dungeonCreatorUI.roomCollection.rooms = data.rooms or {}
 
 function dungeonCreatorUI:PrefabCollection()
 	tracy.ZoneBeginN("Lua dungeonCreatorUI:PrefabCollection")
@@ -62,7 +62,6 @@ local buffer = ""
 
 function dungeonCreatorUI:RoomSelection()
 	imgui.Begin("Room Selection")
-
 
 	if imgui.Button("Save All Rooms") then
 		for name, room in pairs(self.roomCollection.rooms) do
@@ -169,6 +168,63 @@ function dungeonCreatorUI:RoomSelection()
 	end
 
 	imgui.End()
+end
+
+local radius = 100
+local selectedRooms = {}
+function dungeonCreatorUI:GenerateDungeon()
+	imgui.Text("Dungeon Generation")
+	if imgui.Button("Generate") then
+		scene.Clear()
+
+		dungeonGenerator.Reset()
+		dungeonGenerator.Initialize(vec2(100, 0))
+		dungeonGenerator.Generate(radius)
+		dungeonGenerator.SeparateRooms()
+	end
+
+	imgui.SameLine()
+	if imgui.Button("Save") then
+		-- TODO: Save dungeon to file	
+	end
+
+	imgui.Separator("Settings")
+
+	radius, _ = imgui.DragFloat("Radius", radius, 0.1, 0.01, 10000.0)
+
+	imgui.Separator("Room Selection")
+
+	-- Display rooms
+	for name, room in pairs(self.roomCollection.rooms) do
+		if imgui.Selectable(name, selectedRooms[name] == true, imgui.ImGuiSelectableFlags.NoAutoClosePopups) then
+			selectedRooms[name] = not selectedRooms[name]
+		end
+	end
+
+	imgui.Separator("Debug Options")
+
+	if imgui.Button("Spawn Rooms") then
+		scene.Clear()
+
+		dungeonGenerator.Reset()
+		dungeonGenerator.Initialize(vec2(100, 100))
+		dungeonGenerator.Generate(radius)
+	end
+
+	if imgui.Button("Separate Rooms") then
+		dungeonGenerator.SeparateRooms()
+	end
+
+	imgui.Separator()
+
+	if imgui.Button("Close") then
+		imgui.CloseCurrentPopup()
+	end
+
+	imgui.SameLine()
+	if imgui.Button("Reset") then
+		dungeonGenerator.Reset()
+	end
 end
 
 tracy.ZoneEnd()

@@ -9,8 +9,8 @@
 
 int Room::m_ID = 0;
 
-Room::Room(raylib::Vector2 size, raylib::Color color) :
-	m_id(m_ID++), pos({ 0, 0 }), size(size), color(color)
+Room::Room(raylib::Vector2 size, const std::string &name) :
+	m_id(m_ID++), pos({ 0, 0 }), size(size), p_name(name)
 {
 }
 
@@ -24,6 +24,93 @@ bool DungeonGenerator::Intersecting(const Room &r1, const Room &r2)
 		   (r1.pos.y - r1.size.y / 2) < (r2.pos.y + r2.size.y / 2);
 }
 
+int DungeonGenerator::lua_Initialize(lua_State *L)
+{
+	Vector2 pos = { 0, 0 };
+
+	lua_getfield(L, -1, "x");
+	if (lua_isnumber(L, -1))
+		pos.x = (float)lua_tonumber(L, -1);
+	lua_pop(L, 1);
+
+	lua_getfield(L, -1, "y");
+	if (lua_isnumber(L, -1))
+		pos.y = (float)lua_tonumber(L, -1);
+	lua_pop(L, 1);
+
+	Instance().Initialize(pos);
+	return 0;
+}
+
+int DungeonGenerator::lua_AddRoom(lua_State *L)
+{
+	Vector2 size = {0, 0};
+	std::string name = "";
+
+	lua_getfield(L, -1, "size");
+		lua_getfield(L, -1, "x");
+		if (lua_isnumber(L, -1))
+			size.x = (float)lua_tonumber(L, -1);
+		lua_pop(L, 1);
+
+		lua_getfield(L, -1, "y");
+		if (lua_isnumber(L, -1))
+			size.y = (float)lua_tonumber(L, -1);
+		lua_pop(L, 1);
+	lua_pop(L, 1);
+
+	lua_getfield(L, -1, "name");
+		if (lua_isstring(L, -1))
+			name = lua_tostring(L, -1);
+	lua_pop(L, 1);
+
+
+	Room room = Room(size, name);
+	Instance().AddRoom(room);
+
+	return 0;
+}
+
+int DungeonGenerator::lua_Generate(lua_State *L)
+{
+	float radius = lua_tonumber(L, 1);
+	Instance().Generate(radius);
+	return 0;
+}
+
+int DungeonGenerator::lua_SeparateRooms(lua_State *L)
+{
+	Instance().SeparateRooms();
+	return 0;
+}
+
+int DungeonGenerator::lua_Reset(lua_State *L)
+{
+	Instance().Reset();
+	return 0;
+}
+
+
+void DungeonGenerator::BindToLua(lua_State *L)
+{
+	ZoneScopedC(RandomUniqueColor());
+
+	lua_newtable(L);
+
+	luaL_Reg methods[] = {
+		//  { "NameInLua",			NameInCpp			},
+			{ "Initialize",			lua_Initialize		},
+			{ "AddRoom",			lua_AddRoom			},
+			{ "Generate",			lua_Generate		},
+			{ "Reset",				lua_Reset			},
+			{ "SeparateRooms",		lua_SeparateRooms	},
+			{ NULL,					NULL				}
+	};
+
+	luaL_setfuncs(L, methods, 0);
+
+	lua_setglobal(L, "dungeonGenerator");
+}
 
 void DungeonGenerator::Initialize(Vector2 pos)
 {
@@ -40,9 +127,8 @@ void DungeonGenerator::Initialize(Vector2 pos)
 
 	m_isInitialized = true;
 
-	for (int _ = 0; _ < 100; _++)
-		AddRoom({{(float)(Math::Random(2, 10)*m_tileSize), (float)(Math::Random(2, 10)*m_tileSize)}, 
-				 {(unsigned char)(Math::Random01f()*255), (unsigned char)(Math::Random01f()*255), (unsigned char)(Math::Random01f()*255), 255}});
+	for (int i = 0; i < 100; i++)
+		AddRoom({{(float)(Math::Random(2, 10)*m_tileSize), (float)(Math::Random(2, 10)*m_tileSize)}, std::format("Room {}", i)});
 }
 
 void DungeonGenerator::AddRoom(const Room &room)

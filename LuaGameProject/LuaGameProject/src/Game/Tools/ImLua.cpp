@@ -1191,7 +1191,7 @@ namespace ImLua
 		} while (false);
 
 		// Do ImGui command
-		bool pressed = ImGui::Selectable(label.c_str(), selected, 0, size);
+		bool pressed = ImGui::Selectable(label.c_str(), selected, flags, size);
 
 		// Return result
 		PushBool(L, pressed);

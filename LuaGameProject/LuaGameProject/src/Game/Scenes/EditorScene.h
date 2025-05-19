@@ -137,7 +137,6 @@ namespace EditorScene
 		raylib::Rectangle m_sceneViewRect{};
 
 		int m_selectedEntity = -1;
-		int m_selectedRoom = -1;
 
 		bool m_isDraggingCamera = false;
 		raylib::Vector2 m_dragOrigin = raylib::Vector2(0, 0);

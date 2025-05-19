@@ -70,9 +70,13 @@ int GameScene::GameScene::Start(WindowInfo *windowInfo, CmdState *cmdState, rayl
     m_cameraUpdater = std::bind(&GameScene::UpdatePlayerCamera, this);
     m_cameraOption = 0;
 
+    // Setup Dungeon Generator
+    DungeonGenerator::Instance().BindToLua(L);
+
     DungeonGenerator::Instance().Initialize({ 200, 200 });
     DungeonGenerator::Instance().Generate(100);
 
+    // Setup Lua Input
     BindLuaInput(L);
 
     // Initialize Lua data & mods

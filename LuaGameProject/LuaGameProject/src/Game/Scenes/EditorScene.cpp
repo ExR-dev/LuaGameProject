@@ -372,8 +372,7 @@ int EditorScene::EditorScene::Render()
 			};
 			scene.RunSystem(drawPhysicsBodies);
 
-			if (m_selectedRoom == -1)
-				DungeonGenerator::Instance().Draw();
+			DungeonGenerator::Instance().Draw();
 
 			// Draw a circle at the mouse position, converted to scene coordinates
 			raylib::Vector2 mousePos = GetMousePosition();
@@ -494,186 +493,6 @@ void EditorScene::EditorScene::EntityEditorUI()
 		}
 	}
 	ImGui::End();
-}
-
-void EditorScene::EditorScene::RoomSelectionUI()
-{
-	auto &modeScene = *(m_editorModeScenes[m_editorMode].get());
-
-	if (ImGui::Begin("Room Selection"))
-	{
-		std::function<void(entt::registry &registry)> clear = [&](entt::registry &registry) {
-			ZoneNamedNC(createPhysicsBodiesZone, "Lambda Remove All Entities", RandomUniqueColor(), true);
-
-			auto view = registry.view<entt::entity>(entt::exclude<ECS::Room>);
-
-			view.each([&](entt::entity entity) {
-				ZoneNamedNC(drawSpriteZone, "Lambda Remove Entity", RandomUniqueColor(), true);
-				modeScene.scene.SetComponent<ECS::Remove>(entity);
-			});
-
-			modeScene.scene.CleanUp(modeScene.L);
-		};
-
-		if (ImGui::BeginPopupContextItem("RoomPopup"))
-		{
-			static char name[ECS::Room::ROOM_NAME_LENGTH];
-			if (!ImGui::IsAnyItemActive() && !ImGui::IsMouseClicked(0))
-				ImGui::SetKeyboardFocusHere(0);
-			bool done = ImGui::InputText("Enter Name", name, IM_ARRAYSIZE(name), ImGuiInputTextFlags_EnterReturnsTrue);
-			if ((ImGui::Button("Done") || done) && name[0] != '\0')
-			{
-				// TODO: check if name already exists
-
-				int id = modeScene.scene.CreateEntity();
-				ECS::Room room(name);
-				modeScene.scene.SetComponent(id, room);
-				memset(name, '\0', ECS::Room::ROOM_NAME_LENGTH);
-
-				m_selectedRoom = id;
-				modeScene.scene.RunSystem(clear);
-				ImGui::CloseCurrentPopup();
-			}
-
-			ImGui::SameLine();
-			if (ImGui::Button("Cancel"))
-			{
-				memset(name, '\0', ECS::Room::ROOM_NAME_LENGTH);
-				ImGui::CloseCurrentPopup();
-			}
-
-			ImGui::EndPopup();
-		}
-
-		if (ImGui::Button("Create new room"))
-			ImGui::OpenPopup("RoomPopup");
-
-		std::function<void(entt::registry &registry)> renderEntityUI = [&](entt::registry &registry) {
-			ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
-
-			auto view = registry.view<ECS::Room>();
-
-			view.each([&](const entt::entity &entity, ECS::Room &transform) {
-				ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
-
-				const int id = static_cast<int>(entity);
-				if (ImGui::Selectable(transform.RoomName, (id == m_selectedRoom)))
-					if (m_selectedRoom != id)
-					{
-						m_selectedRoom = id;
-						modeScene.scene.RunSystem(clear);
-
-						// TODO: Save current room
-						// TODO: Load new room
-					}
-			});
-		};
-
-		modeScene.scene.RunSystem(renderEntityUI);
-	}
-
-	ImGui::End();
-}
-
-void EditorScene::EditorScene::GenerateDungeonUI()
-{
-	auto& modeScene = *(m_editorModeScenes[m_editorMode].get());
-
-	ImGui::Text("Select rooms");
-
-	static std::vector<int> selectedRooms;
-
-	static float radius = 100;
-
-	// Clear current scene
-	std::function<void(entt::registry& registry)> clear = [&](entt::registry& registry) {
-		ZoneNamedNC(createPhysicsBodiesZone, "Lambda Remove All Entities", RandomUniqueColor(), true);
-
-		auto view = registry.view<entt::entity>(entt::exclude<ECS::Room>);
-
-		view.each([&](entt::entity entity) {
-			ZoneNamedNC(drawSpriteZone, "Lambda Remove Entity", RandomUniqueColor(), true);
-			modeScene.scene.SetComponent<ECS::Remove>(entity);
-			});
-
-		modeScene.scene.CleanUp(modeScene.L);
-		};
-
-	if (ImGui::Button("Generate"))
-	{
-		modeScene.scene.RunSystem(clear);
-
-		// Generate Dungeon
-		DungeonGenerator::Instance().Reset();
-		DungeonGenerator::Instance().Initialize({ 0, 0 });
-
-		DungeonGenerator::Instance().Generate(radius);
-		DungeonGenerator::Instance().SeparateRooms();
-
-		m_selectedRoom = -1;
-	}
-
-	ImGui::SameLine();
-	if (ImGui::Button("Save"))
-	{
-		// TODO: Save dungeon
-	}
-
-	ImGui::SeparatorText("Settings");
-
-	ImGui::DragFloat("Radius", &radius, 0.1f, 0.01f, 10000.0f);
-
-	ImGui::SeparatorText("Room Selection");
-
-	std::function<void(entt::registry& registry)> roomSelection = [&](entt::registry& registry) {
-		ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
-
-		auto view = registry.view<ECS::Room>();
-
-		view.each([&](const entt::entity& entity, ECS::Room& transform) {
-			ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
-
-			const int id = static_cast<int>(entity);
-			auto findRes = std::find(selectedRooms.begin(), selectedRooms.end(), id);
-			bool isSelected = findRes != selectedRooms.end();
-			if (ImGui::Selectable(transform.RoomName, isSelected, ImGuiSelectableFlags_NoAutoClosePopups))
-			{
-				if (isSelected)
-					std::erase(selectedRooms, id);
-				else
-					selectedRooms.push_back(id);
-			}
-		});
-	};
-
-	modeScene.scene.RunSystem(roomSelection);
-
-
-	ImGui::SeparatorText("Debug Options");
-
-	if (ImGui::Button("Spawn Rooms"))
-	{
-		modeScene.scene.RunSystem(clear);
-
-		DungeonGenerator::Instance().Reset();
-		DungeonGenerator::Instance().Initialize({ 0, 0 });
-		DungeonGenerator::Instance().Generate(radius);
-
-		m_selectedRoom = -1;
-	}
-
-	if (ImGui::Button("Separate Rooms"))
-		DungeonGenerator::Instance().SeparateRooms();
-
-	ImGui::Separator();
-
-	if (ImGui::Button("Close"))
-		ImGui::CloseCurrentPopup();
-
-	ImGui::SameLine();
-
-	if (ImGui::Button("Reset"))
-		DungeonGenerator::Instance().Reset();
 }
 
 void EditorScene::EditorScene::RenderWindowUI()
@@ -832,8 +651,7 @@ void EditorScene::EditorScene::RenderWindowUI()
 
 					if (ImGui::BeginPopupContextItem("RoomSelectionPopup"))
 					{
-						GenerateDungeonUI();
-
+						modeScene.luaUI.Run(modeScene.L, "GenerateDungeon");
 						ImGui::EndPopup();
 						ImGui::GetStyle() = oldStyle;
 					}
@@ -1115,6 +933,9 @@ void EditorScene::EditorScene::EditorModeScene::Init(WindowInfo *windowInfo, con
 	LuaDoFileCleaned(L, LuaFilePath(std::format("Scenes/InitEditor{}Scene", name))); // Creates entities
 
 	luaUI.Create(L, std::format("Dev/{}UI", name).c_str());
+
+	// Setup Dungeon Generator
+	DungeonGenerator::Instance().BindToLua(L);
 }
 void EditorScene::EditorScene::EditorModeScene::LoadData() const
 {

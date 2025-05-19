@@ -8,11 +8,11 @@
 
 struct Room
 {
-	Room(raylib::Vector2 size, raylib::Color color);
+	Room(raylib::Vector2 size, const std::string &name);
 
 	raylib::Vector2 pos;
 	raylib::Vector2 size;
-	raylib::Color color;
+	std::string p_name;
 
 	bool operator==(const Room &other) 
 	{
@@ -48,12 +48,35 @@ private:
 	DungeonGenerator() = default;
 	~DungeonGenerator() = default;
 
+	// Aguments: position (Vec2)
+	// Returns: none
+	static int lua_Initialize(lua_State *L);
+
+	// Aguments: room (Room)
+	// Returns: none
+	static int lua_AddRoom(lua_State *L);
+
+	// Aguments: radius (float)
+	// Returns: none
+	static int lua_Generate(lua_State *L);
+
+	// Aguments: none
+	// Returns: none
+	static int lua_SeparateRooms(lua_State *L);
+
+	// Aguments: none
+	// Returns: none
+	static int lua_Reset(lua_State *L);
+
+
 public:
 	static DungeonGenerator &Instance()
 	{
 		static DungeonGenerator instance;
 		return instance;
 	}
+
+	void BindToLua(lua_State *L);
 
 	void Initialize(Vector2 pos);
 
