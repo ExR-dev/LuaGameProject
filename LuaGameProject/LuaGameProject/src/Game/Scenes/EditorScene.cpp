@@ -177,12 +177,11 @@ Game::SceneState EditorScene::EditorScene::Update()
 		view.each([&](const entt::entity entity, ECS::Collider& collider, ECS::Transform& transform) {
 			ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
 
+			collider.createBody = !b2Body_IsValid(collider.bodyId);
+
 			// Create body
 			if (!collider.createBody)
 			{
-				// TODO: "b2Body_SetTransform" fails if collider has been set more than once on this entity
-				// See Cmd.lua for reproducible example
-
 				b2Body_SetTransform(collider.bodyId, 
 									{ collider.offset[0] + transform.Position[0], collider.offset[1] + transform.Position[1] }, 
 									{ cosf((transform.Rotation + collider.rotation) * DEG2RAD), sinf((transform.Rotation + collider.rotation) * DEG2RAD) });
@@ -355,7 +354,7 @@ int EditorScene::EditorScene::Render()
 				view.each([&](ECS::Collider &collider, ECS::Transform &transform) {
 					ZoneNamedNC(drawSpriteZone, "Lambda Draw Physics Body", RandomUniqueColor(), true);
 
-					if (collider.debug)
+					if (collider.debug && b2Body_IsValid(collider.bodyId))
 					{
 						const float w = fabsf(transform.Scale[0] * collider.extents[0]),
 							h = fabsf(transform.Scale[1] * collider.extents[1]);
