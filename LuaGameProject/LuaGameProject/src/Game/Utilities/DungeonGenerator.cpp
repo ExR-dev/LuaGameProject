@@ -9,11 +9,10 @@
 
 int Room::m_ID = 0;
 
-Room::Room(raylib::Vector2 size, raylib::Color color) :
-	m_id(m_ID++), pos({ 0, 0 }), size(size), color(color)
+Room::Room(raylib::Vector2 size, const std::string &name) :
+	m_id(m_ID++), pos({ 0, 0 }), size(size), p_name(name)
 {
 }
-
 
 using namespace Math;
 
@@ -25,26 +24,99 @@ bool DungeonGenerator::Intersecting(const Room &r1, const Room &r2)
 		   (r1.pos.y - r1.size.y / 2) < (r2.pos.y + r2.size.y / 2);
 }
 
-DungeonGenerator::DungeonGenerator():
-	m_position({0, 0})
+int DungeonGenerator::lua_Initialize(lua_State *L)
 {
-	Initialize();
+	Vector2 pos = { 0, 0 };
+
+	lua_getfield(L, -1, "x");
+	if (lua_isnumber(L, -1))
+		pos.x = (float)lua_tonumber(L, -1);
+	lua_pop(L, 1);
+
+	lua_getfield(L, -1, "y");
+	if (lua_isnumber(L, -1))
+		pos.y = (float)lua_tonumber(L, -1);
+	lua_pop(L, 1);
+
+	Instance().Initialize(pos);
+	return 0;
 }
 
-DungeonGenerator::DungeonGenerator(Vector2 pos):
-	m_position(pos)
+int DungeonGenerator::lua_AddRoom(lua_State *L)
 {
-	Initialize();
-}
-DungeonGenerator::DungeonGenerator(raylib::Vector2 pos)
-{
-	m_position = Vector2(pos.x, pos.y);
-	Initialize();
+	Vector2 size = {0, 0};
+	std::string name = "";
+
+	lua_getfield(L, -1, "size");
+		lua_getfield(L, -1, "x");
+		if (lua_isnumber(L, -1))
+			size.x = (float)lua_tonumber(L, -1);
+		lua_pop(L, 1);
+
+		lua_getfield(L, -1, "y");
+		if (lua_isnumber(L, -1))
+			size.y = (float)lua_tonumber(L, -1);
+		lua_pop(L, 1);
+	lua_pop(L, 1);
+
+	lua_getfield(L, -1, "name");
+		if (lua_isstring(L, -1))
+			name = lua_tostring(L, -1);
+	lua_pop(L, 1);
+
+
+	Room room = Room(size, name);
+	Instance().AddRoom(room);
+
+	return 0;
 }
 
-void DungeonGenerator::Initialize()
+int DungeonGenerator::lua_Generate(lua_State *L)
+{
+	float radius = lua_tonumber(L, 1);
+	Instance().Generate(radius);
+	return 0;
+}
+
+int DungeonGenerator::lua_SeparateRooms(lua_State *L)
+{
+	Instance().SeparateRooms();
+	return 0;
+}
+
+int DungeonGenerator::lua_Reset(lua_State *L)
+{
+	Instance().Reset();
+	return 0;
+}
+
+
+void DungeonGenerator::BindToLua(lua_State *L)
 {
 	ZoneScopedC(RandomUniqueColor());
+
+	lua_newtable(L);
+
+	luaL_Reg methods[] = {
+		//  { "NameInLua",			NameInCpp			},
+			{ "Initialize",			lua_Initialize		},
+			{ "AddRoom",			lua_AddRoom			},
+			{ "Generate",			lua_Generate		},
+			{ "Reset",				lua_Reset			},
+			{ "SeparateRooms",		lua_SeparateRooms	},
+			{ NULL,					NULL				}
+	};
+
+	luaL_setfuncs(L, methods, 0);
+
+	lua_setglobal(L, "dungeonGenerator");
+}
+
+void DungeonGenerator::Initialize(Vector2 pos)
+{
+	ZoneScopedC(RandomUniqueColor());
+	
+	m_position = pos;
 
 	if (m_rooms.size() > 0)
 	{
@@ -53,13 +125,17 @@ void DungeonGenerator::Initialize()
 		m_graph.clear();
 	}
 
-	for (int _ = 0; _ < 100; _++)
-		AddRoom({{(float)(Math::Random(2, 10)*_tileSize), (float)(Math::Random(2, 10)*_tileSize)}, 
-				 {(unsigned char)(Math::Random01f()*255), (unsigned char)(Math::Random01f()*255), (unsigned char)(Math::Random01f()*255), 255}});
+	m_isInitialized = true;
+
+	for (int i = 0; i < 100; i++)
+		AddRoom({{(float)(Math::Random(2, 10)*m_tileSize), (float)(Math::Random(2, 10)*m_tileSize)}, std::format("Room {}", i)});
 }
 
 void DungeonGenerator::AddRoom(const Room &room)
 {
+	if (!m_isInitialized)
+		return;
+
 	m_rooms.push_back(room);
 }
 
@@ -67,14 +143,29 @@ void DungeonGenerator::Generate(float radius)
 {
 	ZoneScopedC(RandomUniqueColor());
 
+	if (!m_isInitialized)
+		return;
+
 	// Set room positions
 	for (auto &room : m_rooms)
-		room.pos = Vector2Add(m_position, Math::RandomGridPointCircle(radius, _tileSize));
+		room.pos = Vector2Add(m_position, Math::RandomGridPointCircle(radius, m_tileSize));
+}
+
+void DungeonGenerator::Reset()
+{
+	m_rooms.clear();
+	m_selectedRooms.clear();
+	m_graph.clear();
+
+	m_isInitialized = false;
 }
 
 void DungeonGenerator::SeparateRooms()
 {
 	ZoneScopedC(RandomUniqueColor());
+
+	if (!m_isInitialized)
+		return;
 
 	//bool roomsSeparated = GridSeparation();
 	bool roomsSeparated = PhysicalSeparation();
@@ -93,6 +184,9 @@ void DungeonGenerator::SeparateRooms()
 bool DungeonGenerator::GridSeparation()
 {
 	ZoneScopedC(RandomUniqueColor());
+
+	if (!m_isInitialized)
+		return false;
 
 	bool foundIntersection = true;
 
@@ -117,14 +211,14 @@ bool DungeonGenerator::GridSeparation()
 					if (overlapX < overlapY)
 					{
 						float dir = (delta.x < 0) ? -1 : 1;
-						room.pos.x += dir * _tileSize;
-						other.pos.x -= dir * _tileSize;
+						room.pos.x += dir * m_tileSize;
+						other.pos.x -= dir * m_tileSize;
 					}
 					else
 					{
 						float dir = (delta.y < 0) ? -1 : 1;
-						room.pos.y += dir * _tileSize;
-						other.pos.y -= dir * _tileSize;
+						room.pos.y += dir * m_tileSize;
+						other.pos.y -= dir * m_tileSize;
 					}
 				}
 			}
@@ -132,8 +226,8 @@ bool DungeonGenerator::GridSeparation()
 
 		// Snap to tile grid
 		for (auto &room : m_rooms) {
-			room.pos.x = roundf(room.pos.x / _tileSize) * _tileSize;
-			room.pos.y = roundf(room.pos.y / _tileSize) * _tileSize;
+			room.pos.x = roundf(room.pos.x / m_tileSize) * m_tileSize;
+			room.pos.y = roundf(room.pos.y / m_tileSize) * m_tileSize;
 		}
 	}
 
@@ -143,6 +237,9 @@ bool DungeonGenerator::GridSeparation()
 bool DungeonGenerator::PhysicalSeparation()
 {
 	ZoneScopedC(RandomUniqueColor());
+
+	if (!m_isInitialized)
+		return false;
 
 	bool foundIntersection = true;
 
@@ -187,6 +284,9 @@ void DungeonGenerator::RoomSelection()
 {
 	ZoneScopedC(RandomUniqueColor());
 
+	if (!m_isInitialized)
+		return;
+
 	if (m_selectedRooms.size() > 0)
 		m_selectedRooms.clear();
 
@@ -209,6 +309,9 @@ void DungeonGenerator::RoomSelection()
 void DungeonGenerator::GenerateGraph()
 {
 	ZoneScopedC(RandomUniqueColor());
+
+	if (!m_isInitialized)
+		return;
 
 	std::vector<Point> points;
 	
@@ -249,6 +352,9 @@ void DungeonGenerator::GenerateGraph()
 void DungeonGenerator::Draw()
 {
 	ZoneScopedC(RandomUniqueColor());
+
+	if (!m_isInitialized)
+		return;
 
 	const float padding = 4;
 	for (const auto &room : m_rooms)

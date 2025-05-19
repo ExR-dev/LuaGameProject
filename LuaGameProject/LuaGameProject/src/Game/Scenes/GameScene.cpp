@@ -24,12 +24,6 @@ GameScene::GameScene::~GameScene()
 
 	Game::IsQuitting = true;
 
-	if (m_dungeon)
-	{
-		delete m_dungeon;
-		m_dungeon = nullptr;
-	}
-
 	if (L)
 	{
 		lua_close(L);
@@ -76,10 +70,13 @@ int GameScene::GameScene::Start(WindowInfo *windowInfo, CmdState *cmdState, rayl
     m_cameraUpdater = std::bind(&GameScene::UpdatePlayerCamera, this);
     m_cameraOption = 0;
 
-    Assert(!m_dungeon, "m_dungeon is not nullptr!");
-    m_dungeon = new DungeonGenerator(raylib::Vector2(200, 200));
-    m_dungeon->Generate(100);
+    // Setup Dungeon Generator
+    DungeonGenerator::Instance().BindToLua(L);
 
+    DungeonGenerator::Instance().Initialize({ 200, 200 });
+    DungeonGenerator::Instance().Generate(100);
+
+    // Setup Lua Input
     BindLuaInput(L);
 
     // Initialize Lua data & mods
@@ -172,12 +169,12 @@ Game::SceneState GameScene::GameScene::Update()
 
     if (Input::CheckKeyPressed(Input::GAME_KEY_T))
     {
-        m_dungeon->Initialize();
-        m_dungeon->Generate(100);
+        DungeonGenerator::Instance().Initialize({0, 0});
+        DungeonGenerator::Instance().Generate(100);
     }
 
     if (Input::CheckKeyPressed(Input::GAME_KEY_Y))
-        m_dungeon->SeparateRooms();
+        DungeonGenerator::Instance().SeparateRooms();
 
     if (Input::CheckKeyPressed(Input::GAME_KEY_C))
     {
@@ -214,11 +211,10 @@ Game::SceneState GameScene::GameScene::Update()
         view.each([&](const entt::entity entity, ECS::Collider& collider, ECS::Transform& transform) {
             ZoneNamedNC(drawSpriteZone, "Lambda Update Physics Boddy", RandomUniqueColor(), true);
 
+            collider.createBody = !b2Body_IsValid(collider.bodyId);
+
             if (!collider.createBody)
             {
-                // TODO: "b2Body_SetTransform" fails if collider has been set more than once on this entity
-                // See Cmd.lua for reproducible example
-
 				b2Body_SetTransform(collider.bodyId, 
 									{ collider.offset[0] + transform.Position[0], collider.offset[1] + transform.Position[1] }, 
 									{ cosf((transform.Rotation + collider.rotation) * DEG2RAD), sinf((transform.Rotation + collider.rotation) * DEG2RAD) });
@@ -407,7 +403,7 @@ int GameScene::GameScene::Render()
                 view.each([&](ECS::Collider &collider, ECS::Transform &transform) {
                     ZoneNamedNC(drawSpriteZone, "Lambda Draw Physics Body", RandomUniqueColor(), true);
 
-                    if (collider.debug)
+                    if (collider.debug && b2Body_IsValid(collider.bodyId))
                     {
                         const float w = fabsf(transform.Scale[0] * collider.extents[0]),
                             h = fabsf(transform.Scale[1] * collider.extents[1]);
@@ -425,7 +421,7 @@ int GameScene::GameScene::Render()
             m_scene.RunSystem(drawPhysicsBodies);
 
             // Draw the dungeon
-            m_dungeon->Draw();
+            DungeonGenerator::Instance().Draw();
 
             EndMode2D();
         }

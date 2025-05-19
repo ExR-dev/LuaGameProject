@@ -43,8 +43,6 @@ namespace GameScene
 
         FreeCam m_freeCam{};
 
-        DungeonGenerator *m_dungeon = nullptr;
-
         bool m_cursorEnabled = false;
 
         entt::entity m_cameraEntity = entt::null;
