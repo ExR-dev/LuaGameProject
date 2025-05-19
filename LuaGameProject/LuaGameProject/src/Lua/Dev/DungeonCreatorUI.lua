@@ -4,19 +4,13 @@ local vec2 = require("Vec2")
 local transform = require("Transform2")
 
 local dungeonCreatorUI = {
-	prefabCollection = {
-		prefabsCount = 0,
-		roomPrefabs = {}
-	},
 	roomCollection = {
 		roomCount = 0,
 		selectedRoom = -1,
 		rooms = {
 		-- 	0 = {
-		--		name = "",
+		--		groupName = "",
 		-- 		size = vec2(500, 500),
-		--  	prefabsCount = 0,
-		--     	roomPrefabs = {}
 		-- 	}
 		}
 	}
@@ -29,11 +23,7 @@ function dungeonCreatorUI:PrefabCollection()
 
 	for name, _ in pairs(data.prefabs) do
 		if imgui.Button(name) and self.roomCollection.selectedRoom ~= -1 then
-			if game.SpawnPrefab(name) then
-				local count = self.roomCollection.rooms[self.roomCollection.selectedRoom].prefabsCount + 1
-				self.roomCollection.rooms[self.roomCollection.selectedRoom].prefabsCount = count
-				self.roomCollection.rooms[self.roomCollection.selectedRoom].roomPrefabs[count] = name
-			else
+			if ~game.SpawnPrefab(name) then
 				print("Could not instanciate prefab")
 			end
 		end
@@ -52,10 +42,20 @@ function dungeonCreatorUI:RoomSelection()
 
 	imgui.Text("Current room settings")
 
+	if imgui.Button("Save All Rooms") then
+		for i, room in ipairs(self.roomCollection.rooms) do
+			local err = data.modding.createLuaTableSave("src/Mods/Rooms/", "rooms", room.groupName, room)
+
+			if err then
+				print("Error saving prefab: "..err)
+			end
+		end
+	end
+
 	-- Set Bounds
 	if self.roomCollection.selectedRoom ~= -1 then
 		if imgui.Button("Save") then
-			game.CreateGroupFromScene(self.roomCollection.rooms[self.roomCollection.selectedRoom].name)
+			game.CreateGroupFromScene(self.roomCollection.rooms[self.roomCollection.selectedRoom].groupName)
 		end
 
 		local trans = transform(scene.GetComponent(RoomBounds, "Transform"))
@@ -82,10 +82,8 @@ function dungeonCreatorUI:RoomSelection()
 		if imgui.Button("Done") and buffer ~= "" then
 			self.roomCollection.roomCount = self.roomCollection.roomCount + 1
 			self.roomCollection.rooms[self.roomCollection.roomCount] = {
-				name = buffer,
+				groupName = buffer,
 				size = vec2(500, 500),
-				prefabsCount = 0,
-				roomPrefabs = {}
 			}
 
 			buffer = ""
@@ -108,10 +106,10 @@ function dungeonCreatorUI:RoomSelection()
 
 	-- Room Display
 	for i, room in ipairs(self.roomCollection.rooms) do
-		if imgui.Selectable(room.name, self.roomCollection.selectedRoom == i) and self.roomCollection.selectedRoom ~= i then
+		if imgui.Selectable(room.groupName, self.roomCollection.selectedRoom == i) and self.roomCollection.selectedRoom ~= i then
 			-- Save current scene
 			if self.roomCollection.selectedRoom ~= -1 then
-				game.CreateGroupFromScene(self.roomCollection.rooms[self.roomCollection.selectedRoom].name, true)
+				game.CreateGroupFromScene(self.roomCollection.rooms[self.roomCollection.selectedRoom].groupName, true)
 			end
 
 			-- Reset scene
@@ -119,7 +117,7 @@ function dungeonCreatorUI:RoomSelection()
 			scene.Clear()
 
 			-- Load new room
-			game.SpawnGroup(self.roomCollection.rooms[self.roomCollection.selectedRoom].name)
+			game.SpawnGroup(self.roomCollection.rooms[self.roomCollection.selectedRoom].groupName)
 		end
 	end
 
