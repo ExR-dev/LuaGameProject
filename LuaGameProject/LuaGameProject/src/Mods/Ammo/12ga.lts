@@ -14,10 +14,10 @@ return {
 },
 -- Table: {3}
 {
-   ["damageMult"]=0.25,
-   ["burstSize"]=6,
-   ["falloff"]=0.93,
-   ["spread"]=7.0,
+   ["damageMult"]=0.45,
+   ["burstSize"]=8,
+   ["falloff"]=0.7,
+   ["spread"]=13.0,
    ["penetration"]=0.4,
    ["recoil"]=6.0,
 },

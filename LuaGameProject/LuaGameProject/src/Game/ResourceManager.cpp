@@ -96,6 +96,7 @@ void ResourceManager::LoadResources()
 		LoadTextureResource(file);
 
 	// Load all fonts
+	Instance().m_fonts.emplace("", new raylib::Font()); // Default font
 	for (const auto &file : fontFiles)
 		LoadFontResource(file);
 
@@ -195,7 +196,7 @@ std::vector<std::string> ResourceManager::GetTextureNames()
 	return values;
 }
 
-const raylib::Font *ResourceManager::GetFontResource(const std::string &name)
+raylib::Font *ResourceManager::GetFontResource(const std::string &name)
 {
 	return GetResourceFromMap(name, Instance().m_fonts);
 }

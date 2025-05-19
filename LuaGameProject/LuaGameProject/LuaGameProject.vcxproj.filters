@@ -417,6 +417,9 @@
     <None Include="src\Lua\Dungeons\Rooms\Room.lua" />
     <None Include="src\Lua\Dev\DungeonCreatorUI.lua" />
     <None Include="src\Lua\Scenes\InitEditorDungeonCreatorScene.lua" />
+    <None Include="src\Lua\Behaviours\DamageNumber.lua" />
+    <None Include="src\Lua\Components\TextRender.lua" />
+    <None Include="src\Lua\Behaviours\HealthBar.lua" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="raylib.dll" />

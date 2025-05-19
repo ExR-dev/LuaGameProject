@@ -346,6 +346,77 @@ int EditorScene::EditorScene::Render()
 			};
 			scene.RunSystem(drawSystem);
 
+			// Draw text
+			std::function<void(entt::registry &registry)> drawTextSystem = [](entt::registry &registry) {
+				ZoneNamedNC(lambdaDrawTextZone, "Lambda Draw Text", RandomUniqueColor(), true);
+
+				auto view = registry.view<ECS::TextRender, ECS::Transform>();
+
+				view.each([&](const entt::entity entity, const ECS::TextRender &textRender, const ECS::Transform &transform) {
+					ZoneNamedNC(drawTextZone, "Draw Text", RandomUniqueColor(), true);
+
+					// If the entity has an active component, check if it is active
+					if (registry.all_of<ECS::Active>(entity))
+					{
+						ECS::Active &active = registry.get<ECS::Active>(entity);
+						if (!active.IsActive)
+							return; // Skip drawing if the entity is not active
+					}
+
+					raylib::Font *font = ResourceManager::GetFontResource(textRender.Font);
+
+					if (!font)
+					{
+						ResourceManager::LoadFontResource(textRender.Font);
+						font = ResourceManager::GetFontResource(textRender.Font);
+
+						if (!font)
+							font = ResourceManager::GetFontResource(""); // Fallback to default
+					}
+
+					raylib::Vector2 entPos(transform.Position[0], transform.Position[1]);
+					float entRot = transform.Rotation;
+
+					const float
+						fontSize = textRender.FontSize,
+						spacing = textRender.Spacing,
+						bgExtents = textRender.BgThickness;
+
+					raylib::Vector2 offset(
+						textRender.Offset[0],
+						textRender.Offset[1]
+					);
+					offset = offset.Rotate(entRot * DEG2RAD);
+
+					raylib::Color textColor(*(raylib::Vector4 *)(&(textRender.TextColor)));
+					raylib::Color bgColor(*(raylib::Vector4 *)(&(textRender.BgColor)));
+
+					raylib::Vector2 textPos(
+						entPos.x + offset.x,
+						entPos.y + offset.y
+					);
+					float textRot = textRender.Rotation + entRot;
+
+					const raylib::Vector2 textRect = font->MeasureText(textRender.Text, fontSize, spacing);
+
+					const raylib::Vector2 textOrigin(textRect.x / 2.0f, textRect.y / 2.0f);
+
+					if (bgColor.a > 0.0f)
+					{
+						const raylib::Rectangle textBG(
+							textPos.x, textPos.y,
+							textRect.x + 2.0f * bgExtents, textRect.y + 2.0f * bgExtents
+						);
+						const raylib::Vector2 bgOrigin(textBG.GetWidth() / 2.0f, textBG.GetHeight() / 2.0f);
+
+						textBG.Draw(bgOrigin, textRot, bgColor);
+					}
+
+					font->DrawText(textRender.Text, textPos, textOrigin, textRot, fontSize, spacing, textColor);
+				});
+			};
+			scene.RunSystem(drawTextSystem);
+
 			std::function<void(entt::registry &registry)> drawPhysicsBodies = [&](entt::registry &registry) {
 				ZoneNamedNC(drawPhysicsBodiesZone, "Lambda Draw Physics Bodies", RandomUniqueColor(), true);
 
@@ -383,9 +454,6 @@ int EditorScene::EditorScene::Render()
 				DrawCircleV(scenePos, 5.0f / m_camera.zoom, raylib::Color(255, 0, 0, 255));
 			}
 
-
-			// TODO: 
-
 			EndMode2D();
 		}
 	}
@@ -405,7 +473,6 @@ int EditorScene::EditorScene::Render()
 #pragma endregion
 
 #pragma region Private
-
 void EditorScene::EditorScene::SceneHierarchyUI()
 {
 	auto &modeScene = *(m_editorModeScenes[m_editorMode].get());
@@ -461,6 +528,9 @@ void EditorScene::EditorScene::EntityEditorUI()
 
 			if (modeScene.scene.HasComponents<ECS::Sprite>(m_selectedEntity))
 				modeScene.scene.GetComponent<ECS::Sprite>(m_selectedEntity).RenderUI();
+
+			if (modeScene.scene.HasComponents<ECS::TextRender>(m_selectedEntity))
+				modeScene.scene.GetComponent<ECS::TextRender>(m_selectedEntity).RenderUI();
 
 			if (modeScene.scene.HasComponents<ECS::Behaviour>(m_selectedEntity))
 				modeScene.scene.GetComponent<ECS::Behaviour>(m_selectedEntity).RenderUI();
@@ -594,7 +664,7 @@ void EditorScene::EditorScene::GenerateDungeonUI()
 		view.each([&](entt::entity entity) {
 			ZoneNamedNC(drawSpriteZone, "Lambda Remove Entity", RandomUniqueColor(), true);
 			modeScene.scene.SetComponent<ECS::Remove>(entity);
-			});
+		});
 
 		modeScene.scene.CleanUp(modeScene.L);
 		};
@@ -980,6 +1050,9 @@ int EditorScene::EditorScene::RenderUI()
 
 						if (modeScene.scene.HasComponents<ECS::Sprite>(m_selectedEntity))
 							modeScene.scene.GetComponent<ECS::Sprite>(m_selectedEntity).RenderUI();
+
+						if (modeScene.scene.HasComponents<ECS::TextRender>(m_selectedEntity))
+							modeScene.scene.GetComponent<ECS::TextRender>(m_selectedEntity).RenderUI();
 
 						if (modeScene.scene.HasComponents<ECS::Collider>(m_selectedEntity))
 							modeScene.scene.GetComponent<ECS::Collider>(m_selectedEntity).RenderUI();
