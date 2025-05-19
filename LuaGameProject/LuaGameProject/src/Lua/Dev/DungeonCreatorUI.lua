@@ -155,7 +155,7 @@ function dungeonCreatorUI:RoomSelection()
 
 			-- Save current scene
 			if selected ~= nil then
-				game.CreateGroupFromScene(self.roomCollection.selectedRoom, true)
+				game.CreateGroupFromScene(selected, true)
 			end
 
 			-- Reset scene
@@ -179,6 +179,14 @@ function dungeonCreatorUI:GenerateDungeon()
 
 		dungeonGenerator.Reset()
 		dungeonGenerator.Initialize(vec2(100, 0))
+		for roomName, selected in pairs(selectedRooms) do
+			if selected then
+				dungeonGenerator.AddRoom({
+					size = self.roomCollection.rooms[roomName],
+					name = roomName
+				})
+			end
+		end
 		dungeonGenerator.Generate(radius)
 		dungeonGenerator.SeparateRooms()
 	end
