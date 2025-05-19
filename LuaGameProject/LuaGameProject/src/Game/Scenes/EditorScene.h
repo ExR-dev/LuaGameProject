@@ -139,8 +139,6 @@ namespace EditorScene
 		int m_selectedEntity = -1;
 		int m_selectedRoom = -1;
 
-		DungeonGenerator *m_dungeon = nullptr;
-
 		bool m_isDraggingCamera = false;
 		raylib::Vector2 m_dragOrigin = raylib::Vector2(0, 0);
 		raylib::Vector2 m_dragOffset = raylib::Vector2(0, 0);

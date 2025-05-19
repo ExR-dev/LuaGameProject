@@ -26,8 +26,6 @@ EditorScene::EditorScene::~EditorScene()
 
 	for (int i = 0; i < EditorMode::COUNT; i++)
 		m_editorModeScenes[i] = nullptr;
-
-	delete m_dungeon;
 }
 
 int EditorScene::EditorScene::Start(WindowInfo *windowInfo, CmdState *cmdState, raylib::RenderTexture *screenRT)
@@ -93,6 +91,8 @@ Game::SceneState EditorScene::EditorScene::Loop()
 void EditorScene::EditorScene::OnSwitchToScene()
 {
 	ZoneScopedC(RandomUniqueColor());
+
+	DungeonGenerator::Instance().Reset();
 
 	OnResizeWindow();
 }
@@ -372,8 +372,8 @@ int EditorScene::EditorScene::Render()
 			};
 			scene.RunSystem(drawPhysicsBodies);
 
-			if (m_dungeon && m_selectedRoom == -1)
-				m_dungeon->Draw();
+			if (m_selectedRoom == -1)
+				DungeonGenerator::Instance().Draw();
 
 			// Draw a circle at the mouse position, converted to scene coordinates
 			raylib::Vector2 mousePos = GetMousePosition();
@@ -604,12 +604,11 @@ void EditorScene::EditorScene::GenerateDungeonUI()
 		modeScene.scene.RunSystem(clear);
 
 		// Generate Dungeon
-		if (m_dungeon)
-			delete m_dungeon;
-		m_dungeon = new DungeonGenerator(Vector2(0, 0));
+		DungeonGenerator::Instance().Reset();
+		DungeonGenerator::Instance().Initialize({ 0, 0 });
 
-		m_dungeon->Generate(radius);
-		m_dungeon->SeparateRooms();
+		DungeonGenerator::Instance().Generate(radius);
+		DungeonGenerator::Instance().SeparateRooms();
 
 		m_selectedRoom = -1;
 	}
@@ -656,21 +655,25 @@ void EditorScene::EditorScene::GenerateDungeonUI()
 	{
 		modeScene.scene.RunSystem(clear);
 
-		if (m_dungeon)
-			delete m_dungeon;
-		m_dungeon = new DungeonGenerator(Vector2(0, 0));
-		m_dungeon->Generate(radius);
+		DungeonGenerator::Instance().Reset();
+		DungeonGenerator::Instance().Initialize({ 0, 0 });
+		DungeonGenerator::Instance().Generate(radius);
 
 		m_selectedRoom = -1;
 	}
 
 	if (ImGui::Button("Separate Rooms"))
-		m_dungeon->SeparateRooms();
+		DungeonGenerator::Instance().SeparateRooms();
 
 	ImGui::Separator();
 
 	if (ImGui::Button("Close"))
 		ImGui::CloseCurrentPopup();
+
+	ImGui::SameLine();
+
+	if (ImGui::Button("Reset"))
+		DungeonGenerator::Instance().Reset();
 }
 
 void EditorScene::EditorScene::RenderWindowUI()

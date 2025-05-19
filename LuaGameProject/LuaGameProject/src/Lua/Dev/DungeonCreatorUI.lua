@@ -1,7 +1,10 @@
 tracy.ZoneBeginN("Lua SandboxUI.lua")
 
+local gameMath = require("Utility/GameMath")
 local vec2 = require("Vec2")
 local transform = require("Transform2")
+local color = require("Color")
+local sprite = require("Components/Sprite")
 
 local dungeonCreatorUI = {
 	roomCollection = {
@@ -35,6 +38,10 @@ function dungeonCreatorUI:PrefabCollection()
 end
 
 local function SaveRoom(name, room)
+	if name == nil then
+		return
+	end
+
 	-- Saving room
 	game.CreateGroupFromScene(name)
 
@@ -55,6 +62,7 @@ local buffer = ""
 
 function dungeonCreatorUI:RoomSelection()
 	imgui.Begin("Room Selection")
+
 
 	if imgui.Button("Save All Rooms") then
 		for name, room in pairs(self.roomCollection.rooms) do
@@ -79,6 +87,20 @@ function dungeonCreatorUI:RoomSelection()
 			SaveRoom(selected, self.roomCollection.rooms[selected])
 		end
 
+		if scene.IsEntity(RoomBounds) == false then
+			RoomBounds = scene.CreateEntity()
+
+			local boundsS = sprite("", color(237/255, 232/255, 150/255, 1), -100)
+			local unitT = transform(
+				vec2(0, 0), 
+				0.0,
+				vec2(gameMath.metersToPixels, gameMath.metersToPixels)
+			)
+			scene.SetComponent(RoomBounds, "Transform", unitT)
+			scene.SetComponent(RoomBounds, "Sprite", boundsS)
+			scene.SetComponent(RoomBounds, "Debug")
+		end
+
 		local trans = transform(scene.GetComponent(RoomBounds, "Transform"))
 
 		local value = imgui.imVec2(self.roomCollection.rooms[self.roomCollection.selectedRoom].size.x,
@@ -90,6 +112,7 @@ function dungeonCreatorUI:RoomSelection()
 		self.roomCollection.rooms[self.roomCollection.selectedRoom].size.y = value.y
 
 		trans.scale = self.roomCollection.rooms[self.roomCollection.selectedRoom].size
+
 		scene.SetComponent(RoomBounds, "Transform", trans)
 	end
 

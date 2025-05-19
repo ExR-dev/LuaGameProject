@@ -24,12 +24,6 @@ GameScene::GameScene::~GameScene()
 
 	Game::IsQuitting = true;
 
-	if (m_dungeon)
-	{
-		delete m_dungeon;
-		m_dungeon = nullptr;
-	}
-
 	if (L)
 	{
 		lua_close(L);
@@ -76,9 +70,8 @@ int GameScene::GameScene::Start(WindowInfo *windowInfo, CmdState *cmdState, rayl
     m_cameraUpdater = std::bind(&GameScene::UpdatePlayerCamera, this);
     m_cameraOption = 0;
 
-    Assert(!m_dungeon, "m_dungeon is not nullptr!");
-    m_dungeon = new DungeonGenerator(raylib::Vector2(200, 200));
-    m_dungeon->Generate(100);
+    DungeonGenerator::Instance().Initialize({ 200, 200 });
+    DungeonGenerator::Instance().Generate(100);
 
     BindLuaInput(L);
 
@@ -172,12 +165,12 @@ Game::SceneState GameScene::GameScene::Update()
 
     if (Input::CheckKeyPressed(Input::GAME_KEY_T))
     {
-        m_dungeon->Initialize();
-        m_dungeon->Generate(100);
+        DungeonGenerator::Instance().Initialize({0, 0});
+        DungeonGenerator::Instance().Generate(100);
     }
 
     if (Input::CheckKeyPressed(Input::GAME_KEY_Y))
-        m_dungeon->SeparateRooms();
+        DungeonGenerator::Instance().SeparateRooms();
 
     if (Input::CheckKeyPressed(Input::GAME_KEY_C))
     {
@@ -355,7 +348,7 @@ int GameScene::GameScene::Render()
             m_scene.RunSystem(drawPhysicsBodies);
 
             // Draw the dungeon
-            m_dungeon->Draw();
+            DungeonGenerator::Instance().Draw();
 
             EndMode2D();
         }
