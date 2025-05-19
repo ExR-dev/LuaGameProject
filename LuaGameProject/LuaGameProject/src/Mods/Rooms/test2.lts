@@ -3,16 +3,15 @@ return {
 {
    ["dataPath"]="rooms",
    ["contents"]={2},
-   ["elementName"]="test",
+   ["elementName"]="test2",
 },
 -- Table: {2}
 {
    ["size"]={3},
-   ["groupName"]="test",
 },
 -- Table: {3}
 {
-   ["x"]=500.0,
+   ["x"]=1000.0,
    ["y"]=500.0,
 },
 }

@@ -14,6 +14,8 @@ local dungeonCreatorUI = {
 	}
 }
 
+dungeonCreatorUI.roomCollection.rooms = data.rooms
+
 function dungeonCreatorUI:PrefabCollection()
 	tracy.ZoneBeginN("Lua dungeonCreatorUI:PrefabCollection")
 
@@ -34,6 +36,8 @@ end
 
 local function SaveRoom(name, room)
 	-- Saving room
+	game.CreateGroupFromScene(name)
+
 	local err = data.modding.createLuaTableSave("src/Mods/Rooms/", "rooms", name, room)
 	if err then
 		print("Error saving room: "..err)
@@ -52,7 +56,7 @@ local buffer = ""
 function dungeonCreatorUI:RoomSelection()
 	imgui.Begin("Room Selection")
 
-	if imgui.Button("Load Saved Rooms") then
+	if imgui.Button("Save All Rooms") then
 		for name, room in pairs(self.roomCollection.rooms) do
 			SaveRoom(name, room)
 		end
@@ -71,7 +75,8 @@ function dungeonCreatorUI:RoomSelection()
 	-- Set Bounds
 	if self.roomCollection.selectedRoom ~= nil then
 		if imgui.Button("Save") then
-			game.CreateGroupFromScene(self.roomCollection.selectedRoom)
+			local selected = self.roomCollection.selectedRoom
+			SaveRoom(selected, self.roomCollection.rooms[selected])
 		end
 
 		local trans = transform(scene.GetComponent(RoomBounds, "Transform"))
