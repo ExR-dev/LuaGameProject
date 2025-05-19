@@ -1,9 +1,9 @@
 return {
 -- Table: {1}
 {
-   ["dataPath"]="prefabs",
-   ["elementName"]="Enemy",
    ["contents"]={2},
+   ["elementName"]="Enemy",
+   ["dataPath"]="prefabs",
 },
 -- Table: {2}
 {
@@ -14,35 +14,46 @@ return {
 {
    ["Sprite"]={5},
    ["Transform"]={6},
+   ["Hardness"]={7},
+   ["Health"]={8},
 },
 -- Table: {4}
 {
-   ["properties"]={7},
    ["path"]="Behaviours/Enemy",
+   ["properties"]={9},
 },
 -- Table: {5}
 {
-   ["color"]={8},
    ["spriteName"]="Maxwell.png",
    ["priority"]=30,
+   ["color"]={10},
 },
 -- Table: {6}
 {
-   ["scale"]={9},
+   ["scale"]={11},
 },
 -- Table: {7}
 {
+   ["hardness"]=0.1,
 },
 -- Table: {8}
 {
-   ["b"]=1,
-   ["g"]=1,
-   ["r"]=1,
-   ["a"]=1,
+   ["max"]=100.0,
+   ["current"]=100.0,
 },
 -- Table: {9}
 {
-   ["x"]=60,
-   ["y"]=60,
+},
+-- Table: {10}
+{
+   ["r"]=1.0,
+   ["a"]=1.0,
+   ["b"]=1.0,
+   ["g"]=1.0,
+},
+-- Table: {11}
+{
+   ["x"]=60.0,
+   ["y"]=60.0,
 },
 }

@@ -19,11 +19,15 @@ function enemy:OnCreate()
 	tracy.ZoneBeginN("Lua enemy:OnCreate")
 	local t = transform(scene.GetComponent(self.ID, "Transform"))
 
-	self.wanderPoint = t.position + vec2(math.random(-75, 75), math.random(-75, 75));
 	self.speed = math.random(15, 35)
 
 	local c = collider("Enemy", false, vec2(0, 0), vec2(1, 1), 0, nil)
 	scene.SetComponent(self.ID, "Collider", c)
+
+	local healthBar = scene.CreateEntity()
+	scene.SetComponent(healthBar, "Behaviour", "Behaviours/HealthBar")
+	local healthBarBeh = scene.GetComponent(healthBar, "Behaviour")
+	healthBarBeh:Initialize(self.ID)
 
 	tracy.ZoneEnd()
 end
@@ -32,6 +36,10 @@ end
 function enemy:OnUpdate(delta)
 	tracy.ZoneBeginN("Lua enemy:OnUpdate")
 	local t = transform(scene.GetComponent(self.ID, "Transform"))
+
+	if self.wanderPoint == nil then
+		self.wanderPoint = t.position + vec2(math.random(-75, 75), math.random(-75, 75));
+	end
 
 	local goal = self.wanderPoint
 	local toGoal = goal - t.position
@@ -86,6 +94,25 @@ function enemy:OnGUI()
 	self.speed, _ = imgui.DragFloat("Speed", self.speed, 0.2, 0.0, 1000.0)
 
 	imgui.Separator("Wow, a Lua separator!")
+
+	tracy.ZoneEnd()
+end
+
+
+function enemy:OnHit()
+	tracy.ZoneBeginN("Lua enemy:OnHit")
+
+	if not scene.HasComponent(self.ID, "Health") then
+		tracy.ZoneEnd()
+		return
+	end
+
+	local h = scene.GetComponent(self.ID, "Health")
+
+	if h.current <= 0.0 then
+		-- TODO: play death animation instead
+		scene.RemoveEntity(self.ID)
+	end
 
 	tracy.ZoneEnd()
 end

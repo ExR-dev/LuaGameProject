@@ -5,6 +5,7 @@ local gameMath = require("Utility/GameMath")
 local vec2 = require("Vec2")
 local transform = require("Transform2")
 local collider = require("Components/Collider")
+local health = require("Components/Health")
 
 -- Global player getter
 local function GetPlayer()
@@ -110,6 +111,14 @@ function player:OnCreate()
 			["FMJ"] = 25,
 		},
 	}
+
+	
+	scene.SetComponent(self.ID, "Health", health(100.0, 100.0))
+
+	local healthBar = scene.CreateEntity()
+	scene.SetComponent(healthBar, "Behaviour", "Behaviours/HealthBar")
+	local healthBarBeh = scene.GetComponent(healthBar, "Behaviour")
+	healthBarBeh:Initialize(self.ID, 80)
 
 	tracy.ZoneEnd()
 end

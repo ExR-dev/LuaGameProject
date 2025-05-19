@@ -24,17 +24,76 @@ function projectile:OnCreate()
 	local c = collider("Projectile", false, vec2(0, 0), vec2(2.5, 1.0), 0, function(other)
 		tracy.ZoneBeginN("Lua Lambda projectile:Collide")
 
-		-- First apply penetration penalty if the collided entity has a hardness component
-		if scene.HasComponent(other, "Hardness") then
-			local h = scene.GetComponent(other, "Hardness")
-			self.stats.damage = self.stats.damage * self.stats.penetration^(h.hardness)
+		local doCollide = false
+		local doDamage = false
+		local createDamageNumber = false
+		local runOnHit = false
+		local remove = false
+
+		local otherCollider = scene.GetComponent(other, "Collider")
+		if (otherCollider.tag == "Enemy") then
+			doCollide = true
+			doDamage = true
+			runOnHit = true
+			createDamageNumber = true
+		elseif (otherCollider.tag == "Solid") then
+			doCollide = true
+			doDamage = true
+			runOnHit = true
+			remove = true
 		end
 
-		-- TODO: More sophisticated hit code, ex: using health collider
-		local o = scene.GetComponent(other, "Collider")
-		if (o.tag == "Enemy") then
-			scene.RemoveEntity(other)
-			scene.RemoveEntity(self.ID)
+		if doCollide then
+			local absorption = 1.0
+
+			-- First apply penetration penalty if the collided entity has a hardness component
+			if scene.HasComponent(other, "Hardness") then
+				local h = scene.GetComponent(other, "Hardness")
+				self.stats.damage = self.stats.damage * self.stats.penetration^(h.hardness)
+				absorption = absorption + h.hardness
+			end
+
+			if createDamageNumber then
+				local dNumberEnt = scene.CreateEntity()
+				scene.SetComponent(dNumberEnt, "Behaviour", "Behaviours/DamageNumber")
+				local dNumber = scene.GetComponent(dNumberEnt, "Behaviour")
+
+				local otherT = transform(scene.GetComponent(other, "Transform"))
+				local midpoint = (self.trans.position + otherT.position) * 0.5
+
+				dNumber:Initialize(midpoint, self.stats.damage)
+			end
+
+			-- If the other entity has a health component, apply damage and spawn a damage number
+			if doDamage then
+				if scene.HasComponent(other, "Health") then
+					local h = scene.GetComponent(other, "Health")
+					h.current = h.current - self.stats.damage
+					scene.SetComponent(other, "Health", h)
+			
+					createDamageNumber = true
+					runOnHit = true
+
+					-- Very large damage reduction after doing damage
+					local damageReduction = (self.stats.penetration^(absorption)) * 0.95
+					damageReduction = damageReduction * damageReduction
+					self.stats.damage = self.stats.damage * damageReduction
+				end
+			end
+
+			if runOnHit then
+				if scene.HasComponent(other, "Behaviour") then
+					local otherBeh = scene.GetComponent(other, "Behaviour")
+
+					if otherBeh.OnHit ~= nil then
+						otherBeh:OnHit()
+					end
+				end
+			end
+
+			if remove then
+				self:OnRemove()
+			end
 		end
 
 		tracy.ZoneEnd()
@@ -104,6 +163,13 @@ end
 function projectile:OnRemove()
 	tracy.ZoneBeginN("Lua projectile:OnRemove")
 	scene.RemoveEntity(self.ID)
+	tracy.ZoneEnd()
+end
+
+function projectile:OnDamage(target)
+	tracy.ZoneBeginN("Lua projectile:OnDamage")
+
+
 	tracy.ZoneEnd()
 end
 

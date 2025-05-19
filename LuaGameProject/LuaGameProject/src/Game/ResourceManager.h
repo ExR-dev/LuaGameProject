@@ -98,7 +98,7 @@ public:
 	static std::vector<std::string> GetTextureNames();
 
 	// Get a font by name
-	static const raylib::Font *GetFontResource(const std::string &name);
+	static raylib::Font *GetFontResource(const std::string &name);
 	static std::vector<std::string> GetFontNames();
 
 	// Get a sound by name
@@ -119,9 +119,6 @@ private:
 template<typename T>
 inline static T *ResourceManager::GetResourceFromMap(const std::string &name, std::map<std::string, Resource::ManagedResource<T>> &map)
 {
-	if (name == "")
-		return nullptr;
-
 	auto it = map.find(name);
 	if (it == map.end())
 		return nullptr;

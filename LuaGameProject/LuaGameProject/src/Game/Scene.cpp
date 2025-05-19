@@ -327,6 +327,18 @@ int Scene::lua_SetComponent(lua_State *L)
 		scene->m_registry.sort<ECS::Sprite>(ECS::Sprite::Compare);
 		return 1;
 	}
+	else if (type == "TextRender") 
+	{
+		if (scene->HasComponents<ECS::TextRender>(entity))
+			scene->RemoveComponent<ECS::TextRender>(entity);
+
+		ECS::TextRender textRender{};
+		textRender.LuaPull(L, 3);
+
+		scene->SetComponent<ECS::TextRender>(entity, textRender);
+
+		return 1;
+	}
 	else if (type == "CameraData") 
 	{
 		if (scene->HasComponents<ECS::CameraData>(entity))
@@ -444,6 +456,10 @@ int Scene::lua_HasComponent(lua_State *L)
 	{
 		hasComponent = scene->HasComponents<ECS::Sprite>(entity);
 	}
+	else if (type == "TextRender")
+	{
+		hasComponent = scene->HasComponents<ECS::TextRender>(entity);
+	}
 	else if (type == "CameraData")
 	{
 		hasComponent = scene->HasComponents<ECS::CameraData>(entity);
@@ -531,6 +547,12 @@ int Scene::lua_GetComponent(lua_State *L)
 		sprite.LuaPush(L);
 		return 1;
 	}
+	else if (type == "TextRender" && scene->HasComponents<ECS::TextRender>(entity))
+	{
+		ECS::TextRender &textRender = scene->GetComponent<ECS::TextRender>(entity);
+		textRender.LuaPush(L);
+		return 1;
+	}
 	
 	// Name or component not found
 	lua_pushnil(L);
@@ -576,6 +598,10 @@ int Scene::lua_RemoveComponent(lua_State *L)
 	else if (type == "Sprite" && scene->HasComponents<ECS::Sprite>(entity))
 	{
 		scene->RemoveComponent<ECS::Sprite>(entity);
+	}
+	else if (type == "TextRender" && scene->HasComponents<ECS::TextRender>(entity))
+	{
+		scene->RemoveComponent<ECS::TextRender>(entity);
 	}
 	else if (type == "CameraData" && scene->HasComponents<ECS::CameraData>(entity))
 	{
