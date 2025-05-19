@@ -4,23 +4,17 @@ local vec2 = require("Vec2")
 local transform = require("Transform2")
 
 local dungeonCreatorUI = {
-	prefabCollection = {
-		prefabsCount = 0,
-		roomPrefabs = {}
-	},
 	roomCollection = {
-		roomCount = 0,
-		selectedRoom = -1,
+		selectedRoom = nil,
 		rooms = {
-		-- 	0 = {
-		--		name = "",
+		-- 	[groupName] = {
 		-- 		size = vec2(500, 500),
-		--  	prefabsCount = 0,
-		--     	roomPrefabs = {}
 		-- 	}
 		}
 	}
 }
+
+dungeonCreatorUI.roomCollection.rooms = data.rooms
 
 function dungeonCreatorUI:PrefabCollection()
 	tracy.ZoneBeginN("Lua dungeonCreatorUI:PrefabCollection")
@@ -28,12 +22,8 @@ function dungeonCreatorUI:PrefabCollection()
 	imgui.Begin("Prefab Collection")
 
 	for name, _ in pairs(data.prefabs) do
-		if imgui.Button(name) and self.roomCollection.selectedRoom ~= -1 then
-			if game.SpawnPrefab(name) then
-				local count = self.roomCollection.rooms[self.roomCollection.selectedRoom].prefabsCount + 1
-				self.roomCollection.rooms[self.roomCollection.selectedRoom].prefabsCount = count
-				self.roomCollection.rooms[self.roomCollection.selectedRoom].roomPrefabs[count] = name
-			else
+		if imgui.Button(name) and self.roomCollection.selectedRoom ~= nil then
+			if ~game.SpawnPrefab(name) then
 				print("Could not instanciate prefab")
 			end
 		end
@@ -44,18 +34,49 @@ function dungeonCreatorUI:PrefabCollection()
 	tracy.ZoneEnd()
 end
 
+local function SaveRoom(name, room)
+	-- Saving room
+	game.CreateGroupFromScene(name)
+
+	local err = data.modding.createLuaTableSave("src/Mods/Rooms/", "rooms", name, room)
+	if err then
+		print("Error saving room: "..err)
+	end
+
+	-- Saving group
+	err = data.modding.createLuaTableSave("src/Mods/Groups/", "groups", name, data.groups[name])
+	if err then
+		print("Error saving group: "..err)
+	end
+
+end
+
 local buffer = ""
-local done = false
 
 function dungeonCreatorUI:RoomSelection()
 	imgui.Begin("Room Selection")
 
+	if imgui.Button("Save All Rooms") then
+		for name, room in pairs(self.roomCollection.rooms) do
+			SaveRoom(name, room)
+		end
+	end
+
+	imgui.SameLine()
+
+	if imgui.Button("Refresh") then
+		self.roomCollection.rooms = data.rooms
+	end
+
+	imgui.Separator()
+
 	imgui.Text("Current room settings")
 
 	-- Set Bounds
-	if self.roomCollection.selectedRoom ~= -1 then
+	if self.roomCollection.selectedRoom ~= nil then
 		if imgui.Button("Save") then
-			game.CreateGroupFromScene(self.roomCollection.rooms[self.roomCollection.selectedRoom].name)
+			local selected = self.roomCollection.selectedRoom
+			SaveRoom(selected, self.roomCollection.rooms[selected])
 		end
 
 		local trans = transform(scene.GetComponent(RoomBounds, "Transform"))
@@ -80,12 +101,8 @@ function dungeonCreatorUI:RoomSelection()
 		-- TODO: Add flag for enter option
 		buffer, done = imgui.InputText("Enter name", buffer, 16)
 		if imgui.Button("Done") and buffer ~= "" then
-			self.roomCollection.roomCount = self.roomCollection.roomCount + 1
-			self.roomCollection.rooms[self.roomCollection.roomCount] = {
-				name = buffer,
+			self.roomCollection.rooms[buffer] = {
 				size = vec2(500, 500),
-				prefabsCount = 0,
-				roomPrefabs = {}
 			}
 
 			buffer = ""
@@ -107,19 +124,24 @@ function dungeonCreatorUI:RoomSelection()
 	end
 
 	-- Room Display
-	for i, room in ipairs(self.roomCollection.rooms) do
-		if imgui.Selectable(room.name, self.roomCollection.selectedRoom == i) and self.roomCollection.selectedRoom ~= i then
+	for name, room in pairs(self.roomCollection.rooms) do
+		if imgui.Selectable(name, self.roomCollection.selectedRoom == name) and self.roomCollection.selectedRoom ~= name then
+			local selected = self.roomCollection.selectedRoom
+			if selected == name then
+				return
+			end
+
 			-- Save current scene
-			if self.roomCollection.selectedRoom ~= -1 then
-				game.CreateGroupFromScene(self.roomCollection.rooms[self.roomCollection.selectedRoom].name, true)
+			if selected ~= nil then
+				game.CreateGroupFromScene(self.roomCollection.selectedRoom, true)
 			end
 
 			-- Reset scene
-			self.roomCollection.selectedRoom = i
 			scene.Clear()
 
 			-- Load new room
-			game.SpawnGroup(self.roomCollection.rooms[self.roomCollection.selectedRoom].name)
+			game.SpawnGroup(name)
+			self.roomCollection.selectedRoom = name
 		end
 	end
 

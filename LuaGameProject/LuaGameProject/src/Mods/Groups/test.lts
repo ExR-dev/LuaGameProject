@@ -1,0 +1,73 @@
+return {
+-- Table: {1}
+{
+   ["dataPath"]="groups",
+   ["contents"]={2},
+   ["elementName"]="test",
+},
+-- Table: {2}
+{
+   ["entities"]={3},
+},
+-- Table: {3}
+{
+   {4},
+},
+-- Table: {4}
+{
+   ["components"]={5},
+},
+-- Table: {5}
+{
+   ["Collider"]={6},
+   ["Transform"]={7},
+   ["Sprite"]={8},
+},
+-- Table: {6}
+{
+   ["rotation"]=0.0,
+   ["extents"]={9},
+   ["tag"]="Enemy",
+   ["debug"]=false,
+   ["offset"]={10},
+},
+-- Table: {7}
+{
+   ["rotation"]=191.08195495605,
+   ["position"]={11},
+   ["scale"]={12},
+},
+-- Table: {8}
+{
+   ["priority"]=30,
+   ["color"]={13},
+   ["spriteName"]="Maxwell.png",
+},
+-- Table: {9}
+{
+   ["x"]=1.0,
+   ["y"]=1.0,
+},
+-- Table: {10}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {11}
+{
+   ["x"]=141.80000305176,
+   ["y"]=0.0,
+},
+-- Table: {12}
+{
+   ["x"]=60.0,
+   ["y"]=-60.0,
+},
+-- Table: {13}
+{
+   ["r"]=0.79456013441086,
+   ["g"]=1.0,
+   ["b"]=0.013888895511627,
+   ["a"]=1.0,
+},
+}
