@@ -42,9 +42,6 @@ local function SaveRoom(name, room)
 		return
 	end
 
-	-- Saving room
-	game.CreateGroupFromScene(name)
-
 	local err = data.modding.createLuaTableSave("src/Mods/Rooms/", "rooms", name, room)
 	if err then
 		print("Error saving room: "..err)
@@ -83,6 +80,10 @@ function dungeonCreatorUI:RoomSelection()
 	if self.roomCollection.selectedRoom ~= nil then
 		if imgui.Button("Save") then
 			local selected = self.roomCollection.selectedRoom
+
+			-- Saving room
+			game.CreateGroupFromScene(selected)
+
 			SaveRoom(selected, self.roomCollection.rooms[selected])
 		end
 
