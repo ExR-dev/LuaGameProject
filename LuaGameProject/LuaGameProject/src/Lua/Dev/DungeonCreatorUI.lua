@@ -217,10 +217,12 @@ function dungeonCreatorUI:GenerateDungeon()
 		end
 
 		if selectedRooms[name].selected then
+			imgui.Indent()
 			local count, _ = imgui.InputInt("Count##"..name, selectedRooms[name].count)
 			if count >= 0 then
 				selectedRooms[name].count = count
 			end
+			imgui.Unindent()
 		end
 
 	end
