@@ -148,10 +148,11 @@ function dungeonCreatorUI:RoomSelection()
 
 	-- Room Display
 	for name, room in pairs(self.roomCollection.rooms) do
-		if imgui.Selectable(name, self.roomCollection.selectedRoom == name) and self.roomCollection.selectedRoom ~= name then
+		if imgui.Selectable(name, self.roomCollection.selectedRoom == name) then
 			local selected = self.roomCollection.selectedRoom
 			if selected == name then
-				return
+				self.roomCollection.selectedRoom = nil
+				scene.SetComponent(RoomBounds, "Transform", transform())
 			end
 
 			-- Save current scene
@@ -163,8 +164,10 @@ function dungeonCreatorUI:RoomSelection()
 			scene.Clear()
 
 			-- Load new room
-			game.SpawnGroup(name)
-			self.roomCollection.selectedRoom = name
+			if selected ~= name then
+				game.SpawnGroup(name)
+				self.roomCollection.selectedRoom = name
+			end
 		end
 	end
 
@@ -176,8 +179,12 @@ local radius = 100
 local selectedRooms = {}
 function dungeonCreatorUI:GenerateDungeon()
 	imgui.Text("Dungeon Generation")
+
+
+
 	if imgui.Button("Generate") then
 		scene.Clear()
+		scene.SetComponent(RoomBounds, "Transform", transform())
 		self.roomCollection.selectedRoom = nil
 
 		dungeonGenerator.Reset()
@@ -194,6 +201,11 @@ function dungeonCreatorUI:GenerateDungeon()
 		end
 		dungeonGenerator.Generate(radius)
 		dungeonGenerator.SeparateRooms()
+		for i, room in pairs(dungeonGenerator.GetRooms()) do
+			local t = transform(vec2(room.position), 0, vec2(1, 1))
+			game.SpawnGroup(room.name, t)
+		end
+		dungeonGenerator.Reset();
 	end
 
 	imgui.SameLine()
@@ -231,6 +243,8 @@ function dungeonCreatorUI:GenerateDungeon()
 
 	if imgui.Button("Spawn Rooms") then
 		scene.Clear()
+		scene.SetComponent(RoomBounds, "Transform", transform())
+		self.roomCollection.selectedRoom = nil
 
 		dungeonGenerator.Reset()
 		dungeonGenerator.Initialize(vec2(100, 100))
