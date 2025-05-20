@@ -1,7 +1,7 @@
 return {
 -- Table: {1}
 {
-   ["elementName"]="test2",
+   ["elementName"]="green",
    ["contents"]={2},
    ["dataPath"]="rooms",
 },
@@ -11,7 +11,7 @@ return {
 },
 -- Table: {3}
 {
-   ["x"]=1000.0,
+   ["x"]=700.0,
    ["y"]=500.0,
 },
 }

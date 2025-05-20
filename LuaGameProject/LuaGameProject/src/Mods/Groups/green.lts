@@ -1,0 +1,54 @@
+return {
+-- Table: {1}
+{
+   ["elementName"]="green",
+   ["contents"]={2},
+   ["dataPath"]="groups",
+},
+-- Table: {2}
+{
+   ["entities"]={3},
+},
+-- Table: {3}
+{
+   {4},
+},
+-- Table: {4}
+{
+   ["components"]={5},
+},
+-- Table: {5}
+{
+   ["Sprite"]={6},
+   ["Transform"]={7},
+},
+-- Table: {6}
+{
+   ["spriteName"]="",
+   ["priority"]=0,
+   ["color"]={8},
+},
+-- Table: {7}
+{
+   ["scale"]={9},
+   ["position"]={10},
+   ["rotation"]=0.0,
+},
+-- Table: {8}
+{
+   ["b"]=0.18894010782242,
+   ["g"]=1.0,
+   ["r"]=0.66735339164734,
+   ["a"]=1.0,
+},
+-- Table: {9}
+{
+   ["x"]=700.0,
+   ["y"]=500.0,
+},
+-- Table: {10}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+}
