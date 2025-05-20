@@ -71,6 +71,38 @@ int DungeonGenerator::lua_AddRoom(lua_State *L)
 	return 0;
 }
 
+int DungeonGenerator::lua_GetRooms(lua_State* L)
+{
+	lua_createtable(L, 0, Instance().m_rooms.size());
+
+	int index = 0;
+	for (auto room : Instance().m_rooms)
+	{
+		lua_createtable(L, 0, 3);
+
+			lua_createtable(L, 0, 2);
+				lua_pushnumber(L, room.pos.x);
+				lua_setfield(L, -2, "x");
+				lua_pushnumber(L, room.pos.y);
+				lua_setfield(L, -2, "y");
+			lua_setfield(L, -2, "position");
+
+			lua_createtable(L, 0, 2);
+				lua_pushnumber(L, room.size.x);
+				lua_setfield(L, -2, "x");
+				lua_pushnumber(L, room.size.y);
+				lua_setfield(L, -2, "y");
+			lua_setfield(L, -2, "size");
+
+			lua_pushstring(L, room.p_name.c_str());
+			lua_setfield(L, -2, "name");
+
+		lua_rawseti(L, -2, ++index);
+	}
+
+	return 1;
+}
+
 int DungeonGenerator::lua_Generate(lua_State *L)
 {
 	float radius = lua_tonumber(L, 1);
@@ -101,6 +133,7 @@ void DungeonGenerator::BindToLua(lua_State *L)
 		//  { "NameInLua",			NameInCpp			},
 			{ "Initialize",			lua_Initialize		},
 			{ "AddRoom",			lua_AddRoom			},
+			{ "GetRooms",			lua_GetRooms		},
 			{ "Generate",			lua_Generate		},
 			{ "Reset",				lua_Reset			},
 			{ "SeparateRooms",		lua_SeparateRooms	},
@@ -127,8 +160,9 @@ void DungeonGenerator::Initialize(Vector2 pos)
 
 	m_isInitialized = true;
 
-	for (int i = 0; i < 100; i++)
+	/*for (int i = 0; i < 100; i++)
 		AddRoom({{(float)(Math::Random(2, 10)*m_tileSize), (float)(Math::Random(2, 10)*m_tileSize)}, std::format("Room {}", i)});
+	*/
 }
 
 void DungeonGenerator::AddRoom(const Room &room)

@@ -56,6 +56,10 @@ private:
 	// Returns: none
 	static int lua_AddRoom(lua_State *L);
 
+	// Aguments: none
+	// Returns: rooms (table<Room>)
+	static int lua_GetRooms(lua_State* L);
+
 	// Aguments: radius (float)
 	// Returns: none
 	static int lua_Generate(lua_State *L);

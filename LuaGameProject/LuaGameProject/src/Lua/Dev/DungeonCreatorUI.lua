@@ -42,9 +42,6 @@ local function SaveRoom(name, room)
 		return
 	end
 
-	-- Saving room
-	game.CreateGroupFromScene(name)
-
 	local err = data.modding.createLuaTableSave("src/Mods/Rooms/", "rooms", name, room)
 	if err then
 		print("Error saving room: "..err)
@@ -83,6 +80,10 @@ function dungeonCreatorUI:RoomSelection()
 	if self.roomCollection.selectedRoom ~= nil then
 		if imgui.Button("Save") then
 			local selected = self.roomCollection.selectedRoom
+
+			-- Saving room
+			game.CreateGroupFromScene(selected)
+
 			SaveRoom(selected, self.roomCollection.rooms[selected])
 		end
 
@@ -147,40 +148,64 @@ function dungeonCreatorUI:RoomSelection()
 
 	-- Room Display
 	for name, room in pairs(self.roomCollection.rooms) do
-		if imgui.Selectable(name, self.roomCollection.selectedRoom == name) and self.roomCollection.selectedRoom ~= name then
+		if imgui.Selectable(name, self.roomCollection.selectedRoom == name) then
 			local selected = self.roomCollection.selectedRoom
 			if selected == name then
-				return
+				self.roomCollection.selectedRoom = nil
+				scene.SetComponent(RoomBounds, "Transform", transform())
 			end
 
 			-- Save current scene
 			if selected ~= nil then
-				game.CreateGroupFromScene(self.roomCollection.selectedRoom, true)
+				game.CreateGroupFromScene(selected, true)
 			end
 
 			-- Reset scene
 			scene.Clear()
 
 			-- Load new room
-			game.SpawnGroup(name)
-			self.roomCollection.selectedRoom = name
+			if selected ~= name then
+				game.SpawnGroup(name)
+				self.roomCollection.selectedRoom = name
+			end
 		end
 	end
 
 	imgui.End()
 end
 
+local temp = 0
 local radius = 100
 local selectedRooms = {}
 function dungeonCreatorUI:GenerateDungeon()
 	imgui.Text("Dungeon Generation")
+
+
+
 	if imgui.Button("Generate") then
 		scene.Clear()
+		scene.SetComponent(RoomBounds, "Transform", transform())
+		self.roomCollection.selectedRoom = nil
 
 		dungeonGenerator.Reset()
 		dungeonGenerator.Initialize(vec2(100, 0))
+		for roomName, selectInfo in pairs(selectedRooms) do
+			if selectInfo.selected then
+				for i=1, selectInfo.count do 
+					dungeonGenerator.AddRoom({
+						size = self.roomCollection.rooms[roomName].size,
+						name = roomName
+					})
+				end
+			end
+		end
 		dungeonGenerator.Generate(radius)
 		dungeonGenerator.SeparateRooms()
+		for i, room in pairs(dungeonGenerator.GetRooms()) do
+			local t = transform(vec2(room.position), 0, vec2(1, 1))
+			game.SpawnGroup(room.name, t)
+		end
+		dungeonGenerator.Reset();
 	end
 
 	imgui.SameLine()
@@ -196,23 +221,56 @@ function dungeonCreatorUI:GenerateDungeon()
 
 	-- Display rooms
 	for name, room in pairs(self.roomCollection.rooms) do
-		if imgui.Selectable(name, selectedRooms[name] == true, imgui.ImGuiSelectableFlags.NoAutoClosePopups) then
-			selectedRooms[name] = not selectedRooms[name]
+		selectedRooms[name] = selectedRooms[name] or {selected = false, count = 0}
+
+		if imgui.Selectable(name, selectedRooms[name].selected == true, imgui.ImGuiSelectableFlags.NoAutoClosePopups) then
+			selectedRooms[name].selected = not selectedRooms[name].selected
+			selectedRooms[name].count = selectedRooms[name].count
 		end
+
+		if selectedRooms[name].selected then
+			imgui.Indent()
+			local count, _ = imgui.InputInt("Count##"..name, selectedRooms[name].count)
+			if count >= 0 then
+				selectedRooms[name].count = count
+			end
+			imgui.Unindent()
+		end
+
 	end
 
 	imgui.Separator("Debug Options")
 
 	if imgui.Button("Spawn Rooms") then
 		scene.Clear()
+		scene.SetComponent(RoomBounds, "Transform", transform())
+		self.roomCollection.selectedRoom = nil
 
 		dungeonGenerator.Reset()
 		dungeonGenerator.Initialize(vec2(100, 100))
+		for roomName, selectInfo in pairs(selectedRooms) do
+			if selectInfo.selected then
+				for i=1, selectInfo.count do 
+					dungeonGenerator.AddRoom({
+						size = self.roomCollection.rooms[roomName].size,
+						name = roomName
+					})
+				end
+			end
+		end
 		dungeonGenerator.Generate(radius)
 	end
 
 	if imgui.Button("Separate Rooms") then
 		dungeonGenerator.SeparateRooms()
+	end
+
+	if imgui.Button("Complete") then
+		for i, room in pairs(dungeonGenerator.GetRooms()) do
+			local t = transform(vec2(room.position), 0, vec2(1, 1))
+			game.SpawnGroup(room.name, t)
+		end
+		dungeonGenerator.Reset();
 	end
 
 	imgui.Separator()
