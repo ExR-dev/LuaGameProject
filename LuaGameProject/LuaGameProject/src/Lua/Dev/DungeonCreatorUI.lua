@@ -171,6 +171,7 @@ function dungeonCreatorUI:RoomSelection()
 	imgui.End()
 end
 
+local temp = 0
 local radius = 100
 local selectedRooms = {}
 function dungeonCreatorUI:GenerateDungeon()
@@ -181,9 +182,9 @@ function dungeonCreatorUI:GenerateDungeon()
 
 		dungeonGenerator.Reset()
 		dungeonGenerator.Initialize(vec2(100, 0))
-		for roomName, selected in pairs(selectedRooms) do
-			if selected then
-				for i=1, 10 do 
+		for roomName, selectInfo in pairs(selectedRooms) do
+			if selectInfo.selected then
+				for i=1, selectInfo.count do 
 					dungeonGenerator.AddRoom({
 						size = self.roomCollection.rooms[roomName].size,
 						name = roomName
@@ -208,9 +209,20 @@ function dungeonCreatorUI:GenerateDungeon()
 
 	-- Display rooms
 	for name, room in pairs(self.roomCollection.rooms) do
-		if imgui.Selectable(name, selectedRooms[name] == true, imgui.ImGuiSelectableFlags.NoAutoClosePopups) then
-			selectedRooms[name] = not selectedRooms[name]
+		selectedRooms[name] = selectedRooms[name] or {selected = false, count = 0}
+
+		if imgui.Selectable(name, selectedRooms[name].selected == true, imgui.ImGuiSelectableFlags.NoAutoClosePopups) then
+			selectedRooms[name].selected = not selectedRooms[name].selected
+			selectedRooms[name].count = selectedRooms[name].count
 		end
+
+		if selectedRooms[name].selected then
+			local count, _ = imgui.InputInt("Count##"..name, selectedRooms[name].count)
+			if count >= 0 then
+				selectedRooms[name].count = count
+			end
+		end
+
 	end
 
 	imgui.Separator("Debug Options")
@@ -220,9 +232,9 @@ function dungeonCreatorUI:GenerateDungeon()
 
 		dungeonGenerator.Reset()
 		dungeonGenerator.Initialize(vec2(100, 100))
-		for roomName, selected in pairs(selectedRooms) do
-			if selected then
-				for i=1, 10 do 
+		for roomName, selectInfo in pairs(selectedRooms) do
+			if selectInfo.selected then
+				for i=1, selectInfo.count do 
 					dungeonGenerator.AddRoom({
 						size = self.roomCollection.rooms[roomName].size,
 						name = roomName
