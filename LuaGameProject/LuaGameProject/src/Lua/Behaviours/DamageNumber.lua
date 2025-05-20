@@ -12,7 +12,9 @@ function damageNumber:OnCreate()
 	tracy.ZoneBeginN("Lua damageNumber:OnCreate")
 
 	self.lifetime = 1.0
-	self.velocity = vec2(gameMath.randomND() * 20.0, -60.0)
+	self.velocity = vec2(gameMath.randomND() * 80.0, -80.0)
+	self.fadeoutTime = 0.3
+	self.bgAlpha = 0.2
 
 	tracy.ZoneEnd()
 end
@@ -28,13 +30,13 @@ function damageNumber:Initialize(pos, damage)
 	self.textRender = textRender(
 		tostring(math.floor(damage * 10.0) * 0.1), -- Text
 		"", -- Font
-		20.0, -- Size
+		18.0, -- Size
 		4.0, -- Spacing
 		textCol, -- Text color
 		nil,
 		nil,
-		nil,
-		color(0.0, 0.0, 0.0, 0.0) -- Background color
+		3.0,
+		color(0.0, 0.0, 0.0, self.bgAlpha) -- Background color
 	)
 
 	scene.SetComponent(self.ID, "Transform", self.trans)
@@ -56,6 +58,15 @@ function damageNumber:OnUpdate(delta)
 		tracy.ZoneEnd()
 		return
 	end
+	
+	if self.lifetime <= self.fadeoutTime then
+		local fade = self.lifetime / self.fadeoutTime
+		self.textRender.textColor.a = fade
+		self.textRender.bgColor.a = self.bgAlpha * fade
+
+		scene.SetComponent(self.ID, "TextRender", self.textRender)
+	end
+
 	self.lifetime = self.lifetime - delta
 
 	self.trans.position = self.trans.position + (self.velocity * delta)

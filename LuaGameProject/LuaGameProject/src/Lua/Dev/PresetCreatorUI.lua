@@ -2,77 +2,121 @@ tracy.ZoneBeginN("Lua PresetCreatorUI.lua")
 
 local presetCreatorUI = {
 
+	presetGroups = { "Weapon", "Ammo" },
+	selectedPresetGroup = nil,
+
 	weaponEditorUI = {
 		editingWeapon = nil,		-- string
 		newWeaponName = nil,		-- string
 		editedWeaponTable = nil		-- table
+	},
+
+	ammoEditorUI = {
+		editingCaliber = nil,		-- string
+		newCaliberName = nil,		-- string
+		editedCaliberTable = nil	-- table
 	}
 }
 
+function presetCreatorUI:PresetEditorUI()
+	tracy.ZoneBeginN("Lua presetCreatorUI:PresetEditorUI")
 
-function presetCreatorUI:WeaponEditorUI()
-	tracy.ZoneBeginN("Lua presetCreatorUI:WeaponEditorUI")
-	if not self.weaponEditorUI.editingWeapon then
-		imgui.Begin("Weapon Editor")
-
-		-- List all weapons in data.weapons as buttons
-		for weaponName, _ in pairs(data.weapons) do
-			if imgui.Button(weaponName) then
-				self.weaponEditorUI.editingWeapon = weaponName
-			end
+	imgui.Begin("Preset Group Selector")
+	for i, groupName in ipairs(self.presetGroups) do
+		if imgui.Button(groupName) then
+			self.selectedPresetGroup = i
 		end
 
-		-- Add a button for creating a new weapon
-		if imgui.Button("New Weapon##NewWeaponButton") then
-			self.weaponEditorUI.newWeaponName = ""
-			imgui.OpenPopup("New Weapon Name##NameWeaponPopup")
+		if self.selectedPresetGroup == i then
+			imgui.SameLine()
+			imgui.Text("(Selected)")
 		end
+	end
+	imgui.End()
 
-		-- Open a popup to name the weapon
-		if imgui.BeginPopup("New Weapon Name##NameWeaponPopup") then
-
-			imgui.Text("Enter a name for the new weapon:")
-			self.weaponEditorUI.newWeaponName = imgui.InputText("##NewWeaponNameInput", self.weaponEditorUI.newWeaponName, 64)
-			
-			if imgui.Button("Confirm") or Input.KeyPressed(Input.Key.KEY_ENTER) then -- Submit if Confirm button or Enter key is pressed
-				local newWeapon = {
-					[self.weaponEditorUI.newWeaponName] = {
-
-						sprite = nil,
-						width = 12,
-						length = 28,
-
-						stats = {
-							handCount = 1,
-							caliber = "9mm",
-							fireMode = "Semi",
-							capacity = 1,
-							damage = 0.0,
-							fireRate = 0.0,
-							reloadTime = 0.0,
-							spread = 0.0,
-							recoil = 0.0,
-							recovery = 6
-						}
-					},
-				}
-
-				-- Insert the weapon
-				data.modding.loadWeaponMod(newWeapon)
-
-				-- Set the new weapon as the editing weapon
-				self.weaponEditorUI.editingWeapon = self.weaponEditorUI.newWeaponName
-				self.weaponEditorUI.newWeaponName = nil
-				imgui.CloseCurrentPopup()
-			end
-
-			imgui.EndPopup()
+	if self.selectedPresetGroup ~= nil then
+		imgui.Begin("Preset Selector")
+		
+		if self.selectedPresetGroup == 1 then
+			self:WeaponEditorUI()
+		elseif self.selectedPresetGroup == 2 then
+			self:AmmoEditorUI()
 		end
 
 		imgui.End()
-	else
+	end
+
+	tracy.ZoneEnd()
+end
+
+function presetCreatorUI:WeaponEditorUI()
+	tracy.ZoneBeginN("Lua presetCreatorUI:WeaponEditorUI")
+
+	-- List all weapons in data.weapons as buttons
+	for weaponName, _ in pairs(data.weapons) do
+		if imgui.Button(weaponName) then
+			self.weaponEditorUI.editingWeapon = weaponName
+			self.weaponEditorUI.editedWeaponTable = nil
+		end
+
+		if self.weaponEditorUI.editingWeapon == weaponName then
+			imgui.SameLine()
+			imgui.Text("(Selected)")
+		end
+	end
+
+	-- Add a button for creating a new weapon
+	if imgui.Button("New Weapon##NewWeaponButton") then
+		self.weaponEditorUI.newWeaponName = ""
+		imgui.OpenPopup("New Weapon Name##NameWeaponPopup")
+	end
+
+	-- Open a popup to name the weapon
+	if imgui.BeginPopup("New Weapon Name##NameWeaponPopup") then
+
+		imgui.Text("Enter a name for the new weapon:")
+		self.weaponEditorUI.newWeaponName = imgui.InputText("##NewWeaponNameInput", self.weaponEditorUI.newWeaponName, 64)
+			
+		if imgui.Button("Confirm") or Input.KeyPressed(Input.Key.KEY_ENTER) then -- Submit if Confirm button or Enter key is pressed
+			local newWeapon = {
+				[self.weaponEditorUI.newWeaponName] = {
+
+					sprite = nil,
+					width = 12,
+					length = 28,
+
+					stats = {
+						handCount = 1,
+						caliber = "9mm",
+						fireMode = "Semi",
+						capacity = 1,
+						damage = 0.0,
+						fireRate = 0.0,
+						reloadTime = 0.0,
+						spread = 0.0,
+						recoil = 0.0,
+						recovery = 6
+					}
+				},
+			}
+
+			-- Insert the weapon
+			data.modding.loadWeaponMod(newWeapon)
+
+			-- Set the new weapon as the editing weapon
+			self.weaponEditorUI.editingWeapon = self.weaponEditorUI.newWeaponName
+			self.weaponEditorUI.editedWeaponTable = nil
+			self.weaponEditorUI.newWeaponName = nil
+			imgui.CloseCurrentPopup()
+		end
+
+		imgui.EndPopup()
+	end
+
+
+	if self.weaponEditorUI.editingWeapon then
 		-- Before editing, copy the original weapon table to perform the edits on
-		if not self.weaponEditorUI.editedWeaponTable then
+		if self.weaponEditorUI.editedWeaponTable == nil then
 			self.weaponEditorUI.editedWeaponTable = table.deepCopy(
 				data.weapons[self.weaponEditorUI.editingWeapon]
 			)
@@ -470,6 +514,14 @@ function presetCreatorUI:WeaponEditorUI()
 
 		imgui.End()
 	end
+	tracy.ZoneEnd()
+end
+
+function presetCreatorUI:AmmoEditorUI()
+	tracy.ZoneBeginN("Lua presetCreatorUI:AmmoEditorUI")
+
+
+
 	tracy.ZoneEnd()
 end
 

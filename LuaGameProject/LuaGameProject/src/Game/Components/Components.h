@@ -462,7 +462,8 @@ namespace ECS
 		{
 			if (ImGui::TreeNode("Collider"))
 			{
-				// TODO: This is'nt working
+				ImGui::InputText("Tag", tag, MAX_TAG_LENGTH);
+
 				ImGui::DragFloat2("Offset", offset, 0.1f, -1000, 1000);
 				createBody |= ImGui::DragFloat2("Extents", extents, 0.001f, 0.001f, 1000);
 				if (ImGui::DragFloat("Rotation", &rotation, 0.1f, -1.0f, 361.0f))

@@ -23,6 +23,7 @@ function player:OnCreate()
 	self.currSpeed = self.speed
 
 	self.interactOptions = {}
+	self.solids = {}
 	
 	-- Create player collider
 	local c = collider("Player", false, vec2(0, 0), vec2(1.0, 1.0), 0, 
@@ -54,6 +55,9 @@ function player:OnCreate()
 			end
 			
 			table.insert(self.interactOptions, other)
+		elseif (o.tag == "Solid") then
+			-- Add collider to list of touched solids for later solving
+			table.insert(self.solids, other)
 		end
 
 		tracy.ZoneEnd()
@@ -65,6 +69,14 @@ function player:OnCreate()
 			if other == option then
 				-- Remove the option from the list
 				table.remove(self.interactOptions, i)
+				break
+			end
+		end
+
+		for i, solid in ipairs(self.solids) do
+			if other == solid then
+				-- Remove the solid from the list
+				table.remove(self.solids, i)
 				break
 			end
 		end
@@ -160,6 +172,14 @@ function player:OnUpdate(delta)
 	local cursorPos = game.GetCursor().trans.position
 	local dir = cursorPos - self.trans.position
 	self.trans.rotation = dir:angle()
+
+	-- Perform collision solving
+	for i, entID in ipairs(self.solids) do
+		local entTrans = transform(scene.GetComponent(entID, "Transform"))
+		local dir = entTrans.position - self.trans.position
+		dir:normalize()
+		self.trans.position = self.trans.position - (dir * (delta * 1000.0))
+	end
 
 	scene.SetComponent(self.ID, "Transform", self.trans)
 	

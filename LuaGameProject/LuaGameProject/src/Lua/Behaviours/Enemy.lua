@@ -10,6 +10,7 @@ local enemy = {}
 
 local vec2 = require("Vec2")
 local transform = require("Transform2")
+local color = require("Color")
 local gameMath = require("Utility/GameMath")
 local collider = require("Components/Collider")
 
@@ -27,7 +28,9 @@ function enemy:OnCreate()
 	local healthBar = scene.CreateEntity()
 	scene.SetComponent(healthBar, "Behaviour", "Behaviours/HealthBar")
 	local healthBarBeh = scene.GetComponent(healthBar, "Behaviour")
-	healthBarBeh:Initialize(self.ID)
+	healthBarBeh:Initialize(self.ID, 60.0)
+
+	self.hurtAnim = nil
 
 	tracy.ZoneEnd()
 end
@@ -76,6 +79,19 @@ function enemy:OnUpdate(delta)
 		game.PlaySound("Maxwell Short.wav", baseVolume * distScaler)
 	end
 
+	-- Update the hurt animation coroutine
+	if self.hurtAnim then
+		if self.hurtAnim.currTime > 0.0 then
+			self.hurtAnim.currTime = self.hurtAnim.currTime - delta
+			self.hurtAnim.s.color = gameMath.lerp(self.hurtAnim.defaultCol, self.hurtAnim.hurtCol, self.hurtAnim.currTime / self.hurtAnim.startTime)
+			scene.SetComponent(self.ID, "Sprite", self.hurtAnim.s)
+		else
+			self.hurtAnim.s.color = self.hurtAnim.defaultCol
+			scene.SetComponent(self.ID, "Sprite", self.hurtAnim.s)
+			self.hurtAnim = nil
+		end
+	end
+
 	scene.SetComponent(self.ID, "Transform", t)
 	tracy.ZoneEnd()
 end
@@ -113,9 +129,98 @@ function enemy:OnHit()
 		-- TODO: play death animation instead
 		scene.RemoveEntity(self.ID)
 	end
+	
+	if not self.hurtAnim then
+		self.hurtAnim = {}
+		self.hurtAnim.s = scene.GetComponent(self.ID, "Sprite")
+		self.hurtAnim.defaultCol = self.hurtAnim.s.color
+		self.hurtAnim.hurtCol = color(1, 0, 0, 1)
+		self.hurtAnim.s.color = self.hurtAnim.hurtCol
+	end
+	self.hurtAnim.startTime = 0.2
+	self.hurtAnim.currTime = self.hurtAnim.startTime
 
 	tracy.ZoneEnd()
 end
 
 tracy.ZoneEnd()
 return enemy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--[[
+local enemy = {}
+
+local vec2 = require("Vec2")
+local transform = require("Transform2")
+local gameMath = require("Utility/GameMath")
+
+function enemy:OnUpdate(delta)
+	if self.hurtAnim then
+		print("Try")
+		if coroutine.status(self.hurtAnim) == "dead" then
+			print("Dead")
+			self.hurtAnim = nil
+		else
+			print("Run")
+			coroutine.resume(self.hurtAnim, delta)
+		end
+	end
+end
+
+function enemy:OnHit()
+	self.hurtAnim = coroutine.create(function (dT)
+		print("Start")
+		local s = scene.GetComponent(self.ID, "Sprite")
+
+		local startTime = 0.3
+		local currTime = startTime
+		local defaultCol = s.color
+		local hurtCol = color(1, 0, 0, 1)
+		s.color = hurtCol
+
+		while (currTime > 0.0) do
+			scene.SetComponent(self.ID, "Sprite", s)
+			print("Loop")
+
+			dT = coroutine.yield()
+
+			print("Cont. "..tostring(dT))
+
+			currTime = currTime - dT
+			s.color = gameMath.lerp(hurtCol, defaultCol, currTime / startTime)
+		end
+		
+		print("End")
+		s.color = defaultCol
+		scene.SetComponent(self.ID, "Sprite", s)
+    end)
+end
+
+return enemy
+--]]
