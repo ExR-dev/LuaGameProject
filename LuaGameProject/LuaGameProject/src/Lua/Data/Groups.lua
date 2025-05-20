@@ -3,6 +3,7 @@
 -- Groups are given a position and rotation when created.
 
 local vec2 = require("Vec2")
+local transform = require("Transform2")
 
 local groups = {
 	-- Summary
@@ -45,7 +46,7 @@ if game == nil then
 end
 
 if game.SpawnGroup == nil then
-	local function SpawnGroup(group)
+	local function SpawnGroup(group, trans)
         local groupData = data.groups[group]
 
         if groupData == nil then
@@ -57,6 +58,7 @@ if game.SpawnGroup == nil then
             print("Group doesn't have any entities")
            return 
         end
+
         -- Spawn entities
         for i, entity in ipairs(groupData.entities) do
             local groupData = entity
@@ -82,6 +84,14 @@ if game.SpawnGroup == nil then
             for componentName, componentData in pairs(groupData.components) do
                 scene.SetComponent(entity, componentName, componentData)
 		    end
+
+            if scene.HasComponent(entity, "Transform") and transform.istransform2(trans) then
+                local t = transform(scene.GetComponent(entity, "Transform"))
+                t.position = t.position + trans.position
+                t.rotation = t.rotation + trans.rotation
+                t.scale = t.scale * trans.scale
+	            scene.SetComponent(entity, "Transform", t)
+            end
 
         end
 	end
