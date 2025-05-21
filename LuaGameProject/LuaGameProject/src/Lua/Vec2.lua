@@ -113,6 +113,13 @@ function vec2.dot(a, b)
 	return (a.x * b.x) + (a.y * b.y)
 end
 
+function vec2:abs()
+	return vec2(
+		math.abs(self.x),
+		math.abs(self.y)
+	)
+end
+
 -- Get the angle of the vector in degrees
 function vec2:angle()
 	local norm = self:normalized()

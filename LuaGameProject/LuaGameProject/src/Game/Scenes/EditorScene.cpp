@@ -198,6 +198,9 @@ Game::SceneState EditorScene::EditorScene::Update()
 
 	scene.CleanUp(L);
 
+	if (Input::CheckKeyPressed(Input::GAME_KEY_ESCAPE))
+		return Game::SceneState::InMenu;
+
 	return Game::SceneState::None;
 }
 

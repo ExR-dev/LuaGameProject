@@ -123,21 +123,16 @@ tracy.ZoneEnd()
 
 -- Create Walls ----------------
 tracy.ZoneBeginN("Lua Create Walls")
-for _ = 1, 5 do
-	local entity = scene.CreateEntity()
+for _ = 1, 10 do
+	local entity = game.SpawnPrefab("Wall")
 
 	local t = transform(
 		vec2(math.random() + math.random(500, 1200), math.random() + math.random(-150, 550)), 
 		0.0,
-		vec2(math.random() + math.random(1, 100), math.random() + math.random(1, 100))
+		vec2(math.random() + math.random(10, 150), math.random() + math.random(10, 150))
 	)
 
-	local col = color(math.random(), math.random(), math.random(), math.random())
-	local s = sprite("", col)
-	s.priority = math.random(50, 100)
-
 	scene.SetComponent(entity, "Transform", t)
-	scene.SetComponent(entity, "Sprite", s)
 end
 tracy.ZoneEnd()
 --------------------------------

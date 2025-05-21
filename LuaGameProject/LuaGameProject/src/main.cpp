@@ -72,6 +72,8 @@ int main()
 	Game::SceneState sceneState = Game::SceneState::InMenu;
 	currentScene->OnSwitchToScene();
 
+	SetExitKey(0); // None
+
 
 	// Threads do not work with windows leak detection, so we disable it
 #ifndef LEAK_DETECTION 
