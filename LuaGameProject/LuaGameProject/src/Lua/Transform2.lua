@@ -17,7 +17,7 @@ local function new(p, r, s)
         local t = {
             position = p or vec2(),
             rotation = r or 0.0,
-            scale = s or vec2()
+            scale = s or vec2(1, 1)
         }
         return setmetatable(t, transform2)
     end

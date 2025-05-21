@@ -16,12 +16,19 @@ function gameMath.clamp(a, b, c)
 end
 
 function gameMath.sign(a)
-	if a > 0.0 then
-		return 1.0
-	elseif a < 0.0 then
-		return -1.0
-	else
-		return 0.0
+	if type(a) == "number" then
+		if a > 0.0 then
+			return 1.0
+		elseif a < 0.0 then
+			return -1.0
+		else
+			return 0.0
+		end
+	elseif vec2.isvec2(a) then
+		return vec2(
+			gameMath.sign(a.x), 
+			gameMath.sign(a.y)
+		)
 	end
 end
 
