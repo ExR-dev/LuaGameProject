@@ -172,6 +172,25 @@ function dungeonCreatorUI:RoomSelection()
 	end
 
 	imgui.End()
+
+	InfoWindow()
+end
+
+function InfoWindow()
+	imgui.Begin("Info")
+
+	imgui.Text("How to use:")
+	imgui.Separator("Room selection")
+
+	imgui.TextWrapped("In the room selection window, new rooms can be created. When a room is selected prefabs and entities can be created for that specific room. Also room size can be changed. " ..
+			   "When pressing 'Save' or 'Save All Rooms' relevant room(s) will be saved to disk, this is neccecary for persistant storage.")
+
+	imgui.Separator("Dungeon Generation")
+
+	imgui.TextWrapped("Pressing the Green button in the 'view' window will open a 'Dungeon Generation' window. In this window rooms can be included in the generation and debug options to iterate " ..
+			   "thrugh the generation steps exists. The save button will save a generated dungeon to disk inorder to load it in game.")
+
+	imgui.End()
 end
 
 local temp = 0
@@ -179,8 +198,6 @@ local radius = 100
 local selectedRooms = {}
 function dungeonCreatorUI:GenerateDungeon()
 	imgui.Text("Dungeon Generation")
-
-
 
 	if imgui.Button("Generate") then
 		scene.Clear()
