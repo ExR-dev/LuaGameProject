@@ -211,6 +211,18 @@ namespace ImLua
 		// Returns: none
 		static int lua_EndCombo(lua_State *L);
 
+		// Arguments: ImGuiMouseButton button, bool repeat
+		// Returns: bool ret
+		static int lua_IsMouseClicked(lua_State *L);
+
+		// Arguments: ImGuiFocusedFlags flags
+		// Returns: bool ret
+		static int lua_IsWindowFocused(lua_State *L);
+
+		// Arguments: int offset
+		// Returns: none
+		static int lua_SetKeyboardFocusHere(lua_State *L);
+		
 
 
 
@@ -254,8 +266,8 @@ namespace ImLua
 		// Returns: 
 		static int lua_TreePop(lua_State *L);
 
-		// Arguments: string label, bool p_visible
-		// Returns: bool p_visible, bool isModified
+		// Arguments: string label, ImGuiTreeNodeFlags flags = 0, bool p_visible = nullptr
+		// Returns: bool p_visible = null, bool isModified
 		static int lua_CollapsingHeader(lua_State *L);
 
 		// Arguments: 
@@ -369,6 +381,10 @@ namespace ImLua
 		// Arguments: 
 		// Returns: 
 		static int lua_IsItemActive(lua_State *L);
+
+		// Arguments: none
+		// Returns: bool ret
+		static int lua_IsAnyItemActive(lua_State *L);
 
 		// Arguments: 
 		// Returns: 

@@ -12,6 +12,7 @@ local presetCreatorUI = {
 	},
 
 	ammoEditorUI = {
+		selectedAmmoType = 0,
 		editingCaliber = nil,		-- string
 		newCaliberName = nil,		-- string
 		editedCaliberTable = nil	-- table
@@ -51,6 +52,8 @@ end
 
 function presetCreatorUI:WeaponEditorUI()
 	tracy.ZoneBeginN("Lua presetCreatorUI:WeaponEditorUI")
+
+	local ctx = self.weaponEditorUI
 
 	-- List all weapons in data.weapons as buttons
 	for weaponName, _ in pairs(data.weapons) do
@@ -519,8 +522,120 @@ end
 
 function presetCreatorUI:AmmoEditorUI()
 	tracy.ZoneBeginN("Lua presetCreatorUI:AmmoEditorUI")
+	
+	
+	local ctx = self.ammoEditorUI
+
+	-- List all calibers in data.ammo.calibers as buttons
+	for caliberName, _ in pairs(data.ammo.calibers) do
+		if imgui.Button(caliberName) then
+			self.ammoEditorUI.editingCaliber = caliberName
+			self.ammoEditorUI.editedCaliberTable = nil
+		end
+
+		if self.ammoEditorUI.editingCaliber == caliberName then
+			imgui.SameLine()
+			imgui.Text("(Selected)")
+		end
+	end
+
+	-- Add a button for creating a new caliber
+	if imgui.Button("New Caliber##NewCaliberButton") then
+		ctx.newCaliberName = ""
+		imgui.OpenPopup("New Caliber Name##NameCaliberPopup")
+	end
+	
+	-- Open a popup to name the caliber
+	if imgui.BeginPopup("New Caliber Name##NameCaliberPopup") then
+
+		imgui.Text("Enter a name for the new caliber:")
+		ctx.newCaliberName = imgui.InputText("##NewCaliberNameInput", ctx.newCaliberName, 64)
+			
+		if imgui.Button("Confirm") or Input.KeyPressed(Input.Key.KEY_ENTER) then -- Submit if Confirm button or Enter key is pressed
+			local newCaliber = { 
+				[ctx.newCaliberName] = {
+					default = ""
+				}
+			}
+
+			-- Insert the caliber
+			data.modding.loadAmmoMod(newCaliber)
+
+			-- Set the new caliber as the editing caliber
+			ctx.editingCaliber = ctx.newCaliberName
+			ctx.editedCaliberTable = nil
+			ctx.newCaliberName = nil
+			imgui.CloseCurrentPopup()
+		end
+
+		imgui.EndPopup()
+	end
 
 
+	--[[
+	if ctx.editingCaliber ~= nil then
+		-- Before editing, copy the original caliber table to perform the edits on
+		if ctx.editedCaliberTable == nil then
+			ctx.editedCaliberTable = table.deepCopy(
+				data.ammo.calibers[ctx.editingCaliber]
+			)
+		end
+
+		local editorOpen = true
+		local resetState = false
+
+		-- Open the editor window
+		editorOpen = imgui.Begin("Caliber Editor", editorOpen)
+		if not editorOpen then -- if the window is closed, reset the state
+			resetState = true
+		end
+
+		-- Display the caliber name
+		imgui.Text("Editing:         "..self.ammoEditorUI.editingCaliber)
+		imgui.Separator()
+
+
+
+		-- TODO: List all ammo types as collapsing headers, containing the ammo type stats
+
+
+		-- TODO: Add a button to add a new ammo type
+
+		imgui.Separator()
+
+		
+		-- Add a button for selecting the calibers default ammo type
+		if imgui.Button("Select Default Type##SelectDefaultAmmoTypeButton") then
+			imgui.OpenPopup("Select Default Type##SelectDefaultAmmoTypePopup")
+		end
+
+		-- Select the default ammo type before submitting
+		if imgui.BeginPopup("Select Default Type##SelectDefaultAmmoTypePopup") then
+			imgui.TextWrapped("Select the default ammo type for this caliber:")
+
+			local ammoTypeList = {}
+			for ammoTypeName, ammoTypeVar in pairs(ctx.editedCaliberTable) do
+				if type(ammoTypVar) == "table" then -- Avoid the "default" string that's also in the table
+					table.insert(ammoTypeList, ammoTypeName)
+				end
+			end
+
+			local ammoTypeListString = table.concat(ammoTypeList, "\n").."\n\n"
+			local pressed = false
+			pressed, ctx.selectedAmmoType = imgui.Combo("Default##PrefabEditorDefaultType", ctx.selectedAmmoType, ammoTypeListString)
+
+			if pressed then
+				ctx.editedCaliberTable.default = ammoTypeList[ctx.selectedAmmoType]
+				imgui.CloseCurrentPopup()
+			end
+		end
+
+		if ctx.editedCaliberTable[ctx.editedCaliberTable.default] ~= nil then
+			-- Default is selected, ammo can be saved
+			-- TODO
+		end		
+	end
+	--]]
 
 	tracy.ZoneEnd()
 end

@@ -82,6 +82,7 @@ namespace ImLua
 			{ "SetWindowSize",				lua_SetWindowSize			},
 			{ "IsItemHovered",				lua_IsItemHovered			},
 			{ "IsItemActive",				lua_IsItemActive			},
+			{ "IsAnyItemActive",			lua_IsAnyItemActive			},
 			{ "IsItemFocused",				lua_IsItemFocused			},
 			{ "IsItemClicked",				lua_IsItemClicked			},
 			{ "IsItemVisible",				lua_IsItemVisible			},
@@ -95,6 +96,9 @@ namespace ImLua
 			{ "CalcTextSize",				lua_CalcTextSize			},
 			{ "GetClipboardText",			lua_GetClipboardText		},
 			{ "SetClipboardText",			lua_SetClipboardText		},
+			{ "IsMouseClicked",				lua_IsMouseClicked			},
+			{ "IsWindowFocused",			lua_IsWindowFocused			},
+			{ "SetKeyboardFocusHere",		lua_SetKeyboardFocusHere	},
 
 			{ NULL,							NULL						}
 		};
@@ -469,7 +473,7 @@ namespace ImLua
 		return 2;
 	}
 
-	int ImLua::ImLua::lua_BeginPopupContextItem(lua_State *L)
+	int ImLua::lua_BeginPopupContextItem(lua_State *L)
 	{
 		ZoneScopedC(RandomUniqueColor());
 		int idx = 1;
@@ -1162,8 +1166,9 @@ namespace ImLua
 		return 0;
 	}
 
-	int ImLua::ImLua::lua_Selectable(lua_State* L)
+	int ImLua::lua_Selectable(lua_State* L)
 	{
+		ZoneScopedC(RandomUniqueColor());
 		int idx = 1;
 
 		// Required
@@ -1199,151 +1204,129 @@ namespace ImLua
 		return 1;
 	}
 
-
-
-
-
-
-
-
-
-
-	int ImLua::lua_SliderAngle(lua_State *L)
+	int ImLua::lua_IsMouseClicked(lua_State *L)
 	{
-		// TODO: Implement this function
-		return 0;
+		ZoneScopedC(RandomUniqueColor());
+		int idx = 1;
+
+		// Required
+		ImGuiMouseButton button = 0;
+		// Optional
+		bool repeat = false;
+
+		// Get required parameters
+		if (!PopInt(L, idx, button))
+			luaL_error(L, "Expected parameter ImGuiMouseButton");
+
+		// Get optional parameters
+		do
+		{
+			if (!PopBool(L, idx, repeat))
+				break;
+
+		} while (false);
+
+		// Do ImGui command
+		bool ret = ImGui::IsMouseClicked(button, repeat);
+
+		// Return result
+		PushBool(L, ret);
+
+		return 1;
 	}
 
-	int ImLua::lua_ColorEdit4(lua_State *L)
+	int ImLua::lua_IsWindowFocused(lua_State* L)
 	{
-		// TODO: Implement this function
-		return 0;
+		ZoneScopedC(RandomUniqueColor());
+		int idx = 1;
+
+		// Optional
+		ImGuiFocusedFlags flags = 0;
+
+		// Get optional parameters
+		do
+		{
+			if (!PopInt(L, idx, flags))
+				break;
+
+		} while (false);
+
+		// Do ImGui command
+		bool ret = ImGui::IsWindowFocused(flags);
+
+		// Return result
+		PushBool(L, ret);
+
+		return 1;
 	}
 
-	int ImLua::lua_ColorPicker4(lua_State *L)
+	int ImLua::lua_SetKeyboardFocusHere(lua_State *L)
 	{
-		// TODO: Implement this function
-		return 0;
-	}
+		ZoneScopedC(RandomUniqueColor());
+		int idx = 1;
 
-	int ImLua::lua_ColorButton(lua_State *L)
-	{
-		// TODO: Implement this function
-		return 0;
-	}
+		// Optional
+		int offset = 0;
 
-	int ImLua::lua_ProgressBar(lua_State *L)
-	{
-		// TODO: Implement this function
-		return 0;
-	}
+		// Get optional parameters
+		do
+		{
+			if (!PopInt(L, idx, offset))
+				break;
 
-	int ImLua::lua_Image(lua_State *L)
-	{
-		// TODO: Implement this function
-		return 0;
-	}
+		} while (false);
 
-	int ImLua::lua_TreeNode(lua_State *L)
-	{
-		// TODO: Implement this function
-		return 0;
-	}
+		// Do ImGui command
+		ImGui::SetKeyboardFocusHere(offset);
 
-	int ImLua::lua_TreePop(lua_State *L)
-	{
-		// TODO: Implement this function
 		return 0;
 	}
 
 	int ImLua::lua_CollapsingHeader(lua_State *L)
 	{
-		// TODO: Implement this function
-		return 0;
-	}
+		ZoneScopedC(RandomUniqueColor());
+		int idx = 1;
 
-	int ImLua::lua_BeginGroup(lua_State *L)
-	{
-		// TODO: Implement this function
-		return 0;
-	}
+		// Required
+		std::string label;
+		// Optional
+		bool visible = true;
+		ImGuiTreeNodeFlags flags = 0;
 
-	int ImLua::lua_EndGroup(lua_State *L)
-	{
-		// TODO: Implement this function
-		return 0;
-	}
+		// Get required parameters
+		if (!PopString(L, idx, label))
+			luaL_error(L, "Expected parameter string");
 
-	int ImLua::lua_PushID(lua_State *L)
-	{
-		// TODO: Implement this function
-		return 0;
-	}
+		// Get optional parameters
+		bool *p_visible = nullptr;
+		do
+		{
+			if (!PopInt(L, idx, flags))
+				break;
 
-	int ImLua::lua_PopID(lua_State *L)
-	{
-		// TODO: Implement this function
-		return 0;
-	}
+			if (!PopBool(L, idx, visible))
+				break;
+			p_visible = &visible;
 
-	int ImLua::lua_BeginTooltip(lua_State *L)
-	{
-		// TODO: Implement this function
-		return 0;
-	}
+		} while (false);
 
-	int ImLua::lua_EndTooltip(lua_State *L)
-	{
-		// TODO: Implement this function
-		return 0;
-	}
+		// Do ImGui command
+		bool pressed = false;
+		if (p_visible)
+			pressed = ImGui::CollapsingHeader(label.c_str(), p_visible, flags);
+		else
+			pressed = ImGui::CollapsingHeader(label.c_str(), flags);
 
-	int ImLua::lua_BeginTable(lua_State *L)
-	{
-		// TODO: Implement this function
-		return 0;
-	}
+		// Return result
+		int returns = 1;
+		if (p_visible)
+		{
+			PushBool(L, visible);
+			returns++;
+		}
+		PushBool(L, pressed);
 
-	int ImLua::lua_EndTable(lua_State *L)
-	{
-		// TODO: Implement this function
-		return 0;
-	}
-
-	int ImLua::lua_TableNextRow(lua_State *L)
-	{
-		// TODO: Implement this function
-		return 0;
-	}
-
-	int ImLua::lua_TableNextColumn(lua_State *L)
-	{
-		// TODO: Implement this function
-		return 0;
-	}
-
-	int ImLua::lua_TableSetColumnIndex(lua_State *L)
-	{
-		// TODO: Implement this function
-		return 0;
-	}
-
-	int ImLua::lua_NewLine(lua_State *L)
-	{
-		// TODO: Implement this function
-		return 0;
-	}
-
-	int ImLua::lua_Spacing(lua_State *L)
-	{
-		// TODO: Implement this function
-		return 0;
-	}
-
-	int ImLua::lua_Dummy(lua_State *L)
-	{
-		// TODO: Implement this function
-		return 0;
+		return returns;
 	}
 
 	int ImLua::lua_Indent(lua_State *L)
@@ -1390,152 +1373,400 @@ namespace ImLua
 		return 0;
 	}
 
+	int ImLua::lua_IsAnyItemActive(lua_State *L)
+	{
+		ZoneScopedC(RandomUniqueColor());
+
+		// Do ImGui command
+		bool ret = ImGui::IsAnyItemActive();
+
+		// Return result
+		PushBool(L, ret);
+
+		return 1;
+	}
+
+
+
+
+
+
+
+
+
+
+	int ImLua::lua_SliderAngle(lua_State *L)
+	{
+		ZoneScopedC(RandomUniqueColor());
+
+		// TODO: Implement this function
+		return 0;
+	}
+
+	int ImLua::lua_ColorEdit4(lua_State *L)
+	{
+		ZoneScopedC(RandomUniqueColor());
+
+		// TODO: Implement this function
+		return 0;
+	}
+
+	int ImLua::lua_ColorPicker4(lua_State *L)
+	{
+		ZoneScopedC(RandomUniqueColor());
+
+		// TODO: Implement this function
+		return 0;
+	}
+
+	int ImLua::lua_ColorButton(lua_State *L)
+	{
+		ZoneScopedC(RandomUniqueColor());
+
+		// TODO: Implement this function
+		return 0;
+	}
+
+	int ImLua::lua_ProgressBar(lua_State *L)
+	{
+		ZoneScopedC(RandomUniqueColor());
+
+		// TODO: Implement this function
+		return 0;
+	}
+
+	int ImLua::lua_Image(lua_State *L)
+	{
+		ZoneScopedC(RandomUniqueColor());
+
+		// TODO: Implement this function
+		return 0;
+	}
+
+	int ImLua::lua_TreeNode(lua_State *L)
+	{
+		ZoneScopedC(RandomUniqueColor());
+
+		// TODO: Implement this function
+		return 0;
+	}
+
+	int ImLua::lua_TreePop(lua_State *L)
+	{
+		ZoneScopedC(RandomUniqueColor());
+
+		// TODO: Implement this function
+		return 0;
+	}
+
+	int ImLua::lua_BeginGroup(lua_State *L)
+	{
+		ZoneScopedC(RandomUniqueColor());
+
+		// TODO: Implement this function
+		return 0;
+	}
+
+	int ImLua::lua_EndGroup(lua_State *L)
+	{
+		ZoneScopedC(RandomUniqueColor());
+
+		// TODO: Implement this function
+		return 0;
+	}
+
+	int ImLua::lua_PushID(lua_State *L)
+	{
+		ZoneScopedC(RandomUniqueColor());
+
+		// TODO: Implement this function
+		return 0;
+	}
+
+	int ImLua::lua_PopID(lua_State *L)
+	{
+		ZoneScopedC(RandomUniqueColor());
+
+		// TODO: Implement this function
+		return 0;
+	}
+
+	int ImLua::lua_BeginTooltip(lua_State *L)
+	{
+		ZoneScopedC(RandomUniqueColor());
+
+		// TODO: Implement this function
+		return 0;
+	}
+
+	int ImLua::lua_EndTooltip(lua_State *L)
+	{
+		ZoneScopedC(RandomUniqueColor());
+
+		// TODO: Implement this function
+		return 0;
+	}
+
+	int ImLua::lua_BeginTable(lua_State *L)
+	{
+		ZoneScopedC(RandomUniqueColor());
+
+		// TODO: Implement this function
+		return 0;
+	}
+
+	int ImLua::lua_EndTable(lua_State *L)
+	{
+		ZoneScopedC(RandomUniqueColor());
+
+		// TODO: Implement this function
+		return 0;
+	}
+
+	int ImLua::lua_TableNextRow(lua_State *L)
+	{
+		ZoneScopedC(RandomUniqueColor());
+
+		// TODO: Implement this function
+		return 0;
+	}
+
+	int ImLua::lua_TableNextColumn(lua_State *L)
+	{
+		ZoneScopedC(RandomUniqueColor());
+
+		// TODO: Implement this function
+		return 0;
+	}
+
+	int ImLua::lua_TableSetColumnIndex(lua_State *L)
+	{
+		ZoneScopedC(RandomUniqueColor());
+
+		// TODO: Implement this function
+		return 0;
+	}
+
+	int ImLua::lua_NewLine(lua_State *L)
+	{
+		ZoneScopedC(RandomUniqueColor());
+
+		// TODO: Implement this function
+		return 0;
+	}
+
+	int ImLua::lua_Spacing(lua_State *L)
+	{
+		ZoneScopedC(RandomUniqueColor());
+
+		// TODO: Implement this function
+		return 0;
+	}
+
+	int ImLua::lua_Dummy(lua_State *L)
+	{
+		ZoneScopedC(RandomUniqueColor());
+
+		// TODO: Implement this function
+		return 0;
+	}
+
 	int ImLua::lua_SetNextItemWidth(lua_State *L)
 	{
+		ZoneScopedC(RandomUniqueColor());
+
 		// TODO: Implement this function
 		return 0;
 	}
 
 	int ImLua::lua_CalcItemWidth(lua_State *L)
 	{
+		ZoneScopedC(RandomUniqueColor());
+
 		// TODO: Implement this function
 		return 0;
 	}
 
 	int ImLua::lua_GetCursorScreenPos(lua_State *L)
 	{
+		ZoneScopedC(RandomUniqueColor());
+
 		// TODO: Implement this function
 		return 0;
 	}
 
 	int ImLua::lua_SetCursorScreenPos(lua_State *L)
 	{
+		ZoneScopedC(RandomUniqueColor());
+
 		// TODO: Implement this function
 		return 0;
 	}
 
 	int ImLua::lua_GetCursorPos(lua_State *L)
 	{
+		ZoneScopedC(RandomUniqueColor());
+
 		// TODO: Implement this function
 		return 0;
 	}
 
 	int ImLua::lua_SetCursorPos(lua_State *L)
 	{
+		ZoneScopedC(RandomUniqueColor());
+
 		// TODO: Implement this function
 		return 0;
 	}
 
 	int ImLua::lua_GetWindowPos(lua_State *L)
 	{
+		ZoneScopedC(RandomUniqueColor());
+
 		// TODO: Implement this function
 		return 0;
 	}
 
 	int ImLua::lua_GetWindowSize(lua_State *L)
 	{
+		ZoneScopedC(RandomUniqueColor());
+
 		// TODO: Implement this function
 		return 0;
 	}
 
 	int ImLua::lua_SetWindowPos(lua_State *L)
 	{
+		ZoneScopedC(RandomUniqueColor());
+
 		// TODO: Implement this function
 		return 0;
 	}
 
 	int ImLua::lua_SetWindowSize(lua_State *L)
 	{
+		ZoneScopedC(RandomUniqueColor());
+
 		// TODO: Implement this function
 		return 0;
 	}
 
 	int ImLua::lua_IsItemHovered(lua_State *L)
 	{
+		ZoneScopedC(RandomUniqueColor());
+
 		// TODO: Implement this function
 		return 0;
 	}
 
 	int ImLua::lua_IsItemActive(lua_State *L)
 	{
+		ZoneScopedC(RandomUniqueColor());
+
 		// TODO: Implement this function
 		return 0;
 	}
 
 	int ImLua::lua_IsItemFocused(lua_State *L)
 	{
+		ZoneScopedC(RandomUniqueColor());
+
 		// TODO: Implement this function
 		return 0;
 	}
 
 	int ImLua::lua_IsItemClicked(lua_State *L)
 	{
+		ZoneScopedC(RandomUniqueColor());
+
 		// TODO: Implement this function
 		return 0;
 	}
 
 	int ImLua::lua_IsItemVisible(lua_State *L)
 	{
+		ZoneScopedC(RandomUniqueColor());
+
 		// TODO: Implement this function
 		return 0;
 	}
 
 	int ImLua::lua_IsItemEdited(lua_State *L)
 	{
+		ZoneScopedC(RandomUniqueColor());
+
 		// TODO: Implement this function
 		return 0;
 	}
 
 	int ImLua::lua_IsItemActivated(lua_State *L)
 	{
+		ZoneScopedC(RandomUniqueColor());
+
 		// TODO: Implement this function
 		return 0;
 	}
 
 	int ImLua::lua_IsItemToggledOpen(lua_State *L)
 	{
+		ZoneScopedC(RandomUniqueColor());
+
 		// TODO: Implement this function
 		return 0;
 	}
 
 	int ImLua::lua_GetItemID(lua_State *L)
 	{
+		ZoneScopedC(RandomUniqueColor());
+
 		// TODO: Implement this function
 		return 0;
 	}
 
 	int ImLua::lua_GetItemRectMin(lua_State *L)
 	{
+		ZoneScopedC(RandomUniqueColor());
+
 		// TODO: Implement this function
 		return 0;
 	}
 
 	int ImLua::lua_GetItemRectMax(lua_State *L)
 	{
+		ZoneScopedC(RandomUniqueColor());
+
 		// TODO: Implement this function
 		return 0;
 	}
 
 	int ImLua::lua_GetItemRectSize(lua_State *L)
 	{
+		ZoneScopedC(RandomUniqueColor());
+
 		// TODO: Implement this function
 		return 0;
 	}
 
 	int ImLua::lua_CalcTextSize(lua_State *L)
 	{
+		ZoneScopedC(RandomUniqueColor());
+
 		// TODO: Implement this function
 		return 0;
 	}
 
 	int ImLua::lua_GetClipboardText(lua_State *L)
 	{
+		ZoneScopedC(RandomUniqueColor());
+
 		// TODO: Implement this function
 		return 0;
 	}
 
 	int ImLua::lua_SetClipboardText(lua_State *L)
 	{
+		ZoneScopedC(RandomUniqueColor());
+
 		// TODO: Implement this function
 		return 0;
 	}
@@ -1544,9 +1775,15 @@ namespace ImLua
 
 	const std::vector<ImLua::ImGuiFlag> &ImLua::GetFlags()
 	{
-		ZoneScopedC(RandomUniqueColor());
-
 		static const std::vector<ImGuiFlag> flags = {
+
+			ImGuiFlag("ImGuiMouseButton", {
+				std::make_pair<std::string, int>("Left", ImGuiMouseButton_Left),
+				std::make_pair<std::string, int>("Right", ImGuiMouseButton_Right),
+				std::make_pair<std::string, int>("Middle", ImGuiMouseButton_Middle),
+				std::make_pair<std::string, int>("COUNT", ImGuiMouseButton_COUNT)
+			}),
+				
 			ImGuiFlag("ImGuiWindowFlags", {
 				std::make_pair<std::string, int>("None", ImGuiWindowFlags_None),
 				std::make_pair<std::string, int>("NoTitleBar", ImGuiWindowFlags_NoTitleBar),
@@ -1610,6 +1847,38 @@ namespace ImLua
 				std::make_pair<std::string, int>("Disabled", ImGuiSelectableFlags_Disabled),
 				std::make_pair<std::string, int>("AllowOverlap", ImGuiSelectableFlags_AllowOverlap),
 				std::make_pair<std::string, int>("Highlight", ImGuiSelectableFlags_Highlight),
+			}),
+
+			ImGuiFlag("ImGuiFocusedFlags", {
+				std::make_pair<std::string, int>("None", ImGuiFocusedFlags_None),
+				std::make_pair<std::string, int>("ChildWindows", ImGuiFocusedFlags_ChildWindows),
+				std::make_pair<std::string, int>("RootWindow", ImGuiFocusedFlags_RootWindow),
+				std::make_pair<std::string, int>("AnyWindow", ImGuiFocusedFlags_AnyWindow),
+				std::make_pair<std::string, int>("NoPopupHierarchy", ImGuiFocusedFlags_NoPopupHierarchy),
+				std::make_pair<std::string, int>("DockHierarchy", ImGuiFocusedFlags_DockHierarchy),
+				std::make_pair<std::string, int>("RootAndChildWindows", ImGuiFocusedFlags_RootAndChildWindows)
+			}),
+
+			ImGuiFlag("ImGuiTreeNodeFlags", {
+				std::make_pair<std::string, int>("None", ImGuiTreeNodeFlags_None),
+				std::make_pair<std::string, int>("Selected", ImGuiTreeNodeFlags_Selected),
+				std::make_pair<std::string, int>("Framed", ImGuiTreeNodeFlags_Framed),
+				std::make_pair<std::string, int>("AllowOverlap", ImGuiTreeNodeFlags_AllowOverlap),
+				std::make_pair<std::string, int>("NoTreePushOnOpen", ImGuiTreeNodeFlags_NoTreePushOnOpen),
+				std::make_pair<std::string, int>("NoAutoOpenOnLog", ImGuiTreeNodeFlags_NoAutoOpenOnLog),
+				std::make_pair<std::string, int>("DefaultOpen", ImGuiTreeNodeFlags_DefaultOpen),
+				std::make_pair<std::string, int>("OpenOnDoubleClick", ImGuiTreeNodeFlags_OpenOnDoubleClick),
+				std::make_pair<std::string, int>("OpenOnArrow", ImGuiTreeNodeFlags_OpenOnArrow),
+				std::make_pair<std::string, int>("Leaf", ImGuiTreeNodeFlags_Leaf),
+				std::make_pair<std::string, int>("Bullet", ImGuiTreeNodeFlags_Bullet),
+				std::make_pair<std::string, int>("FramePadding", ImGuiTreeNodeFlags_FramePadding),
+				std::make_pair<std::string, int>("SpanAvailWidth", ImGuiTreeNodeFlags_SpanAvailWidth),
+				std::make_pair<std::string, int>("SpanFullWidth", ImGuiTreeNodeFlags_SpanFullWidth),
+				std::make_pair<std::string, int>("SpanLabelWidth", ImGuiTreeNodeFlags_SpanLabelWidth),
+				std::make_pair<std::string, int>("SpanAllColumns", ImGuiTreeNodeFlags_SpanAllColumns),
+				std::make_pair<std::string, int>("LabelSpanAllColumns", ImGuiTreeNodeFlags_LabelSpanAllColumns),
+				std::make_pair<std::string, int>("NavLeftJumpsBackHere", ImGuiTreeNodeFlags_NavLeftJumpsBackHere),
+				std::make_pair<std::string, int>("CollapsingHeader", ImGuiTreeNodeFlags_CollapsingHeader)
 			}),
 		};
 
