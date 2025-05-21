@@ -194,7 +194,12 @@ function InfoWindow()
 end
 
 function SaveDungeon(name)
-	
+	game.CreateGroupFromScene(name)
+
+	local err = data.modding.createLuaTableSave("src/Mods/Groups/Dungeons/", "dungeon", name, data.groups[name])
+	if err then
+		print("Error saving dungeon group: "..err)
+	end
 end
 
 local radius = 100
@@ -231,8 +236,6 @@ function dungeonCreatorUI:GenerateDungeon()
 	imgui.SameLine()
 
 	if imgui.BeginPopupContextItem("SavePopup") then
-		print("Test")
-
 		-- TODO: Add flag for enter option
 		buffer, _ = imgui.InputText("Enter name", buffer, 16)
 		if imgui.Button("Done") and buffer ~= "" then
