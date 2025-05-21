@@ -1,8 +1,8 @@
 return {
 -- Table: {1}
 {
-   ["elementName"]="red",
    ["contents"]={2},
+   ["elementName"]="red",
    ["dataPath"]="groups",
 },
 -- Table: {2}
@@ -12,43 +12,137 @@ return {
 -- Table: {3}
 {
    {4},
+   {5},
+   {6},
 },
 -- Table: {4}
 {
-   ["components"]={5},
+   ["components"]={7},
 },
 -- Table: {5}
 {
-   ["Transform"]={6},
-   ["Sprite"]={7},
+   ["components"]={8},
 },
 -- Table: {6}
 {
-   ["scale"]={8},
-   ["position"]={9},
-   ["rotation"]=0.0,
+   ["components"]={9},
 },
 -- Table: {7}
 {
-   ["spriteName"]="",
-   ["priority"]=0,
-   ["color"]={10},
+   ["Transform"]={10},
 },
 -- Table: {8}
 {
-   ["y"]=500.0,
-   ["x"]=500.0,
+   ["Collider"]={11},
+   ["Health"]={12},
+   ["Transform"]={13},
+   ["Hardness"]={14},
+   ["Sprite"]={15},
 },
 -- Table: {9}
+{
+   ["Sprite"]={16},
+   ["Transform"]={17},
+},
+-- Table: {10}
+{
+   ["position"]={18},
+   ["scale"]={19},
+   ["rotation"]=0.0,
+},
+-- Table: {11}
+{
+   ["rotation"]=0.0,
+   ["offset"]={20},
+   ["extents"]={21},
+   ["tag"]="Enemy",
+   ["debug"]=false,
+},
+-- Table: {12}
+{
+   ["max"]=100.0,
+   ["current"]=100.0,
+},
+-- Table: {13}
+{
+   ["position"]={22},
+   ["scale"]={23},
+   ["rotation"]=147.31944274902,
+},
+-- Table: {14}
+{
+   ["hardness"]=0.10000000149012,
+},
+-- Table: {15}
+{
+   ["priority"]=30,
+   ["spriteName"]="Maxwell.png",
+   ["color"]={24},
+},
+-- Table: {16}
+{
+   ["priority"]=0,
+   ["spriteName"]="",
+   ["color"]={25},
+},
+-- Table: {17}
+{
+   ["position"]={26},
+   ["scale"]={27},
+   ["rotation"]=0.0,
+},
+-- Table: {18}
 {
    ["y"]=0.0,
    ["x"]=0.0,
 },
--- Table: {10}
+-- Table: {19}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {20}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {21}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {22}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {23}
+{
+   ["y"]=-60.0,
+   ["x"]=60.0,
+},
+-- Table: {24}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {25}
 {
    ["g"]=0.147465467453,
-   ["r"]=1.0,
-   ["a"]=1.0,
    ["b"]=0.147465467453,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {26}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {27}
+{
+   ["y"]=500.0,
+   ["x"]=500.0,
 },
 }

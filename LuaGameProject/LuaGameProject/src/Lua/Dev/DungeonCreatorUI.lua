@@ -196,7 +196,7 @@ end
 function SaveDungeon(name)
 	game.CreateGroupFromScene(name)
 
-	local err = data.modding.createLuaTableSave("src/Mods/Groups/Dungeons/", "dungeon", name, data.groups[name])
+	local err = data.modding.createLuaTableSave("src/Mods/Groups/", "groups", name, data.groups[name])
 	if err then
 		print("Error saving dungeon group: "..err)
 	end
