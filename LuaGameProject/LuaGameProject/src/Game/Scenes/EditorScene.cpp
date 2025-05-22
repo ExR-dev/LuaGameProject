@@ -487,6 +487,7 @@ void EditorScene::EditorScene::SceneHierarchyUI()
 			int id = modeScene.scene.CreateEntity();
 			ECS::Transform transform{ {0, 0}, 0, {100, 100} };
 			modeScene.scene.SetComponent(id, transform);
+			m_selectedEntity = id;
 		}
 
 		std::function<void(entt::registry &registry)> renderEntityUI = [&](entt::registry &registry) {
@@ -518,6 +519,11 @@ void EditorScene::EditorScene::EntityEditorUI()
 
 		if (modeScene.scene.IsEntity(m_selectedEntity))
 		{
+			if (ImGui::Button("Delete Entity"))
+				modeScene.scene.RemoveEntity(m_selectedEntity);
+
+			ImGui::Separator();
+
 			if (modeScene.scene.HasComponents<ECS::Active>(m_selectedEntity))
 				modeScene.scene.GetComponent<ECS::Active>(m_selectedEntity).RenderUI();
 

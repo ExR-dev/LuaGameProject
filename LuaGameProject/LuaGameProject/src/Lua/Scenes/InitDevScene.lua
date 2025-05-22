@@ -154,7 +154,7 @@ tracy.ZoneEnd()
 -- Spawn Dungeon ---------------
 tracy.ZoneBeginN("Lua Create Dungeon")
 
-game.SpawnGroup("testDungeon", transform(vec2(0, 0), 0, vec2(1, 1)))
+game.SpawnGroup("testDungeon", transform(vec2(0, 0), 0, vec2(1, 1)), "dungeons")
 
 tracy.ZoneEnd()
 --------------------------------

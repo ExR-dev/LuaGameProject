@@ -63,6 +63,8 @@ function dungeonCreatorUI:RoomSelection()
 	imgui.Begin("Room Selection")
 
 	if imgui.Button("Save All Rooms") then
+		game.CreateGroupFromScene(self.roomCollection.selectedRoom)
+
 		for name, room in pairs(self.roomCollection.rooms) do
 			SaveRoom(name, room)
 		end
@@ -196,7 +198,7 @@ end
 function SaveDungeon(name)
 	game.CreateGroupFromScene(name)
 
-	local err = data.modding.createLuaTableSave("src/Mods/Groups/", "groups", name, data.groups[name])
+	local err = data.modding.createLuaTableSave("src/Mods/Groups/Dungeons", "dungeons", name, data.groups[name])
 	if err then
 		print("Error saving dungeon group: "..err)
 	end
