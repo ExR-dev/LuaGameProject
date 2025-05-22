@@ -183,7 +183,7 @@ namespace ImLua
 		// Returns: int v, bool isModified
 		static int lua_DragInt(lua_State *L);
 
-		// Arguments: string label, float v, float v_min, float v_max, string format = "%.3f"
+		// Arguments: string label, float v, float v_min = 0.0f, float v_max = 0.0f, string format = "%.3f"
 		// Returns: float v, bool isModified
 		static int lua_SliderFloat(lua_State *L);
 
@@ -267,7 +267,7 @@ namespace ImLua
 		static int lua_TreePop(lua_State *L);
 
 		// Arguments: string label, ImGuiTreeNodeFlags flags = 0, bool p_visible = nullptr
-		// Returns: bool p_visible = null, bool isModified
+		// Returns: bool open, bool p_visible = null
 		static int lua_CollapsingHeader(lua_State *L);
 
 		// Arguments: 

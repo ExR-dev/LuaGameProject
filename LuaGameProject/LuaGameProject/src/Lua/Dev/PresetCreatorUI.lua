@@ -136,7 +136,7 @@ function presetCreatorUI:WeaponEditorUI()
 		end
 
 		-- Display the weapon name
-		imgui.Text("Editing:         "..self.weaponEditorUI.editingWeapon)
+		imgui.Text("Editing:    "..self.weaponEditorUI.editingWeapon)
 		imgui.Separator()
 
 		-- Display the weapon stats
@@ -524,7 +524,6 @@ end
 function presetCreatorUI:AmmoEditorUI()
 	tracy.ZoneBeginN("Lua presetCreatorUI:AmmoEditorUI")
 	
-	
 	local ctx = self.ammoEditorUI
 
 	-- List all calibers in data.ammo.calibers as buttons
@@ -555,7 +554,7 @@ function presetCreatorUI:AmmoEditorUI()
 		if imgui.Button("Confirm") or Input.KeyPressed(Input.Key.KEY_ENTER) then -- Submit if Confirm button or Enter key is pressed
 			local newCaliber = { 
 				[ctx.newCaliberName] = {
-					default = ""
+					default = false
 				}
 			}
 
@@ -591,68 +590,195 @@ function presetCreatorUI:AmmoEditorUI()
 		end
 
 		-- Display the caliber name
-		imgui.Text("Editing:         "..ctx.editingCaliber)
+		imgui.Text("Editing:    "..ctx.editingCaliber)
 		imgui.Separator()
 
 
-
-		-- TODO: List all ammo types as collapsing headers, containing the ammo type stats
+		-- List all ammo types as collapsing headers, containing the ammo type stats
 		for ammoTypeName, ammoTypeData in pairs(ctx.editedCaliberTable) do
 			if type(ammoTypeData) == "table" then
-				if imgui.CollapsingHeader(ammoTypeName.."##EditAmmoType"..ammoTypeName.."Header") then
-					
-					imgui.Text(table.toString(ammoTypeData))
-					
-					-- Ammo type describes the bullets use case, and defines its stats
-					-- Common types are FMJ, HP, AP, whose use cases are described as
-					--     FMJ: general purpose
-					--     HP:	hits harder and reduces spread, but penetrates less and falls off faster
-					--     AP:	less damage and accuracy, but penetrates more
+				local keepType = true
+				local open = true
 
-					-- Name:		damageMult
-					-- Desc:		Multiplier of the weapon's damage at the moment of firing
-					-- Equation:	damage = weaponDamage * damageMult
-					-- Type:		float
-					-- Range:		[0, inf)
-					-- Average:		1.0
+				open, keepType = imgui.CollapsingHeader((ammoTypeName.."##EditAmmoType"..ammoTypeName.."Header"), 0, keepType)
+
+				if open then
+					if imgui.BeginChild(ammoTypeName.." Ammo Stats", imgui.imVec2(0.0, 450.0)) then
+						local modified = false
+						local value = nil
+
+						-- Damage Multiplier
+						do
+							local value = ammoTypeData.damageMult
+
+							imgui.Separator("Damage Multipler")
+							imgui.Text("Desc:       ")
+							imgui.SameLine()
+							imgui.TextWrapped("Multiplier of the weapon's damage at the moment of firing")
+							imgui.Text("Equation:   ")
+							imgui.SameLine()
+							imgui.TextWrapped("damage = weaponDamage * damageMult")
+							imgui.Text("Range:      ")
+							imgui.SameLine()
+							imgui.TextWrapped("[0, inf)")
+							imgui.Text("Average:    ")
+							imgui.SameLine()
+							imgui.TextWrapped("1.0")
+							imgui.Text("Value:      ")
+							imgui.SameLine()
+							value, modified = imgui.DragFloat("##CaliberDamageMultInput", value, 0.02)
+							imgui.Text("")
+
+							if modified then
+								ammoTypeData.damageMult = value
+							end
+						end
+
+						-- Falloff
+						do
+							local value = ammoTypeData.falloff
+
+							imgui.Separator("Falloff")
+							imgui.Text("Desc:       ")
+							imgui.SameLine()
+							imgui.TextWrapped("Portion of the damage that remains after travelling one meter")
+							imgui.Text("Equation:   ")
+							imgui.SameLine()
+							imgui.TextWrapped("damage = damage * falloff^(meters)")
+							imgui.Text("Range:      ")
+							imgui.SameLine()
+							imgui.TextWrapped("(0, 1]")
+							imgui.Text("Average:    ")
+							imgui.SameLine()
+							imgui.TextWrapped("0.95")
+							imgui.Text("Value:      ")
+							imgui.SameLine()
+							value, modified = imgui.DragFloat("##CaliberFalloffInput", value, 0.0005, 0.0001)
+							imgui.Text("")
+
+							if modified then
+								ammoTypeData.falloff = value
+							end
+						end
+
+						-- Penetration
+						do
+							local value = ammoTypeData.penetration
+
+							imgui.Separator("Penetration")
+							imgui.Text("Desc:       ")
+							imgui.SameLine()
+							imgui.TextWrapped("Portion of the damage that remains after penetrating a surface, per hardness level")
+							imgui.Text("Equation:   ")
+							imgui.SameLine()
+							imgui.TextWrapped("damage = damage * penetration^(hardness)")
+							imgui.Text("Range:      ")
+							imgui.SameLine()
+							imgui.TextWrapped("(0, 1]")
+							imgui.Text("Average:    ")
+							imgui.SameLine()
+							imgui.TextWrapped("0.5")
+							imgui.Text("Value:      ")
+							imgui.SameLine()
+							value, modified = imgui.DragFloat("##CaliberPenetrationInput", value, 0.002, 0.0001)
+							imgui.Text("")
+
+							if modified then
+								ammoTypeData.penetration = value
+							end
+						end
 			
-					-- Name:		falloff
-					-- Desc:		Portion of the damage that remains after travelling one meter
-					-- Equation:	damage = damage * falloff^(meters)
-					-- Type:		float
-					-- Range:		(0, 1]
-					-- Average:		0.95
+						-- Spread
+						do
+							local value = ammoTypeData.spread
+
+							imgui.Separator("Spread")
+							imgui.Text("Desc:       ")
+							imgui.SameLine()
+							imgui.TextWrapped("Amount of spread added to the bullet's total spread, measured in degrees")
+							imgui.Text("Equation:   ")
+							imgui.SameLine()
+							imgui.TextWrapped("totalSpread = math.max(0.0, weaponSpread + ammoSpread + currentRecoil)")
+							imgui.Text("Range:      ")
+							imgui.SameLine()
+							imgui.TextWrapped("[0, inf)")
+							imgui.Text("Average:    ")
+							imgui.SameLine()
+							imgui.TextWrapped("3.0")
+							imgui.Text("Value:      ")
+							imgui.SameLine()
+							value, modified = imgui.DragFloat("##CaliberSpreadInput", value, 0.02)
+							imgui.Text("")
+
+							if modified then
+								ammoTypeData.spread = value
+							end
+						end
 			
-					-- Name:		penetration
-					-- Desc:		Portion of the damage that remains after penetrating a surface, per hardness level
-					-- Equation:	damage = damage * penetration^(hardness)
-					-- Type:		float
-					-- Range:		(0, 1]
-					-- Average:		0.5
+						-- Recoil
+						do
+							local value = ammoTypeData.recoil
+
+							imgui.Separator("Recoil")
+							imgui.Text("Desc:       ")
+							imgui.SameLine()
+							imgui.TextWrapped("Amount of recoil added to the total current recoil after firing, decaying over time")
+							imgui.Text("Equation:   ")
+							imgui.SameLine()
+							imgui.TextWrapped("currentRecoil = math.max(0.0, currentRecoil + weaponRecoil + ammoRecoil)")
+							imgui.Text("Range:      ")
+							imgui.SameLine()
+							imgui.TextWrapped("(-inf, inf)")
+							imgui.Text("Average:    ")
+							imgui.SameLine()
+							imgui.TextWrapped("5.0")
+							imgui.Text("Value:      ")
+							imgui.SameLine()
+							value, modified = imgui.DragFloat("##CaliberRecoilInput", value, 0.02)
+							imgui.Text("")
+
+							if modified then
+								ammoTypeData.recoil = value
+							end
+						end
 			
-					-- Name:		spread
-					-- Desc:		Amount of spread added to the bullet's total spread, measured in degrees
-					-- Equation:	totalSpread = math.max(0.0, weaponSpread + ammoSpread + currentRecoil)
-					-- Type:		float
-					-- Range:		[0, inf)
-					-- Average:		3.0
-			
-					-- Name:		recoil
-					-- Desc:		Amount of recoil added to the total current recoil after firing, decaying over time
-					-- Equation:	currentRecoil = math.max(0.0, currentRecoil + weaponRecoil + ammoRecoil)
-					-- Type:		float
-					-- Range:		(-inf, inf)
-					-- Average:		5.0
-			
-					-- Name:		burstSize
-					-- Desc:		How many projectiles spawn from a single shot
-					-- Equation:	_
-					-- Type:		int
-					-- Range:		[1, inf)
-					-- Average:		1
+						-- Burst Size
+						do
+							local value = ammoTypeData.burstSize
+
+							imgui.Separator("Burst Size")
+							imgui.Text("Desc:       ")
+							imgui.SameLine()
+							imgui.TextWrapped("How many projectiles spawn from a single shot")
+							imgui.Text("Equation:   ")
+							imgui.SameLine()
+							imgui.TextWrapped("_")
+							imgui.Text("Range:      ")
+							imgui.SameLine()
+							imgui.TextWrapped("[1, inf)")
+							imgui.Text("Average:    ")
+							imgui.SameLine()
+							imgui.TextWrapped("1")
+							imgui.Text("Value:      ")
+							imgui.SameLine()
+							value, modified = imgui.DragInt("##CaliberBurstSizeInput", value, 0.01)
+							imgui.Text("")
+
+							if modified then
+								ammoTypeData.burstSize = value
+							end
+						end
+					end
+					imgui.EndChild()
+					imgui.Separator()
+				end
+
+				if not keepType then
+					ctx.editedCaliberTable[ammoTypeName] = nil
 				end
 			end
 		end
+		imgui.Separator()
 
 
 		-- Button to add a new ammo type
@@ -667,6 +793,10 @@ function presetCreatorUI:AmmoEditorUI()
 			ctx.newAmmoTypeName = imgui.InputText("##NewAmmoTypeNameInput", ctx.newAmmoTypeName, 64)
 			
 			local validAmmoTypeName = true
+
+			if ctx.newAmmoTypeName == "" or ctx.newAmmoTypeName == "default" or ctx.newAmmoTypeName == "None" then
+					validAmmoTypeName = false
+			end
 
 			for existingAmmoTypeName, _ in pairs(ctx.editedCaliberTable) do
 				if existingAmmoTypeName == ctx.newAmmoTypeName then
@@ -697,20 +827,14 @@ function presetCreatorUI:AmmoEditorUI()
 			imgui.EndPopup()
 		end
 
-		imgui.Separator()
+		-- Dropdown for selecting the default ammo type
+		do
+			imgui.Text("Default Type:")
+			imgui.SameLine();
 
-		
-		-- Add a button for selecting the calibers default ammo type
-		if imgui.Button("Select Default Type##SelectDefaultAmmoTypeButton") then
-			imgui.OpenPopup("Select Default Type##SelectDefaultAmmoTypePopup")
-		end
+			local iter = 1
+			local ammoTypeList = { "None" }
 
-		-- Select the default ammo type before submitting
-		if imgui.BeginPopup("Select Default Type##SelectDefaultAmmoTypePopup") then
-			imgui.TextWrapped("Select the default ammo type for this caliber:")
-
-			local iter = 0
-			local ammoTypeList = {}
 			for ammoTypeName, ammoTypeData in pairs(ctx.editedCaliberTable) do
 				if ammoTypeName ~= "default" then -- Avoid the "default" string that's also in the table
 					table.insert(ammoTypeList, ammoTypeName)
@@ -725,28 +849,34 @@ function presetCreatorUI:AmmoEditorUI()
 
 			local ammoTypeListString = table.concat(ammoTypeList, "\n").."\n\n"
 			local pressed = false
-			pressed, ctx.selectedAmmoType = imgui.Combo("Default##PrefabEditorDefaultType", ctx.selectedAmmoType, ammoTypeListString)
+			pressed, ctx.selectedAmmoType = imgui.Combo("##PrefabEditorDefaultType", ctx.selectedAmmoType, ammoTypeListString)
 
 			if pressed then
-				ctx.editedCaliberTable.default = ammoTypeList[ctx.selectedAmmoType + 1]
-				imgui.CloseCurrentPopup()
+				if ctx.selectedAmmoType == 0 then
+					ctx.editedCaliberTable.default = false
+				else
+					ctx.editedCaliberTable.default = ammoTypeList[ctx.selectedAmmoType + 1]
+				end
 			end
-			imgui.EndPopup()
+		end
+
+		imgui.Separator()
+
+
+		local canSave = true
+		local cantSaveReason = ""
+
+		if table.len(ctx.editedCaliberTable) <= 1 then -- Must be greater than one because of "default" element
+			canSave = false
+			cantSaveReason = "Must have at least one ammo type!"
+		elseif (not ctx.editedCaliberTable.default) or (ctx.editedCaliberTable[ctx.editedCaliberTable.default] == nil) then
+			canSave = false
+			cantSaveReason = "Must have a default ammo type!"
 		end
 		
-		
-		if table.len(ctx.editedCaliberTable) > 1 then -- Must be greater than one because of "default" element
-			-- Confirm button
+		if canSave then
+			-- Confirm button to save the caliber preset
 			if imgui.Button("Confirm##ConfirmCaliberButton") then
-				if ctx.editedCaliberTable[ctx.editedCaliberTable.default] == nil then
-					imgui.OpenPopup("Select Default Type##SelectDefaultAmmoTypePopup")
-				end
-
-				ctx.saveQueued = true
-			end
-
-			-- Save the caliber if prerequisites are met
-			if ctx.saveQueued == true and ctx.editedCaliberTable[ctx.editedCaliberTable.default] ~= nil then
 				resetState = true
 				data.ammo.calibers[ctx.editingCaliber] = ctx.editedCaliberTable
 
@@ -764,7 +894,7 @@ function presetCreatorUI:AmmoEditorUI()
 				end
 			end
 		else
-			imgui.TextWrapped("Caliber preset cannot be saved: Caliber must have at least one ammo type!")
+			imgui.TextWrapped("Caliber preset cannot be saved: "..cantSaveReason)
 		end
 
 		-- Cancel button
@@ -772,7 +902,7 @@ function presetCreatorUI:AmmoEditorUI()
 			resetState = true
 		end
 
-		-- Delete button
+		-- Delete button, does not delete file, only the lua table
 		if imgui.Button("Delete##DeleteCaliberButton") then
 			resetState = true
 			data.ammo.calibers[ctx.editingCaliber] = nil
@@ -782,7 +912,8 @@ function presetCreatorUI:AmmoEditorUI()
 		if resetState then
 			ctx.editedCaliberTable = nil
 			ctx.editingCaliber = nil
-			ctx.saveQueued = false
+			ctx.selectedAmmoType = 0
+			ctx.newCaliberName = ""
 		end
 
 		imgui.End()
