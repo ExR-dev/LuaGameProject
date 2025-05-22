@@ -22,7 +22,7 @@ function enemy:OnCreate()
 
 	self.speed = math.random(15, 35)
 
-	local c = collider("Enemy", false, vec2(0, 0), vec2(1, 1), 0, nil)
+	local c = collider("Enemy", true, vec2(0, 0), vec2(1, 1))
 	scene.SetComponent(self.ID, "Collider", c)
 
 	local healthBar = scene.CreateEntity()

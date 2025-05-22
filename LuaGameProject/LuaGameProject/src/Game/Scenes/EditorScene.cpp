@@ -179,12 +179,12 @@ Game::SceneState EditorScene::EditorScene::Update()
 
 			collider.createBody = !b2Body_IsValid(collider.bodyId);
 
-			// Create body
 			if (!collider.createBody)
 			{
+				const float offsetRotation = collider.rotateWithTransform ? transform.Rotation : 0.0f;
 				b2Body_SetTransform(collider.bodyId, 
 									{ collider.offset[0] + transform.Position[0], collider.offset[1] + transform.Position[1] }, 
-									{ cosf((transform.Rotation + collider.rotation) * DEG2RAD), sinf((transform.Rotation + collider.rotation) * DEG2RAD) });
+									{ cosf((collider.rotation + offsetRotation) * DEG2RAD), sinf((collider.rotation + offsetRotation) * DEG2RAD) });
 			}
 			else
 			{
