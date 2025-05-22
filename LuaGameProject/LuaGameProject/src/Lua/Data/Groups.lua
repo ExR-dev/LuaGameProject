@@ -61,7 +61,7 @@ if game.SpawnGroup == nil then
 
         if groupData.entities == nil then
             print("Group doesn't have any entities")
-           return 
+            return 
         end
 
         -- Spawn entities
@@ -87,7 +87,9 @@ if game.SpawnGroup == nil then
 
             -- Add other components
             for componentName, componentData in pairs(groupData.components) do
-                scene.SetComponent(entity, componentName, componentData)
+                if not componentName == "Behaviour" then
+                    scene.SetComponent(entity, componentName, componentData)
+                end
 		    end
 
             if scene.HasComponent(entity, "Transform") and transform.istransform2(trans) then
@@ -105,6 +107,7 @@ end
 
 -- TODO: Save behaviour
 local componentNames = {
+    "Behaviour",
     "Transform",
     "Sprite",
     "Collider", -- TODO: Verify
@@ -132,7 +135,21 @@ if game.CreateGroupFromScene == nil then
                 for _, comp in ipairs(componentNames) do
                     local component = scene.GetComponent(entity, comp)
                     if (component ~= nil) then
-                        data.groups[groupName].entities[i].components[comp] = component
+                        if comp == "Behaviour" then
+                            local behaviour = { 
+                                path = component.path,
+                                properties = { }
+                            }
+                            data.groups[groupName].entities[i].behaviour = behaviour
+                            for prop, value in pairs(component) do
+                                -- Exclude common properties
+                                if not (type(value) == "function" or prop == "ID" or prop == "path") then
+                                    data.groups[groupName].entities[i].behaviour.properties[prop] = value
+                                end
+                            end
+                        else
+                            data.groups[groupName].entities[i].components[comp] = component
+                        end
                     end
                 end
             end

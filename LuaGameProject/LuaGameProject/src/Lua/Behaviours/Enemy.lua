@@ -44,8 +44,10 @@ function enemy:OnUpdate(delta)
 		self.wanderPoint = self.trans.position + vec2(math.random(-75, 75), math.random(-75, 75));
 	end
 
-	local goal = self.wanderPoint
+	-- I have no idea why vec2 is needed here!
+	local goal = vec2(self.wanderPoint)
 	local toGoal = goal - self.trans.position
+
 
 	local lengthSqr = toGoal:lengthSqr()
 	toGoal:normalize()

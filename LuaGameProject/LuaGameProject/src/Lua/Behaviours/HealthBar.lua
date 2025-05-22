@@ -64,8 +64,10 @@ function healthBar:OnUpdate(delta)
 	scene.SetComponent(self.ID, "Transform", self.trans)
 
 	local targetH = scene.GetComponent(self.target, "Health")
-	self.textRender.text = tostring(math.floor(targetH.current)).." / "..tostring(math.floor(targetH.max))
-	scene.SetComponent(self.ID, "TextRender", self.textRender)
+	if targetH then
+		self.textRender.text = tostring(math.floor(targetH.current)).." / "..tostring(math.floor(targetH.max))
+		scene.SetComponent(self.ID, "TextRender", self.textRender)
+	end
 
 	tracy.ZoneEnd()
 end
