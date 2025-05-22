@@ -268,6 +268,34 @@ function player:OnUpdate(delta)
 	tracy.ZoneEnd()
 end
 
+function player:OnHit()
+	tracy.ZoneBeginN("Lua player:OnHit")
+
+	if not scene.HasComponent(self.ID, "Health") then
+		tracy.ZoneEnd()
+		return
+	end
+
+	local h = scene.GetComponent(self.ID, "Health")
+
+	if h.current <= 0.0 then
+		-- TODO: play death animation instead
+		scene.RemoveEntity(self.ID)
+	end
+	
+	if not self.hurtAnim then
+		self.hurtAnim = {}
+		self.hurtAnim.s = scene.GetComponent(self.ID, "Sprite")
+		self.hurtAnim.defaultCol = self.hurtAnim.s.color
+		self.hurtAnim.hurtCol = color(1, 0, 0, 1)
+		self.hurtAnim.s.color = self.hurtAnim.hurtCol
+	end
+	self.hurtAnim.startTime = 0.2
+	self.hurtAnim.currTime = self.hurtAnim.startTime
+
+	tracy.ZoneEnd()
+end
+
 function player:UpdateHeldItem(entID, localOffset, allowFire)
 	tracy.ZoneBeginN("Lua player:UpdateHeldItem")
 	

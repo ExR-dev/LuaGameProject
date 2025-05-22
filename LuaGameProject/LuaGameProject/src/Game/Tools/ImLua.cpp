@@ -1311,20 +1311,21 @@ namespace ImLua
 		} while (false);
 
 		// Do ImGui command
-		bool pressed = false;
+		bool open = false;
 		if (p_visible)
-			pressed = ImGui::CollapsingHeader(label.c_str(), p_visible, flags);
+			open = ImGui::CollapsingHeader(label.c_str(), p_visible, flags);
 		else
-			pressed = ImGui::CollapsingHeader(label.c_str(), flags);
+			open = ImGui::CollapsingHeader(label.c_str(), flags);
 
 		// Return result
 		int returns = 1;
+		PushBool(L, open);
+
 		if (p_visible)
 		{
 			PushBool(L, visible);
 			returns++;
 		}
-		PushBool(L, pressed);
 
 		return returns;
 	}
