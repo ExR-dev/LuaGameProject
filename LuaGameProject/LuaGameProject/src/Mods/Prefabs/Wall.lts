@@ -1,0 +1,61 @@
+return {
+-- Table: {1}
+{
+   ["elementName"]="Wall",
+   ["dataPath"]="prefabs",
+   ["contents"]={2},
+},
+-- Table: {2}
+{
+   ["components"]={3},
+},
+-- Table: {3}
+{
+   ["Collider"]={4},
+   ["Transform"]={5},
+   ["Hardness"]={6},
+   ["Sprite"]={7},
+},
+-- Table: {4}
+{
+   ["tag"]="Solid",
+   ["offset"]={8},
+   ["extents"]={9},
+   ["rotation"]=0.0,
+},
+-- Table: {5}
+{
+   ["scale"]={10},
+},
+-- Table: {6}
+{
+   ["hardness"]=6.0,
+},
+-- Table: {7}
+{
+   ["priority"]=25,
+   ["color"]={11},
+},
+-- Table: {8}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {9}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {10}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {11}
+{
+   ["g"]=0.55164813995361,
+   ["b"]=0.3578619658947,
+   ["a"]=1.0,
+   ["r"]=0.80310881137848,
+},
+}

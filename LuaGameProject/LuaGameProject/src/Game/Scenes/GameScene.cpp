@@ -24,12 +24,6 @@ GameScene::GameScene::~GameScene()
 
 	Game::IsQuitting = true;
 
-	if (m_dungeon)
-	{
-		delete m_dungeon;
-		m_dungeon = nullptr;
-	}
-
 	if (L)
 	{
 		lua_close(L);
@@ -76,10 +70,13 @@ int GameScene::GameScene::Start(WindowInfo *windowInfo, CmdState *cmdState, rayl
     m_cameraUpdater = std::bind(&GameScene::UpdatePlayerCamera, this);
     m_cameraOption = 0;
 
-    Assert(!m_dungeon, "m_dungeon is not nullptr!");
-    m_dungeon = new DungeonGenerator(raylib::Vector2(200, 200));
-    m_dungeon->Generate(100);
+    // Setup Dungeon Generator
+    DungeonGenerator::Instance().BindToLua(L);
 
+    DungeonGenerator::Instance().Initialize({ 200, 200 });
+    DungeonGenerator::Instance().Generate(100);
+
+    // Setup Lua Input
     BindLuaInput(L);
 
     // Initialize Lua data & mods
@@ -172,12 +169,12 @@ Game::SceneState GameScene::GameScene::Update()
 
     if (Input::CheckKeyPressed(Input::GAME_KEY_T))
     {
-        m_dungeon->Initialize();
-        m_dungeon->Generate(100);
+        DungeonGenerator::Instance().Initialize({0, 0});
+        DungeonGenerator::Instance().Generate(100);
     }
 
     if (Input::CheckKeyPressed(Input::GAME_KEY_Y))
-        m_dungeon->SeparateRooms();
+        DungeonGenerator::Instance().SeparateRooms();
 
     if (Input::CheckKeyPressed(Input::GAME_KEY_C))
     {
@@ -214,11 +211,14 @@ Game::SceneState GameScene::GameScene::Update()
         view.each([&](const entt::entity entity, ECS::Collider& collider, ECS::Transform& transform) {
             ZoneNamedNC(drawSpriteZone, "Lambda Update Physics Boddy", RandomUniqueColor(), true);
 
+            collider.createBody = !b2Body_IsValid(collider.bodyId);
+
             if (!collider.createBody)
             {
+                float offsetRotation = collider.rotateWithTransform ? transform.Rotation : 0.0f;
 				b2Body_SetTransform(collider.bodyId, 
 									{ collider.offset[0] + transform.Position[0], collider.offset[1] + transform.Position[1] }, 
-									{ cosf((transform.Rotation + collider.rotation) * DEG2RAD), sinf((transform.Rotation + collider.rotation) * DEG2RAD) });
+									{ cosf((collider.rotation + offsetRotation) * DEG2RAD), sinf((collider.rotation + offsetRotation) * DEG2RAD) });
             }
             else
             {
@@ -232,6 +232,9 @@ Game::SceneState GameScene::GameScene::Update()
     m_scene.RunSystem(createPhysicsBodies);
 
     m_scene.CleanUp(L);
+
+    if (Input::CheckKeyPressed(Input::GAME_KEY_ESCAPE))
+        return Game::SceneState::InMenu;
 
     return Game::SceneState::None;
 }
@@ -324,6 +327,77 @@ int GameScene::GameScene::Render()
             };
             m_scene.RunSystem(drawSystem);
 
+            // Draw text
+            std::function<void(entt::registry &registry)> drawTextSystem = [](entt::registry &registry) {
+                ZoneNamedNC(lambdaDrawTextZone, "Lambda Draw Text", RandomUniqueColor(), true);
+
+                auto view = registry.view<ECS::TextRender, ECS::Transform>();
+
+                view.each([&](const entt::entity entity, const ECS::TextRender &textRender, const ECS::Transform &transform) {
+                    ZoneNamedNC(drawTextZone, "Draw Text", RandomUniqueColor(), true);
+
+                    // If the entity has an active component, check if it is active
+                    if (registry.all_of<ECS::Active>(entity))
+                    {
+                        ECS::Active &active = registry.get<ECS::Active>(entity);
+                        if (!active.IsActive)
+                            return; // Skip drawing if the entity is not active
+                    }
+
+                    raylib::Font *font = ResourceManager::GetFontResource(textRender.Font);
+
+                    if (!font)
+                    {
+                        ResourceManager::LoadFontResource(textRender.Font);
+                        font = ResourceManager::GetFontResource(textRender.Font);
+
+                        if (!font)
+                            font = ResourceManager::GetFontResource(""); // Fallback to default
+                    }
+
+                    raylib::Vector2 entPos(transform.Position[0], transform.Position[1]);
+                    float entRot = transform.Rotation;
+
+                    const float
+                        fontSize = textRender.FontSize,
+                        spacing = textRender.Spacing,
+                        bgExtents = textRender.BgThickness;
+
+                    raylib::Vector2 offset(
+                        textRender.Offset[0],
+                        textRender.Offset[1]
+                    );
+                    offset = offset.Rotate(entRot * DEG2RAD);
+
+                    raylib::Color textColor(*(raylib::Vector4 *)(&(textRender.TextColor)));
+                    raylib::Color bgColor(*(raylib::Vector4 *)(&(textRender.BgColor)));
+
+                    raylib::Vector2 textPos(
+                        entPos.x + offset.x,
+                        entPos.y + offset.y
+                    );
+                    float textRot = textRender.Rotation + entRot;
+
+                    const raylib::Vector2 textRect = font->MeasureText(textRender.Text, fontSize, spacing);
+
+                    const raylib::Vector2 textOrigin(textRect.x / 2.0f, textRect.y / 2.0f);
+
+                    if (bgColor.a > 0.0f)
+                    {
+                        const raylib::Rectangle textBG(
+                            textPos.x, textPos.y,
+                            textRect.x + 2.0f * bgExtents, textRect.y + 2.0f * bgExtents
+                        );
+                        const raylib::Vector2 bgOrigin(textBG.GetWidth() / 2.0f, textBG.GetHeight() / 2.0f);
+
+                        textBG.Draw(bgOrigin, textRot, bgColor);
+                    }
+
+                    font->DrawText(textRender.Text, textPos, textOrigin, textRot, fontSize, spacing, textColor);
+                });
+            };
+            m_scene.RunSystem(drawTextSystem);
+
             std::function<void(entt::registry &registry)> drawPhysicsBodies = [&](entt::registry &registry) {
                 ZoneNamedNC(drawPhysicsBodiesZone, "Lambda Draw Physics Bodies", RandomUniqueColor(), true);
 
@@ -333,7 +407,7 @@ int GameScene::GameScene::Render()
                 view.each([&](ECS::Collider &collider, ECS::Transform &transform) {
                     ZoneNamedNC(drawSpriteZone, "Lambda Draw Physics Body", RandomUniqueColor(), true);
 
-                    if (collider.debug)
+                    if (collider.debug && b2Body_IsValid(collider.bodyId))
                     {
                         const float w = fabsf(transform.Scale[0] * collider.extents[0]),
                             h = fabsf(transform.Scale[1] * collider.extents[1]);
@@ -348,11 +422,10 @@ int GameScene::GameScene::Render()
                     }
                 });
             };
-
             m_scene.RunSystem(drawPhysicsBodies);
 
             // Draw the dungeon
-            m_dungeon->Draw();
+            DungeonGenerator::Instance().Draw();
 
             EndMode2D();
         }
@@ -377,18 +450,6 @@ int GameScene::GameScene::Render()
         }
     }
     m_screenRT->EndMode();
-
-    // Draw the render texture to the screen
-    BeginDrawing();
-    {
-        DrawTextureRec(
-            m_screenRT->GetTexture(),
-            raylib::Rectangle(0, 0, m_windowInfo->p_screenWidth, -m_windowInfo->p_screenHeight),
-            raylib::Vector2(0, 0),
-            raylib::Color(255, 255, 255, 255)
-        );
-    }
-    EndDrawing();
 
 	return 1;
 }

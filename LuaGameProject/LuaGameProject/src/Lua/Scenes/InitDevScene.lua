@@ -103,19 +103,6 @@ if game.GetPlayer == nil then
 end
 
 
--- Create Enemy Prefab ---------
-local prefabEntity = game.SpawnPrefab("Enemy")
-
-if not prefabEntity then
-	print("FUCK SHIT FUCK IT DIDNT WORK")
-else
-	local prefabT = scene.GetComponent(prefabEntity, "Transform")
-	prefabT.position = vec2(200, 400)
-	scene.SetComponent(prefabEntity, "Transform", prefabT)
-end
---------------------------------
-
-
 -- Create Unit Cube ------------
 tracy.ZoneBeginN("Lua Unit Cube")
 local unitEnt = scene.CreateEntity()
@@ -136,46 +123,40 @@ tracy.ZoneEnd()
 
 -- Create Walls ----------------
 tracy.ZoneBeginN("Lua Create Walls")
-for _ = 1, 5 do
-	local entity = scene.CreateEntity()
+for _ = 1, 10 do
+	local entity = game.SpawnPrefab("Wall")
 
 	local t = transform(
 		vec2(math.random() + math.random(500, 1200), math.random() + math.random(-150, 550)), 
 		0.0,
-		vec2(math.random() + math.random(1, 100), math.random() + math.random(1, 100))
+		vec2(math.random() + math.random(10, 150), math.random() + math.random(10, 150))
 	)
 
-	local col = color(math.random(), math.random(), math.random(), math.random())
-	local s = sprite("", col)
-	s.priority = math.random(50, 100)
-
 	scene.SetComponent(entity, "Transform", t)
-	scene.SetComponent(entity, "Sprite", s)
 end
 tracy.ZoneEnd()
 --------------------------------
 
 
--- Create Enemies --------------
+-- Create Enemy Prefab ---------
 tracy.ZoneBeginN("Lua Create Enemies")
 for _ = 1, 15 do
-	local entity = scene.CreateEntity()
-
-	local t = transform(
-		vec2(math.random() + math.random(500, 1200), math.random() + math.random(-150, 550)), 
-		0.0,
-		vec2(math.random() + math.random(55, 65), math.random() + math.random(55, 65))
-	)
-
-	local s = sprite("Maxwell.png")
-	s.priority = 30		
-
-	scene.SetComponent(entity, "Transform", t)
-	scene.SetComponent(entity, "Sprite", s)
-	scene.SetComponent(entity, "Behaviour", "Behaviours/Enemy")
+	local prefabEntity = game.SpawnPrefab("Enemy")
+	if prefabEntity then
+		local prefabT = scene.GetComponent(prefabEntity, "Transform")
+		prefabT.position = vec2(math.random() + math.random(500, 1200), math.random() + math.random(-150, 550))
+		scene.SetComponent(prefabEntity, "Transform", prefabT)
+	end
 end
 tracy.ZoneEnd()
 --------------------------------
 
+-- Spawn Dungeon ---------------
+tracy.ZoneBeginN("Lua Create Dungeon")
+
+game.SpawnGroup("testDungeon", transform(vec2(0, 0), 0, vec2(1, 1)), "dungeons")
+
+tracy.ZoneEnd()
+--------------------------------
 
 tracy.ZoneEnd()

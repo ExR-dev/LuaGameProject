@@ -405,7 +405,7 @@
     <None Include="src\Lua\Scenes\InitEditorSandboxScene.lua" />
     <None Include="src\Lua\Dev\PresetCreatorUI.lua" />
     <None Include="src\Lua\Utility\TableSave.lua" />
-    <None Include="src\Lua\Utility\TableCopy.lua" />
+    <None Include="src\Lua\Utility\TableUtils.lua" />
     <None Include="src\Lua\Dev\Commands.lua" />
     <None Include="src\Lua\Components\Collider.lua" />
     <None Include="src\Lua\Data\Groups.lua" />
@@ -413,6 +413,13 @@
     <None Include="src\Lua\Dev\PrefabCreatorUI.lua" />
     <None Include="src\Lua\Dev\LevelCreatorUI.lua" />
     <None Include="src\Lua\Dev\SandboxUI.lua" />
+    <None Include="src\Lua\Dungeons\Dungeon.lua" />
+    <None Include="src\Lua\Dungeons\Rooms\Room.lua" />
+    <None Include="src\Lua\Dev\DungeonCreatorUI.lua" />
+    <None Include="src\Lua\Scenes\InitEditorDungeonCreatorScene.lua" />
+    <None Include="src\Lua\Behaviours\DamageNumber.lua" />
+    <None Include="src\Lua\Components\TextRender.lua" />
+    <None Include="src\Lua\Behaviours\HealthBar.lua" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="raylib.dll" />

@@ -7,9 +7,10 @@
 
 #define RESOURCE_PATH std::string("./res/")
 #define TEXTURE_FOLDER std::string("Textures/")
+#define FONT_FOLDER std::string("Fonts/")
 #define SOUND_FOLDER std::string("Sounds/")
 
-constexpr auto SOUND_POOL_SIZE = 6;
+constexpr auto SOUND_POOL_SIZE = 8;
 
 namespace Resource
 {
@@ -86,12 +87,19 @@ public:
 	// Load a texture
 	static void LoadTextureResource(const std::string &name);
 
+	// Load a ttf font
+	static void LoadFontResource(const std::string &name);
+
 	// Load a sound
 	static void LoadSoundResource(const std::string &name);
 
 	// Get a texture by name
 	static const raylib::Texture2D *GetTextureResource(const std::string &name);
 	static std::vector<std::string> GetTextureNames();
+
+	// Get a font by name
+	static raylib::Font *GetFontResource(const std::string &name);
+	static std::vector<std::string> GetFontNames();
 
 	// Get a sound by name
 	static raylib::Sound *GetSoundResource(const std::string &name);
@@ -100,6 +108,7 @@ public:
 
 private:
 	std::map<std::string, Resource::ManagedResource<raylib::Texture2D>> m_textures;
+	std::map<std::string, Resource::ManagedResource<raylib::Font>> m_fonts;
 	std::map<std::string, Resource::ManagedResource<Resource::SoundPool>> m_sounds;
 
 	template<typename T>
@@ -110,9 +119,6 @@ private:
 template<typename T>
 inline static T *ResourceManager::GetResourceFromMap(const std::string &name, std::map<std::string, Resource::ManagedResource<T>> &map)
 {
-	if (name == "")
-		return nullptr;
-
 	auto it = map.find(name);
 	if (it == map.end())
 		return nullptr;

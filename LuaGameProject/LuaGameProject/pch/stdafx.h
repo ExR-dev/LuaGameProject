@@ -37,5 +37,3 @@ namespace fs = std::filesystem;
 #include "Game/Tools/ImLua.h"
 #include "Game/ResourceManager.h"
 #include "Game/Utilities/InputHandler.h"
-
-

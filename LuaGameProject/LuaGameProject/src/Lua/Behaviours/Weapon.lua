@@ -59,7 +59,7 @@ function weapon:LoadType(type)
 	scene.SetComponent(self.ID, "Transform", self.trans)
 	
 	-- Create weapon collider
-	local c = collider("Weapon", false, vec2(0, 0), vec2(1.0, 1.0), 0, nil, nil)
+	local c = collider("Weapon", false, vec2(0, 0), vec2(1.0, 1.0), 0, true, nil, nil)
 
 	scene.SetComponent(self.ID, "Collider", c)
 
@@ -111,6 +111,25 @@ function weapon:OnUpdate(delta)
 
 		self.trans.rotation = self.trans.rotation + (delta * 20.0)
 		scene.SetComponent(self.ID, "Transform", self.trans)
+	end
+
+	tracy.ZoneEnd()
+end
+
+-- Called during ImGui rendering if the entity is selected
+function weapon:OnGUI()
+	tracy.ZoneBeginN("Lua weapon:OnGUI")
+
+	local strInput = self.presetInputStr or ""
+	local modified = false
+	strInput, modified = imgui.InputText("Stat Preset", strInput)
+
+	if modified then
+		self.presetInputStr = strInput
+	end
+
+	if imgui.Button("Load Preset") then
+		self:LoadType(self.presetInputStr)
 	end
 
 	tracy.ZoneEnd()

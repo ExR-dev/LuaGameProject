@@ -55,3 +55,8 @@ function PrintTable(table, name)
 	io.write((name or "table").." = ")
 	PrintTableRec(table, "", 0)
 end
+
+function PrintTable(table, name)
+	io.write((name or "table").." = ")
+	PrintTableRec(table, "", 0)
+end

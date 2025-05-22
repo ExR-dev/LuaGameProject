@@ -118,8 +118,11 @@ Game::SceneState MenuScene::MenuScene::Update()
     for (auto button : m_buttons)
         button->Update();
 
+    static Game::SceneState lastPressed = Game::SceneState::None;
+
     if (m_playButton.IsActivated())
 	{
+		lastPressed = Game::SceneState::InGame;
 		return Game::SceneState::InGame;
 	}
     else if (m_restartButton.IsActivated())
@@ -128,12 +131,16 @@ Game::SceneState MenuScene::MenuScene::Update()
 	}
 	else if (m_editorButton.IsActivated())
 	{
+        lastPressed = Game::SceneState::InEditor;
 		return Game::SceneState::InEditor;
 	}
 	else if (m_quitButton.IsActivated())
 	{
 		return Game::SceneState::Quitting;
 	}
+
+    if (Input::CheckKeyPressed(Input::GAME_KEY_ESCAPE))
+        return lastPressed;
 
     return Game::SceneState::None;
 }
@@ -154,18 +161,6 @@ int MenuScene::MenuScene::Render()
         EndMode2D();
     }
     m_screenRT->EndMode();
-
-	// Draw the render texture to the screen
-    BeginDrawing();
-    {
-        DrawTextureRec(
-            m_screenRT->GetTexture(), 
-			raylib::Rectangle(0, 0, m_windowInfo->p_screenWidth, -m_windowInfo->p_screenHeight),
-			raylib::Vector2(0, 0),
-			raylib::Color(255, 255, 255, 255)
-        );
-    }
-    EndDrawing();
 
     return 1;
 }

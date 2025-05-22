@@ -8,25 +8,25 @@
 
 struct Room
 {
-	Room(raylib::Vector2 size, raylib::Color color);
+	Room(raylib::Vector2 size, const std::string &name);
 
 	raylib::Vector2 pos;
 	raylib::Vector2 size;
-	raylib::Color color;
+	std::string p_name;
 
 	bool operator==(const Room &other) 
 	{
-		return _id == other._id;
+		return m_id == other.m_id;
 	};
 
 	bool operator!=(const Room &other)
 	{
-		return _id != other._id;
+		return m_id != other.m_id;
 	}
 
 private:
-	static int _ID;
-	const int _id;
+	static int m_ID;
+	const int m_id;
 };
 
 #define MAX_ITERATIONS 1000
@@ -34,25 +34,60 @@ private:
 class DungeonGenerator
 {
 private:
-	std::vector<Room> _rooms;
-	std::vector<int> _selectedRooms;
-	std::vector<Math::Line> _graph;
+	std::vector<Room> m_rooms;
+	std::vector<int> m_selectedRooms;
+	std::vector<Math::Line> m_graph;
 
-	const unsigned int _tileSize = 10;
+	const unsigned int m_tileSize = 10;
+	bool m_isInitialized = false;
 
-	Vector2 _position;
+	Vector2 m_position = { 0, 0 };
 
 	bool Intersecting(const Room &r1, const Room &r2);
 
-public:
-	DungeonGenerator(Vector2 pos);
-	DungeonGenerator(raylib::Vector2 pos);
+	DungeonGenerator() = default;
+	~DungeonGenerator() = default;
 
-	void Initialize();
+	// Aguments: position (Vec2)
+	// Returns: none
+	static int lua_Initialize(lua_State *L);
+
+	// Aguments: room (Room)
+	// Returns: none
+	static int lua_AddRoom(lua_State *L);
+
+	// Aguments: none
+	// Returns: rooms (table<Room>)
+	static int lua_GetRooms(lua_State* L);
+
+	// Aguments: radius (float)
+	// Returns: none
+	static int lua_Generate(lua_State *L);
+
+	// Aguments: none
+	// Returns: none
+	static int lua_SeparateRooms(lua_State *L);
+
+	// Aguments: none
+	// Returns: none
+	static int lua_Reset(lua_State *L);
+
+
+public:
+	static DungeonGenerator &Instance()
+	{
+		static DungeonGenerator instance;
+		return instance;
+	}
+
+	void BindToLua(lua_State *L);
+
+	void Initialize(Vector2 pos);
 
 	void AddRoom(const Room &room);
 
 	void Generate(float radius);
+	void Reset();
 
 	void SeparateRooms();
 	bool GridSeparation();

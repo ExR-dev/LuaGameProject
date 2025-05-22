@@ -5,6 +5,7 @@ local gameMath = require("Utility/GameMath")
 local vec2 = require("Vec2")
 local transform = require("Transform2")
 local collider = require("Components/Collider")
+local health = require("Components/Health")
 
 -- Global player getter
 local function GetPlayer()
@@ -17,14 +18,21 @@ function player:OnCreate()
 	
 	self.trans = transform(scene.GetComponent(self.ID, "Transform"))
 
+	self.lastValidPos = vec2(0, 0) -- Last position with no collisions
+	self.lastPos = vec2(0, 0)
+	self.newPos = vec2(0, 0)
+	self.deltaMovement = vec2(0, 0) -- How much the player has moved since the last frame
+	self.inputMove = vec2(0, 0)
+
 	self.speed = 200.0
 	self.sprintMult = 2.2
 	self.currSpeed = self.speed
 
 	self.interactOptions = {}
+	self.solids = {}
 	
 	-- Create player collider
-	local c = collider("Player", false, vec2(0, 0), vec2(1.0, 1.0), 0, 
+	self.coll = collider("Player", true, vec2(0, 0), vec2(1.0, 1.0), 0, false, 
 	function(other) -- onEnter
 		tracy.ZoneBeginN("Lua Lambda player:OnCollideEnter")
 
@@ -53,6 +61,9 @@ function player:OnCreate()
 			end
 			
 			table.insert(self.interactOptions, other)
+		elseif (o.tag == "Solid") then
+			-- Add collider to list of touched solids for later solving
+			table.insert(self.solids, other)
 		end
 
 		tracy.ZoneEnd()
@@ -68,10 +79,18 @@ function player:OnCreate()
 			end
 		end
 
+		for i, solid in ipairs(self.solids) do
+			if other == solid then
+				-- Remove the solid from the list
+				table.remove(self.solids, i)
+				break
+			end
+		end
+
 		tracy.ZoneEnd()
 	end)
 
-	scene.SetComponent(self.ID, "Collider", c)
+	scene.SetComponent(self.ID, "Collider", self.coll)
 
 	-- For tracking held items like weapons
 	-- Idea: two-handed weapons could take up both hands, 
@@ -111,6 +130,14 @@ function player:OnCreate()
 		},
 	}
 
+	
+	scene.SetComponent(self.ID, "Health", health(100.0, 100.0))
+
+	local healthBar = scene.CreateEntity()
+	scene.SetComponent(healthBar, "Behaviour", "Behaviours/HealthBar")
+	local healthBarBeh = scene.GetComponent(healthBar, "Behaviour")
+	healthBarBeh:Initialize(self.ID, 80)
+
 	tracy.ZoneEnd()
 end
 
@@ -118,6 +145,14 @@ function player:OnUpdate(delta)
 	tracy.ZoneBeginN("Lua player:OnUpdate")
 	
 	self.trans = transform(scene.GetComponent(self.ID, "Transform"))
+	
+	-- Perform collision solving
+	if #self.solids > 0 then
+		self:ResolveCollisions(delta)
+	else
+		self.lastValidPos = self.trans.position
+	end
+
 	local move = vec2(0.0, 0.0)
 
 	if Input.KeyHeld(Input.Key.KEY_W) then
@@ -143,17 +178,22 @@ function player:OnUpdate(delta)
 	end
 
 	if not gameMath.approx(move:lengthSqr(), 0.0) then
-		move:normalize()
-		self.trans.position = self.trans.position + (move * (self.currSpeed * delta))
+		self.inputMove = (move:normalized() * (self.currSpeed * delta))
+		self.trans.position = self.trans.position + self.inputMove
+	else
+		self.inputMove = vec2(0, 0)
 	end
 
 	-- Rotate the player to face the cursor
 	local cursorPos = game.GetCursor().trans.position
 	local dir = cursorPos - self.trans.position
 	self.trans.rotation = dir:angle()
-
-	scene.SetComponent(self.ID, "Transform", self.trans)
 	
+	scene.SetComponent(self.ID, "Transform", self.trans)
+	self.lastPos = self.newPos
+	self.newPos = self.trans.position
+	self.deltaMovement = self.newPos - self.lastPos
+		
 	if #self.interactOptions > 0 then
 
 		-- Check if the player is trying to interact
@@ -224,6 +264,34 @@ function player:OnUpdate(delta)
 		)
 	end
 	self.didFire = false
+
+	tracy.ZoneEnd()
+end
+
+function player:OnHit()
+	tracy.ZoneBeginN("Lua player:OnHit")
+
+	if not scene.HasComponent(self.ID, "Health") then
+		tracy.ZoneEnd()
+		return
+	end
+
+	local h = scene.GetComponent(self.ID, "Health")
+
+	if h.current <= 0.0 then
+		-- TODO: play death animation instead
+		scene.RemoveEntity(self.ID)
+	end
+	
+	if not self.hurtAnim then
+		self.hurtAnim = {}
+		self.hurtAnim.s = scene.GetComponent(self.ID, "Sprite")
+		self.hurtAnim.defaultCol = self.hurtAnim.s.color
+		self.hurtAnim.hurtCol = color(1, 0, 0, 1)
+		self.hurtAnim.s.color = self.hurtAnim.hurtCol
+	end
+	self.hurtAnim.startTime = 0.2
+	self.hurtAnim.currTime = self.hurtAnim.startTime
 
 	tracy.ZoneEnd()
 end
@@ -324,6 +392,72 @@ function player:DropItems(count)
 			self.lHandHoldTime = 0.0
 		end
 	end
+end
+
+function player:ResolveCollisions(delta)
+	tracy.ZoneBeginN("Lua player:ResolveCollisions")
+
+	local lastValidDir = (self.lastValidPos - self.trans.position):normalize()
+	local totalHitNormal = vec2(0, 0)
+
+	local deltaPush = vec2(0, 0)
+	for i, entID in ipairs(self.solids) do
+		local entTrans = transform(scene.GetComponent(entID, "Transform"))
+		local collisionDir = entTrans.position - self.trans.position
+		local directionalInputMove = vec2(self.inputMove.x, self.inputMove.y)
+
+		-- Scale the collisionDir to the size of the collider
+		collisionDir = (collisionDir / entTrans.scale)
+
+		-- Get the cardinal direction of the collision
+		if math.abs(collisionDir.x) < math.abs(collisionDir.y) then
+			collisionDir = vec2(0.0, gameMath.sign(collisionDir.y))
+			
+			if gameMath.sign(directionalInputMove.y) ~= gameMath.sign(collisionDir.y) then
+				directionalInputMove.y = 0.0
+			end
+			directionalInputMove.x = 0.0
+		else
+			collisionDir = vec2(gameMath.sign(collisionDir.x), 0.0)
+
+			if gameMath.sign(directionalInputMove.x) ~= gameMath.sign(collisionDir.x) then
+				directionalInputMove.x = 0.0
+			end
+			directionalInputMove.y = 0.0
+		end
+
+		totalHitNormal = totalHitNormal + collisionDir
+
+		local toMove = vec2(0, 0)
+		toMove = toMove - (collisionDir * (0.1 * delta * self.currSpeed))
+		toMove = toMove - directionalInputMove
+
+		if toMove.x > 0.0 and deltaPush.x > 0.0 then
+			toMove.x = math.max(deltaPush.x, toMove.x) - deltaPush.x
+		elseif toMove.x < 0.0 and deltaPush.x < 0.0 then
+			toMove.x = math.min(deltaPush.x, toMove.x) - deltaPush.x
+		end
+
+		if toMove.y > 0.0 and deltaPush.y > 0.0 then
+			toMove.y = math.max(deltaPush.y, toMove.y) - deltaPush.y
+		elseif toMove.y < 0.0 and deltaPush.y < 0.0 then
+			toMove.y = math.min(deltaPush.y, toMove.y) - deltaPush.y
+		end
+		
+		deltaPush = deltaPush + toMove
+	end
+
+	totalHitNormal = totalHitNormal * (-1.0 / #self.solids)
+
+	local towardsValidPosAlongCollision = lastValidDir * (totalHitNormal:abs())
+	if towardsValidPosAlongCollision:dot(totalHitNormal) > 0.5 then
+		deltaPush = deltaPush + (towardsValidPosAlongCollision * (delta * 200.0))
+	end
+
+	-- Apply the collision push to the player
+	self.trans.position = self.trans.position + deltaPush
+
+	tracy.ZoneEnd()
 end
 
 tracy.ZoneEnd()

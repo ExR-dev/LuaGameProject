@@ -92,6 +92,8 @@ void EditorScene::EditorScene::OnSwitchToScene()
 {
 	ZoneScopedC(RandomUniqueColor());
 
+	DungeonGenerator::Instance().Reset();
+
 	OnResizeWindow();
 }
 
@@ -175,12 +177,14 @@ Game::SceneState EditorScene::EditorScene::Update()
 		view.each([&](const entt::entity entity, ECS::Collider& collider, ECS::Transform& transform) {
 			ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
 
-			// Create body
+			collider.createBody = !b2Body_IsValid(collider.bodyId);
+
 			if (!collider.createBody)
 			{
+				const float offsetRotation = collider.rotateWithTransform ? transform.Rotation : 0.0f;
 				b2Body_SetTransform(collider.bodyId, 
 									{ collider.offset[0] + transform.Position[0], collider.offset[1] + transform.Position[1] }, 
-									{ cosf((transform.Rotation + collider.rotation) * DEG2RAD), sinf((transform.Rotation + collider.rotation) * DEG2RAD) });
+									{ cosf((collider.rotation + offsetRotation) * DEG2RAD), sinf((collider.rotation + offsetRotation) * DEG2RAD) });
 			}
 			else
 			{
@@ -193,6 +197,9 @@ Game::SceneState EditorScene::EditorScene::Update()
 	scene.RunSystem(createPhysicsBodies);
 
 	scene.CleanUp(L);
+
+	if (Input::CheckKeyPressed(Input::GAME_KEY_ESCAPE))
+		return Game::SceneState::InMenu;
 
 	return Game::SceneState::None;
 }
@@ -282,7 +289,7 @@ int EditorScene::EditorScene::Render()
 					return ent1.second.Priority < ent2.second.Priority;
 				});
 
-				for (auto entity : entitiesToRender) {
+				for (auto &entity : entitiesToRender) {
 					ZoneNamedNC(drawSpriteZone, "Lambda Draw Sprite", RandomUniqueColor(), true);
 
 					const ECS::Transform &transform = entity.first;
@@ -341,6 +348,77 @@ int EditorScene::EditorScene::Render()
 			};
 			scene.RunSystem(drawSystem);
 
+			// Draw text
+			std::function<void(entt::registry &registry)> drawTextSystem = [](entt::registry &registry) {
+				ZoneNamedNC(lambdaDrawTextZone, "Lambda Draw Text", RandomUniqueColor(), true);
+
+				auto view = registry.view<ECS::TextRender, ECS::Transform>();
+
+				view.each([&](const entt::entity entity, const ECS::TextRender &textRender, const ECS::Transform &transform) {
+					ZoneNamedNC(drawTextZone, "Draw Text", RandomUniqueColor(), true);
+
+					// If the entity has an active component, check if it is active
+					if (registry.all_of<ECS::Active>(entity))
+					{
+						ECS::Active &active = registry.get<ECS::Active>(entity);
+						if (!active.IsActive)
+							return; // Skip drawing if the entity is not active
+					}
+
+					raylib::Font *font = ResourceManager::GetFontResource(textRender.Font);
+
+					if (!font)
+					{
+						ResourceManager::LoadFontResource(textRender.Font);
+						font = ResourceManager::GetFontResource(textRender.Font);
+
+						if (!font)
+							font = ResourceManager::GetFontResource(""); // Fallback to default
+					}
+
+					raylib::Vector2 entPos(transform.Position[0], transform.Position[1]);
+					float entRot = transform.Rotation;
+
+					const float
+						fontSize = textRender.FontSize,
+						spacing = textRender.Spacing,
+						bgExtents = textRender.BgThickness;
+
+					raylib::Vector2 offset(
+						textRender.Offset[0],
+						textRender.Offset[1]
+					);
+					offset = offset.Rotate(entRot * DEG2RAD);
+
+					raylib::Color textColor(*(raylib::Vector4 *)(&(textRender.TextColor)));
+					raylib::Color bgColor(*(raylib::Vector4 *)(&(textRender.BgColor)));
+
+					raylib::Vector2 textPos(
+						entPos.x + offset.x,
+						entPos.y + offset.y
+					);
+					float textRot = textRender.Rotation + entRot;
+
+					const raylib::Vector2 textRect = font->MeasureText(textRender.Text, fontSize, spacing);
+
+					const raylib::Vector2 textOrigin(textRect.x / 2.0f, textRect.y / 2.0f);
+
+					if (bgColor.a > 0.0f)
+					{
+						const raylib::Rectangle textBG(
+							textPos.x, textPos.y,
+							textRect.x + 2.0f * bgExtents, textRect.y + 2.0f * bgExtents
+						);
+						const raylib::Vector2 bgOrigin(textBG.GetWidth() / 2.0f, textBG.GetHeight() / 2.0f);
+
+						textBG.Draw(bgOrigin, textRot, bgColor);
+					}
+
+					font->DrawText(textRender.Text, textPos, textOrigin, textRot, fontSize, spacing, textColor);
+				});
+			};
+			scene.RunSystem(drawTextSystem);
+
 			std::function<void(entt::registry &registry)> drawPhysicsBodies = [&](entt::registry &registry) {
 				ZoneNamedNC(drawPhysicsBodiesZone, "Lambda Draw Physics Bodies", RandomUniqueColor(), true);
 
@@ -350,7 +428,7 @@ int EditorScene::EditorScene::Render()
 				view.each([&](ECS::Collider &collider, ECS::Transform &transform) {
 					ZoneNamedNC(drawSpriteZone, "Lambda Draw Physics Body", RandomUniqueColor(), true);
 
-					if (collider.debug)
+					if (collider.debug && b2Body_IsValid(collider.bodyId))
 					{
 						const float w = fabsf(transform.Scale[0] * collider.extents[0]),
 							h = fabsf(transform.Scale[1] * collider.extents[1]);
@@ -365,8 +443,9 @@ int EditorScene::EditorScene::Render()
 					}
 				});
 			};
-
 			scene.RunSystem(drawPhysicsBodies);
+
+			DungeonGenerator::Instance().Draw();
 
 			// Draw a circle at the mouse position, converted to scene coordinates
 			raylib::Vector2 mousePos = GetMousePosition();
@@ -390,23 +469,11 @@ int EditorScene::EditorScene::Render()
 	}
 	m_screenRT->EndMode();
 
-	// Draw the render texture to the screen
-	BeginDrawing();
-	{
-		DrawTextureRec(
-			m_screenRT->GetTexture(),
-			raylib::Rectangle(0, 0, m_windowInfo->p_screenWidth, -m_windowInfo->p_screenHeight),
-			raylib::Vector2(0, 0),
-			raylib::Color(255, 255, 255, 255)
-		);
-	}
-	EndDrawing();
 	return 1;
 }
 #pragma endregion
 
 #pragma region Private
-
 void EditorScene::EditorScene::SceneHierarchyUI()
 {
 	auto &modeScene = *(m_editorModeScenes[m_editorMode].get());
@@ -420,12 +487,13 @@ void EditorScene::EditorScene::SceneHierarchyUI()
 			int id = modeScene.scene.CreateEntity();
 			ECS::Transform transform{ {0, 0}, 0, {100, 100} };
 			modeScene.scene.SetComponent(id, transform);
+			m_selectedEntity = id;
 		}
 
 		std::function<void(entt::registry &registry)> renderEntityUI = [&](entt::registry &registry) {
 			ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
 
-			auto view = registry.view<ECS::Transform>();
+			auto view = registry.view<ECS::Transform>(entt::exclude<ECS::Debug>);
 
 			view.each([&](const entt::entity &entity, ECS::Transform &transform) {
 				ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
@@ -451,6 +519,11 @@ void EditorScene::EditorScene::EntityEditorUI()
 
 		if (modeScene.scene.IsEntity(m_selectedEntity))
 		{
+			if (ImGui::Button("Delete Entity"))
+				modeScene.scene.RemoveEntity(m_selectedEntity);
+
+			ImGui::Separator();
+
 			if (modeScene.scene.HasComponents<ECS::Active>(m_selectedEntity))
 				modeScene.scene.GetComponent<ECS::Active>(m_selectedEntity).RenderUI();
 
@@ -462,6 +535,9 @@ void EditorScene::EditorScene::EntityEditorUI()
 
 			if (modeScene.scene.HasComponents<ECS::Sprite>(m_selectedEntity))
 				modeScene.scene.GetComponent<ECS::Sprite>(m_selectedEntity).RenderUI();
+
+			if (modeScene.scene.HasComponents<ECS::TextRender>(m_selectedEntity))
+				modeScene.scene.GetComponent<ECS::TextRender>(m_selectedEntity).RenderUI();
 
 			if (modeScene.scene.HasComponents<ECS::Behaviour>(m_selectedEntity))
 				modeScene.scene.GetComponent<ECS::Behaviour>(m_selectedEntity).RenderUI();
@@ -494,73 +570,6 @@ void EditorScene::EditorScene::EntityEditorUI()
 			ImGui::Text("Select a entity ...");
 		}
 	}
-	ImGui::End();
-}
-
-void EditorScene::EditorScene::RoomSelectionUI()
-{
-	auto &modeScene = *(m_editorModeScenes[m_editorMode].get());
-
-	if (ImGui::Begin("Room Selection"))
-	{
-		std::function<void(entt::registry &registry)> clear = [&](entt::registry &registry) {
-			ZoneNamedNC(createPhysicsBodiesZone, "Lambda Remove All Entities", RandomUniqueColor(), true);
-
-			auto view = registry.view<entt::entity>(entt::exclude<ECS::Room>);
-
-			view.each([&](entt::entity entity) {
-				ZoneNamedNC(drawSpriteZone, "Lambda Remove Entity", RandomUniqueColor(), true);
-				modeScene.scene.SetComponent<ECS::Remove>(entity);
-			});
-
-			modeScene.scene.CleanUp(modeScene.L);
-		};
-
-		if (ImGui::BeginPopupContextItem("RoomPopup"))
-		{
-			static char name[ECS::Room::ROOM_NAME_LENGTH];
-			ImGui::InputText("Enter Name", name, IM_ARRAYSIZE(name));
-			if (ImGui::Button("Done"))
-			{
-				int id = modeScene.scene.CreateEntity();
-				ECS::Room room(name);
-				modeScene.scene.SetComponent(id, room);
-				memset(name, '\0', ECS::Room::ROOM_NAME_LENGTH);
-
-				m_selectedRoom = id;
-				modeScene.scene.RunSystem(clear);
-				ImGui::CloseCurrentPopup();
-			}
-			ImGui::EndPopup();
-		}
-
-		if (ImGui::Button("Create new room"))
-			ImGui::OpenPopup("RoomPopup");
-
-		std::function<void(entt::registry &registry)> renderEntityUI = [&](entt::registry &registry) {
-			ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
-
-			auto view = registry.view<ECS::Room>();
-
-			view.each([&](const entt::entity &entity, ECS::Room &transform) {
-				ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
-
-				const int id = static_cast<int>(entity);
-				if (ImGui::Selectable(transform.RoomName, (id == m_selectedRoom)))
-					if (m_selectedRoom != id)
-					{
-						m_selectedRoom = id;
-						modeScene.scene.RunSystem(clear);
-
-						// TODO: Save current room
-						// TODO: Load new room
-					}
-			});
-		};
-
-		modeScene.scene.RunSystem(renderEntityUI);
-	}
-
 	ImGui::End();
 }
 
@@ -720,43 +729,8 @@ void EditorScene::EditorScene::RenderWindowUI()
 
 					if (ImGui::BeginPopupContextItem("RoomSelectionPopup"))
 					{
-						ImGui::Text("Select rooms");
-
-						static std::vector<int> selectedRooms;
-
-						if (ImGui::Button("Done"))
-						{
-							// Generate Dungeon
-							ImGui::CloseCurrentPopup();
-						}
-
-						ImGui::Separator();
-
-						std::function<void(entt::registry &registry)> roomSelection = [&](entt::registry &registry) {
-							ZoneNamedNC(createPhysicsBodiesZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
-
-							auto view = registry.view<ECS::Room>();
-
-							view.each([&](const entt::entity &entity, ECS::Room &transform) {
-								ZoneNamedNC(drawSpriteZone, "Lambda Create Physics Bodies", RandomUniqueColor(), true);
-
-								const int id = static_cast<int>(entity);
-								auto findRes = std::find(selectedRooms.begin(), selectedRooms.end(), id);
-								bool isSelected = findRes != selectedRooms.end();
-								if (ImGui::Selectable(transform.RoomName, isSelected, ImGuiSelectableFlags_NoAutoClosePopups))
-								{
-									if (isSelected)
-										std::erase(selectedRooms, id);
-									else
-										selectedRooms.push_back(id);
-								}
-							});
-						};
-
-						modeScene.scene.RunSystem(roomSelection);
-
+						modeScene.luaUI.Run(modeScene.L, "GenerateDungeon");
 						ImGui::EndPopup();
-
 						ImGui::GetStyle() = oldStyle;
 					}
 				}
@@ -796,6 +770,7 @@ void EditorScene::EditorScene::EditorSelectorUI()
 			}
 		}
 	}
+
 	ImGui::End();
 }
 
@@ -849,18 +824,102 @@ int EditorScene::EditorScene::RenderUI()
 			EntityEditorUI();
 		}
 
-		if (m_editorMode == EditorMode::DungeonCreator)
-		{
-			modeScene.luaUI.Run(modeScene.L, "PrefabCollection");
-			RoomSelectionUI();
-		}
 
-		if (m_editorMode == EditorMode::PresetCreator)
+		switch (m_editorMode)
 		{
-			ZoneNamedNC(renderPresetCreatorZone, "Render Preset Creator", RandomUniqueColor(), true);
+			case EditorScene::EditorScene::Sandbox: {
+				ZoneNamedNC(renderEditorModeZone, "Render Sandbox Lua UI", RandomUniqueColor(), true);
 
-			// HACK: for now, call weapon editor immediately
-			modeScene.luaUI.Run(modeScene.L, "WeaponEditorUI");
+				break;
+			}
+
+			case EditorScene::EditorScene::LevelCreator: {
+				ZoneNamedNC(renderEditorModeZone, "Render Level Creator Lua UI", RandomUniqueColor(), true);
+
+				break;
+			}
+
+			case EditorScene::EditorScene::PresetCreator: {
+				ZoneNamedNC(renderEditorModeZone, "Render Preset Creator Lua UI", RandomUniqueColor(), true);
+
+				modeScene.luaUI.Run(modeScene.L, "PresetEditorUI");
+				break;
+			}
+
+			case EditorScene::EditorScene::PrefabCreator: {
+				ZoneNamedNC(renderEditorModeZone, "Render Prefab Creator Lua UI", RandomUniqueColor(), true);
+
+				if (ImGui::Begin("Entity Editor"))
+				{
+					ZoneNamedNC(renderEntityEditorZone, "Render Entity Editor", RandomUniqueColor(), true);
+
+					if (!modeScene.scene.IsEntity(m_selectedEntity))
+					{
+						std::function<void(entt::registry &registry)> getEntitySystem = [&](entt::registry &registry) {
+							ZoneNamedNC(getEntityZone, "Lambda Get Entity", RandomUniqueColor(), true);
+
+							auto view = registry.view<entt::entity>();
+							for (auto &ent : view)
+							{
+								m_selectedEntity = (int)ent;
+								break;
+							}
+						};
+						modeScene.scene.RunSystem(getEntitySystem);
+					}
+
+					if (modeScene.scene.IsEntity(m_selectedEntity))
+					{
+						if (modeScene.scene.HasComponents<ECS::Transform>(m_selectedEntity))
+							modeScene.scene.GetComponent<ECS::Transform>(m_selectedEntity).RenderUI();
+
+						if (modeScene.scene.HasComponents<ECS::Behaviour>(m_selectedEntity))
+							modeScene.scene.GetComponent<ECS::Behaviour>(m_selectedEntity).RenderUI();
+
+						if (modeScene.scene.HasComponents<ECS::Sprite>(m_selectedEntity))
+							modeScene.scene.GetComponent<ECS::Sprite>(m_selectedEntity).RenderUI();
+
+						if (modeScene.scene.HasComponents<ECS::TextRender>(m_selectedEntity))
+							modeScene.scene.GetComponent<ECS::TextRender>(m_selectedEntity).RenderUI();
+
+						if (modeScene.scene.HasComponents<ECS::Collider>(m_selectedEntity))
+							modeScene.scene.GetComponent<ECS::Collider>(m_selectedEntity).RenderUI();
+
+						if (modeScene.scene.HasComponents<ECS::Health>(m_selectedEntity))
+							modeScene.scene.GetComponent<ECS::Health>(m_selectedEntity).RenderUI();
+
+						if (modeScene.scene.HasComponents<ECS::Hardness>(m_selectedEntity))
+							modeScene.scene.GetComponent<ECS::Hardness>(m_selectedEntity).RenderUI();
+
+						if (modeScene.scene.HasComponents<ECS::CameraData>(m_selectedEntity))
+							modeScene.scene.GetComponent<ECS::CameraData>(m_selectedEntity).RenderUI();
+
+						if (modeScene.scene.HasComponents<ECS::Active>(m_selectedEntity))
+							modeScene.scene.GetComponent<ECS::Active>(m_selectedEntity).RenderUI();
+
+						if (modeScene.scene.HasComponents<ECS::Remove>(m_selectedEntity))
+							modeScene.scene.GetComponent<ECS::Remove>(m_selectedEntity).RenderUI();
+
+						// Run lua code for adding components
+						modeScene.luaUI.Run(modeScene.L, "EditEntity");
+					}
+				}
+				ImGui::End();
+
+				modeScene.luaUI.Run(modeScene.L, "CreatePrefab");
+				break;
+			}
+
+			case EditorScene::EditorScene::DungeonCreator: {
+				ZoneNamedNC(renderEditorModeZone, "Render Dungeon Creator Lua UI", RandomUniqueColor(), true);
+				modeScene.luaUI.Run(modeScene.L, "PrefabCollection");
+				modeScene.luaUI.Run(modeScene.L, "RoomSelection");
+				break;
+			}
+
+			case EditorScene::EditorScene::COUNT: default:
+				Warn("Disallowed editor mode!");
+				break;
 		}
 
 		// Render the render texture window
@@ -870,6 +929,7 @@ int EditorScene::EditorScene::RenderUI()
 	}
 
 	ImGui::End();
+
 	rlImGuiEnd();
 	return 1;
 }
@@ -953,6 +1013,9 @@ void EditorScene::EditorScene::EditorModeScene::Init(WindowInfo *windowInfo, con
 	LuaDoFileCleaned(L, LuaFilePath(std::format("Scenes/InitEditor{}Scene", name))); // Creates entities
 
 	luaUI.Create(L, std::format("Dev/{}UI", name).c_str());
+
+	// Setup Dungeon Generator
+	DungeonGenerator::Instance().BindToLua(L);
 }
 void EditorScene::EditorScene::EditorModeScene::LoadData() const
 {

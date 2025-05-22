@@ -13,39 +13,57 @@ namespace ImLua
 	private:
 		struct TempString
 		{
-			char *Value;
+		public:
 			size_t Size;
 
 			TempString(const char *input, size_t size = -1)
 			{
-				size_t inputSize = strlen(input) + 1;
-				Size = (size > inputSize) ? size : inputSize * 2;
-				Value = new char[Size];
-
-				strcpy_s(Value, Size, input);
+				Make(input, size);
 			}
 			TempString(const std::string &input, size_t size = -1)
 			{
-				size_t inputSize = input.size();
-				Size = (size > inputSize) ? size : inputSize * 2;
-				Value = new char[Size];
-
-				strcpy_s(Value, Size, input.c_str());
+				Make(input.c_str(), size);
 			}
 			~TempString()
 			{
-				delete[] Value;
+				if (value)
+					delete[] value;
+				value = nullptr;
 			}
 
 			operator const char *() const
 			{
-				return Value;
+				return value;
 			}
 			operator char *() const
 			{
-				return Value;
+				return value;
+			}
+
+		private:
+			char *value = nullptr;
+
+			void Make(const char *input, size_t size)
+			{
+				if (value)
+					delete[] value;
+
+				if (size != 0 && size != -1)
+					Size = size;
+				else
+					Size = std::max((strlen(input) + 1) * 2, 32ULL); // ULL = unsigned long long
+
+				value = new char[Size];
+				strcpy_s(value, Size, input);
 			}
 		};
+
+		struct ImGuiFlag
+		{
+			std::string flagName;
+			std::vector<std::pair<std::string, int>> values;
+		};
+		static const std::vector<ImGuiFlag> &GetFlags();
 
 
 		static bool PopBool(lua_State *L, int &index, bool &value);
@@ -65,7 +83,7 @@ namespace ImLua
 		static void PushImVec4(lua_State *L, const ImVec4 &value);
 
 
-		// Arguments: string label, bool p_open = nil
+		// Arguments: string label, bool p_open = NULL, ImGuiWindowFlags flags = 0
 		// Returns: bool isOpen
 		static int lua_Begin(lua_State *L);
 
@@ -73,7 +91,7 @@ namespace ImLua
 		// Returns: none
 		static int lua_End(lua_State *L);
 
-		// Arguments: string str_id, ImVec2 size = ImVec2(0, 0)
+		// Arguments: string str_id, ImVec2 size = ImVec2(0, 0), ImGuiChildFlags child_flags = 0, ImGuiWindowFlags window_flags = 0
 		// Returns: bool isOpen
 		static int lua_BeginChild(lua_State *L);
 
@@ -81,27 +99,35 @@ namespace ImLua
 		// Returns: none
 		static int lua_EndChild(lua_State *L);
 
-		// Arguments: string str_id
+		// Arguments: string str_id, ImGuiPopupFlags popup_flags = 0
 		// Returns: none
 		static int lua_OpenPopup(lua_State *L);
+
+		// Arguments: string str_id, ImGuiPopupFlags flags = 0
+		// Returns: bool isOpen
+		static int lua_IsPopupOpen(lua_State *L);
 
 		// Arguments: none
 		// Returns: none
 		static int lua_CloseCurrentPopup(lua_State *L);
 
-		// Arguments: string str_id
+		// Arguments: string str_id, ImGuiWindowFlags flags = 0
 		// Returns: bool isOpen
 		static int lua_BeginPopup(lua_State *L);
 
-		// Arguments: string name, bool p_open
-		// Returns: bool p_open, bool isModified
+		// Arguments: string name, bool p_open, ImGuiWindowFlags flags = 0
+		// Returns: bool isOpen, bool p_open
 		static int lua_BeginPopupModal(lua_State *L);
+
+		// Arguments: string name = NULL, ImGuiPopupFlags popup_flags = 1
+		// Returns: bool p_open
+		static int lua_BeginPopupContextItem(lua_State* L);
 
 		// Arguments: none
 		// Returns: none
 		static int lua_EndPopup(lua_State *L);
 
-		// Arguments: string label = nil
+		// Arguments: string label = NULL
 		// Returns: none
 		static int lua_Separator(lua_State *L);
 
@@ -125,6 +151,10 @@ namespace ImLua
 		// Returns: none
 		static int lua_Text(lua_State *L);
 
+		// Arguments: string label
+		// Returns: none
+		static int lua_TextWrapped(lua_State *L);
+
 		// Arguments: string label, string buf, int buf_size = -1
 		// Returns: string buf, bool isModified
 		static int lua_InputText(lua_State *L);
@@ -145,11 +175,15 @@ namespace ImLua
 		// Returns: float v, bool isModified
 		static int lua_DragFloat(lua_State *L);
 
+		// Arguments: string label, ImVec2 v, float v_speed = (1.0F), float v_min = (0.0F), float v_max = (0.0F), string format = "%.3f"
+		// Returns: ImVec2 v, bool isModified
+		static int lua_DragFloat2(lua_State* L);
+
 		// Arguments: string label, int v, float v_speed = (1.0F), int v_min = 0, int v_max = 0, string format = "%d"
 		// Returns: int v, bool isModified
 		static int lua_DragInt(lua_State *L);
 
-		// Arguments: string label, float v, float v_min, float v_max, string format = "%.3f"
+		// Arguments: string label, float v, float v_min = 0.0f, float v_max = 0.0f, string format = "%.3f"
 		// Returns: float v, bool isModified
 		static int lua_SliderFloat(lua_State *L);
 
@@ -161,7 +195,34 @@ namespace ImLua
 		// Returns: none
 		static int lua_SameLine(lua_State *L);
 
+		// Arguments: string label, bool selected, ImGuiSelectableFlags flags = 0, ImVec2 size = ImVec2(0, 0)
+		// Returns: bool pressed
+		static int lua_Selectable(lua_State* L);
 
+		// Arguments: string label, string previewValue
+		// Returns: bool isOpen
+		static int lua_BeginCombo(lua_State *L);
+
+		// Arguments: string label, int currentItem, string itemsSeparatedByNewlines, int popupMaxHeightInItems = -1
+		// Returns: bool selected, int currentItem
+		static int lua_Combo(lua_State *L);
+
+		// Arguments: none
+		// Returns: none
+		static int lua_EndCombo(lua_State *L);
+
+		// Arguments: ImGuiMouseButton button, bool repeat
+		// Returns: bool ret
+		static int lua_IsMouseClicked(lua_State *L);
+
+		// Arguments: ImGuiFocusedFlags flags
+		// Returns: bool ret
+		static int lua_IsWindowFocused(lua_State *L);
+
+		// Arguments: int offset
+		// Returns: none
+		static int lua_SetKeyboardFocusHere(lua_State *L);
+		
 
 
 
@@ -205,17 +266,9 @@ namespace ImLua
 		// Returns: 
 		static int lua_TreePop(lua_State *L);
 
-		// Arguments: string label, bool p_visible
-		// Returns: bool p_visible, bool isModified
+		// Arguments: string label, ImGuiTreeNodeFlags flags = 0, bool p_visible = nullptr
+		// Returns: bool open, bool p_visible = null
 		static int lua_CollapsingHeader(lua_State *L);
-
-		// Arguments: string label, string preview_value
-		// Returns: 
-		static int lua_BeginCombo(lua_State *L);
-
-		// Arguments: 
-		// Returns: 
-		static int lua_EndCombo(lua_State *L);
 
 		// Arguments: 
 		// Returns: 
@@ -328,6 +381,10 @@ namespace ImLua
 		// Arguments: 
 		// Returns: 
 		static int lua_IsItemActive(lua_State *L);
+
+		// Arguments: none
+		// Returns: bool ret
+		static int lua_IsAnyItemActive(lua_State *L);
 
 		// Arguments: 
 		// Returns: 

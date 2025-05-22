@@ -12,17 +12,17 @@
 #define LuaFilePath(fileName) (std::string(FILE_PATH + fileName + LUA_EXT).c_str())
 #define LuaModPath(fileName) (std::string(MOD_PATH + fileName + LUA_EXT).c_str())
 
-#define LuaDoString(L, str) if (luaL_dostring(L, str) != LUA_OK) LuaDumpError(L);
-#define LuaDoFile(L, str) if (luaL_dofile(L, str) != LUA_OK) LuaDumpError(L);
+#define LuaDoString(L, str) ((luaL_dostring(L, str) != LUA_OK) ? LuaDumpError(L) : true)
+#define LuaDoFile(L, str) ((luaL_dofile(L, str) != LUA_OK) ? LuaDumpError(L) : true)
 
-#define LuaChk(L, ret) {if (ret != LUA_OK) LuaDumpError(L);}
+#define LuaChk(L, ret) ((ret != LUA_OK) ? LuaDumpError(L) : true)
 
 // Reads file and returns the content as a string
 std::string LuaLoadFile(lua_State *L, const char *path);
 
-void LuaDoFileCleaned(lua_State *L, const char *str);
+bool LuaDoFileCleaned(lua_State *L, const char *str);
 
-void LuaDumpError(lua_State *L);
+bool LuaDumpError(lua_State *L);
 void LuaDumpStack(lua_State *L);
 void LuaDumpEnv(lua_State *L);
 void LuaDumpECS(lua_State *L, const entt::registry &reg);

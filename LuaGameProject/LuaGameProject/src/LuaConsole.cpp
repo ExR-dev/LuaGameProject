@@ -62,14 +62,6 @@ static int PrintVector(lua_State *L)
 
 void ConsoleThreadFunction(CmdState *cmdState)
 {
-	std::cout << std::endl << std::format(
-		"To run a \"{}\" file located in \"{}\", begin your command with \"{}\" followed by the file name.", 
-				 LUA_EXT,			    FILE_PATH,					    FILE_CMD
-	) << std::endl;
-	std::cout << "To run all tests located in the tests folder, type \"[T/t]est\"." << std::endl;
-	std::cout << "To dump the lua stack, type \"DumpStack\"." << std::endl;
-	std::cout << "To dump the lua environment, type \"DumpEnv\"." << std::endl;
-
 	std::string input;
 
 	while (Windows::GetConsoleWindowW())
@@ -99,12 +91,12 @@ void ExecuteCommandList(lua_State *L, CmdState *cmdState, const entt::registry &
 	// Execute the command list
 	std::string &input = cmdState->cmdInput;
 
-	if (input == "Test" || input == "test") // Run all tests
+	if (GameMath::EqualsAny(input, "test", "Test")) // Run all tests
 	{
 		LuaRunTests(L, TEST_PATH);
 	}
 #ifdef LUA_DEBUG
-	else if (input.starts_with("step"))
+	else if (input.starts_with("Step") || input.starts_with("step"))
 	{
 		if (Game::Game::Instance().CmdStepMode)
 		{
@@ -129,11 +121,11 @@ void ExecuteCommandList(lua_State *L, CmdState *cmdState, const entt::registry &
 			}
 		}
 	}
-	else if (input == "Break" || input == "break")
+	else if (GameMath::EqualsAny(input, "Break", "break"))
 	{
 		Game::Game::Instance().CmdStepMode = true;
 	}
-	else if (input == "Continue" || input == "continue")
+	else if (GameMath::EqualsAny(input, "Continue", "continue"))
 	{
 		Game::Game::Instance().CmdStepMode = false;
 	}
@@ -155,9 +147,42 @@ void ExecuteCommandList(lua_State *L, CmdState *cmdState, const entt::registry &
 	{
 		LuaDumpECS(L, reg);
 	}
+	else if (GameMath::EqualsAny(input, "help", "Help"))
+	{
+
+		std::cout << std::endl << std::format(
+			"To run a \"{}\" file located in \"{}\", begin your command with \"{}\" followed by the file name.",
+			LUA_EXT, FILE_PATH, FILE_CMD
+		) << std::endl;
+		std::cout << std::endl;
+
+		std::cout << "To run all tests, type \"[T/t]est\"." << std::endl;
+		std::cout << "To enable debug stepping, type \"[B/b]reak\"." << std::endl;
+		std::cout << "To disable debug stepping, type \"[C/c]ontinue\"." << std::endl;
+		std::cout << "In debug stepping, step 1 or X frame(s) using \"[S/s]tep <opt. X>\"." << std::endl;
+		std::cout << std::endl;
+
+		std::cout << "To dump the Lua stack, use \"DumpStack\"." << std::endl;
+		std::cout << "To dump the Lua environment, use \"DumpEnv\"." << std::endl;
+		std::cout << "To dump the EnTT registry, use \"DumpECS\"." << std::endl;
+		std::cout << std::endl;
+
+		std::cout << "Anything not following a format listed above will execute as Lua code." << std::endl;
+		std::cout << std::endl;
+
+		std::cout << "To see the full contents of a Lua table, use \"PrintTable([table])\"." << std::endl;
+		std::cout << "Tip: Try using \"PrintTable()\" on the output from \"DumpEnv\"." << std::endl;
+		std::cout << std::endl;
+
+		std::cout << "Notes:" << std::endl;
+		std::cout << "[x/y] \tboth x and y works" << std::endl;
+		std::cout << "<x>   \tparameter" << std::endl;
+		std::cout << "opt.  \tinput is optional" << std::endl;
+	}
 	else // String command
 	{
-		LuaDoString(L, input.c_str());
+		if (!LuaDoString(L, input.c_str()))
+			std::cout << "Type help for a list of commands." << std::endl;
 	}
 
 	std::cout << std::endl;

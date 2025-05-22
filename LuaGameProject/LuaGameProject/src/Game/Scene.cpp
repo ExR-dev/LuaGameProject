@@ -146,7 +146,7 @@ void Scene::Clear(lua_State *L)
 	std::function<void(entt::registry &registry)> clear = [&](entt::registry &registry) {
 		ZoneNamedNC(createPhysicsBodiesZone, "Lambda Remove All Entities", RandomUniqueColor(), true);
 
-		auto view = registry.view<entt::entity>();
+		auto view = registry.view<entt::entity>(entt::exclude<ECS::Debug>);
 
 		view.each([&](entt::entity entity) {
 			ZoneNamedNC(drawSpriteZone, "Lambda Remove All Entities", RandomUniqueColor(), true);
@@ -202,6 +202,7 @@ void Scene::lua_openscene(lua_State *L, Scene *scene)
 		{ "CreateEntity",		lua_CreateEntity	},
 		{ "SetComponent",		lua_SetComponent	},
 		{ "GetEntityCount",		lua_GetEntityCount	},
+		{ "GetEntities",		lua_GetEntities		},
 		{ "IsEntity",			lua_IsEntity		},
 		{ "RemoveEntity",		lua_RemoveEntity	},
 		{ "HasComponent",		lua_HasComponent	},
@@ -209,6 +210,7 @@ void Scene::lua_openscene(lua_State *L, Scene *scene)
 		{ "RemoveComponent",	lua_RemoveComponent	},
 		{ "IsActive",			lua_IsActive		},
 		{ "SetActive",			lua_SetActive		},
+		{ "Clear",				lua_Clear			},
 		{ NULL,					NULL				}
 	};
 
@@ -273,12 +275,12 @@ int Scene::lua_SetComponent(lua_State *L)
 	}
 	else if (type == "Collider")
 	{	
-		bool hasCollider = scene->HasComponents<ECS::Active>(entity);
+		bool hasCollider = scene->HasComponents<ECS::Collider>(entity);
 		b2BodyId id;
 		if (hasCollider)
 		{
 			id = scene->GetComponent<ECS::Collider>(entity).bodyId;
-			scene->RemoveComponent<ECS::Active>(entity);
+			scene->RemoveComponent<ECS::Collider>(entity);
 		}
 
 		ECS::Collider collider {};
@@ -325,6 +327,18 @@ int Scene::lua_SetComponent(lua_State *L)
 		scene->m_registry.sort<ECS::Sprite>(ECS::Sprite::Compare);
 		return 1;
 	}
+	else if (type == "TextRender") 
+	{
+		if (scene->HasComponents<ECS::TextRender>(entity))
+			scene->RemoveComponent<ECS::TextRender>(entity);
+
+		ECS::TextRender textRender{};
+		textRender.LuaPull(L, 3);
+
+		scene->SetComponent<ECS::TextRender>(entity, textRender);
+
+		return 1;
+	}
 	else if (type == "CameraData") 
 	{
 		if (scene->HasComponents<ECS::CameraData>(entity))
@@ -334,6 +348,14 @@ int Scene::lua_SetComponent(lua_State *L)
 		cameraData.LuaPull(L, 3);
 
 		scene->SetComponent<ECS::CameraData>(entity, cameraData);
+		return 1;
+	}
+	else if (type == "Debug")
+	{
+		if (scene->HasComponents<ECS::Debug>(entity))
+			scene->RemoveComponent<ECS::Debug>(entity);
+
+		scene->SetComponent<ECS::Debug>(entity);
 		return 1;
 	}
 
@@ -347,6 +369,33 @@ int Scene::lua_GetEntityCount(lua_State *L)
 	Scene *scene = lua_GetScene(L);
 	int count = scene->GetEntityCount();
 	lua_pushinteger(L, count);
+	return 1;
+}
+
+int Scene::lua_GetEntities(lua_State* L)
+{
+	ZoneScopedC(RandomUniqueColor());
+
+	Scene* scene = lua_GetScene(L);
+	
+	lua_createtable(L, 0, scene->GetEntityCount());
+
+	std::function<void(entt::registry& registry)> pushEntities = [&](entt::registry& registry) {
+		ZoneNamedNC(createPhysicsBodiesZone, "Lambda Push All Entities", RandomUniqueColor(), true);
+
+		unsigned int index = 1;
+		auto view = registry.view<entt::entity>(entt::exclude<ECS::Room>);
+
+		view.each([&](entt::entity entity) {
+			ZoneNamedNC(drawSpriteZone, "Lambda Push Entity", RandomUniqueColor(), true);
+			lua_pushinteger(L, index++);
+			lua_pushinteger(L, static_cast<int>(entity));
+			lua_settable(L, -3);
+		});
+	};
+
+	scene->RunSystem(pushEntities);
+
 	return 1;
 }
 
@@ -407,6 +456,10 @@ int Scene::lua_HasComponent(lua_State *L)
 	{
 		hasComponent = scene->HasComponents<ECS::Sprite>(entity);
 	}
+	else if (type == "TextRender")
+	{
+		hasComponent = scene->HasComponents<ECS::TextRender>(entity);
+	}
 	else if (type == "CameraData")
 	{
 		hasComponent = scene->HasComponents<ECS::CameraData>(entity);
@@ -414,6 +467,10 @@ int Scene::lua_HasComponent(lua_State *L)
 	else if (type == "Transform")
 	{
 		hasComponent = scene->HasComponents<ECS::Transform>(entity);
+	}
+	else if (type == "Debug")
+	{
+		hasComponent = scene->HasComponents<ECS::Debug>(entity);
 	}
 		
 	lua_pushboolean(L, hasComponent);
@@ -490,6 +547,12 @@ int Scene::lua_GetComponent(lua_State *L)
 		sprite.LuaPush(L);
 		return 1;
 	}
+	else if (type == "TextRender" && scene->HasComponents<ECS::TextRender>(entity))
+	{
+		ECS::TextRender &textRender = scene->GetComponent<ECS::TextRender>(entity);
+		textRender.LuaPush(L);
+		return 1;
+	}
 	
 	// Name or component not found
 	lua_pushnil(L);
@@ -536,9 +599,17 @@ int Scene::lua_RemoveComponent(lua_State *L)
 	{
 		scene->RemoveComponent<ECS::Sprite>(entity);
 	}
+	else if (type == "TextRender" && scene->HasComponents<ECS::TextRender>(entity))
+	{
+		scene->RemoveComponent<ECS::TextRender>(entity);
+	}
 	else if (type == "CameraData" && scene->HasComponents<ECS::CameraData>(entity))
 	{
 		scene->RemoveComponent<ECS::CameraData>(entity);
+	}
+	else if (type == "Debug" && scene->HasComponents<ECS::Debug>(entity))
+	{
+		scene->RemoveComponent<ECS::Debug>(entity);
 	}
 	// else if...
 
@@ -566,4 +637,14 @@ int Scene::lua_SetActive(lua_State *L)
 
 	scene->SetActive(entity, state);
 	return 1;
+}
+
+int Scene::lua_Clear(lua_State* L)
+{
+	ZoneScopedC(RandomUniqueColor());
+
+	Scene* scene = lua_GetScene(L);
+	scene->Clear(L);
+
+	return 0;
 }

@@ -48,7 +48,13 @@ namespace ECS
 
 		void RenderUI()
 		{
-			ImGui::Checkbox("Active", &IsActive);
+			if (ImGui::TreeNode("Active"))
+			{
+				ImGui::Checkbox("IsActive", &IsActive);
+
+				ImGui::Separator();
+				ImGui::TreePop();
+			}
 		}
 	};
 
@@ -67,8 +73,10 @@ namespace ECS
 
 		void Initialize(const char *path)
 		{
-			lua_State *L = m_refState;
 			ZoneScopedC(RandomUniqueColor());
+
+			lua_State *L = m_refState;
+			m_unownedMethods.clear();
 
 			// Returns the behaviour table on top of the stack
 			LuaDoFileCleaned(L, LuaFilePath(path));
@@ -156,8 +164,6 @@ namespace ECS
 
 				ImGui::InputText("Path", ScriptPath, SCRIPT_PATH_LENGTH);
 
-
-				ImGui::SeparatorText("Lua Gui");
 				// Run OnGUI if it exists
 				do
 				{
@@ -165,6 +171,8 @@ namespace ECS
 
 					if (IsUnownedMethod(name))
 						break;
+
+					ImGui::SeparatorText("Lua Gui");
 
 					// Retrieve the behaviour table to the top of the stack
 					lua_rawgeti(m_refState, LUA_REGISTRYINDEX, LuaRef);
@@ -191,8 +199,8 @@ namespace ECS
 					lua_pop(m_refState, 1);
 
 				} while (false);
-				ImGui::Separator();
 
+				ImGui::Separator();
 				ImGui::TreePop();
 			}
 		}
@@ -206,9 +214,9 @@ namespace ECS
 
 	struct Transform
 	{
-		float Position[2];
-		float Rotation;
-		float Scale[2];
+		float Position[2] = { 0.0f, 0.0f };
+		float Rotation = 0.0f;
+		float Scale[2] = { 1.0f, 1.0f };
 
 		void LuaPush(lua_State *L) const
 		{
@@ -289,10 +297,14 @@ namespace ECS
 		{
 			if (ImGui::TreeNode("Transform"))
 			{
-				ImGui::DragFloat2("Position", Position, 0.1f, -1000, 1000);
-				ImGui::DragFloat2("Scale", Scale, 0.1f, -1000, 1000);
-				ImGui::DragFloat("Rotation", &Rotation, 0.1f, -1000, 1000);
+				ImGui::DragFloat2("Position", Position, 0.1f);
+				ImGui::DragFloat2("Scale", Scale, 0.1f);
 
+				float rotRad = Rotation * DEG2RAD;
+				if (ImGui::SliderAngle("Rotation", &rotRad, 0.0f, 360.0f))
+					Rotation = rotRad * RAD2DEG;
+
+				ImGui::Separator();
 				ImGui::TreePop();
 			}
 		}
@@ -303,6 +315,7 @@ namespace ECS
 		b2BodyId bodyId = b2_nullBodyId;
 		bool createBody = false;
 		bool debug = false;
+		bool rotateWithTransform = false;
 		int onEnterRef, onExitRef;
 		static constexpr int MAX_TAG_LENGTH = 32;
 		char tag[MAX_TAG_LENGTH];
@@ -317,6 +330,8 @@ namespace ECS
 
 		void Destroy(lua_State* L)
 		{
+			if (!b2Body_IsValid(bodyId))
+				return;
 			b2DestroyBody(bodyId);
 			bodyId = b2_nullBodyId;
 			luaL_unref(L, LUA_REGISTRYINDEX, onEnterRef);
@@ -386,6 +401,11 @@ namespace ECS
 				debug = lua_toboolean(L, -1);
 			lua_pop(L, 1);
 
+			lua_getfield(L, index, "rotateWithTransform");
+			if (lua_isboolean(L, -1))
+				rotateWithTransform = lua_toboolean(L, -1);
+			lua_pop(L, 1);
+
 			lua_getfield(L, index, "offset");
 			if (lua_istable(L, -1))
 			{
@@ -435,6 +455,7 @@ namespace ECS
 				lua_pop(L, 1);
 			}
 
+
 			lua_getfield(L, index, "onEnterCallback");
 			if (lua_isfunction(L, -1))
 				onEnterRef = luaL_ref(L, LUA_REGISTRYINDEX);
@@ -448,7 +469,8 @@ namespace ECS
 		{
 			if (ImGui::TreeNode("Collider"))
 			{
-				// TODO: This is'nt working
+				ImGui::InputText("Tag", tag, MAX_TAG_LENGTH);
+
 				ImGui::DragFloat2("Offset", offset, 0.1f, -1000, 1000);
 				createBody |= ImGui::DragFloat2("Extents", extents, 0.001f, 0.001f, 1000);
 				if (ImGui::DragFloat("Rotation", &rotation, 0.1f, -1.0f, 361.0f))
@@ -461,6 +483,7 @@ namespace ECS
 
 				ImGui::Checkbox("Debug", &debug);
 
+				ImGui::Separator();
 				ImGui::TreePop();
 			}
 		}
@@ -622,6 +645,267 @@ namespace ECS
 
 				ImGui::ColorPicker4("Color", Color);
 
+				ImGui::Separator();
+				ImGui::TreePop();
+			}
+		}
+	};
+
+	struct TextRender
+	{
+		static const int TEXT_LENGTH = 256;
+		char Text[TEXT_LENGTH];
+		static const int FONTNAME_LENGTH = 32;
+		char Font[FONTNAME_LENGTH];
+		float FontSize;
+		float Spacing;
+		float TextColor[4];
+		float Offset[2];
+		float Rotation;
+		float BgThickness;
+		float BgColor[4];
+
+		TextRender() : FontSize(12.0f), Spacing(1.0f), Rotation(0.0f), BgThickness(0.0f)
+		{
+			memset(Text, '\0', TEXT_LENGTH);
+			memset(Font, '\0', FONTNAME_LENGTH);
+
+			memset(Offset, 0.0f, sizeof(float) * 2);
+
+			memset(TextColor, (int)0.0f, sizeof(float) * 3);
+			memset(BgColor, (int)0.0f, sizeof(float) * 4);
+			TextColor[3] = 1.0f; // Alpha
+		}
+
+		void LuaPush(lua_State* L) const
+		{
+			ZoneScopedC(RandomUniqueColor());
+			// Create the main textRender table
+			lua_createtable(L, 0, 9);
+
+			lua_pushstring(L, Text);
+			lua_setfield(L, -2, "text");
+
+			lua_pushstring(L, Font);
+			lua_setfield(L, -2, "font");
+
+			lua_pushnumber(L, FontSize);
+			lua_setfield(L, -2, "fontSize");
+
+			lua_pushnumber(L, Spacing);
+			lua_setfield(L, -2, "spacing");
+
+			lua_createtable(L, 0, 4);
+			lua_pushnumber(L, TextColor[0]);
+			lua_setfield(L, -2, "r");
+			lua_pushnumber(L, TextColor[1]);
+			lua_setfield(L, -2, "g");
+			lua_pushnumber(L, TextColor[2]);
+			lua_setfield(L, -2, "b");
+			lua_pushnumber(L, TextColor[3]);
+			lua_setfield(L, -2, "a");
+			lua_setfield(L, -2, "textColor");
+
+			lua_createtable(L, 0, 2);
+			lua_pushnumber(L, Offset[0]);
+			lua_setfield(L, -2, "x");
+			lua_pushnumber(L, Offset[1]);
+			lua_setfield(L, -2, "y");
+			lua_setfield(L, -2, "offset");
+
+			lua_pushnumber(L, Rotation);
+			lua_setfield(L, -2, "rotation");
+
+			lua_pushnumber(L, BgThickness);
+			lua_setfield(L, -2, "bgThickness");
+			
+			lua_createtable(L, 0, 4);  
+			lua_pushnumber(L, BgColor[0]);
+			lua_setfield(L, -2, "r");
+			lua_pushnumber(L, BgColor[1]);
+			lua_setfield(L, -2, "g");
+			lua_pushnumber(L, BgColor[2]);
+			lua_setfield(L, -2, "b");
+			lua_pushnumber(L, BgColor[3]);
+			lua_setfield(L, -2, "a");
+			lua_setfield(L, -2, "bgColor");
+		}
+		void LuaPull(lua_State* L, int index)
+		{
+			ZoneScopedC(RandomUniqueColor());
+			// Make sure the index is absolute (in case it's negative)
+			if (index < 0) 
+			{
+				index = lua_gettop(L) + index + 1;
+			}
+
+			// Verify that the value at the given index is a table
+			if (lua_istable(L, index)) 
+			{
+				lua_getfield(L, index, "text");
+				if (lua_isstring(L, -1)) 
+				{
+					const char* name = lua_tostring(L, -1);
+					memset(Text, '\0', TEXT_LENGTH);
+					strncpy_s(Text, name, TEXT_LENGTH - 1);
+				}
+				lua_pop(L, 1);
+
+				lua_getfield(L, index, "font");
+				if (lua_isstring(L, -1)) 
+				{
+					const char* font = lua_tostring(L, -1);
+					memset(Font, '\0', FONTNAME_LENGTH);
+					strncpy_s(Font, font, FONTNAME_LENGTH - 1);
+				}
+				lua_pop(L, 1);
+
+				lua_getfield(L, index, "fontSize");
+				if (lua_isnumber(L, -1))
+					FontSize = (int)lua_tonumber(L, -1);
+				lua_pop(L, 1);
+
+				lua_getfield(L, index, "spacing");
+				if (lua_isnumber(L, -1))
+					Spacing = (int)lua_tonumber(L, -1);
+				lua_pop(L, 1);
+
+				lua_getfield(L, index, "textColor");
+				if (lua_istable(L, -1)) 
+				{
+					lua_getfield(L, -1, "r");
+					if (lua_isnumber(L, -1)) 
+						TextColor[0] = (float)lua_tonumber(L, -1);
+					lua_pop(L, 1);
+
+					lua_getfield(L, -1, "g");
+					if (lua_isnumber(L, -1)) 
+						TextColor[1] = (float)lua_tonumber(L, -1);
+					lua_pop(L, 1);
+
+					lua_getfield(L, -1, "b");
+					if (lua_isnumber(L, -1)) 
+						TextColor[2] = (float)lua_tonumber(L, -1);
+					lua_pop(L, 1);
+
+					lua_getfield(L, -1, "a");
+					if (lua_isnumber(L, -1))
+						TextColor[3] = (float)lua_tonumber(L, -1);
+					lua_pop(L, 1);
+				}
+				lua_pop(L, 1);
+
+				lua_getfield(L, index, "offset");
+				if (lua_istable(L, -1)) 
+				{
+					lua_getfield(L, -1, "x");
+					if (lua_isnumber(L, -1)) 
+						Offset[0] = (float)lua_tonumber(L, -1);
+					lua_pop(L, 1);
+
+					lua_getfield(L, -1, "y");
+					if (lua_isnumber(L, -1)) 
+						Offset[1] = (float)lua_tonumber(L, -1);
+					lua_pop(L, 1);
+				}
+				lua_pop(L, 1);
+
+				lua_getfield(L, index, "rotation");
+				if (lua_isnumber(L, -1))
+					Rotation = (int)lua_tonumber(L, -1);
+				lua_pop(L, 1);
+
+				lua_getfield(L, index, "bgThickness");
+				if (lua_isnumber(L, -1))
+					BgThickness = (int)lua_tonumber(L, -1);
+				lua_pop(L, 1);
+
+				lua_getfield(L, index, "bgColor");
+				if (lua_istable(L, -1)) 
+				{
+					lua_getfield(L, -1, "r");
+					if (lua_isnumber(L, -1)) 
+						BgColor[0] = (float)lua_tonumber(L, -1);
+					lua_pop(L, 1);
+
+					lua_getfield(L, -1, "g");
+					if (lua_isnumber(L, -1)) 
+						BgColor[1] = (float)lua_tonumber(L, -1);
+					lua_pop(L, 1);
+
+					lua_getfield(L, -1, "b");
+					if (lua_isnumber(L, -1)) 
+						BgColor[2] = (float)lua_tonumber(L, -1);
+					lua_pop(L, 1);
+
+					lua_getfield(L, -1, "a");
+					if (lua_isnumber(L, -1))
+						BgColor[3] = (float)lua_tonumber(L, -1);
+					lua_pop(L, 1);
+				}
+				lua_pop(L, 1);
+			}
+		}
+
+		void RenderUI()
+		{
+			if (ImGui::TreeNode("TextRender"))
+			{
+				ImGui::InputTextMultiline("Text", Text, TEXT_LENGTH);
+
+				static int selected = -1;
+				std::vector<std::string> items = ResourceManager::Instance().GetFontNames();
+				items.push_back("None");
+				std::string title = "Select Font";
+
+				if (selected != -1)
+					title = items[selected];
+
+				if (ImGui::BeginCombo("Font", title.c_str()))
+				{
+					for (int n = 0; n < items.size(); n++)
+					{
+						std::string current = items[n];
+						bool isSelected = n == selected;
+						if (ImGui::Selectable(current.c_str(), isSelected))
+						{
+							if (current != "None")
+							{
+								strcpy_s(Font, current.c_str());
+								selected = n;
+							}
+							else
+							{
+								memset(Font, '\0', FONTNAME_LENGTH);
+								selected = -1;
+							}
+						}
+
+						if (isSelected)
+							ImGui::SetItemDefaultFocus();
+					}
+
+					ImGui::EndCombo();
+				}
+
+				if (ImGui::DragFloat("Font Size", &FontSize, 0.2f))
+					FontSize = std::fmaxf(0.0f, FontSize);
+
+				if (ImGui::DragFloat("Spacing", &Spacing, 0.02f))
+					Spacing = std::fmaxf(0.0f, Spacing);
+
+				ImGui::DragFloat("Background Thickness", &BgThickness, 0.01f);
+
+				ImGui::DragFloat2("Offset", Offset, 0.1f);
+
+				float rotRad = Rotation * DEG2RAD;
+				if (ImGui::SliderAngle("Rotation", &rotRad, 0.0f, 360.0f))
+					Rotation = rotRad * RAD2DEG;
+
+				ImGui::ColorEdit4("Text Color", &TextColor[0]);
+				ImGui::ColorEdit4("Background Color", &BgColor[0]);
+
+				ImGui::Separator();
 				ImGui::TreePop();
 			}
 		}
@@ -640,7 +924,7 @@ namespace ECS
 
 			// Add Current and Max to the health table
 			lua_pushnumber(L, Current);
-			lua_setfield(L, -1, "current");
+			lua_setfield(L, -2, "current");
 
 			lua_pushnumber(L, Max);
 			lua_setfield(L, -2, "max");
@@ -668,6 +952,21 @@ namespace ECS
 				if (lua_isnumber(L, -1))
 					Max = (float)lua_tonumber(L, -1);
 				lua_pop(L, 1); // Remove the max value from stack
+			}
+		}
+
+		void RenderUI()
+		{
+			if (ImGui::TreeNode("Health"))
+			{
+				if (ImGui::DragFloat("Max", &Max, 0.1f))
+					Max = std::fmaxf(1.0f, Max);
+
+				if (ImGui::SliderFloat("Current", &Current, 0.0f, Max))
+					Current = std::clamp(Current, 0.0f, Max);
+
+				ImGui::Separator();
+				ImGui::TreePop();
 			}
 		}
 	};
@@ -707,8 +1006,14 @@ namespace ECS
 
 		void RenderUI()
 		{
-			if (ImGui::InputFloat("Hardness", &hardness, 0.01f, 0.1f))
-				hardness = std::fmaxf(0.0f, hardness);
+			if (ImGui::TreeNode("Hardness"))
+			{
+				if (ImGui::DragFloat("Hardness", &hardness, 0.1f))
+					hardness = std::fmaxf(0.0f, hardness);
+
+				ImGui::Separator();
+				ImGui::TreePop();
+			}
 		}
 	};
 
@@ -730,7 +1035,7 @@ namespace ECS
 	};
 
 	struct CameraData
-	{
+	{ 
 		int Size[2];
 		float Zoom;
 
@@ -781,10 +1086,37 @@ namespace ECS
 				Zoom = (float)lua_tonumber(L, -1);
 			lua_pop(L, 1); // Remove the zoom value from stack
 		}
+
+		void RenderUI()
+		{
+			if (ImGui::TreeNode("CameraData"))
+			{
+				// TODO
+
+				ImGui::Separator();
+				ImGui::TreePop();
+			}
+		}
 	};
 
 	struct Remove 
 	{
 		int _; // Place holder
+
+		void RenderUI()
+		{
+			if (ImGui::TreeNode("Remove"))
+			{
+				// TODO
+
+				ImGui::Separator();
+				ImGui::TreePop();
+			}
+		}
+	};
+
+	struct Debug
+	{
+		char _; // Place holder
 	};
 }
