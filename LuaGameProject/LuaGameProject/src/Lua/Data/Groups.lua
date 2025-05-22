@@ -87,7 +87,7 @@ if game.SpawnGroup == nil then
 
             -- Add other components
             for componentName, componentData in pairs(groupData.components) do
-                if not componentName == "Behaviour" then
+                if componentName ~= "Behaviour" then
                     scene.SetComponent(entity, componentName, componentData)
                 end
 		    end
@@ -134,7 +134,7 @@ if game.CreateGroupFromScene == nil then
 
                 for _, comp in ipairs(componentNames) do
                     local component = scene.GetComponent(entity, comp)
-                    if (component ~= nil) then
+                    if component ~= nil then
                         if comp == "Behaviour" then
                             local behaviour = { 
                                 path = component.path,
@@ -148,6 +148,7 @@ if game.CreateGroupFromScene == nil then
                                 end
                             end
                         else
+                            print("Test")
                             data.groups[groupName].entities[i].components[comp] = component
                         end
                     end
