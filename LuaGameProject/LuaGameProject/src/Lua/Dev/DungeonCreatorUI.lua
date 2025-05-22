@@ -63,6 +63,8 @@ function dungeonCreatorUI:RoomSelection()
 	imgui.Begin("Room Selection")
 
 	if imgui.Button("Save All Rooms") then
+		game.CreateGroupFromScene(self.roomCollection.selectedRoom)
+
 		for name, room in pairs(self.roomCollection.rooms) do
 			SaveRoom(name, room)
 		end

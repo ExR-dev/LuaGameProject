@@ -1,9 +1,9 @@
 return {
 -- Table: {1}
 {
-   ["contents"]={2},
    ["elementName"]="green",
    ["dataPath"]="groups",
+   ["contents"]={2},
 },
 -- Table: {2}
 {
@@ -12,43 +12,200 @@ return {
 -- Table: {3}
 {
    {4},
+   {5},
+   {6},
+   {7},
 },
 -- Table: {4}
 {
-   ["components"]={5},
+   ["components"]={8},
 },
 -- Table: {5}
 {
-   ["Sprite"]={6},
-   ["Transform"]={7},
+   ["components"]={9},
 },
 -- Table: {6}
 {
-   ["priority"]=0,
-   ["spriteName"]="",
-   ["color"]={8},
+   ["components"]={10},
 },
 -- Table: {7}
 {
-   ["position"]={9},
-   ["scale"]={10},
-   ["rotation"]=0.0,
+   ["components"]={11},
 },
 -- Table: {8}
+{
+   ["Sprite"]={12},
+   ["Transform"]={13},
+},
+-- Table: {9}
+{
+   ["Hardness"]={14},
+   ["Health"]={15},
+   ["Collider"]={16},
+   ["Transform"]={17},
+   ["Sprite"]={18},
+},
+-- Table: {10}
+{
+   ["Transform"]={19},
+},
+-- Table: {11}
+{
+   ["Hardness"]={20},
+   ["Sprite"]={21},
+   ["Collider"]={22},
+   ["Transform"]={23},
+},
+-- Table: {12}
+{
+   ["priority"]=0,
+   ["color"]={24},
+   ["spriteName"]="",
+},
+-- Table: {13}
+{
+   ["scale"]={25},
+   ["position"]={26},
+   ["rotation"]=0.0,
+},
+-- Table: {14}
+{
+   ["hardness"]=0.10000000149012,
+},
+-- Table: {15}
+{
+   ["max"]=100.0,
+   ["current"]=100.0,
+},
+-- Table: {16}
+{
+   ["debug"]=true,
+   ["rotation"]=0.0,
+   ["tag"]="Enemy",
+   ["extents"]={27},
+   ["offset"]={28},
+},
+-- Table: {17}
+{
+   ["scale"]={29},
+   ["position"]={30},
+   ["rotation"]=355.63983154297,
+},
+-- Table: {18}
+{
+   ["priority"]=30,
+   ["color"]={31},
+   ["spriteName"]="Maxwell.png",
+},
+-- Table: {19}
+{
+   ["scale"]={32},
+   ["position"]={33},
+   ["rotation"]=0.0,
+},
+-- Table: {20}
+{
+   ["hardness"]=6.0,
+},
+-- Table: {21}
+{
+   ["priority"]=25,
+   ["color"]={34},
+   ["spriteName"]="",
+},
+-- Table: {22}
+{
+   ["debug"]=false,
+   ["rotation"]=0.0,
+   ["tag"]="Solid",
+   ["extents"]={35},
+   ["offset"]={36},
+},
+-- Table: {23}
+{
+   ["scale"]={37},
+   ["position"]={38},
+   ["rotation"]=0.0,
+},
+-- Table: {24}
 {
    ["g"]=1.0,
    ["b"]=0.18894010782242,
    ["a"]=1.0,
    ["r"]=0.66735339164734,
 },
--- Table: {9}
+-- Table: {25}
+{
+   ["y"]=500.0,
+   ["x"]=700.0,
+},
+-- Table: {26}
 {
    ["y"]=0.0,
    ["x"]=0.0,
 },
--- Table: {10}
+-- Table: {27}
 {
-   ["y"]=500.0,
-   ["x"]=700.0,
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {28}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {29}
+{
+   ["y"]=60.0,
+   ["x"]=60.0,
+},
+-- Table: {30}
+{
+   ["y"]=0.0,
+   ["x"]=-140.5,
+},
+-- Table: {31}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {32}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {33}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {34}
+{
+   ["g"]=0.55164813995361,
+   ["b"]=0.3578619658947,
+   ["a"]=1.0,
+   ["r"]=0.80310881137848,
+},
+-- Table: {35}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {36}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {37}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {38}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
 },
 }
