@@ -32,7 +32,7 @@ function player:OnCreate()
 	self.solids = {}
 	
 	-- Create player collider
-	self.coll = collider("Player", true, vec2(0, 0), vec2(1.0, 1.0), 0, 
+	self.coll = collider("Player", true, vec2(0, 0), vec2(0.8, 0.8), 0, 
 	function(other) -- onEnter
 		tracy.ZoneBeginN("Lua Lambda player:OnCollideEnter")
 
@@ -194,6 +194,7 @@ function player:OnUpdate(delta)
 	self.newPos = self.trans.position
 	self.deltaMovement = self.newPos - self.lastPos
 	
+	-- Inverse the collider rotation 
 	self.coll.rotation = -self.trans.rotation
 	scene.SetComponent(self.ID, "Collider", self.coll)
 		

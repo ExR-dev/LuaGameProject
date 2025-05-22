@@ -1,8 +1,9 @@
 require("Utility/TableSave")
 
 
+
 local function TableToStringRec(tbl, indent, depth)
-    local str = ""
+	local str = ""
 
 	if depth < 8 then
 		str = str.."{\n"
@@ -23,7 +24,7 @@ local function TableToStringRec(tbl, indent, depth)
 		str = str..indent.."...\n"
 	end
 
-    return str
+	return str
 end
 
 
@@ -31,57 +32,63 @@ function table.toString(tbl)
 	return TableToStringRec(tbl, "", 0)
 end
 
+function table.len(tbl)
+	local count = 0
+	for _ in pairs(tbl) do count = count + 1 end
+	return count
+end
+
 function table.hasKey(tbl, key)
-    for k, _ in pairs(tbl) do
-        if k == key then
-            return true
-        end
-    end
-    return false
+	for k, _ in pairs(tbl) do
+		if k == key then
+			return true
+		end
+	end
+	return false
 end
 
 function table.hasValue(tbl, val)
-    for i, v in pairs(tbl) do
-        if v == val then
-            return true, i
-        end
-    end
-    return false
+	for i, v in pairs(tbl) do
+		if v == val then
+			return true, i
+		end
+	end
+	return false
 end
 
 
 function table.copy(orig)
-    local orig_type = type(orig)
-    local copy
-    if orig_type == 'table' then
-        copy = {}
-        for orig_key, orig_value in pairs(orig) do
-            copy[orig_key] = orig_value
-        end
-    else -- number, string, boolean, etc
-        copy = orig
-    end
-    return copy
+	local orig_type = type(orig)
+	local copy
+	if orig_type == 'table' then
+		copy = {}
+		for orig_key, orig_value in pairs(orig) do
+			copy[orig_key] = orig_value
+		end
+	else -- number, string, boolean, etc
+		copy = orig
+	end
+	return copy
 end
 
 -- Save copied tables in 'copies', indexed by original table.
 function table.deepCopy(orig, copies)
-    copies = copies or {}
-    local orig_type = type(orig)
-    local copy
-    if orig_type == 'table' then
-        if copies[orig] then
-            copy = copies[orig]
-        else
-            copy = {}
-            copies[orig] = copy
-            for orig_key, orig_value in next, orig, nil do
-                copy[table.deepCopy(orig_key, copies)] = table.deepCopy(orig_value, copies)
-            end
-            setmetatable(copy, table.deepCopy(getmetatable(orig), copies))
-        end
-    else -- number, string, boolean, etc
-        copy = orig
-    end
-    return copy
+	copies = copies or {}
+	local orig_type = type(orig)
+	local copy
+	if orig_type == 'table' then
+		if copies[orig] then
+			copy = copies[orig]
+		else
+			copy = {}
+			copies[orig] = copy
+			for orig_key, orig_value in next, orig, nil do
+				copy[table.deepCopy(orig_key, copies)] = table.deepCopy(orig_value, copies)
+			end
+			setmetatable(copy, table.deepCopy(getmetatable(orig), copies))
+		end
+	else -- number, string, boolean, etc
+		copy = orig
+	end
+	return copy
 end

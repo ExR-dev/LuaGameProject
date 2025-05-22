@@ -18,12 +18,12 @@ local collider = require("Components/Collider")
 -- Can set up more fields in self.
 function enemy:OnCreate()
 	tracy.ZoneBeginN("Lua enemy:OnCreate")
-	local t = transform(scene.GetComponent(self.ID, "Transform"))
+	self.trans = transform(scene.GetComponent(self.ID, "Transform"))
 
 	self.speed = math.random(15, 35)
 
-	local c = collider("Enemy", false, vec2(0, 0), vec2(1, 1), 0, nil)
-	scene.SetComponent(self.ID, "Collider", c)
+	self.coll = collider("Enemy", true, vec2(0, 0), vec2(1, 1), 0, nil)
+	scene.SetComponent(self.ID, "Collider", self.coll)
 
 	local healthBar = scene.CreateEntity()
 	scene.SetComponent(healthBar, "Behaviour", "Behaviours/HealthBar")
@@ -38,38 +38,38 @@ end
 -- Called once per tick from the C environment.
 function enemy:OnUpdate(delta)
 	tracy.ZoneBeginN("Lua enemy:OnUpdate")
-	local t = transform(scene.GetComponent(self.ID, "Transform"))
+	self.trans = transform(scene.GetComponent(self.ID, "Transform"))
 
 	if self.wanderPoint == nil then
-		self.wanderPoint = t.position + vec2(math.random(-75, 75), math.random(-75, 75));
+		self.wanderPoint = self.trans.position + vec2(math.random(-75, 75), math.random(-75, 75));
 	end
 
 	local goal = self.wanderPoint
-	local toGoal = goal - t.position
+	local toGoal = goal - self.trans.position
 
 	local lengthSqr = toGoal:lengthSqr()
 	toGoal:normalize()
 
 	-- If the distance to the goal is small, pick a new random point, otherwise move towards it
 	if lengthSqr < 2.0 then
-		self.wanderPoint = t.position + vec2(math.random(-75, 75), math.random(-75, 75));
+		self.wanderPoint = self.trans.position + vec2(math.random(-75, 75), math.random(-75, 75));
 	else
-		t.position = t.position + toGoal * (self.speed * delta)
+		self.trans.position = self.trans.position + toGoal * (self.speed * delta)
 	end
 
 	-- Set the rotation of the transform to face the goal
-	t.rotation = toGoal:angle()
+	self.trans.rotation = toGoal:angle()
 
 	-- Negate the Y scale if facing left
-	if t.rotation > 90.0 and t.rotation < 270.0 then
-		t.scale.y = -math.abs(t.scale.y)
+	if self.trans.rotation > 90.0 and self.trans.rotation < 270.0 then
+		self.trans.scale.y = -math.abs(self.trans.scale.y)
 	else
-		t.scale.y = math.abs(t.scale.y)
+		self.trans.scale.y = math.abs(self.trans.scale.y)
 	end
 
 	if math.random(0, 100000) == 0 then
 		local listenerPos = game.GetPlayerCamera().camT.position
-		local soundPos = t.position
+		local soundPos = self.trans.position
 		local soundDistSqr = ((listenerPos - soundPos) * gameMath.pixelsToMeters):lengthSqr()
 
 		local baseVolume = 0.5
@@ -92,7 +92,12 @@ function enemy:OnUpdate(delta)
 		end
 	end
 
-	scene.SetComponent(self.ID, "Transform", t)
+	scene.SetComponent(self.ID, "Transform", self.trans)
+
+	-- Inverse the collider rotation
+	--self.coll.rotation = -self.trans.rotation
+	--scene.SetComponent(self.ID, "Collider", self.coll)
+
 	tracy.ZoneEnd()
 end
 

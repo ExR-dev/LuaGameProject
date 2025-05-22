@@ -13,6 +13,7 @@ local presetCreatorUI = {
 
 	ammoEditorUI = {
 		selectedAmmoType = 0,
+		newAmmoTypeName = "",
 		editingCaliber = nil,		-- string
 		newCaliberName = nil,		-- string
 		editedCaliberTable = nil	-- table
@@ -572,7 +573,6 @@ function presetCreatorUI:AmmoEditorUI()
 	end
 
 
-	--[[
 	if ctx.editingCaliber ~= nil then
 		-- Before editing, copy the original caliber table to perform the edits on
 		if ctx.editedCaliberTable == nil then
@@ -591,15 +591,111 @@ function presetCreatorUI:AmmoEditorUI()
 		end
 
 		-- Display the caliber name
-		imgui.Text("Editing:         "..self.ammoEditorUI.editingCaliber)
+		imgui.Text("Editing:         "..ctx.editingCaliber)
 		imgui.Separator()
 
 
 
 		-- TODO: List all ammo types as collapsing headers, containing the ammo type stats
+		for ammoTypeName, ammoTypeData in pairs(ctx.editedCaliberTable) do
+			if type(ammoTypeData) == "table" then
+				if imgui.CollapsingHeader(ammoTypeName.."##EditAmmoType"..ammoTypeName.."Header") then
+					
+					imgui.Text(table.toString(ammoTypeData))
+					
+					-- Ammo type describes the bullets use case, and defines its stats
+					-- Common types are FMJ, HP, AP, whose use cases are described as
+					--     FMJ: general purpose
+					--     HP:	hits harder and reduces spread, but penetrates less and falls off faster
+					--     AP:	less damage and accuracy, but penetrates more
+
+					-- Name:		damageMult
+					-- Desc:		Multiplier of the weapon's damage at the moment of firing
+					-- Equation:	damage = weaponDamage * damageMult
+					-- Type:		float
+					-- Range:		[0, inf)
+					-- Average:		1.0
+			
+					-- Name:		falloff
+					-- Desc:		Portion of the damage that remains after travelling one meter
+					-- Equation:	damage = damage * falloff^(meters)
+					-- Type:		float
+					-- Range:		(0, 1]
+					-- Average:		0.95
+			
+					-- Name:		penetration
+					-- Desc:		Portion of the damage that remains after penetrating a surface, per hardness level
+					-- Equation:	damage = damage * penetration^(hardness)
+					-- Type:		float
+					-- Range:		(0, 1]
+					-- Average:		0.5
+			
+					-- Name:		spread
+					-- Desc:		Amount of spread added to the bullet's total spread, measured in degrees
+					-- Equation:	totalSpread = math.max(0.0, weaponSpread + ammoSpread + currentRecoil)
+					-- Type:		float
+					-- Range:		[0, inf)
+					-- Average:		3.0
+			
+					-- Name:		recoil
+					-- Desc:		Amount of recoil added to the total current recoil after firing, decaying over time
+					-- Equation:	currentRecoil = math.max(0.0, currentRecoil + weaponRecoil + ammoRecoil)
+					-- Type:		float
+					-- Range:		(-inf, inf)
+					-- Average:		5.0
+			
+					-- Name:		burstSize
+					-- Desc:		How many projectiles spawn from a single shot
+					-- Equation:	_
+					-- Type:		int
+					-- Range:		[1, inf)
+					-- Average:		1
+				end
+			end
+		end
 
 
-		-- TODO: Add a button to add a new ammo type
+		-- Button to add a new ammo type
+		if imgui.Button("Add Type##AddNewAmmoTypeButton") then
+			imgui.OpenPopup("Enter Name##AddNewAmmoTypePopup")
+		end
+
+		-- Input the new ammo type's name
+		if imgui.BeginPopup("Enter Name##AddNewAmmoTypePopup") then
+			imgui.TextWrapped("Enter a name for the new ammo type:")
+
+			ctx.newAmmoTypeName = imgui.InputText("##NewAmmoTypeNameInput", ctx.newAmmoTypeName, 64)
+			
+			local validAmmoTypeName = true
+
+			for existingAmmoTypeName, _ in pairs(ctx.editedCaliberTable) do
+				if existingAmmoTypeName == ctx.newAmmoTypeName then
+					validAmmoTypeName = false
+					break
+				end
+			end
+
+			if validAmmoTypeName then
+				if imgui.Button("Confirm") or Input.KeyPressed(Input.Key.KEY_ENTER) then -- Submit if Confirm button or Enter key is pressed
+					local newAmmoType = { 
+						damageMult = 1.0,
+						falloff = 0.95,
+						penetration = 0.5,
+						spread = 3.0,
+						recoil = 5.0,
+						burstSize = 1
+					}
+
+					-- Insert the ammo type
+					ctx.editedCaliberTable[ctx.newAmmoTypeName] = newAmmoType
+
+					ctx.newAmmoTypeName = ""
+					imgui.CloseCurrentPopup()
+				end
+			end
+
+			imgui.EndPopup()
+		end
 
 		imgui.Separator()
 
@@ -613,10 +709,17 @@ function presetCreatorUI:AmmoEditorUI()
 		if imgui.BeginPopup("Select Default Type##SelectDefaultAmmoTypePopup") then
 			imgui.TextWrapped("Select the default ammo type for this caliber:")
 
+			local iter = 0
 			local ammoTypeList = {}
-			for ammoTypeName, ammoTypeVar in pairs(ctx.editedCaliberTable) do
-				if type(ammoTypVar) == "table" then -- Avoid the "default" string that's also in the table
+			for ammoTypeName, ammoTypeData in pairs(ctx.editedCaliberTable) do
+				if ammoTypeName ~= "default" then -- Avoid the "default" string that's also in the table
 					table.insert(ammoTypeList, ammoTypeName)
+
+					-- Use this opportunity to find the index of the default type if one is already selected
+					if ammoTypeName == ctx.editedCaliberTable.default then
+						ctx.selectedAmmoType = iter
+					end
+					iter = iter + 1
 				end
 			end
 
@@ -625,17 +728,65 @@ function presetCreatorUI:AmmoEditorUI()
 			pressed, ctx.selectedAmmoType = imgui.Combo("Default##PrefabEditorDefaultType", ctx.selectedAmmoType, ammoTypeListString)
 
 			if pressed then
-				ctx.editedCaliberTable.default = ammoTypeList[ctx.selectedAmmoType]
+				ctx.editedCaliberTable.default = ammoTypeList[ctx.selectedAmmoType + 1]
 				imgui.CloseCurrentPopup()
 			end
+			imgui.EndPopup()
+		end
+		
+		
+		if table.len(ctx.editedCaliberTable) > 1 then -- Must be greater than one because of "default" element
+			-- Confirm button
+			if imgui.Button("Confirm##ConfirmCaliberButton") then
+				if ctx.editedCaliberTable[ctx.editedCaliberTable.default] == nil then
+					imgui.OpenPopup("Select Default Type##SelectDefaultAmmoTypePopup")
+				end
+
+				ctx.saveQueued = true
+			end
+
+			-- Save the caliber if prerequisites are met
+			if ctx.saveQueued == true and ctx.editedCaliberTable[ctx.editedCaliberTable.default] ~= nil then
+				resetState = true
+				data.ammo.calibers[ctx.editingCaliber] = ctx.editedCaliberTable
+
+				local err = data.modding.createLuaTableSave(
+					"src/Mods/Ammo/", 
+					"ammo.calibers",
+					ctx.editingCaliber,
+					ctx.editedCaliberTable
+				)
+
+				if err then
+					print("Error saving caliber: "..err)
+				else
+					print("Caliber saved successfully.")
+				end
+			end
+		else
+			imgui.TextWrapped("Caliber preset cannot be saved: Caliber must have at least one ammo type!")
 		end
 
-		if ctx.editedCaliberTable[ctx.editedCaliberTable.default] ~= nil then
-			-- Default is selected, ammo can be saved
-			-- TODO
-		end		
+		-- Cancel button
+		if imgui.Button("Cancel##CancelCaliberButton") then
+			resetState = true
+		end
+
+		-- Delete button
+		if imgui.Button("Delete##DeleteCaliberButton") then
+			resetState = true
+			data.ammo.calibers[ctx.editingCaliber] = nil
+		end
+
+
+		if resetState then
+			ctx.editedCaliberTable = nil
+			ctx.editingCaliber = nil
+			ctx.saveQueued = false
+		end
+
+		imgui.End()
 	end
-	--]]
 
 	tracy.ZoneEnd()
 end
