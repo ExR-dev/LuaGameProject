@@ -1,8 +1,8 @@
 return {
 -- Table: {1}
 {
-   ["elementName"]="green",
    ["contents"]={2},
+   ["elementName"]="green",
    ["dataPath"]="groups",
 },
 -- Table: {2}
@@ -24,31 +24,31 @@ return {
 },
 -- Table: {6}
 {
-   ["spriteName"]="",
    ["priority"]=0,
+   ["spriteName"]="",
    ["color"]={8},
 },
 -- Table: {7}
 {
-   ["scale"]={9},
-   ["position"]={10},
+   ["position"]={9},
+   ["scale"]={10},
    ["rotation"]=0.0,
 },
 -- Table: {8}
 {
-   ["b"]=0.18894010782242,
    ["g"]=1.0,
-   ["r"]=0.66735339164734,
+   ["b"]=0.18894010782242,
    ["a"]=1.0,
+   ["r"]=0.66735339164734,
 },
 -- Table: {9}
 {
-   ["x"]=700.0,
-   ["y"]=500.0,
+   ["y"]=0.0,
+   ["x"]=0.0,
 },
 -- Table: {10}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["y"]=500.0,
+   ["x"]=700.0,
 },
 }

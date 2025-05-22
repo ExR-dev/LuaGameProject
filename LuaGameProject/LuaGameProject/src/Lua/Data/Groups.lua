@@ -49,8 +49,12 @@ if game.SpawnGroup == nil then
 	local function SpawnGroup(group, trans)
         local groupData = data.groups[group]
 
+        for k, v in pairs(data.groups) do
+            print(k)
+        end
+
         if groupData == nil then
-            print("Group not found"..group)            
+            print("Group not found: "..group)            
             return
         end
 
@@ -112,10 +116,6 @@ local componentNames = {
 if game.CreateGroupFromScene == nil then
     local function CreateGroupFromScene(groupName, excludeDebug)
         local excludeDbg = excludeDebug or true;
-
-        if data.groups[groupName] ~= nil then
-            print("Group '" .. groupName .. "' has been overwritten!")
-        end
 
         data.groups[groupName] = {
             entities = {}

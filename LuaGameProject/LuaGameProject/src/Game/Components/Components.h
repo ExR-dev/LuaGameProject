@@ -315,6 +315,7 @@ namespace ECS
 		b2BodyId bodyId = b2_nullBodyId;
 		bool createBody = false;
 		bool debug = false;
+		bool rotateWithTransform = false;
 		int onEnterRef, onExitRef;
 		static constexpr int MAX_TAG_LENGTH = 32;
 		char tag[MAX_TAG_LENGTH];
@@ -400,6 +401,11 @@ namespace ECS
 				debug = lua_toboolean(L, -1);
 			lua_pop(L, 1);
 
+			lua_getfield(L, index, "rotateWithTransform");
+			if (lua_isboolean(L, -1))
+				rotateWithTransform = lua_toboolean(L, -1);
+			lua_pop(L, 1);
+
 			lua_getfield(L, index, "offset");
 			if (lua_istable(L, -1))
 			{
@@ -448,6 +454,7 @@ namespace ECS
 				rotation = (float)lua_tonumber(L, -1);
 				lua_pop(L, 1);
 			}
+
 
 			lua_getfield(L, index, "onEnterCallback");
 			if (lua_isfunction(L, -1))

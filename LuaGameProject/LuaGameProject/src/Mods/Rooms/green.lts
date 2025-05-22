@@ -1,8 +1,8 @@
 return {
 -- Table: {1}
 {
-   ["elementName"]="green",
    ["contents"]={2},
+   ["elementName"]="green",
    ["dataPath"]="rooms",
 },
 -- Table: {2}
@@ -11,7 +11,7 @@ return {
 },
 -- Table: {3}
 {
-   ["x"]=700.0,
    ["y"]=500.0,
+   ["x"]=700.0,
 },
 }

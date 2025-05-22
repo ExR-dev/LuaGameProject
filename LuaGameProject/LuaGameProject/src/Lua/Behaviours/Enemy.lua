@@ -22,8 +22,8 @@ function enemy:OnCreate()
 
 	self.speed = math.random(15, 35)
 
-	self.coll = collider("Enemy", true, vec2(0, 0), vec2(1, 1), 0, nil)
-	scene.SetComponent(self.ID, "Collider", self.coll)
+	local c = collider("Enemy", true, vec2(0, 0), vec2(1, 1))
+	scene.SetComponent(self.ID, "Collider", c)
 
 	local healthBar = scene.CreateEntity()
 	scene.SetComponent(healthBar, "Behaviour", "Behaviours/HealthBar")
@@ -93,10 +93,6 @@ function enemy:OnUpdate(delta)
 	end
 
 	scene.SetComponent(self.ID, "Transform", self.trans)
-
-	-- Inverse the collider rotation
-	--self.coll.rotation = -self.trans.rotation
-	--scene.SetComponent(self.ID, "Collider", self.coll)
 
 	tracy.ZoneEnd()
 end

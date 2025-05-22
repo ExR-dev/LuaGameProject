@@ -1,8 +1,8 @@
 return {
 -- Table: {1}
 {
-   ["elementName"]="blue",
    ["contents"]={2},
+   ["elementName"]="blue",
    ["dataPath"]="groups",
 },
 -- Table: {2}
@@ -19,25 +19,27 @@ return {
 },
 -- Table: {5}
 {
-   ["Transform"]={6},
-   ["Sprite"]={7},
+   ["Sprite"]={6},
+   ["Transform"]={7},
 },
 -- Table: {6}
 {
-   ["scale"]={8},
-   ["position"]={9},
-   ["rotation"]=0.0,
+   ["priority"]=0,
+   ["spriteName"]="",
+   ["color"]={8},
 },
 -- Table: {7}
 {
-   ["spriteName"]="",
-   ["priority"]=0,
-   ["color"]={10},
+   ["position"]={9},
+   ["scale"]={10},
+   ["rotation"]=0.0,
 },
 -- Table: {8}
 {
-   ["y"]=700.0,
-   ["x"]=500.0,
+   ["g"]=0.421839594841,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=0.23963135480881,
 },
 -- Table: {9}
 {
@@ -46,9 +48,7 @@ return {
 },
 -- Table: {10}
 {
-   ["g"]=0.421839594841,
-   ["r"]=0.23963135480881,
-   ["a"]=1.0,
-   ["b"]=1.0,
+   ["y"]=700.0,
+   ["x"]=500.0,
 },
 }

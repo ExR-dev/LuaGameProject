@@ -15,7 +15,7 @@ local vec2 = require("Vec2")
 local collider = {}
 collider.__index = collider
 
-local function new(t, d, o, e, r, enter, exit)
+local function new(t, d, o, e, r, rwt, enter, exit)
 
 	if type(t) == "table" then
 		return setmetatable(t, collider)
@@ -27,6 +27,7 @@ local function new(t, d, o, e, r, enter, exit)
 		(o == nil or vec2.isvec2(o)) and
 		(e == nil or vec2.isvec2(e)) and
 		(r == nil or type(r) == "number"),
+		(rwt == nil or type(rwt) == "boolean"),
 		(enter == nil or type(enter) == "function"),
 		(exit == nil or type(exit) == "function"),
 		"collider new - expected args: (string or nil, bool or nil, vec2 or nil, numver or nil, function or nil, function or nil)"
@@ -38,6 +39,7 @@ local function new(t, d, o, e, r, enter, exit)
 		offset = o or vec2(0, 0),
 		extents = e or vec2(1, 1),
 		rotation = r or 0,
+		rotateWithTransform = rwt or false,
 		onEnterCallback = enter or function (other) end,
 		onExitCallback = exit or function (other) end,
 	}

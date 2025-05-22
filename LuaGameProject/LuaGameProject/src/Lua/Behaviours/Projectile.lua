@@ -21,7 +21,7 @@ function projectile:OnCreate()
 	self.speed = 1337.0 * 4.0 * speedVariation
 
 	-- Make collider longer to account for high speed
-	local c = collider("Projectile", false, vec2(0, 0), vec2(2.0, 0.5), 0, function(other)
+	local c = collider("Projectile", false, vec2(0, 0), vec2(2.0, 0.5), 0, true, function(other)
 		tracy.ZoneBeginN("Lua Lambda projectile:Collide")
 
 		local doCollide = false

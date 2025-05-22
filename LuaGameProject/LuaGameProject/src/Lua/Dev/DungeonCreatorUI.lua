@@ -58,6 +58,8 @@ end
 local buffer = ""
 
 function dungeonCreatorUI:RoomSelection()
+	InfoWindow()
+
 	imgui.Begin("Room Selection")
 
 	if imgui.Button("Save All Rooms") then
@@ -122,7 +124,7 @@ function dungeonCreatorUI:RoomSelection()
 	if imgui.BeginPopupContextItem("RoomPopup") then
 
 		-- TODO: Add flag for enter option
-		buffer, done = imgui.InputText("Enter name", buffer, 16)
+		buffer, _ = imgui.InputText("Enter name", buffer, 16)
 		if imgui.Button("Done") and buffer ~= "" then
 			self.roomCollection.rooms[buffer] = {
 				size = vec2(500, 500),
@@ -174,13 +176,36 @@ function dungeonCreatorUI:RoomSelection()
 	imgui.End()
 end
 
-local temp = 0
+function InfoWindow()
+	imgui.Begin("Info")
+
+	imgui.Text("How to use:")
+	imgui.Separator("Room selection")
+
+	imgui.TextWrapped("In the room selection window, new rooms can be created. When a room is selected prefabs and entities can be created for that specific room. Also room size can be changed. " ..
+			   		  "When pressing 'Save' or 'Save All Rooms' relevant room(s) will be saved to disk, this is neccecary for persistant storage.")
+
+	imgui.Separator("Dungeon Generation")
+
+	imgui.TextWrapped("Pressing the Green button in the 'view' window will open a 'Dungeon Generation' window. In this window rooms can be included in the generation and debug options to iterate " ..
+			   		  "thrugh the generation steps exists. The save button will save a generated dungeon to disk inorder to load it in game.")
+
+	imgui.End()
+end
+
+function SaveDungeon(name)
+	game.CreateGroupFromScene(name)
+
+	local err = data.modding.createLuaTableSave("src/Mods/Groups/", "groups", name, data.groups[name])
+	if err then
+		print("Error saving dungeon group: "..err)
+	end
+end
+
 local radius = 100
 local selectedRooms = {}
 function dungeonCreatorUI:GenerateDungeon()
 	imgui.Text("Dungeon Generation")
-
-
 
 	if imgui.Button("Generate") then
 		scene.Clear()
@@ -209,8 +234,30 @@ function dungeonCreatorUI:GenerateDungeon()
 	end
 
 	imgui.SameLine()
+
+	if imgui.BeginPopupContextItem("SavePopup") then
+		-- TODO: Add flag for enter option
+		buffer, _ = imgui.InputText("Enter name", buffer, 16)
+		if imgui.Button("Done") and buffer ~= "" then
+			SaveDungeon(buffer)
+
+			buffer = ""
+			imgui.CloseCurrentPopup()
+		end
+
+		imgui.SameLine()
+
+		if imgui.Button("Cancel") then
+			buffer = ""
+			imgui.CloseCurrentPopup()
+		end
+
+		imgui.EndPopup()
+	end
+
 	if imgui.Button("Save") then
 		-- TODO: Save dungeon to file	
+		imgui.OpenPopup("SavePopup")
 	end
 
 	imgui.Separator("Settings")
