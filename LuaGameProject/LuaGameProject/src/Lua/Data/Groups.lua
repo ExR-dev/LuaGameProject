@@ -148,7 +148,6 @@ if game.CreateGroupFromScene == nil then
                                 end
                             end
                         else
-                            print("Test")
                             data.groups[groupName].entities[i].components[comp] = component
                         end
                     end
