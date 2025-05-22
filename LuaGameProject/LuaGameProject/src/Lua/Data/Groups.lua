@@ -46,11 +46,12 @@ if game == nil then
 end
 
 if game.SpawnGroup == nil then
-	local function SpawnGroup(group, trans)
-        local groupData = data.groups[group]
-
-        for k, v in pairs(data.groups) do
-            print(k)
+	local function SpawnGroup(group, trans, tag)
+        local groupData
+        if tag == nil then
+            groupData = data.groups[group]
+        else
+            groupData = data[tag][group]
         end
 
         if groupData == nil then
