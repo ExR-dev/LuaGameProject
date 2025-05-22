@@ -58,6 +58,8 @@ end
 local buffer = ""
 
 function dungeonCreatorUI:RoomSelection()
+	InfoWindow()
+
 	imgui.Begin("Room Selection")
 
 	if imgui.Button("Save All Rooms") then
@@ -172,8 +174,6 @@ function dungeonCreatorUI:RoomSelection()
 	end
 
 	imgui.End()
-
-	InfoWindow()
 end
 
 function InfoWindow()
