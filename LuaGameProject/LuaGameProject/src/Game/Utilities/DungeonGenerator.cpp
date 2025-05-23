@@ -102,6 +102,15 @@ int DungeonGenerator::lua_GetRooms(lua_State* L)
 			lua_pushinteger(L, room.GetID());
 			lua_setfield(L, -2, "ID");
 
+			const size_t nLinks = room.linkIDs.size();
+			lua_createtable(L, 0, nLinks);
+			for (int i = 0; i < nLinks; i++)
+			{
+				lua_pushinteger(L, room.linkIDs[i]+1);
+				lua_rawseti(L, -2, i+1);
+			}
+			lua_setfield(L, -2, "links");
+
 		lua_rawseti(L, -2, ++index);
 	}
 
@@ -218,7 +227,9 @@ void DungeonGenerator::SeparateRooms(float selectionThreshold)
 
 	// TODO: Move to "Generate"
 	RoomSelection(selectionThreshold);
-	GenerateGraph();
+
+	// TODO: Link abb back rate to Lua
+	GenerateGraph(0.15f);
 }
 
 bool DungeonGenerator::GridSeparation()

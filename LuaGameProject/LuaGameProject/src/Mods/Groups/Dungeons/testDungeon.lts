@@ -2,8 +2,8 @@ return {
 -- Table: {1}
 {
    ["dataPath"]="dungeons",
-   ["contents"]={2},
    ["elementName"]="testDungeon",
+   ["contents"]={2},
 },
 -- Table: {2}
 {
@@ -102,2052 +102,2023 @@ return {
    {92},
    {93},
    {94},
+   {95},
+   {96},
+   {97},
+   {98},
+   {99},
+   {100},
+   {101},
+   {102},
+   {103},
+   {104},
+   {105},
+   {106},
+   {107},
+   {108},
+   {109},
+   {110},
+   {111},
+   {112},
+   {113},
+   {114},
+   {115},
+   {116},
+   {117},
+   {118},
+   {119},
+   {120},
+   {121},
+   {122},
+   {123},
+   {124},
+   {125},
+   {126},
+   {127},
+   {128},
+   {129},
+   {130},
+   {131},
+   {132},
+   {133},
 },
 -- Table: {4}
 {
-   ["components"]={95},
+   ["behaviour"]={134},
+   ["components"]={135},
 },
 -- Table: {5}
 {
-   ["components"]={96},
+   ["behaviour"]={136},
+   ["components"]={137},
 },
 -- Table: {6}
 {
-   ["components"]={97},
+   ["behaviour"]={138},
+   ["components"]={139},
 },
 -- Table: {7}
 {
-   ["components"]={98},
+   ["behaviour"]={140},
+   ["components"]={141},
 },
 -- Table: {8}
 {
-   ["components"]={99},
+   ["components"]={142},
 },
 -- Table: {9}
 {
-   ["components"]={100},
+   ["components"]={143},
 },
 -- Table: {10}
 {
-   ["components"]={101},
+   ["components"]={144},
 },
 -- Table: {11}
 {
-   ["components"]={102},
+   ["behaviour"]={145},
+   ["components"]={146},
 },
 -- Table: {12}
 {
-   ["components"]={103},
+   ["behaviour"]={147},
+   ["components"]={148},
 },
 -- Table: {13}
 {
-   ["components"]={104},
+   ["behaviour"]={149},
+   ["components"]={150},
 },
 -- Table: {14}
 {
-   ["components"]={105},
+   ["behaviour"]={151},
+   ["components"]={152},
 },
 -- Table: {15}
 {
-   ["components"]={106},
+   ["behaviour"]={153},
+   ["components"]={154},
 },
 -- Table: {16}
 {
-   ["components"]={107},
+   ["behaviour"]={155},
+   ["components"]={156},
 },
 -- Table: {17}
 {
-   ["components"]={108},
+   ["components"]={157},
 },
 -- Table: {18}
 {
-   ["components"]={109},
+   ["components"]={158},
 },
 -- Table: {19}
 {
-   ["components"]={110},
+   ["components"]={159},
 },
 -- Table: {20}
 {
-   ["components"]={111},
+   ["behaviour"]={160},
+   ["components"]={161},
 },
 -- Table: {21}
 {
-   ["components"]={112},
+   ["behaviour"]={162},
+   ["components"]={163},
 },
 -- Table: {22}
 {
-   ["components"]={113},
+   ["behaviour"]={164},
+   ["components"]={165},
 },
 -- Table: {23}
 {
-   ["components"]={114},
+   ["behaviour"]={166},
+   ["components"]={167},
 },
 -- Table: {24}
 {
-   ["components"]={115},
+   ["behaviour"]={168},
+   ["components"]={169},
 },
 -- Table: {25}
 {
-   ["components"]={116},
+   ["components"]={170},
 },
 -- Table: {26}
 {
-   ["components"]={117},
+   ["components"]={171},
 },
 -- Table: {27}
 {
-   ["components"]={118},
+   ["components"]={172},
 },
 -- Table: {28}
 {
-   ["components"]={119},
+   ["behaviour"]={173},
+   ["components"]={174},
 },
 -- Table: {29}
 {
-   ["components"]={120},
+   ["behaviour"]={175},
+   ["components"]={176},
 },
 -- Table: {30}
 {
-   ["components"]={121},
+   ["behaviour"]={177},
+   ["components"]={178},
 },
 -- Table: {31}
 {
-   ["components"]={122},
+   ["behaviour"]={179},
+   ["components"]={180},
 },
 -- Table: {32}
 {
-   ["components"]={123},
+   ["behaviour"]={181},
+   ["components"]={182},
 },
 -- Table: {33}
 {
-   ["components"]={124},
+   ["components"]={183},
 },
 -- Table: {34}
 {
-   ["components"]={125},
+   ["components"]={184},
 },
 -- Table: {35}
 {
-   ["components"]={126},
+   ["components"]={185},
 },
 -- Table: {36}
 {
-   ["components"]={127},
+   ["behaviour"]={186},
+   ["components"]={187},
 },
 -- Table: {37}
 {
-   ["components"]={128},
+   ["behaviour"]={188},
+   ["components"]={189},
 },
 -- Table: {38}
 {
-   ["components"]={129},
+   ["behaviour"]={190},
+   ["components"]={191},
 },
 -- Table: {39}
 {
-   ["components"]={130},
+   ["behaviour"]={192},
+   ["components"]={193},
 },
 -- Table: {40}
 {
-   ["components"]={131},
+   ["behaviour"]={194},
+   ["components"]={195},
 },
 -- Table: {41}
 {
-   ["components"]={132},
+   ["behaviour"]={196},
+   ["components"]={197},
 },
 -- Table: {42}
 {
-   ["components"]={133},
+   ["components"]={198},
 },
 -- Table: {43}
 {
-   ["components"]={134},
+   ["components"]={199},
 },
 -- Table: {44}
 {
-   ["components"]={135},
+   ["components"]={200},
 },
 -- Table: {45}
 {
-   ["components"]={136},
+   ["behaviour"]={201},
+   ["components"]={202},
 },
 -- Table: {46}
 {
-   ["components"]={137},
+   ["behaviour"]={203},
+   ["components"]={204},
 },
 -- Table: {47}
 {
-   ["components"]={138},
+   ["behaviour"]={205},
+   ["components"]={206},
 },
 -- Table: {48}
 {
-   ["components"]={139},
+   ["behaviour"]={207},
+   ["components"]={208},
 },
 -- Table: {49}
 {
-   ["components"]={140},
-   ["behaviour"]={141},
+   ["components"]={209},
 },
 -- Table: {50}
 {
-   ["components"]={142},
+   ["components"]={210},
 },
 -- Table: {51}
 {
-   ["components"]={143},
+   ["components"]={211},
 },
 -- Table: {52}
 {
-   ["components"]={144},
+   ["behaviour"]={212},
+   ["components"]={213},
 },
 -- Table: {53}
 {
-   ["components"]={145},
-   ["behaviour"]={146},
+   ["behaviour"]={214},
+   ["components"]={215},
 },
 -- Table: {54}
 {
-   ["components"]={147},
+   ["behaviour"]={216},
+   ["components"]={217},
 },
 -- Table: {55}
 {
-   ["components"]={148},
+   ["behaviour"]={218},
+   ["components"]={219},
 },
 -- Table: {56}
 {
-   ["components"]={149},
+   ["behaviour"]={220},
+   ["components"]={221},
 },
 -- Table: {57}
 {
-   ["components"]={150},
-   ["behaviour"]={151},
+   ["behaviour"]={222},
+   ["components"]={223},
 },
 -- Table: {58}
 {
-   ["components"]={152},
+   ["behaviour"]={224},
+   ["components"]={225},
 },
 -- Table: {59}
 {
-   ["components"]={153},
+   ["behaviour"]={226},
+   ["components"]={227},
 },
 -- Table: {60}
 {
-   ["components"]={154},
+   ["components"]={228},
 },
 -- Table: {61}
 {
-   ["components"]={155},
-   ["behaviour"]={156},
+   ["behaviour"]={229},
+   ["components"]={230},
 },
 -- Table: {62}
 {
-   ["components"]={157},
+   ["behaviour"]={231},
+   ["components"]={232},
 },
 -- Table: {63}
 {
-   ["components"]={158},
+   ["behaviour"]={233},
+   ["components"]={234},
 },
 -- Table: {64}
 {
-   ["components"]={159},
+   ["behaviour"]={235},
+   ["components"]={236},
 },
 -- Table: {65}
 {
-   ["components"]={160},
-   ["behaviour"]={161},
+   ["behaviour"]={237},
+   ["components"]={238},
 },
 -- Table: {66}
 {
-   ["components"]={162},
+   ["behaviour"]={239},
+   ["components"]={240},
 },
 -- Table: {67}
 {
-   ["components"]={163},
+   ["behaviour"]={241},
+   ["components"]={242},
 },
 -- Table: {68}
 {
-   ["components"]={164},
+   ["behaviour"]={243},
+   ["components"]={244},
 },
 -- Table: {69}
 {
-   ["components"]={165},
-   ["behaviour"]={166},
+   ["components"]={245},
 },
 -- Table: {70}
 {
-   ["components"]={167},
+   ["behaviour"]={246},
+   ["components"]={247},
 },
 -- Table: {71}
 {
-   ["components"]={168},
+   ["behaviour"]={248},
+   ["components"]={249},
 },
 -- Table: {72}
 {
-   ["components"]={169},
+   ["behaviour"]={250},
+   ["components"]={251},
 },
 -- Table: {73}
 {
-   ["components"]={170},
-   ["behaviour"]={171},
+   ["behaviour"]={252},
+   ["components"]={253},
 },
 -- Table: {74}
 {
-   ["components"]={172},
+   ["behaviour"]={254},
+   ["components"]={255},
 },
 -- Table: {75}
 {
-   ["components"]={173},
+   ["behaviour"]={256},
+   ["components"]={257},
 },
 -- Table: {76}
 {
-   ["components"]={174},
+   ["behaviour"]={258},
+   ["components"]={259},
 },
 -- Table: {77}
 {
-   ["components"]={175},
-   ["behaviour"]={176},
+   ["behaviour"]={260},
+   ["components"]={261},
 },
 -- Table: {78}
 {
-   ["components"]={177},
-   ["behaviour"]={178},
+   ["behaviour"]={262},
+   ["components"]={263},
 },
 -- Table: {79}
 {
-   ["components"]={179},
+   ["components"]={264},
 },
 -- Table: {80}
 {
-   ["components"]={180},
-   ["behaviour"]={181},
+   ["behaviour"]={265},
+   ["components"]={266},
 },
 -- Table: {81}
 {
-   ["components"]={182},
-   ["behaviour"]={183},
+   ["behaviour"]={267},
+   ["components"]={268},
 },
 -- Table: {82}
 {
-   ["components"]={184},
+   ["behaviour"]={269},
+   ["components"]={270},
 },
 -- Table: {83}
 {
-   ["components"]={185},
-   ["behaviour"]={186},
+   ["behaviour"]={271},
+   ["components"]={272},
 },
 -- Table: {84}
 {
-   ["components"]={187},
-   ["behaviour"]={188},
+   ["behaviour"]={273},
+   ["components"]={274},
 },
 -- Table: {85}
 {
-   ["components"]={189},
+   ["behaviour"]={275},
+   ["components"]={276},
 },
 -- Table: {86}
 {
-   ["components"]={190},
-   ["behaviour"]={191},
+   ["behaviour"]={277},
+   ["components"]={278},
 },
 -- Table: {87}
 {
-   ["components"]={192},
-   ["behaviour"]={193},
+   ["components"]={279},
 },
 -- Table: {88}
 {
-   ["components"]={194},
+   ["behaviour"]={280},
+   ["components"]={281},
 },
 -- Table: {89}
 {
-   ["components"]={195},
-   ["behaviour"]={196},
+   ["behaviour"]={282},
+   ["components"]={283},
 },
 -- Table: {90}
 {
-   ["components"]={197},
-   ["behaviour"]={198},
+   ["behaviour"]={284},
+   ["components"]={285},
 },
 -- Table: {91}
 {
-   ["components"]={199},
+   ["behaviour"]={286},
+   ["components"]={287},
 },
 -- Table: {92}
 {
-   ["components"]={200},
-   ["behaviour"]={201},
+   ["behaviour"]={288},
+   ["components"]={289},
 },
 -- Table: {93}
 {
-   ["components"]={202},
-   ["behaviour"]={203},
+   ["components"]={290},
 },
 -- Table: {94}
 {
-   ["components"]={204},
+   ["behaviour"]={291},
+   ["components"]={292},
 },
 -- Table: {95}
 {
-   ["Transform"]={205},
+   ["behaviour"]={293},
+   ["components"]={294},
 },
 -- Table: {96}
 {
-   ["Health"]={206},
-   ["Collider"]={207},
-   ["Sprite"]={208},
-   ["Transform"]={209},
-   ["Hardness"]={210},
+   ["components"]={295},
 },
 -- Table: {97}
 {
-   ["Transform"]={211},
-   ["Sprite"]={212},
+   ["behaviour"]={296},
+   ["components"]={297},
 },
 -- Table: {98}
 {
-   ["Transform"]={213},
+   ["behaviour"]={298},
+   ["components"]={299},
 },
 -- Table: {99}
 {
-   ["Health"]={214},
-   ["Collider"]={215},
-   ["Sprite"]={216},
-   ["Transform"]={217},
-   ["Hardness"]={218},
+   ["behaviour"]={300},
+   ["components"]={301},
 },
 -- Table: {100}
 {
-   ["Transform"]={219},
-   ["Sprite"]={220},
+   ["behaviour"]={302},
+   ["components"]={303},
 },
 -- Table: {101}
 {
-   ["Transform"]={221},
+   ["components"]={304},
 },
 -- Table: {102}
 {
-   ["Health"]={222},
-   ["Collider"]={223},
-   ["Sprite"]={224},
-   ["Transform"]={225},
-   ["Hardness"]={226},
+   ["behaviour"]={305},
+   ["components"]={306},
 },
 -- Table: {103}
 {
-   ["Transform"]={227},
-   ["Sprite"]={228},
+   ["behaviour"]={307},
+   ["components"]={308},
 },
 -- Table: {104}
 {
-   ["Transform"]={229},
+   ["components"]={309},
 },
 -- Table: {105}
 {
-   ["Health"]={230},
-   ["Collider"]={231},
-   ["Sprite"]={232},
-   ["Transform"]={233},
-   ["Hardness"]={234},
+   ["behaviour"]={310},
+   ["components"]={311},
 },
 -- Table: {106}
 {
-   ["Transform"]={235},
-   ["Sprite"]={236},
+   ["behaviour"]={312},
+   ["components"]={313},
 },
 -- Table: {107}
 {
-   ["Transform"]={237},
+   ["behaviour"]={314},
+   ["components"]={315},
 },
 -- Table: {108}
 {
-   ["Health"]={238},
-   ["Collider"]={239},
-   ["Sprite"]={240},
-   ["Transform"]={241},
-   ["Hardness"]={242},
+   ["behaviour"]={316},
+   ["components"]={317},
 },
 -- Table: {109}
 {
-   ["Transform"]={243},
-   ["Sprite"]={244},
+   ["behaviour"]={318},
+   ["components"]={319},
 },
 -- Table: {110}
 {
-   ["Transform"]={245},
+   ["behaviour"]={320},
+   ["components"]={321},
 },
 -- Table: {111}
 {
-   ["Health"]={246},
-   ["Collider"]={247},
-   ["Sprite"]={248},
-   ["Transform"]={249},
-   ["Hardness"]={250},
+   ["components"]={322},
 },
 -- Table: {112}
 {
-   ["Transform"]={251},
-   ["Sprite"]={252},
+   ["behaviour"]={323},
+   ["components"]={324},
 },
 -- Table: {113}
 {
-   ["Transform"]={253},
+   ["behaviour"]={325},
+   ["components"]={326},
 },
 -- Table: {114}
 {
-   ["Health"]={254},
-   ["Collider"]={255},
-   ["Sprite"]={256},
-   ["Transform"]={257},
-   ["Hardness"]={258},
+   ["components"]={327},
 },
 -- Table: {115}
 {
-   ["Transform"]={259},
-   ["Sprite"]={260},
+   ["behaviour"]={328},
+   ["components"]={329},
 },
 -- Table: {116}
 {
-   ["Transform"]={261},
+   ["behaviour"]={330},
+   ["components"]={331},
 },
 -- Table: {117}
 {
-   ["Health"]={262},
-   ["Collider"]={263},
-   ["Sprite"]={264},
-   ["Transform"]={265},
-   ["Hardness"]={266},
+   ["behaviour"]={332},
+   ["components"]={333},
 },
 -- Table: {118}
 {
-   ["Transform"]={267},
-   ["Sprite"]={268},
+   ["behaviour"]={334},
+   ["components"]={335},
 },
 -- Table: {119}
 {
-   ["Transform"]={269},
+   ["behaviour"]={336},
+   ["components"]={337},
 },
 -- Table: {120}
 {
-   ["Health"]={270},
-   ["Collider"]={271},
-   ["Sprite"]={272},
-   ["Transform"]={273},
-   ["Hardness"]={274},
+   ["behaviour"]={338},
+   ["components"]={339},
 },
 -- Table: {121}
 {
-   ["Transform"]={275},
-   ["Sprite"]={276},
+   ["behaviour"]={340},
+   ["components"]={341},
 },
 -- Table: {122}
 {
-   ["Transform"]={277},
+   ["behaviour"]={342},
+   ["components"]={343},
 },
 -- Table: {123}
 {
-   ["Health"]={278},
-   ["Collider"]={279},
-   ["Sprite"]={280},
-   ["Transform"]={281},
-   ["Hardness"]={282},
+   ["behaviour"]={344},
+   ["components"]={345},
 },
 -- Table: {124}
 {
-   ["Transform"]={283},
-   ["Sprite"]={284},
+   ["components"]={346},
 },
 -- Table: {125}
 {
-   ["Transform"]={285},
+   ["behaviour"]={347},
+   ["components"]={348},
 },
 -- Table: {126}
 {
-   ["Health"]={286},
-   ["Collider"]={287},
-   ["Sprite"]={288},
-   ["Transform"]={289},
-   ["Hardness"]={290},
+   ["behaviour"]={349},
+   ["components"]={350},
 },
 -- Table: {127}
 {
-   ["Transform"]={291},
-   ["Sprite"]={292},
+   ["behaviour"]={351},
+   ["components"]={352},
 },
 -- Table: {128}
 {
-   ["Transform"]={293},
+   ["behaviour"]={353},
+   ["components"]={354},
 },
 -- Table: {129}
 {
-   ["Health"]={294},
-   ["Collider"]={295},
-   ["Sprite"]={296},
-   ["Transform"]={297},
-   ["Hardness"]={298},
+   ["behaviour"]={355},
+   ["components"]={356},
 },
 -- Table: {130}
 {
-   ["Transform"]={299},
-   ["Sprite"]={300},
+   ["components"]={357},
 },
 -- Table: {131}
 {
-   ["Transform"]={301},
+   ["components"]={358},
 },
 -- Table: {132}
 {
-   ["Health"]={302},
-   ["Collider"]={303},
-   ["Sprite"]={304},
-   ["Transform"]={305},
-   ["Hardness"]={306},
+   ["components"]={359},
 },
 -- Table: {133}
 {
-   ["Transform"]={307},
-   ["Sprite"]={308},
+   ["behaviour"]={360},
+   ["components"]={361},
 },
 -- Table: {134}
 {
-   ["Transform"]={309},
+   ["properties"]={362},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {135}
 {
-   ["Health"]={310},
-   ["Collider"]={311},
-   ["Sprite"]={312},
-   ["Transform"]={313},
-   ["Hardness"]={314},
+   ["Sprite"]={363},
+   ["Transform"]={364},
+   ["Collider"]={365},
 },
 -- Table: {136}
 {
-   ["Transform"]={315},
-   ["Sprite"]={316},
+   ["properties"]={366},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {137}
 {
-   ["Transform"]={317},
+   ["Sprite"]={367},
+   ["Transform"]={368},
+   ["Collider"]={369},
 },
 -- Table: {138}
 {
-   ["Health"]={318},
-   ["Collider"]={319},
-   ["Sprite"]={320},
-   ["Transform"]={321},
-   ["Hardness"]={322},
+   ["properties"]={370},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {139}
 {
-   ["Transform"]={323},
-   ["Sprite"]={324},
+   ["Sprite"]={371},
+   ["Transform"]={372},
+   ["Collider"]={373},
 },
 -- Table: {140}
 {
-   ["Transform"]={325},
-   ["Sprite"]={326},
+   ["properties"]={374},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {141}
 {
-   ["properties"]={327},
-   ["path"]="Behaviours/Spawner",
+   ["Sprite"]={375},
+   ["Transform"]={376},
+   ["Collider"]={377},
 },
 -- Table: {142}
 {
-   ["Health"]={328},
-   ["Collider"]={329},
-   ["Sprite"]={330},
-   ["Transform"]={331},
-   ["Hardness"]={332},
+   ["Sprite"]={378},
+   ["Transform"]={379},
+   ["Hardness"]={380},
+   ["Collider"]={381},
 },
 -- Table: {143}
 {
-   ["Transform"]={333},
-   ["Sprite"]={334},
+   ["Sprite"]={382},
+   ["Transform"]={383},
 },
 -- Table: {144}
 {
-   ["Sprite"]={335},
-   ["Collider"]={336},
-   ["Transform"]={337},
-   ["Hardness"]={338},
+   ["Transform"]={384},
+   ["Sprite"]={385},
+   ["Collider"]={386},
+   ["Health"]={387},
+   ["Hardness"]={388},
 },
 -- Table: {145}
 {
-   ["Transform"]={339},
-   ["Sprite"]={340},
+   ["properties"]={389},
+   ["path"]="Behaviours/Spawner",
 },
 -- Table: {146}
 {
-   ["properties"]={341},
-   ["path"]="Behaviours/Spawner",
+   ["Sprite"]={390},
+   ["Transform"]={391},
 },
 -- Table: {147}
 {
-   ["Health"]={342},
-   ["Collider"]={343},
-   ["Sprite"]={344},
-   ["Transform"]={345},
-   ["Hardness"]={346},
+   ["properties"]={392},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {148}
 {
-   ["Transform"]={347},
-   ["Sprite"]={348},
+   ["Sprite"]={393},
+   ["Transform"]={394},
+   ["Collider"]={395},
 },
 -- Table: {149}
 {
-   ["Sprite"]={349},
-   ["Collider"]={350},
-   ["Transform"]={351},
-   ["Hardness"]={352},
+   ["properties"]={396},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {150}
 {
-   ["Transform"]={353},
-   ["Sprite"]={354},
+   ["Sprite"]={397},
+   ["Transform"]={398},
+   ["Collider"]={399},
 },
 -- Table: {151}
 {
-   ["properties"]={355},
-   ["path"]="Behaviours/Spawner",
+   ["properties"]={400},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {152}
 {
-   ["Health"]={356},
-   ["Collider"]={357},
-   ["Sprite"]={358},
-   ["Transform"]={359},
-   ["Hardness"]={360},
+   ["Sprite"]={401},
+   ["Transform"]={402},
+   ["Collider"]={403},
 },
 -- Table: {153}
 {
-   ["Transform"]={361},
-   ["Sprite"]={362},
+   ["properties"]={404},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {154}
 {
-   ["Sprite"]={363},
-   ["Collider"]={364},
-   ["Transform"]={365},
-   ["Hardness"]={366},
+   ["Sprite"]={405},
+   ["Transform"]={406},
+   ["Collider"]={407},
 },
 -- Table: {155}
 {
-   ["Transform"]={367},
-   ["Sprite"]={368},
+   ["properties"]={408},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {156}
 {
-   ["properties"]={369},
-   ["path"]="Behaviours/Spawner",
+   ["Sprite"]={409},
+   ["Transform"]={410},
+   ["Collider"]={411},
 },
 -- Table: {157}
 {
-   ["Health"]={370},
-   ["Collider"]={371},
-   ["Sprite"]={372},
-   ["Transform"]={373},
-   ["Hardness"]={374},
+   ["Sprite"]={412},
+   ["Transform"]={413},
+   ["Hardness"]={414},
+   ["Collider"]={415},
 },
 -- Table: {158}
 {
-   ["Transform"]={375},
-   ["Sprite"]={376},
+   ["Sprite"]={416},
+   ["Transform"]={417},
 },
 -- Table: {159}
 {
-   ["Sprite"]={377},
-   ["Collider"]={378},
-   ["Transform"]={379},
-   ["Hardness"]={380},
+   ["Transform"]={418},
+   ["Sprite"]={419},
+   ["Collider"]={420},
+   ["Health"]={421},
+   ["Hardness"]={422},
 },
 -- Table: {160}
 {
-   ["Transform"]={381},
-   ["Sprite"]={382},
+   ["properties"]={423},
+   ["path"]="Behaviours/Spawner",
 },
 -- Table: {161}
 {
-   ["properties"]={383},
-   ["path"]="Behaviours/Spawner",
+   ["Sprite"]={424},
+   ["Transform"]={425},
 },
 -- Table: {162}
 {
-   ["Health"]={384},
-   ["Collider"]={385},
-   ["Sprite"]={386},
-   ["Transform"]={387},
-   ["Hardness"]={388},
+   ["properties"]={426},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {163}
 {
-   ["Transform"]={389},
-   ["Sprite"]={390},
+   ["Sprite"]={427},
+   ["Transform"]={428},
+   ["Collider"]={429},
 },
 -- Table: {164}
 {
-   ["Sprite"]={391},
-   ["Collider"]={392},
-   ["Transform"]={393},
-   ["Hardness"]={394},
+   ["properties"]={430},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {165}
 {
-   ["Transform"]={395},
-   ["Sprite"]={396},
+   ["Sprite"]={431},
+   ["Transform"]={432},
+   ["Collider"]={433},
 },
 -- Table: {166}
 {
-   ["properties"]={397},
-   ["path"]="Behaviours/Spawner",
+   ["properties"]={434},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {167}
 {
-   ["Health"]={398},
-   ["Collider"]={399},
-   ["Sprite"]={400},
-   ["Transform"]={401},
-   ["Hardness"]={402},
+   ["Sprite"]={435},
+   ["Transform"]={436},
+   ["Collider"]={437},
 },
 -- Table: {168}
 {
-   ["Transform"]={403},
-   ["Sprite"]={404},
+   ["properties"]={438},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {169}
 {
-   ["Sprite"]={405},
-   ["Collider"]={406},
-   ["Transform"]={407},
-   ["Hardness"]={408},
+   ["Sprite"]={439},
+   ["Transform"]={440},
+   ["Collider"]={441},
 },
 -- Table: {170}
 {
-   ["Transform"]={409},
-   ["Sprite"]={410},
+   ["Sprite"]={442},
+   ["Transform"]={443},
+   ["Hardness"]={444},
+   ["Collider"]={445},
 },
 -- Table: {171}
 {
-   ["properties"]={411},
-   ["path"]="Behaviours/Spawner",
+   ["Sprite"]={446},
+   ["Transform"]={447},
 },
 -- Table: {172}
 {
-   ["Health"]={412},
-   ["Collider"]={413},
-   ["Sprite"]={414},
-   ["Transform"]={415},
-   ["Hardness"]={416},
+   ["Transform"]={448},
+   ["Sprite"]={449},
+   ["Collider"]={450},
+   ["Health"]={451},
+   ["Hardness"]={452},
 },
 -- Table: {173}
 {
-   ["Transform"]={417},
-   ["Sprite"]={418},
+   ["properties"]={453},
+   ["path"]="Behaviours/Spawner",
 },
 -- Table: {174}
 {
-   ["Sprite"]={419},
-   ["Collider"]={420},
-   ["Transform"]={421},
-   ["Hardness"]={422},
+   ["Sprite"]={454},
+   ["Transform"]={455},
 },
 -- Table: {175}
 {
-   ["Transform"]={423},
+   ["properties"]={456},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {176}
 {
-   ["properties"]={424},
-   ["path"]="Behaviours/HealthBar",
+   ["Sprite"]={457},
+   ["Transform"]={458},
+   ["Collider"]={459},
 },
 -- Table: {177}
 {
-   ["Health"]={425},
-   ["Collider"]={426},
-   ["Sprite"]={427},
-   ["Transform"]={428},
-   ["Hardness"]={429},
+   ["properties"]={460},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {178}
 {
-   ["properties"]={430},
-   ["path"]="Behaviours/Enemy",
+   ["Sprite"]={461},
+   ["Transform"]={462},
+   ["Collider"]={463},
 },
 -- Table: {179}
 {
-   ["Transform"]={431},
+   ["properties"]={464},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {180}
 {
-   ["Transform"]={432},
-   ["Sprite"]={433},
+   ["Sprite"]={465},
+   ["Transform"]={466},
+   ["Collider"]={467},
 },
 -- Table: {181}
 {
-   ["properties"]={434},
-   ["path"]="Behaviours/Spawner",
+   ["properties"]={468},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {182}
 {
-   ["Transform"]={435},
-   ["Sprite"]={436},
+   ["Sprite"]={469},
+   ["Transform"]={470},
+   ["Collider"]={471},
 },
 -- Table: {183}
 {
-   ["properties"]={437},
-   ["path"]="Behaviours/Spawner",
+   ["Sprite"]={472},
+   ["Transform"]={473},
+   ["Hardness"]={474},
+   ["Collider"]={475},
 },
 -- Table: {184}
 {
-   ["Transform"]={438},
-   ["Sprite"]={439},
+   ["Sprite"]={476},
+   ["Transform"]={477},
 },
 -- Table: {185}
 {
-   ["Transform"]={440},
+   ["Transform"]={478},
+   ["Sprite"]={479},
+   ["Collider"]={480},
+   ["Health"]={481},
+   ["Hardness"]={482},
 },
 -- Table: {186}
 {
-   ["properties"]={441},
-   ["path"]="Behaviours/HealthBar",
+   ["properties"]={483},
+   ["path"]="Behaviours/Spawner",
 },
 -- Table: {187}
 {
-   ["Health"]={442},
-   ["Collider"]={443},
-   ["Sprite"]={444},
-   ["Transform"]={445},
-   ["Hardness"]={446},
+   ["Sprite"]={484},
+   ["Transform"]={485},
 },
 -- Table: {188}
 {
-   ["properties"]={447},
-   ["path"]="Behaviours/Enemy",
+   ["properties"]={486},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {189}
 {
-   ["Health"]={448},
-   ["Collider"]={449},
-   ["Sprite"]={450},
-   ["Transform"]={451},
-   ["Hardness"]={452},
+   ["Sprite"]={487},
+   ["Transform"]={488},
+   ["Collider"]={489},
 },
 -- Table: {190}
 {
-   ["Transform"]={453},
-   ["Sprite"]={454},
+   ["properties"]={490},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {191}
 {
-   ["properties"]={455},
-   ["path"]="Behaviours/Spawner",
+   ["Sprite"]={491},
+   ["Transform"]={492},
+   ["Collider"]={493},
 },
 -- Table: {192}
 {
-   ["Transform"]={456},
-   ["Sprite"]={457},
+   ["properties"]={494},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {193}
 {
-   ["properties"]={458},
-   ["path"]="Behaviours/Spawner",
+   ["Sprite"]={495},
+   ["Transform"]={496},
+   ["Collider"]={497},
 },
 -- Table: {194}
 {
-   ["Transform"]={459},
-   ["Sprite"]={460},
+   ["properties"]={498},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {195}
 {
-   ["Transform"]={461},
+   ["Sprite"]={499},
+   ["Transform"]={500},
+   ["Collider"]={501},
 },
 -- Table: {196}
 {
-   ["properties"]={462},
-   ["path"]="Behaviours/HealthBar",
+   ["properties"]={502},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {197}
 {
-   ["Health"]={463},
-   ["Collider"]={464},
-   ["Sprite"]={465},
-   ["Transform"]={466},
-   ["Hardness"]={467},
+   ["Sprite"]={503},
+   ["Transform"]={504},
+   ["Collider"]={505},
 },
 -- Table: {198}
 {
-   ["properties"]={468},
-   ["path"]="Behaviours/Enemy",
+   ["Sprite"]={506},
+   ["Transform"]={507},
+   ["Hardness"]={508},
+   ["Collider"]={509},
 },
 -- Table: {199}
 {
-   ["Transform"]={469},
-   ["Sprite"]={470},
+   ["Sprite"]={510},
+   ["Transform"]={511},
 },
 -- Table: {200}
 {
-   ["Transform"]={471},
-   ["Sprite"]={472},
+   ["Transform"]={512},
+   ["Sprite"]={513},
+   ["Collider"]={514},
+   ["Health"]={515},
+   ["Hardness"]={516},
 },
 -- Table: {201}
 {
-   ["properties"]={473},
+   ["properties"]={517},
    ["path"]="Behaviours/Spawner",
 },
 -- Table: {202}
 {
-   ["Transform"]={474},
-   ["Sprite"]={475},
+   ["Sprite"]={518},
+   ["Transform"]={519},
 },
 -- Table: {203}
 {
-   ["properties"]={476},
-   ["path"]="Behaviours/Spawner",
+   ["properties"]={520},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {204}
 {
-   ["Transform"]={477},
-   ["Sprite"]={478},
+   ["Sprite"]={521},
+   ["Transform"]={522},
+   ["Collider"]={523},
 },
 -- Table: {205}
 {
-   ["position"]={479},
-   ["scale"]={480},
-   ["rotation"]=0.0,
+   ["properties"]={524},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {206}
 {
-   ["current"]=100.0,
-   ["max"]=100.0,
+   ["Sprite"]={525},
+   ["Transform"]={526},
+   ["Collider"]={527},
 },
 -- Table: {207}
 {
-   ["extents"]={481},
-   ["rotation"]=0.0,
-   ["offset"]={482},
-   ["debug"]=false,
-   ["tag"]="Enemy",
+   ["properties"]={528},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {208}
 {
-   ["color"]={483},
-   ["spriteName"]="Maxwell.png",
-   ["priority"]=30,
+   ["Sprite"]={529},
+   ["Transform"]={530},
+   ["Collider"]={531},
 },
 -- Table: {209}
 {
-   ["position"]={484},
-   ["scale"]={485},
-   ["rotation"]=147.31944274902,
+   ["Sprite"]={532},
+   ["Transform"]={533},
+   ["Hardness"]={534},
+   ["Collider"]={535},
 },
 -- Table: {210}
 {
-   ["hardness"]=0.10000000149012,
+   ["Sprite"]={536},
+   ["Transform"]={537},
 },
 -- Table: {211}
 {
-   ["position"]={486},
-   ["scale"]={487},
-   ["rotation"]=0.0,
+   ["Transform"]={538},
+   ["Sprite"]={539},
+   ["Collider"]={540},
+   ["Health"]={541},
+   ["Hardness"]={542},
 },
 -- Table: {212}
 {
-   ["color"]={488},
-   ["spriteName"]="",
-   ["priority"]=0,
+   ["properties"]={543},
+   ["path"]="Behaviours/Spawner",
 },
 -- Table: {213}
 {
-   ["position"]={489},
-   ["scale"]={490},
-   ["rotation"]=0.0,
+   ["Sprite"]={544},
+   ["Transform"]={545},
 },
 -- Table: {214}
 {
-   ["current"]=100.0,
-   ["max"]=100.0,
+   ["properties"]={546},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {215}
 {
-   ["extents"]={491},
-   ["rotation"]=0.0,
-   ["offset"]={492},
-   ["debug"]=false,
-   ["tag"]="Enemy",
+   ["Sprite"]={547},
+   ["Transform"]={548},
+   ["Collider"]={549},
 },
 -- Table: {216}
 {
-   ["color"]={493},
-   ["spriteName"]="Maxwell.png",
-   ["priority"]=30,
+   ["properties"]={550},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {217}
 {
-   ["position"]={494},
-   ["scale"]={495},
-   ["rotation"]=147.31944274902,
+   ["Sprite"]={551},
+   ["Transform"]={552},
+   ["Collider"]={553},
 },
 -- Table: {218}
 {
-   ["hardness"]=0.10000000149012,
+   ["properties"]={554},
+   ["path"]="Behaviours/HealthBar",
 },
 -- Table: {219}
 {
-   ["position"]={496},
-   ["scale"]={497},
-   ["rotation"]=0.0,
+   ["Transform"]={555},
 },
 -- Table: {220}
 {
-   ["color"]={498},
-   ["spriteName"]="",
-   ["priority"]=0,
+   ["properties"]={556},
+   ["path"]="Behaviours/Enemy",
 },
 -- Table: {221}
 {
-   ["position"]={499},
-   ["scale"]={500},
-   ["rotation"]=0.0,
+   ["Transform"]={557},
+   ["Sprite"]={558},
+   ["Collider"]={559},
+   ["Health"]={560},
+   ["Hardness"]={561},
 },
 -- Table: {222}
 {
-   ["current"]=100.0,
-   ["max"]=100.0,
+   ["properties"]={562},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {223}
 {
-   ["extents"]={501},
-   ["rotation"]=0.0,
-   ["offset"]={502},
-   ["debug"]=false,
-   ["tag"]="Enemy",
+   ["Sprite"]={563},
+   ["Transform"]={564},
+   ["Collider"]={565},
 },
 -- Table: {224}
 {
-   ["color"]={503},
-   ["spriteName"]="Maxwell.png",
-   ["priority"]=30,
+   ["properties"]={566},
+   ["path"]="Behaviours/Spawner",
 },
 -- Table: {225}
 {
-   ["position"]={504},
-   ["scale"]={505},
-   ["rotation"]=147.31944274902,
+   ["Sprite"]={567},
+   ["Transform"]={568},
 },
 -- Table: {226}
 {
-   ["hardness"]=0.10000000149012,
+   ["properties"]={569},
+   ["path"]="Behaviours/Spawner",
 },
 -- Table: {227}
 {
-   ["position"]={506},
-   ["scale"]={507},
-   ["rotation"]=0.0,
+   ["Sprite"]={570},
+   ["Transform"]={571},
 },
 -- Table: {228}
 {
-   ["color"]={508},
-   ["spriteName"]="",
-   ["priority"]=0,
+   ["Sprite"]={572},
+   ["Transform"]={573},
 },
 -- Table: {229}
 {
-   ["position"]={509},
-   ["scale"]={510},
-   ["rotation"]=0.0,
+   ["properties"]={574},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {230}
 {
-   ["current"]=100.0,
-   ["max"]=100.0,
+   ["Sprite"]={575},
+   ["Transform"]={576},
+   ["Collider"]={577},
 },
 -- Table: {231}
 {
-   ["extents"]={511},
-   ["rotation"]=0.0,
-   ["offset"]={512},
-   ["debug"]=false,
-   ["tag"]="Enemy",
+   ["properties"]={578},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {232}
 {
-   ["color"]={513},
-   ["spriteName"]="Maxwell.png",
-   ["priority"]=30,
+   ["Sprite"]={579},
+   ["Transform"]={580},
+   ["Collider"]={581},
 },
 -- Table: {233}
 {
-   ["position"]={514},
-   ["scale"]={515},
-   ["rotation"]=147.31944274902,
+   ["properties"]={582},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {234}
 {
-   ["hardness"]=0.10000000149012,
+   ["Sprite"]={583},
+   ["Transform"]={584},
+   ["Collider"]={585},
 },
 -- Table: {235}
 {
-   ["position"]={516},
-   ["scale"]={517},
-   ["rotation"]=0.0,
+   ["properties"]={586},
+   ["path"]="Behaviours/HealthBar",
 },
 -- Table: {236}
 {
-   ["color"]={518},
-   ["spriteName"]="",
-   ["priority"]=0,
+   ["Transform"]={587},
 },
 -- Table: {237}
 {
-   ["position"]={519},
-   ["scale"]={520},
-   ["rotation"]=0.0,
+   ["properties"]={588},
+   ["path"]="Behaviours/Enemy",
 },
 -- Table: {238}
 {
-   ["current"]=100.0,
-   ["max"]=100.0,
+   ["Transform"]={589},
+   ["Sprite"]={590},
+   ["Collider"]={591},
+   ["Health"]={592},
+   ["Hardness"]={593},
 },
 -- Table: {239}
 {
-   ["extents"]={521},
-   ["rotation"]=0.0,
-   ["offset"]={522},
-   ["debug"]=false,
-   ["tag"]="Enemy",
+   ["properties"]={594},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {240}
 {
-   ["color"]={523},
-   ["spriteName"]="Maxwell.png",
-   ["priority"]=30,
+   ["Sprite"]={595},
+   ["Transform"]={596},
+   ["Collider"]={597},
 },
 -- Table: {241}
 {
-   ["position"]={524},
-   ["scale"]={525},
-   ["rotation"]=147.31944274902,
+   ["properties"]={598},
+   ["path"]="Behaviours/Spawner",
 },
 -- Table: {242}
 {
-   ["hardness"]=0.10000000149012,
+   ["Sprite"]={599},
+   ["Transform"]={600},
 },
 -- Table: {243}
 {
-   ["position"]={526},
-   ["scale"]={527},
-   ["rotation"]=0.0,
+   ["properties"]={601},
+   ["path"]="Behaviours/Spawner",
 },
 -- Table: {244}
 {
-   ["color"]={528},
-   ["spriteName"]="",
-   ["priority"]=0,
+   ["Sprite"]={602},
+   ["Transform"]={603},
 },
 -- Table: {245}
 {
-   ["position"]={529},
-   ["scale"]={530},
-   ["rotation"]=0.0,
+   ["Sprite"]={604},
+   ["Transform"]={605},
 },
 -- Table: {246}
 {
-   ["current"]=100.0,
-   ["max"]=100.0,
+   ["properties"]={606},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {247}
 {
-   ["extents"]={531},
-   ["rotation"]=0.0,
-   ["offset"]={532},
-   ["debug"]=false,
-   ["tag"]="Enemy",
+   ["Sprite"]={607},
+   ["Transform"]={608},
+   ["Collider"]={609},
 },
 -- Table: {248}
 {
-   ["color"]={533},
-   ["spriteName"]="Maxwell.png",
-   ["priority"]=30,
+   ["properties"]={610},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {249}
 {
-   ["position"]={534},
-   ["scale"]={535},
-   ["rotation"]=147.31944274902,
+   ["Sprite"]={611},
+   ["Transform"]={612},
+   ["Collider"]={613},
 },
 -- Table: {250}
 {
-   ["hardness"]=0.10000000149012,
+   ["properties"]={614},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {251}
 {
-   ["position"]={536},
-   ["scale"]={537},
-   ["rotation"]=0.0,
+   ["Sprite"]={615},
+   ["Transform"]={616},
+   ["Collider"]={617},
 },
 -- Table: {252}
 {
-   ["color"]={538},
-   ["spriteName"]="",
-   ["priority"]=0,
+   ["properties"]={618},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {253}
 {
-   ["position"]={539},
-   ["scale"]={540},
-   ["rotation"]=0.0,
+   ["Sprite"]={619},
+   ["Transform"]={620},
+   ["Collider"]={621},
 },
 -- Table: {254}
 {
-   ["current"]=100.0,
-   ["max"]=100.0,
+   ["properties"]={622},
+   ["path"]="Behaviours/HealthBar",
 },
 -- Table: {255}
 {
-   ["extents"]={541},
-   ["rotation"]=0.0,
-   ["offset"]={542},
-   ["debug"]=false,
-   ["tag"]="Enemy",
+   ["Transform"]={623},
 },
 -- Table: {256}
 {
-   ["color"]={543},
-   ["spriteName"]="Maxwell.png",
-   ["priority"]=30,
+   ["properties"]={624},
+   ["path"]="Behaviours/Enemy",
 },
 -- Table: {257}
 {
-   ["position"]={544},
-   ["scale"]={545},
-   ["rotation"]=147.31944274902,
+   ["Transform"]={625},
+   ["Sprite"]={626},
+   ["Collider"]={627},
+   ["Health"]={628},
+   ["Hardness"]={629},
 },
 -- Table: {258}
 {
-   ["hardness"]=0.10000000149012,
+   ["properties"]={630},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {259}
 {
-   ["position"]={546},
-   ["scale"]={547},
-   ["rotation"]=0.0,
+   ["Sprite"]={631},
+   ["Transform"]={632},
+   ["Collider"]={633},
 },
 -- Table: {260}
 {
-   ["color"]={548},
-   ["spriteName"]="",
-   ["priority"]=0,
+   ["properties"]={634},
+   ["path"]="Behaviours/Spawner",
 },
 -- Table: {261}
 {
-   ["position"]={549},
-   ["scale"]={550},
-   ["rotation"]=0.0,
+   ["Sprite"]={635},
+   ["Transform"]={636},
 },
 -- Table: {262}
 {
-   ["current"]=100.0,
-   ["max"]=100.0,
+   ["properties"]={637},
+   ["path"]="Behaviours/Spawner",
 },
 -- Table: {263}
 {
-   ["extents"]={551},
-   ["rotation"]=0.0,
-   ["offset"]={552},
-   ["debug"]=true,
-   ["tag"]="Enemy",
+   ["Sprite"]={638},
+   ["Transform"]={639},
 },
 -- Table: {264}
 {
-   ["color"]={553},
-   ["spriteName"]="Maxwell.png",
-   ["priority"]=30,
+   ["Sprite"]={640},
+   ["Transform"]={641},
 },
 -- Table: {265}
 {
-   ["position"]={554},
-   ["scale"]={555},
-   ["rotation"]=49.689155578613,
+   ["properties"]={642},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {266}
 {
-   ["hardness"]=0.10000000149012,
+   ["Sprite"]={643},
+   ["Transform"]={644},
+   ["Collider"]={645},
 },
 -- Table: {267}
 {
-   ["position"]={556},
-   ["scale"]={557},
-   ["rotation"]=0.0,
+   ["properties"]={646},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {268}
 {
-   ["color"]={558},
-   ["spriteName"]="",
-   ["priority"]=0,
+   ["Sprite"]={647},
+   ["Transform"]={648},
+   ["Collider"]={649},
 },
 -- Table: {269}
 {
-   ["position"]={559},
-   ["scale"]={560},
-   ["rotation"]=0.0,
+   ["properties"]={650},
+   ["path"]="Behaviours/HealthBar",
 },
 -- Table: {270}
 {
-   ["current"]=100.0,
-   ["max"]=100.0,
+   ["Transform"]={651},
 },
 -- Table: {271}
 {
-   ["extents"]={561},
-   ["rotation"]=0.0,
-   ["offset"]={562},
-   ["debug"]=true,
-   ["tag"]="Enemy",
+   ["properties"]={652},
+   ["path"]="Behaviours/Enemy",
 },
 -- Table: {272}
 {
-   ["color"]={563},
-   ["spriteName"]="Maxwell.png",
-   ["priority"]=30,
+   ["Transform"]={653},
+   ["Sprite"]={654},
+   ["Collider"]={655},
+   ["Health"]={656},
+   ["Hardness"]={657},
 },
 -- Table: {273}
 {
-   ["position"]={564},
-   ["scale"]={565},
-   ["rotation"]=49.689155578613,
+   ["properties"]={658},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {274}
 {
-   ["hardness"]=0.10000000149012,
+   ["Sprite"]={659},
+   ["Transform"]={660},
+   ["Collider"]={661},
 },
 -- Table: {275}
 {
-   ["position"]={566},
-   ["scale"]={567},
-   ["rotation"]=0.0,
+   ["properties"]={662},
+   ["path"]="Behaviours/Spawner",
 },
 -- Table: {276}
 {
-   ["color"]={568},
-   ["spriteName"]="",
-   ["priority"]=0,
+   ["Sprite"]={663},
+   ["Transform"]={664},
 },
 -- Table: {277}
 {
-   ["position"]={569},
-   ["scale"]={570},
-   ["rotation"]=0.0,
+   ["properties"]={665},
+   ["path"]="Behaviours/Spawner",
 },
 -- Table: {278}
 {
-   ["current"]=100.0,
-   ["max"]=100.0,
+   ["Sprite"]={666},
+   ["Transform"]={667},
 },
 -- Table: {279}
 {
-   ["extents"]={571},
-   ["rotation"]=0.0,
-   ["offset"]={572},
-   ["debug"]=true,
-   ["tag"]="Enemy",
+   ["Sprite"]={668},
+   ["Transform"]={669},
 },
 -- Table: {280}
 {
-   ["color"]={573},
-   ["spriteName"]="Maxwell.png",
-   ["priority"]=30,
+   ["properties"]={670},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {281}
 {
-   ["position"]={574},
-   ["scale"]={575},
-   ["rotation"]=49.689155578613,
+   ["Sprite"]={671},
+   ["Transform"]={672},
+   ["Collider"]={673},
 },
 -- Table: {282}
 {
-   ["hardness"]=0.10000000149012,
+   ["properties"]={674},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {283}
 {
-   ["position"]={576},
-   ["scale"]={577},
-   ["rotation"]=0.0,
+   ["Sprite"]={675},
+   ["Transform"]={676},
+   ["Collider"]={677},
 },
 -- Table: {284}
 {
-   ["color"]={578},
-   ["spriteName"]="",
-   ["priority"]=0,
+   ["properties"]={678},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {285}
 {
-   ["position"]={579},
-   ["scale"]={580},
-   ["rotation"]=0.0,
+   ["Sprite"]={679},
+   ["Transform"]={680},
+   ["Collider"]={681},
 },
 -- Table: {286}
 {
-   ["current"]=100.0,
-   ["max"]=100.0,
+   ["properties"]={682},
+   ["path"]="Behaviours/HealthBar",
 },
 -- Table: {287}
 {
-   ["extents"]={581},
-   ["rotation"]=0.0,
-   ["offset"]={582},
-   ["debug"]=true,
-   ["tag"]="Enemy",
+   ["Transform"]={683},
 },
 -- Table: {288}
 {
-   ["color"]={583},
-   ["spriteName"]="Maxwell.png",
-   ["priority"]=30,
+   ["properties"]={684},
+   ["path"]="Behaviours/Enemy",
 },
 -- Table: {289}
 {
-   ["position"]={584},
-   ["scale"]={585},
-   ["rotation"]=49.689155578613,
+   ["Transform"]={685},
+   ["Sprite"]={686},
+   ["Collider"]={687},
+   ["Health"]={688},
+   ["Hardness"]={689},
 },
 -- Table: {290}
 {
-   ["hardness"]=0.10000000149012,
+   ["Sprite"]={690},
+   ["Transform"]={691},
+   ["Hardness"]={692},
+   ["Collider"]={693},
 },
 -- Table: {291}
 {
-   ["position"]={586},
-   ["scale"]={587},
-   ["rotation"]=0.0,
+   ["properties"]={694},
+   ["path"]="Behaviours/Spawner",
 },
 -- Table: {292}
 {
-   ["color"]={588},
-   ["spriteName"]="",
-   ["priority"]=0,
+   ["Sprite"]={695},
+   ["Transform"]={696},
 },
 -- Table: {293}
 {
-   ["position"]={589},
-   ["scale"]={590},
-   ["rotation"]=0.0,
+   ["properties"]={697},
+   ["path"]="Behaviours/Spawner",
 },
 -- Table: {294}
 {
-   ["current"]=100.0,
-   ["max"]=100.0,
+   ["Sprite"]={698},
+   ["Transform"]={699},
 },
 -- Table: {295}
 {
-   ["extents"]={591},
-   ["rotation"]=0.0,
-   ["offset"]={592},
-   ["debug"]=true,
-   ["tag"]="Enemy",
+   ["Sprite"]={700},
+   ["Transform"]={701},
 },
 -- Table: {296}
 {
-   ["color"]={593},
-   ["spriteName"]="Maxwell.png",
-   ["priority"]=30,
+   ["properties"]={702},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {297}
 {
-   ["position"]={594},
-   ["scale"]={595},
-   ["rotation"]=49.689155578613,
+   ["Sprite"]={703},
+   ["Transform"]={704},
+   ["Collider"]={705},
 },
 -- Table: {298}
 {
-   ["hardness"]=0.10000000149012,
+   ["properties"]={706},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {299}
 {
-   ["position"]={596},
-   ["scale"]={597},
-   ["rotation"]=0.0,
+   ["Sprite"]={707},
+   ["Transform"]={708},
+   ["Collider"]={709},
 },
 -- Table: {300}
 {
-   ["color"]={598},
-   ["spriteName"]="",
-   ["priority"]=0,
+   ["properties"]={710},
+   ["path"]="Behaviours/HealthBar",
 },
 -- Table: {301}
 {
-   ["position"]={599},
-   ["scale"]={600},
-   ["rotation"]=0.0,
+   ["Transform"]={711},
 },
 -- Table: {302}
 {
-   ["current"]=100.0,
-   ["max"]=100.0,
+   ["properties"]={712},
+   ["path"]="Behaviours/Enemy",
 },
 -- Table: {303}
 {
-   ["extents"]={601},
-   ["rotation"]=0.0,
-   ["offset"]={602},
-   ["debug"]=true,
-   ["tag"]="Enemy",
+   ["Transform"]={713},
+   ["Sprite"]={714},
+   ["Collider"]={715},
+   ["Health"]={716},
+   ["Hardness"]={717},
 },
 -- Table: {304}
 {
-   ["color"]={603},
-   ["spriteName"]="Maxwell.png",
-   ["priority"]=30,
+   ["Sprite"]={718},
+   ["Transform"]={719},
 },
 -- Table: {305}
 {
-   ["position"]={604},
-   ["scale"]={605},
-   ["rotation"]=49.689155578613,
+   ["properties"]={720},
+   ["path"]="Behaviours/Spawner",
 },
 -- Table: {306}
 {
-   ["hardness"]=0.10000000149012,
+   ["Sprite"]={721},
+   ["Transform"]={722},
 },
 -- Table: {307}
 {
-   ["position"]={606},
-   ["scale"]={607},
-   ["rotation"]=0.0,
+   ["properties"]={723},
+   ["path"]="Behaviours/Spawner",
 },
 -- Table: {308}
 {
-   ["color"]={608},
-   ["spriteName"]="",
-   ["priority"]=0,
+   ["Sprite"]={724},
+   ["Transform"]={725},
 },
 -- Table: {309}
 {
-   ["position"]={609},
-   ["scale"]={610},
-   ["rotation"]=0.0,
+   ["Sprite"]={726},
+   ["Transform"]={727},
 },
 -- Table: {310}
 {
-   ["current"]=100.0,
-   ["max"]=100.0,
+   ["properties"]={728},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {311}
 {
-   ["extents"]={611},
-   ["rotation"]=0.0,
-   ["offset"]={612},
-   ["debug"]=true,
-   ["tag"]="Enemy",
+   ["Sprite"]={729},
+   ["Transform"]={730},
+   ["Collider"]={731},
 },
 -- Table: {312}
 {
-   ["color"]={613},
-   ["spriteName"]="Maxwell.png",
-   ["priority"]=30,
+   ["properties"]={732},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {313}
 {
-   ["position"]={614},
-   ["scale"]={615},
-   ["rotation"]=49.689155578613,
+   ["Sprite"]={733},
+   ["Transform"]={734},
+   ["Collider"]={735},
 },
 -- Table: {314}
 {
-   ["hardness"]=0.10000000149012,
+   ["properties"]={736},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {315}
 {
-   ["position"]={616},
-   ["scale"]={617},
-   ["rotation"]=0.0,
+   ["Sprite"]={737},
+   ["Transform"]={738},
+   ["Collider"]={739},
 },
 -- Table: {316}
 {
-   ["color"]={618},
-   ["spriteName"]="",
-   ["priority"]=0,
+   ["properties"]={740},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {317}
 {
-   ["position"]={619},
-   ["scale"]={620},
-   ["rotation"]=0.0,
+   ["Sprite"]={741},
+   ["Transform"]={742},
+   ["Collider"]={743},
 },
 -- Table: {318}
 {
-   ["current"]=100.0,
-   ["max"]=100.0,
+   ["properties"]={744},
+   ["path"]="Behaviours/HealthBar",
 },
 -- Table: {319}
 {
-   ["extents"]={621},
-   ["rotation"]=0.0,
-   ["offset"]={622},
-   ["debug"]=true,
-   ["tag"]="Enemy",
+   ["Transform"]={745},
 },
 -- Table: {320}
 {
-   ["color"]={623},
-   ["spriteName"]="Maxwell.png",
-   ["priority"]=30,
+   ["properties"]={746},
+   ["path"]="Behaviours/Enemy",
 },
 -- Table: {321}
 {
-   ["position"]={624},
-   ["scale"]={625},
-   ["rotation"]=49.689155578613,
+   ["Transform"]={747},
+   ["Sprite"]={748},
+   ["Collider"]={749},
+   ["Health"]={750},
+   ["Hardness"]={751},
 },
 -- Table: {322}
 {
-   ["hardness"]=0.10000000149012,
+   ["Transform"]={752},
+   ["Sprite"]={753},
+   ["Collider"]={754},
+   ["Health"]={755},
+   ["Hardness"]={756},
 },
 -- Table: {323}
 {
-   ["position"]={626},
-   ["scale"]={627},
-   ["rotation"]=0.0,
+   ["properties"]={757},
+   ["path"]="Behaviours/Spawner",
 },
 -- Table: {324}
 {
-   ["color"]={628},
-   ["spriteName"]="",
-   ["priority"]=0,
+   ["Sprite"]={758},
+   ["Transform"]={759},
 },
 -- Table: {325}
 {
-   ["position"]={629},
-   ["scale"]={630},
-   ["rotation"]=0.0,
+   ["properties"]={760},
+   ["path"]="Behaviours/Spawner",
 },
 -- Table: {326}
 {
-   ["color"]={631},
-   ["spriteName"]="Spawner.png",
-   ["priority"]=30,
+   ["Sprite"]={761},
+   ["Transform"]={762},
 },
 -- Table: {327}
 {
-   ["counter"]=3,
-   ["spawnTimer"]=0.0,
-   ["prefab"]="Enemy",
-   ["capacity"]=3,
-   ["spawnRate"]=10.0,
+   ["Sprite"]={763},
+   ["Transform"]={764},
 },
 -- Table: {328}
 {
-   ["current"]=100.0,
-   ["max"]=100.0,
+   ["properties"]={765},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {329}
 {
-   ["extents"]={632},
-   ["rotation"]=0.0,
-   ["offset"]={633},
-   ["debug"]=true,
-   ["tag"]="Enemy",
+   ["Sprite"]={766},
+   ["Transform"]={767},
+   ["Collider"]={768},
 },
 -- Table: {330}
 {
-   ["color"]={634},
-   ["spriteName"]="Maxwell.png",
-   ["priority"]=30,
+   ["properties"]={769},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {331}
 {
-   ["position"]={635},
-   ["scale"]={636},
-   ["rotation"]=355.63983154297,
+   ["Sprite"]={770},
+   ["Transform"]={771},
+   ["Collider"]={772},
 },
 -- Table: {332}
 {
-   ["hardness"]=0.10000000149012,
+   ["properties"]={773},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {333}
 {
-   ["position"]={637},
-   ["scale"]={638},
-   ["rotation"]=0.0,
+   ["Sprite"]={774},
+   ["Transform"]={775},
+   ["Collider"]={776},
 },
 -- Table: {334}
 {
-   ["color"]={639},
-   ["spriteName"]="",
-   ["priority"]=0,
+   ["properties"]={777},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {335}
 {
-   ["color"]={640},
-   ["spriteName"]="",
-   ["priority"]=25,
+   ["Sprite"]={778},
+   ["Transform"]={779},
+   ["Collider"]={780},
 },
 -- Table: {336}
 {
-   ["extents"]={641},
-   ["rotation"]=0.0,
-   ["offset"]={642},
-   ["debug"]=false,
-   ["tag"]="Solid",
+   ["properties"]={781},
+   ["path"]="Behaviours/HealthBar",
 },
 -- Table: {337}
 {
-   ["position"]={643},
-   ["scale"]={644},
-   ["rotation"]=0.0,
+   ["Transform"]={782},
 },
 -- Table: {338}
 {
-   ["hardness"]=6.0,
+   ["properties"]={783},
+   ["path"]="Behaviours/Enemy",
 },
 -- Table: {339}
 {
-   ["position"]={645},
-   ["scale"]={646},
-   ["rotation"]=0.0,
+   ["Transform"]={784},
+   ["Sprite"]={785},
+   ["Collider"]={786},
+   ["Health"]={787},
+   ["Hardness"]={788},
 },
 -- Table: {340}
 {
-   ["color"]={647},
-   ["spriteName"]="Spawner.png",
-   ["priority"]=30,
+   ["properties"]={789},
+   ["path"]="Behaviours/Spawner",
 },
 -- Table: {341}
 {
-   ["counter"]=3,
-   ["spawnTimer"]=0.0,
-   ["prefab"]="Enemy",
-   ["capacity"]=3,
-   ["spawnRate"]=10.0,
+   ["Sprite"]={790},
+   ["Transform"]={791},
 },
 -- Table: {342}
 {
-   ["current"]=100.0,
-   ["max"]=100.0,
+   ["properties"]={792},
+   ["path"]="Behaviours/Spawner",
 },
 -- Table: {343}
 {
-   ["extents"]={648},
-   ["rotation"]=0.0,
-   ["offset"]={649},
-   ["debug"]=true,
-   ["tag"]="Enemy",
+   ["Sprite"]={793},
+   ["Transform"]={794},
 },
 -- Table: {344}
 {
-   ["color"]={650},
-   ["spriteName"]="Maxwell.png",
-   ["priority"]=30,
+   ["properties"]={795},
+   ["path"]="Behaviours/Spawner",
 },
 -- Table: {345}
 {
-   ["position"]={651},
-   ["scale"]={652},
-   ["rotation"]=355.63983154297,
+   ["Sprite"]={796},
+   ["Transform"]={797},
 },
 -- Table: {346}
 {
-   ["hardness"]=0.10000000149012,
+   ["Sprite"]={798},
+   ["Transform"]={799},
 },
 -- Table: {347}
 {
-   ["position"]={653},
-   ["scale"]={654},
-   ["rotation"]=0.0,
+   ["properties"]={800},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {348}
 {
-   ["color"]={655},
-   ["spriteName"]="",
-   ["priority"]=0,
+   ["Sprite"]={801},
+   ["Transform"]={802},
+   ["Collider"]={803},
 },
 -- Table: {349}
 {
-   ["color"]={656},
-   ["spriteName"]="",
-   ["priority"]=25,
+   ["properties"]={804},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {350}
 {
-   ["extents"]={657},
-   ["rotation"]=0.0,
-   ["offset"]={658},
-   ["debug"]=false,
-   ["tag"]="Solid",
+   ["Sprite"]={805},
+   ["Transform"]={806},
+   ["Collider"]={807},
 },
 -- Table: {351}
 {
-   ["position"]={659},
-   ["scale"]={660},
-   ["rotation"]=0.0,
+   ["properties"]={808},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {352}
 {
-   ["hardness"]=6.0,
+   ["Sprite"]={809},
+   ["Transform"]={810},
+   ["Collider"]={811},
 },
 -- Table: {353}
 {
-   ["position"]={661},
-   ["scale"]={662},
-   ["rotation"]=0.0,
+   ["properties"]={812},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {354}
 {
-   ["color"]={663},
-   ["spriteName"]="Spawner.png",
-   ["priority"]=30,
+   ["Sprite"]={813},
+   ["Transform"]={814},
+   ["Collider"]={815},
 },
 -- Table: {355}
 {
-   ["counter"]=3,
-   ["spawnTimer"]=0.0,
-   ["prefab"]="Enemy",
-   ["capacity"]=3,
-   ["spawnRate"]=10.0,
+   ["properties"]={816},
+   ["path"]="Behaviours/Door",
 },
 -- Table: {356}
 {
-   ["current"]=100.0,
-   ["max"]=100.0,
+   ["Sprite"]={817},
+   ["Transform"]={818},
+   ["Collider"]={819},
 },
 -- Table: {357}
 {
-   ["extents"]={664},
-   ["rotation"]=0.0,
-   ["offset"]={665},
-   ["debug"]=true,
-   ["tag"]="Enemy",
+   ["Sprite"]={820},
+   ["Transform"]={821},
+   ["Hardness"]={822},
+   ["Collider"]={823},
 },
 -- Table: {358}
 {
-   ["color"]={666},
-   ["spriteName"]="Maxwell.png",
-   ["priority"]=30,
+   ["Sprite"]={824},
+   ["Transform"]={825},
 },
 -- Table: {359}
 {
-   ["position"]={667},
-   ["scale"]={668},
-   ["rotation"]=355.63983154297,
+   ["Transform"]={826},
+   ["Sprite"]={827},
+   ["Collider"]={828},
+   ["Health"]={829},
+   ["Hardness"]={830},
 },
 -- Table: {360}
 {
-   ["hardness"]=0.10000000149012,
+   ["properties"]={831},
+   ["path"]="Behaviours/Spawner",
 },
 -- Table: {361}
 {
-   ["position"]={669},
-   ["scale"]={670},
-   ["rotation"]=0.0,
+   ["Sprite"]={832},
+   ["Transform"]={833},
 },
 -- Table: {362}
 {
-   ["color"]={671},
-   ["spriteName"]="",
-   ["priority"]=0,
+   ["linkID"]=5,
 },
 -- Table: {363}
 {
-   ["color"]={672},
-   ["spriteName"]="",
-   ["priority"]=25,
+   ["spriteName"]="Door.png",
+   ["color"]={834},
+   ["priority"]=100,
 },
 -- Table: {364}
 {
-   ["extents"]={673},
+   ["scale"]={835},
+   ["position"]={836},
    ["rotation"]=0.0,
-   ["offset"]={674},
-   ["debug"]=false,
-   ["tag"]="Solid",
 },
 -- Table: {365}
 {
-   ["position"]={675},
-   ["scale"]={676},
+   ["tag"]="Door",
+   ["offset"]={837},
+   ["debug"]=false,
+   ["extents"]={838},
    ["rotation"]=0.0,
 },
 -- Table: {366}
 {
-   ["hardness"]=6.0,
+   ["linkID"]=110,
 },
 -- Table: {367}
 {
-   ["position"]={677},
-   ["scale"]={678},
-   ["rotation"]=0.0,
+   ["spriteName"]="Door.png",
+   ["color"]={839},
+   ["priority"]=100,
 },
 -- Table: {368}
 {
-   ["color"]={679},
-   ["spriteName"]="Spawner.png",
-   ["priority"]=30,
+   ["scale"]={840},
+   ["position"]={841},
+   ["rotation"]=0.0,
 },
 -- Table: {369}
 {
-   ["counter"]=3,
-   ["spawnTimer"]=0.0,
-   ["prefab"]="Enemy",
-   ["capacity"]=3,
-   ["spawnRate"]=10.0,
+   ["tag"]="Door",
+   ["offset"]={842},
+   ["debug"]=false,
+   ["extents"]={843},
+   ["rotation"]=0.0,
 },
 -- Table: {370}
 {
-   ["current"]=100.0,
-   ["max"]=100.0,
+   ["linkID"]=16,
 },
 -- Table: {371}
 {
-   ["extents"]={680},
-   ["rotation"]=0.0,
-   ["offset"]={681},
-   ["debug"]=true,
-   ["tag"]="Enemy",
+   ["spriteName"]="Door.png",
+   ["color"]={844},
+   ["priority"]=100,
 },
 -- Table: {372}
 {
-   ["color"]={682},
-   ["spriteName"]="Maxwell.png",
-   ["priority"]=30,
+   ["scale"]={845},
+   ["position"]={846},
+   ["rotation"]=0.0,
 },
 -- Table: {373}
 {
-   ["position"]={683},
-   ["scale"]={684},
-   ["rotation"]=355.63983154297,
+   ["tag"]="Door",
+   ["offset"]={847},
+   ["debug"]=false,
+   ["extents"]={848},
+   ["rotation"]=0.0,
 },
 -- Table: {374}
 {
-   ["hardness"]=0.10000000149012,
 },
 -- Table: {375}
 {
-   ["position"]={685},
-   ["scale"]={686},
-   ["rotation"]=0.0,
+   ["spriteName"]="Door.png",
+   ["color"]={849},
+   ["priority"]=100,
 },
 -- Table: {376}
 {
-   ["color"]={687},
-   ["spriteName"]="",
-   ["priority"]=0,
+   ["scale"]={850},
+   ["position"]={851},
+   ["rotation"]=0.0,
 },
 -- Table: {377}
 {
-   ["color"]={688},
-   ["spriteName"]="",
-   ["priority"]=25,
+   ["tag"]="Door",
+   ["offset"]={852},
+   ["debug"]=false,
+   ["extents"]={853},
+   ["rotation"]=0.0,
 },
 -- Table: {378}
 {
-   ["extents"]={689},
-   ["rotation"]=0.0,
-   ["offset"]={690},
-   ["debug"]=false,
-   ["tag"]="Solid",
+   ["spriteName"]="",
+   ["color"]={854},
+   ["priority"]=25,
 },
 -- Table: {379}
 {
-   ["position"]={691},
-   ["scale"]={692},
+   ["scale"]={855},
+   ["position"]={856},
    ["rotation"]=0.0,
 },
 -- Table: {380}
@@ -2156,48 +2127,48 @@ return {
 },
 -- Table: {381}
 {
-   ["position"]={693},
-   ["scale"]={694},
+   ["tag"]="Solid",
+   ["debug"]=false,
+   ["extents"]={857},
+   ["offset"]={858},
    ["rotation"]=0.0,
 },
 -- Table: {382}
 {
-   ["color"]={695},
-   ["spriteName"]="Spawner.png",
-   ["priority"]=30,
+   ["spriteName"]="",
+   ["color"]={859},
+   ["priority"]=0,
 },
 -- Table: {383}
 {
-   ["counter"]=3,
-   ["spawnTimer"]=0.0,
-   ["prefab"]="Enemy",
-   ["capacity"]=3,
-   ["spawnRate"]=10.0,
+   ["scale"]={860},
+   ["position"]={861},
+   ["rotation"]=0.0,
 },
 -- Table: {384}
 {
-   ["current"]=100.0,
-   ["max"]=100.0,
+   ["scale"]={862},
+   ["position"]={863},
+   ["rotation"]=355.63983154297,
 },
 -- Table: {385}
 {
-   ["extents"]={696},
-   ["rotation"]=0.0,
-   ["offset"]={697},
-   ["debug"]=true,
-   ["tag"]="Enemy",
+   ["spriteName"]="Maxwell.png",
+   ["color"]={864},
+   ["priority"]=30,
 },
 -- Table: {386}
 {
-   ["color"]={698},
-   ["spriteName"]="Maxwell.png",
-   ["priority"]=30,
+   ["tag"]="Enemy",
+   ["debug"]=true,
+   ["extents"]={865},
+   ["offset"]={866},
+   ["rotation"]=0.0,
 },
 -- Table: {387}
 {
-   ["position"]={699},
-   ["scale"]={700},
-   ["rotation"]=355.63983154297,
+   ["max"]=100.0,
+   ["current"]=100.0,
 },
 -- Table: {388}
 {
@@ -2205,388 +2176,383 @@ return {
 },
 -- Table: {389}
 {
-   ["position"]={701},
-   ["scale"]={702},
-   ["rotation"]=0.0,
+   ["prefab"]="Enemy",
+   ["spawnTimer"]=0.0,
+   ["capacity"]=3,
+   ["spawnRate"]=10.0,
+   ["counter"]=3,
 },
 -- Table: {390}
 {
-   ["color"]={703},
-   ["spriteName"]="",
-   ["priority"]=0,
+   ["spriteName"]="Spawner.png",
+   ["color"]={867},
+   ["priority"]=30,
 },
 -- Table: {391}
 {
-   ["color"]={704},
-   ["spriteName"]="",
-   ["priority"]=25,
+   ["scale"]={868},
+   ["position"]={869},
+   ["rotation"]=0.0,
 },
 -- Table: {392}
 {
-   ["extents"]={705},
-   ["rotation"]=0.0,
-   ["offset"]={706},
-   ["debug"]=false,
-   ["tag"]="Solid",
+   ["linkID"]=61,
 },
 -- Table: {393}
 {
-   ["position"]={707},
-   ["scale"]={708},
-   ["rotation"]=0.0,
+   ["spriteName"]="Door.png",
+   ["color"]={870},
+   ["priority"]=100,
 },
 -- Table: {394}
 {
-   ["hardness"]=6.0,
+   ["scale"]={871},
+   ["position"]={872},
+   ["rotation"]=0.0,
 },
 -- Table: {395}
 {
-   ["position"]={709},
-   ["scale"]={710},
+   ["tag"]="Door",
+   ["offset"]={873},
+   ["debug"]=false,
+   ["extents"]={874},
    ["rotation"]=0.0,
 },
 -- Table: {396}
 {
-   ["color"]={711},
-   ["spriteName"]="Spawner.png",
-   ["priority"]=30,
+   ["linkID"]=93,
 },
 -- Table: {397}
 {
-   ["counter"]=3,
-   ["spawnTimer"]=0.0,
-   ["prefab"]="Enemy",
-   ["capacity"]=3,
-   ["spawnRate"]=10.0,
+   ["spriteName"]="Door.png",
+   ["color"]={875},
+   ["priority"]=100,
 },
 -- Table: {398}
 {
-   ["current"]=100.0,
-   ["max"]=100.0,
+   ["scale"]={876},
+   ["position"]={877},
+   ["rotation"]=0.0,
 },
 -- Table: {399}
 {
-   ["extents"]={712},
+   ["tag"]="Door",
+   ["offset"]={878},
+   ["debug"]=false,
+   ["extents"]={879},
    ["rotation"]=0.0,
-   ["offset"]={713},
-   ["debug"]=true,
-   ["tag"]="Enemy",
 },
 -- Table: {400}
 {
-   ["color"]={714},
-   ["spriteName"]="Maxwell.png",
-   ["priority"]=30,
+   ["linkID"]=102,
 },
 -- Table: {401}
 {
-   ["position"]={715},
-   ["scale"]={716},
-   ["rotation"]=355.63983154297,
+   ["spriteName"]="Door.png",
+   ["color"]={880},
+   ["priority"]=100,
 },
 -- Table: {402}
 {
-   ["hardness"]=0.10000000149012,
+   ["scale"]={881},
+   ["position"]={882},
+   ["rotation"]=0.0,
 },
 -- Table: {403}
 {
-   ["position"]={717},
-   ["scale"]={718},
+   ["tag"]="Door",
+   ["offset"]={883},
+   ["debug"]=false,
+   ["extents"]={884},
    ["rotation"]=0.0,
 },
 -- Table: {404}
 {
-   ["color"]={719},
-   ["spriteName"]="",
-   ["priority"]=0,
+   ["linkID"]=26,
 },
 -- Table: {405}
 {
-   ["color"]={720},
-   ["spriteName"]="",
-   ["priority"]=25,
+   ["spriteName"]="Door.png",
+   ["color"]={885},
+   ["priority"]=100,
 },
 -- Table: {406}
 {
-   ["extents"]={721},
+   ["scale"]={886},
+   ["position"]={887},
    ["rotation"]=0.0,
-   ["offset"]={722},
-   ["debug"]=false,
-   ["tag"]="Solid",
 },
 -- Table: {407}
 {
-   ["position"]={723},
-   ["scale"]={724},
+   ["tag"]="Door",
+   ["offset"]={888},
+   ["debug"]=false,
+   ["extents"]={889},
    ["rotation"]=0.0,
 },
 -- Table: {408}
 {
-   ["hardness"]=6.0,
 },
 -- Table: {409}
 {
-   ["position"]={725},
-   ["scale"]={726},
-   ["rotation"]=0.0,
+   ["spriteName"]="Door.png",
+   ["color"]={890},
+   ["priority"]=100,
 },
 -- Table: {410}
 {
-   ["color"]={727},
-   ["spriteName"]="Spawner.png",
-   ["priority"]=30,
+   ["scale"]={891},
+   ["position"]={892},
+   ["rotation"]=0.0,
 },
 -- Table: {411}
 {
-   ["counter"]=3,
-   ["spawnTimer"]=0.0,
-   ["prefab"]="Enemy",
-   ["capacity"]=3,
-   ["spawnRate"]=10.0,
+   ["tag"]="Door",
+   ["offset"]={893},
+   ["debug"]=false,
+   ["extents"]={894},
+   ["rotation"]=0.0,
 },
 -- Table: {412}
 {
-   ["current"]=100.0,
-   ["max"]=100.0,
+   ["spriteName"]="",
+   ["color"]={895},
+   ["priority"]=25,
 },
 -- Table: {413}
 {
-   ["extents"]={728},
+   ["scale"]={896},
+   ["position"]={897},
    ["rotation"]=0.0,
-   ["offset"]={729},
-   ["debug"]=true,
-   ["tag"]="Enemy",
 },
 -- Table: {414}
 {
-   ["color"]={730},
-   ["spriteName"]="Maxwell.png",
-   ["priority"]=30,
+   ["hardness"]=6.0,
 },
 -- Table: {415}
 {
-   ["position"]={731},
-   ["scale"]={732},
-   ["rotation"]=355.63983154297,
+   ["tag"]="Solid",
+   ["debug"]=false,
+   ["extents"]={898},
+   ["offset"]={899},
+   ["rotation"]=0.0,
 },
 -- Table: {416}
 {
-   ["hardness"]=0.10000000149012,
+   ["spriteName"]="",
+   ["color"]={900},
+   ["priority"]=0,
 },
 -- Table: {417}
 {
-   ["position"]={733},
-   ["scale"]={734},
+   ["scale"]={901},
+   ["position"]={902},
    ["rotation"]=0.0,
 },
 -- Table: {418}
 {
-   ["color"]={735},
-   ["spriteName"]="",
-   ["priority"]=0,
+   ["scale"]={903},
+   ["position"]={904},
+   ["rotation"]=355.63983154297,
 },
 -- Table: {419}
 {
-   ["color"]={736},
-   ["spriteName"]="",
-   ["priority"]=25,
+   ["spriteName"]="Maxwell.png",
+   ["color"]={905},
+   ["priority"]=30,
 },
 -- Table: {420}
 {
-   ["extents"]={737},
+   ["tag"]="Enemy",
+   ["debug"]=true,
+   ["extents"]={906},
+   ["offset"]={907},
    ["rotation"]=0.0,
-   ["offset"]={738},
-   ["debug"]=false,
-   ["tag"]="Solid",
 },
 -- Table: {421}
 {
-   ["position"]={739},
-   ["scale"]={740},
-   ["rotation"]=0.0,
+   ["max"]=100.0,
+   ["current"]=100.0,
 },
 -- Table: {422}
 {
-   ["hardness"]=6.0,
+   ["hardness"]=0.10000000149012,
 },
 -- Table: {423}
 {
-   ["position"]={741},
-   ["scale"]={742},
-   ["rotation"]=0.0,
+   ["prefab"]="Enemy",
+   ["spawnTimer"]=0.0,
+   ["capacity"]=3,
+   ["spawnRate"]=10.0,
+   ["counter"]=3,
 },
 -- Table: {424}
 {
-   ["speed"]=16,
-   ["trans"]={743},
-   ["target"]=4194321,
-   ["textRender"]={744},
+   ["spriteName"]="Spawner.png",
+   ["color"]={908},
+   ["priority"]=30,
 },
 -- Table: {425}
 {
-   ["current"]=100.0,
-   ["max"]=100.0,
+   ["scale"]={909},
+   ["position"]={910},
+   ["rotation"]=0.0,
 },
 -- Table: {426}
 {
-   ["extents"]={745},
-   ["rotation"]=0.0,
-   ["offset"]={746},
-   ["debug"]=true,
-   ["tag"]="Enemy",
+   ["linkID"]=127,
 },
 -- Table: {427}
 {
-   ["color"]={747},
-   ["spriteName"]="Maxwell.png",
-   ["priority"]=30,
+   ["spriteName"]="Door.png",
+   ["color"]={911},
+   ["priority"]=100,
 },
 -- Table: {428}
 {
-   ["position"]={748},
-   ["scale"]={749},
-   ["rotation"]=254.43925476074,
+   ["scale"]={912},
+   ["position"]={913},
+   ["rotation"]=0.0,
 },
 -- Table: {429}
 {
-   ["hardness"]=0.10000000149012,
+   ["tag"]="Door",
+   ["offset"]={914},
+   ["debug"]=false,
+   ["extents"]={915},
+   ["rotation"]=0.0,
 },
 -- Table: {430}
 {
-   ["speed"]=35,
-   ["trans"]={750},
-   ["wanderPoint"]={751},
+   ["linkID"]=86,
 },
 -- Table: {431}
 {
-   ["position"]={752},
-   ["scale"]={753},
-   ["rotation"]=0.0,
+   ["spriteName"]="Door.png",
+   ["color"]={916},
+   ["priority"]=100,
 },
 -- Table: {432}
 {
-   ["position"]={754},
-   ["scale"]={755},
+   ["scale"]={917},
+   ["position"]={918},
    ["rotation"]=0.0,
 },
 -- Table: {433}
 {
-   ["color"]={756},
-   ["spriteName"]="Spawner.png",
-   ["priority"]=30,
+   ["tag"]="Door",
+   ["offset"]={919},
+   ["debug"]=false,
+   ["extents"]={920},
+   ["rotation"]=0.0,
 },
 -- Table: {434}
 {
-   ["counter"]=3,
-   ["spawnTimer"]=0.0,
-   ["prefab"]="Enemy",
-   ["capacity"]=3,
-   ["spawnRate"]=10.0,
+   ["linkID"]=5,
 },
 -- Table: {435}
 {
-   ["position"]={757},
-   ["scale"]={758},
-   ["rotation"]=0.0,
+   ["spriteName"]="Door.png",
+   ["color"]={921},
+   ["priority"]=100,
 },
 -- Table: {436}
 {
-   ["color"]={759},
-   ["spriteName"]="Spawner.png",
-   ["priority"]=30,
+   ["scale"]={922},
+   ["position"]={923},
+   ["rotation"]=0.0,
 },
 -- Table: {437}
 {
-   ["counter"]=3,
-   ["spawnTimer"]=0.0,
-   ["prefab"]="Enemy",
-   ["capacity"]=3,
-   ["spawnRate"]=10.0,
+   ["tag"]="Door",
+   ["offset"]={924},
+   ["debug"]=false,
+   ["extents"]={925},
+   ["rotation"]=0.0,
 },
 -- Table: {438}
 {
-   ["position"]={760},
-   ["scale"]={761},
-   ["rotation"]=0.0,
 },
 -- Table: {439}
 {
-   ["color"]={762},
-   ["spriteName"]="Fallback.png",
-   ["priority"]=-10,
+   ["spriteName"]="Door.png",
+   ["color"]={926},
+   ["priority"]=100,
 },
 -- Table: {440}
 {
-   ["position"]={763},
-   ["scale"]={764},
+   ["scale"]={927},
+   ["position"]={928},
    ["rotation"]=0.0,
 },
 -- Table: {441}
 {
-   ["speed"]=16,
-   ["trans"]={765},
-   ["target"]=4194315,
-   ["textRender"]={766},
+   ["tag"]="Door",
+   ["offset"]={929},
+   ["debug"]=false,
+   ["extents"]={930},
+   ["rotation"]=0.0,
 },
 -- Table: {442}
 {
-   ["current"]=100.0,
-   ["max"]=100.0,
+   ["spriteName"]="",
+   ["color"]={931},
+   ["priority"]=25,
 },
 -- Table: {443}
 {
-   ["extents"]={767},
+   ["scale"]={932},
+   ["position"]={933},
    ["rotation"]=0.0,
-   ["offset"]={768},
-   ["debug"]=true,
-   ["tag"]="Enemy",
 },
 -- Table: {444}
 {
-   ["color"]={769},
-   ["spriteName"]="Maxwell.png",
-   ["priority"]=30,
+   ["hardness"]=6.0,
 },
 -- Table: {445}
 {
-   ["position"]={770},
-   ["scale"]={771},
-   ["rotation"]=200.36445617676,
+   ["tag"]="Solid",
+   ["debug"]=false,
+   ["extents"]={934},
+   ["offset"]={935},
+   ["rotation"]=0.0,
 },
 -- Table: {446}
 {
-   ["hardness"]=0.10000000149012,
+   ["spriteName"]="",
+   ["color"]={936},
+   ["priority"]=0,
 },
 -- Table: {447}
 {
-   ["speed"]=35,
-   ["trans"]={772},
-   ["wanderPoint"]={751},
+   ["scale"]={937},
+   ["position"]={938},
+   ["rotation"]=0.0,
 },
 -- Table: {448}
 {
-   ["current"]=100.0,
-   ["max"]=100.0,
+   ["scale"]={939},
+   ["position"]={940},
+   ["rotation"]=355.63983154297,
 },
 -- Table: {449}
 {
-   ["extents"]={773},
-   ["rotation"]=0.0,
-   ["offset"]={774},
-   ["debug"]=false,
-   ["tag"]="Enemy",
+   ["spriteName"]="Maxwell.png",
+   ["color"]={941},
+   ["priority"]=30,
 },
 -- Table: {450}
 {
-   ["color"]={775},
-   ["spriteName"]="Maxwell.png",
-   ["priority"]=30,
+   ["tag"]="Enemy",
+   ["debug"]=true,
+   ["extents"]={942},
+   ["offset"]={943},
+   ["rotation"]=0.0,
 },
 -- Table: {451}
 {
-   ["position"]={776},
-   ["scale"]={777},
-   ["rotation"]=147.31944274902,
+   ["max"]=100.0,
+   ["current"]=100.0,
 },
 -- Table: {452}
 {
@@ -2594,2104 +2560,5797 @@ return {
 },
 -- Table: {453}
 {
-   ["position"]={778},
-   ["scale"]={779},
-   ["rotation"]=0.0,
+   ["prefab"]="Enemy",
+   ["spawnTimer"]=0.0,
+   ["capacity"]=3,
+   ["spawnRate"]=10.0,
+   ["counter"]=3,
 },
 -- Table: {454}
 {
-   ["color"]={780},
    ["spriteName"]="Spawner.png",
+   ["color"]={944},
    ["priority"]=30,
 },
 -- Table: {455}
 {
-   ["counter"]=3,
-   ["spawnTimer"]=0.0,
-   ["prefab"]="Enemy",
-   ["capacity"]=3,
-   ["spawnRate"]=10.0,
+   ["scale"]={945},
+   ["position"]={946},
+   ["rotation"]=0.0,
 },
 -- Table: {456}
 {
-   ["position"]={781},
-   ["scale"]={782},
-   ["rotation"]=0.0,
+   ["linkID"]=71,
 },
 -- Table: {457}
 {
-   ["color"]={783},
-   ["spriteName"]="Spawner.png",
-   ["priority"]=30,
+   ["spriteName"]="Door.png",
+   ["color"]={947},
+   ["priority"]=100,
 },
 -- Table: {458}
 {
-   ["counter"]=3,
-   ["spawnTimer"]=0.0,
-   ["prefab"]="Enemy",
-   ["capacity"]=3,
-   ["spawnRate"]=10.0,
+   ["scale"]={948},
+   ["position"]={949},
+   ["rotation"]=0.0,
 },
 -- Table: {459}
 {
-   ["position"]={784},
-   ["scale"]={785},
+   ["tag"]="Door",
+   ["offset"]={950},
+   ["debug"]=false,
+   ["extents"]={951},
    ["rotation"]=0.0,
 },
 -- Table: {460}
 {
-   ["color"]={786},
-   ["spriteName"]="Fallback.png",
-   ["priority"]=-10,
+   ["linkID"]=118,
 },
 -- Table: {461}
 {
-   ["position"]={787},
-   ["scale"]={788},
-   ["rotation"]=0.0,
+   ["spriteName"]="Door.png",
+   ["color"]={952},
+   ["priority"]=100,
 },
 -- Table: {462}
 {
-   ["speed"]=16,
-   ["trans"]={789},
-   ["target"]=5242885,
-   ["textRender"]={790},
+   ["scale"]={953},
+   ["position"]={954},
+   ["rotation"]=0.0,
 },
 -- Table: {463}
 {
-   ["current"]=100.0,
-   ["max"]=100.0,
+   ["tag"]="Door",
+   ["offset"]={955},
+   ["debug"]=false,
+   ["extents"]={956},
+   ["rotation"]=0.0,
 },
 -- Table: {464}
 {
-   ["extents"]={791},
-   ["rotation"]=0.0,
-   ["offset"]={792},
-   ["debug"]=true,
-   ["tag"]="Enemy",
+   ["linkID"]=26,
 },
 -- Table: {465}
 {
-   ["color"]={793},
-   ["spriteName"]="Maxwell.png",
-   ["priority"]=30,
+   ["spriteName"]="Door.png",
+   ["color"]={957},
+   ["priority"]=100,
 },
 -- Table: {466}
 {
-   ["position"]={794},
-   ["scale"]={795},
-   ["rotation"]=351.52520751953,
+   ["scale"]={958},
+   ["position"]={959},
+   ["rotation"]=0.0,
 },
 -- Table: {467}
 {
-   ["hardness"]=0.10000000149012,
+   ["tag"]="Door",
+   ["offset"]={960},
+   ["debug"]=false,
+   ["extents"]={961},
+   ["rotation"]=0.0,
 },
 -- Table: {468}
 {
-   ["speed"]=35,
-   ["trans"]={796},
-   ["wanderPoint"]={751},
 },
 -- Table: {469}
 {
-   ["position"]={797},
-   ["scale"]={798},
-   ["rotation"]=0.0,
+   ["spriteName"]="Door.png",
+   ["color"]={962},
+   ["priority"]=100,
 },
 -- Table: {470}
 {
-   ["color"]={799},
-   ["spriteName"]="",
-   ["priority"]=0,
+   ["scale"]={963},
+   ["position"]={964},
+   ["rotation"]=0.0,
 },
 -- Table: {471}
 {
-   ["position"]={800},
-   ["scale"]={801},
+   ["tag"]="Door",
+   ["offset"]={965},
+   ["debug"]=false,
+   ["extents"]={966},
    ["rotation"]=0.0,
 },
 -- Table: {472}
 {
-   ["color"]={802},
-   ["spriteName"]="Spawner.png",
-   ["priority"]=30,
+   ["spriteName"]="",
+   ["color"]={967},
+   ["priority"]=25,
 },
 -- Table: {473}
 {
-   ["counter"]=3,
-   ["spawnTimer"]=0.0,
-   ["prefab"]="Enemy",
-   ["capacity"]=3,
-   ["spawnRate"]=10.0,
+   ["scale"]={968},
+   ["position"]={969},
+   ["rotation"]=0.0,
 },
 -- Table: {474}
 {
-   ["position"]={803},
-   ["scale"]={804},
-   ["rotation"]=0.0,
+   ["hardness"]=6.0,
 },
 -- Table: {475}
 {
-   ["color"]={805},
-   ["spriteName"]="Spawner.png",
-   ["priority"]=30,
+   ["tag"]="Solid",
+   ["debug"]=false,
+   ["extents"]={970},
+   ["offset"]={971},
+   ["rotation"]=0.0,
 },
 -- Table: {476}
 {
-   ["counter"]=3,
-   ["spawnTimer"]=0.0,
-   ["prefab"]="Enemy",
-   ["capacity"]=3,
-   ["spawnRate"]=10.0,
+   ["spriteName"]="",
+   ["color"]={972},
+   ["priority"]=0,
 },
 -- Table: {477}
 {
-   ["position"]={806},
-   ["scale"]={807},
+   ["scale"]={973},
+   ["position"]={974},
    ["rotation"]=0.0,
 },
 -- Table: {478}
 {
-   ["color"]={808},
-   ["spriteName"]="Fallback.png",
-   ["priority"]=-10,
+   ["scale"]={975},
+   ["position"]={976},
+   ["rotation"]=355.63983154297,
 },
 -- Table: {479}
 {
-   ["x"]=100.38974761963,
-   ["y"]=-1597.6181640625,
+   ["spriteName"]="Maxwell.png",
+   ["color"]={977},
+   ["priority"]=30,
 },
 -- Table: {480}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["tag"]="Enemy",
+   ["debug"]=true,
+   ["extents"]={978},
+   ["offset"]={979},
+   ["rotation"]=0.0,
 },
 -- Table: {481}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["max"]=100.0,
+   ["current"]=100.0,
 },
 -- Table: {482}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["hardness"]=0.10000000149012,
 },
 -- Table: {483}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["prefab"]="Enemy",
+   ["spawnTimer"]=0.0,
+   ["capacity"]=3,
+   ["spawnRate"]=10.0,
+   ["counter"]=3,
 },
 -- Table: {484}
 {
-   ["x"]=100.38974761963,
-   ["y"]=-1597.6181640625,
+   ["spriteName"]="Spawner.png",
+   ["color"]={980},
+   ["priority"]=30,
 },
 -- Table: {485}
 {
-   ["x"]=60.0,
-   ["y"]=-60.0,
+   ["scale"]={981},
+   ["position"]={982},
+   ["rotation"]=0.0,
 },
 -- Table: {486}
 {
-   ["x"]=100.38974761963,
-   ["y"]=-1597.6181640625,
+   ["linkID"]=16,
 },
 -- Table: {487}
 {
-   ["x"]=500.0,
-   ["y"]=500.0,
+   ["spriteName"]="Door.png",
+   ["color"]={983},
+   ["priority"]=100,
 },
 -- Table: {488}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=0.147465467453,
-   ["g"]=0.147465467453,
+   ["scale"]={984},
+   ["position"]={985},
+   ["rotation"]=0.0,
 },
 -- Table: {489}
 {
-   ["x"]=-866.59216308594,
-   ["y"]=234.13102722168,
+   ["tag"]="Door",
+   ["offset"]={986},
+   ["debug"]=false,
+   ["extents"]={987},
+   ["rotation"]=0.0,
 },
 -- Table: {490}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["linkID"]=118,
 },
 -- Table: {491}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["spriteName"]="Door.png",
+   ["color"]={988},
+   ["priority"]=100,
 },
 -- Table: {492}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["scale"]={989},
+   ["position"]={990},
+   ["rotation"]=0.0,
 },
 -- Table: {493}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["tag"]="Door",
+   ["offset"]={991},
+   ["debug"]=false,
+   ["extents"]={992},
+   ["rotation"]=0.0,
 },
 -- Table: {494}
 {
-   ["x"]=-866.59216308594,
-   ["y"]=234.13102722168,
+   ["linkID"]=5,
 },
 -- Table: {495}
 {
-   ["x"]=60.0,
-   ["y"]=-60.0,
+   ["spriteName"]="Door.png",
+   ["color"]={993},
+   ["priority"]=100,
 },
 -- Table: {496}
 {
-   ["x"]=-866.59216308594,
-   ["y"]=234.13102722168,
+   ["scale"]={994},
+   ["position"]={995},
+   ["rotation"]=0.0,
 },
 -- Table: {497}
 {
-   ["x"]=500.0,
-   ["y"]=500.0,
+   ["tag"]="Door",
+   ["offset"]={996},
+   ["debug"]=false,
+   ["extents"]={997},
+   ["rotation"]=0.0,
 },
 -- Table: {498}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=0.147465467453,
-   ["g"]=0.147465467453,
+   ["linkID"]=71,
 },
 -- Table: {499}
 {
-   ["x"]=1265.6724853516,
-   ["y"]=-708.63903808594,
+   ["spriteName"]="Door.png",
+   ["color"]={998},
+   ["priority"]=100,
 },
 -- Table: {500}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["scale"]={999},
+   ["position"]={1000},
+   ["rotation"]=0.0,
 },
 -- Table: {501}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["tag"]="Door",
+   ["offset"]={1001},
+   ["debug"]=false,
+   ["extents"]={1002},
+   ["rotation"]=0.0,
 },
 -- Table: {502}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
 },
 -- Table: {503}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["spriteName"]="Door.png",
+   ["color"]={1003},
+   ["priority"]=100,
 },
 -- Table: {504}
 {
-   ["x"]=1265.6724853516,
-   ["y"]=-708.63903808594,
+   ["scale"]={1004},
+   ["position"]={1005},
+   ["rotation"]=0.0,
 },
 -- Table: {505}
 {
-   ["x"]=60.0,
-   ["y"]=-60.0,
+   ["tag"]="Door",
+   ["offset"]={1006},
+   ["debug"]=false,
+   ["extents"]={1007},
+   ["rotation"]=0.0,
 },
 -- Table: {506}
 {
-   ["x"]=1265.6724853516,
-   ["y"]=-708.63903808594,
+   ["spriteName"]="",
+   ["color"]={1008},
+   ["priority"]=25,
 },
 -- Table: {507}
 {
-   ["x"]=500.0,
-   ["y"]=500.0,
+   ["scale"]={1009},
+   ["position"]={1010},
+   ["rotation"]=0.0,
 },
 -- Table: {508}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=0.147465467453,
-   ["g"]=0.147465467453,
+   ["hardness"]=6.0,
 },
 -- Table: {509}
 {
-   ["x"]=496.82763671875,
-   ["y"]=639.47644042969,
+   ["tag"]="Solid",
+   ["debug"]=false,
+   ["extents"]={1011},
+   ["offset"]={1012},
+   ["rotation"]=0.0,
 },
 -- Table: {510}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["spriteName"]="",
+   ["color"]={1013},
+   ["priority"]=0,
 },
 -- Table: {511}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["scale"]={1014},
+   ["position"]={1015},
+   ["rotation"]=0.0,
 },
 -- Table: {512}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["scale"]={1016},
+   ["position"]={1017},
+   ["rotation"]=355.63983154297,
 },
 -- Table: {513}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["spriteName"]="Maxwell.png",
+   ["color"]={1018},
+   ["priority"]=30,
 },
 -- Table: {514}
 {
-   ["x"]=496.82763671875,
-   ["y"]=639.47644042969,
+   ["tag"]="Enemy",
+   ["debug"]=true,
+   ["extents"]={1019},
+   ["offset"]={1020},
+   ["rotation"]=0.0,
 },
 -- Table: {515}
 {
-   ["x"]=60.0,
-   ["y"]=-60.0,
+   ["max"]=100.0,
+   ["current"]=100.0,
 },
 -- Table: {516}
 {
-   ["x"]=496.82763671875,
-   ["y"]=639.47644042969,
+   ["hardness"]=0.10000000149012,
 },
 -- Table: {517}
 {
-   ["x"]=500.0,
-   ["y"]=500.0,
+   ["prefab"]="Enemy",
+   ["spawnTimer"]=0.0,
+   ["capacity"]=3,
+   ["spawnRate"]=10.0,
+   ["counter"]=3,
 },
 -- Table: {518}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=0.147465467453,
-   ["g"]=0.147465467453,
+   ["spriteName"]="Spawner.png",
+   ["color"]={1021},
+   ["priority"]=30,
 },
 -- Table: {519}
 {
-   ["x"]=-1369.1196289062,
-   ["y"]=-397.38912963867,
+   ["scale"]={1022},
+   ["position"]={1023},
+   ["rotation"]=0.0,
 },
 -- Table: {520}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["linkID"]=135,
 },
 -- Table: {521}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["spriteName"]="Door.png",
+   ["color"]={1024},
+   ["priority"]=100,
 },
 -- Table: {522}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["scale"]={1025},
+   ["position"]={1026},
+   ["rotation"]=0.0,
 },
 -- Table: {523}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["tag"]="Door",
+   ["offset"]={1027},
+   ["debug"]=false,
+   ["extents"]={1028},
+   ["rotation"]=0.0,
 },
 -- Table: {524}
 {
-   ["x"]=-1369.1196289062,
-   ["y"]=-397.38912963867,
+   ["linkID"]=110,
 },
 -- Table: {525}
 {
-   ["x"]=60.0,
-   ["y"]=-60.0,
+   ["spriteName"]="Door.png",
+   ["color"]={1029},
+   ["priority"]=100,
 },
 -- Table: {526}
 {
-   ["x"]=-1369.1196289062,
-   ["y"]=-397.38912963867,
+   ["scale"]={1030},
+   ["position"]={1031},
+   ["rotation"]=0.0,
 },
 -- Table: {527}
 {
-   ["x"]=500.0,
-   ["y"]=500.0,
+   ["tag"]="Door",
+   ["offset"]={1032},
+   ["debug"]=false,
+   ["extents"]={1033},
+   ["rotation"]=0.0,
 },
 -- Table: {528}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=0.147465467453,
-   ["g"]=0.147465467453,
 },
 -- Table: {529}
 {
-   ["x"]=-876.33239746094,
-   ["y"]=1305.1639404297,
+   ["spriteName"]="Door.png",
+   ["color"]={1034},
+   ["priority"]=100,
 },
 -- Table: {530}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["scale"]={1035},
+   ["position"]={1036},
+   ["rotation"]=0.0,
 },
 -- Table: {531}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["tag"]="Door",
+   ["offset"]={1037},
+   ["debug"]=false,
+   ["extents"]={1038},
+   ["rotation"]=0.0,
 },
 -- Table: {532}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["spriteName"]="",
+   ["color"]={1039},
+   ["priority"]=25,
 },
 -- Table: {533}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["scale"]={1040},
+   ["position"]={1041},
+   ["rotation"]=0.0,
 },
 -- Table: {534}
 {
-   ["x"]=-876.33239746094,
-   ["y"]=1305.1639404297,
+   ["hardness"]=6.0,
 },
 -- Table: {535}
 {
-   ["x"]=60.0,
-   ["y"]=-60.0,
+   ["tag"]="Solid",
+   ["debug"]=false,
+   ["extents"]={1042},
+   ["offset"]={1043},
+   ["rotation"]=0.0,
 },
 -- Table: {536}
 {
-   ["x"]=-876.33239746094,
-   ["y"]=1305.1639404297,
+   ["spriteName"]="",
+   ["color"]={1044},
+   ["priority"]=0,
 },
 -- Table: {537}
 {
-   ["x"]=500.0,
-   ["y"]=500.0,
+   ["scale"]={1045},
+   ["position"]={1046},
+   ["rotation"]=0.0,
 },
 -- Table: {538}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=0.147465467453,
-   ["g"]=0.147465467453,
+   ["scale"]={1047},
+   ["position"]={1048},
+   ["rotation"]=355.63983154297,
 },
 -- Table: {539}
 {
-   ["x"]=662.67321777344,
-   ["y"]=-1597.7553710938,
+   ["spriteName"]="Maxwell.png",
+   ["color"]={1049},
+   ["priority"]=30,
 },
 -- Table: {540}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["tag"]="Enemy",
+   ["debug"]=true,
+   ["extents"]={1050},
+   ["offset"]={1051},
+   ["rotation"]=0.0,
 },
 -- Table: {541}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["max"]=100.0,
+   ["current"]=100.0,
 },
 -- Table: {542}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["hardness"]=0.10000000149012,
 },
 -- Table: {543}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["prefab"]="Enemy",
+   ["spawnTimer"]=0.0,
+   ["capacity"]=3,
+   ["spawnRate"]=10.0,
+   ["counter"]=3,
 },
 -- Table: {544}
 {
-   ["x"]=662.67321777344,
-   ["y"]=-1597.7553710938,
+   ["spriteName"]="Spawner.png",
+   ["color"]={1052},
+   ["priority"]=30,
 },
 -- Table: {545}
 {
-   ["x"]=60.0,
-   ["y"]=-60.0,
+   ["scale"]={1053},
+   ["position"]={1054},
+   ["rotation"]=0.0,
 },
 -- Table: {546}
 {
-   ["x"]=662.67321777344,
-   ["y"]=-1597.7553710938,
+   ["linkID"]=44,
 },
 -- Table: {547}
 {
-   ["x"]=500.0,
-   ["y"]=500.0,
+   ["spriteName"]="Door.png",
+   ["color"]={1055},
+   ["priority"]=100,
 },
 -- Table: {548}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=0.147465467453,
-   ["g"]=0.147465467453,
+   ["scale"]={1056},
+   ["position"]={1057},
+   ["rotation"]=0.0,
 },
 -- Table: {549}
 {
-   ["x"]=-668.44958496094,
-   ["y"]=-912.49810791016,
+   ["tag"]="Door",
+   ["offset"]={1058},
+   ["debug"]=false,
+   ["extents"]={1059},
+   ["rotation"]=0.0,
 },
 -- Table: {550}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
 },
 -- Table: {551}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["spriteName"]="Door.png",
+   ["color"]={1060},
+   ["priority"]=100,
 },
 -- Table: {552}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["scale"]={1061},
+   ["position"]={1062},
+   ["rotation"]=0.0,
 },
 -- Table: {553}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["tag"]="Door",
+   ["offset"]={1063},
+   ["debug"]=false,
+   ["extents"]={1064},
+   ["rotation"]=0.0,
 },
 -- Table: {554}
 {
-   ["x"]=-784.54956054688,
-   ["y"]=-1062.498046875,
+   ["target"]=78,
+   ["textRender"]={1065},
+   ["trans"]={1066},
+   ["speed"]=16,
 },
 -- Table: {555}
 {
-   ["x"]=60.0,
-   ["y"]=60.0,
+   ["scale"]={1067},
+   ["position"]={1068},
+   ["rotation"]=0.0,
 },
 -- Table: {556}
 {
-   ["x"]=-668.44958496094,
-   ["y"]=-912.49810791016,
+   ["speed"]=35,
+   ["trans"]={1069},
+   ["wanderPoint"]={1070},
 },
 -- Table: {557}
 {
-   ["x"]=500.0,
-   ["y"]=700.0,
+   ["scale"]={1071},
+   ["position"]={1072},
+   ["rotation"]=283.35659790039,
 },
 -- Table: {558}
 {
-   ["r"]=0.23963135480881,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=0.421839594841,
+   ["spriteName"]="Maxwell.png",
+   ["color"]={1073},
+   ["priority"]=30,
 },
 -- Table: {559}
 {
-   ["x"]=-200.81898498535,
-   ["y"]=1905.9663085938,
+   ["tag"]="Enemy",
+   ["offset"]={1074},
+   ["debug"]=true,
+   ["extents"]={1075},
+   ["rotation"]=0.0,
 },
 -- Table: {560}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["max"]=100.0,
+   ["current"]=100.0,
 },
 -- Table: {561}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["hardness"]=0.10000000149012,
 },
 -- Table: {562}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["linkID"]=36,
 },
 -- Table: {563}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["spriteName"]="Door.png",
+   ["color"]={1076},
+   ["priority"]=100,
 },
 -- Table: {564}
 {
-   ["x"]=-316.91897583008,
-   ["y"]=1755.9663085938,
+   ["scale"]={1077},
+   ["position"]={1078},
+   ["rotation"]=0.0,
 },
 -- Table: {565}
 {
-   ["x"]=60.0,
-   ["y"]=60.0,
+   ["tag"]="Door",
+   ["offset"]={1079},
+   ["debug"]=false,
+   ["extents"]={1080},
+   ["rotation"]=0.0,
 },
 -- Table: {566}
 {
-   ["x"]=-200.81898498535,
-   ["y"]=1905.9663085938,
+   ["prefab"]="Enemy",
+   ["spawnTimer"]=0.0,
+   ["capacity"]=3,
+   ["spawnRate"]=10.0,
+   ["counter"]=3,
 },
 -- Table: {567}
 {
-   ["x"]=500.0,
-   ["y"]=700.0,
+   ["spriteName"]="Spawner.png",
+   ["color"]={1081},
+   ["priority"]=30,
 },
 -- Table: {568}
 {
-   ["r"]=0.23963135480881,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=0.421839594841,
+   ["scale"]={1082},
+   ["position"]={1083},
+   ["rotation"]=0.0,
 },
 -- Table: {569}
 {
-   ["x"]=-167.70425415039,
-   ["y"]=-296.93850708008,
+   ["prefab"]="Enemy",
+   ["spawnTimer"]=0.0,
+   ["capacity"]=3,
+   ["spawnRate"]=10.0,
+   ["counter"]=3,
 },
 -- Table: {570}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["spriteName"]="Spawner.png",
+   ["color"]={1084},
+   ["priority"]=30,
 },
 -- Table: {571}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["scale"]={1085},
+   ["position"]={1086},
+   ["rotation"]=0.0,
 },
 -- Table: {572}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["spriteName"]="Fallback.png",
+   ["color"]={1087},
+   ["priority"]=-10,
 },
 -- Table: {573}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["scale"]={1088},
+   ["position"]={1089},
+   ["rotation"]=0.0,
 },
 -- Table: {574}
 {
-   ["x"]=-283.80426025391,
-   ["y"]=-446.93850708008,
+   ["linkID"]=93,
 },
 -- Table: {575}
 {
-   ["x"]=60.0,
-   ["y"]=60.0,
+   ["spriteName"]="Door.png",
+   ["color"]={1090},
+   ["priority"]=100,
 },
 -- Table: {576}
 {
-   ["x"]=-167.70425415039,
-   ["y"]=-296.93850708008,
+   ["scale"]={1091},
+   ["position"]={1092},
+   ["rotation"]=0.0,
 },
 -- Table: {577}
 {
-   ["x"]=500.0,
-   ["y"]=700.0,
+   ["tag"]="Door",
+   ["offset"]={1093},
+   ["debug"]=false,
+   ["extents"]={1094},
+   ["rotation"]=0.0,
 },
 -- Table: {578}
 {
-   ["r"]=0.23963135480881,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=0.421839594841,
+   ["linkID"]=102,
 },
 -- Table: {579}
 {
-   ["x"]=765.47497558594,
-   ["y"]=-951.13342285156,
+   ["spriteName"]="Door.png",
+   ["color"]={1095},
+   ["priority"]=100,
 },
 -- Table: {580}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["scale"]={1096},
+   ["position"]={1097},
+   ["rotation"]=0.0,
 },
 -- Table: {581}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["tag"]="Door",
+   ["offset"]={1098},
+   ["debug"]=false,
+   ["extents"]={1099},
+   ["rotation"]=0.0,
 },
 -- Table: {582}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
 },
 -- Table: {583}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["spriteName"]="Door.png",
+   ["color"]={1100},
+   ["priority"]=100,
 },
 -- Table: {584}
 {
-   ["x"]=649.375,
-   ["y"]=-1101.1334228516,
+   ["scale"]={1101},
+   ["position"]={1102},
+   ["rotation"]=0.0,
 },
 -- Table: {585}
 {
-   ["x"]=60.0,
-   ["y"]=60.0,
+   ["tag"]="Door",
+   ["offset"]={1103},
+   ["debug"]=false,
+   ["extents"]={1104},
+   ["rotation"]=0.0,
 },
 -- Table: {586}
 {
-   ["x"]=765.47497558594,
-   ["y"]=-951.13342285156,
+   ["target"]=69,
+   ["textRender"]={1105},
+   ["trans"]={1106},
+   ["speed"]=16,
 },
 -- Table: {587}
 {
-   ["x"]=500.0,
-   ["y"]=700.0,
+   ["scale"]={1107},
+   ["position"]={1108},
+   ["rotation"]=0.0,
 },
 -- Table: {588}
 {
-   ["r"]=0.23963135480881,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=0.421839594841,
+   ["speed"]=35,
+   ["trans"]={1109},
+   ["wanderPoint"]={1070},
 },
 -- Table: {589}
 {
-   ["x"]=497.16174316406,
-   ["y"]=-41.284133911133,
+   ["scale"]={1110},
+   ["position"]={1111},
+   ["rotation"]=52.284042358398,
 },
 -- Table: {590}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["spriteName"]="Maxwell.png",
+   ["color"]={1112},
+   ["priority"]=30,
 },
 -- Table: {591}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["tag"]="Enemy",
+   ["offset"]={1113},
+   ["debug"]=true,
+   ["extents"]={1114},
+   ["rotation"]=0.0,
 },
 -- Table: {592}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["max"]=100.0,
+   ["current"]=100.0,
 },
 -- Table: {593}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["hardness"]=0.10000000149012,
 },
 -- Table: {594}
 {
-   ["x"]=381.06173706055,
-   ["y"]=-191.28413391113,
+   ["linkID"]=86,
 },
 -- Table: {595}
 {
-   ["x"]=60.0,
-   ["y"]=60.0,
+   ["spriteName"]="Door.png",
+   ["color"]={1115},
+   ["priority"]=100,
 },
 -- Table: {596}
 {
-   ["x"]=497.16174316406,
-   ["y"]=-41.284133911133,
+   ["scale"]={1116},
+   ["position"]={1117},
+   ["rotation"]=0.0,
 },
 -- Table: {597}
 {
-   ["x"]=500.0,
-   ["y"]=700.0,
+   ["tag"]="Door",
+   ["offset"]={1118},
+   ["debug"]=false,
+   ["extents"]={1119},
+   ["rotation"]=0.0,
 },
 -- Table: {598}
 {
-   ["r"]=0.23963135480881,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=0.421839594841,
+   ["prefab"]="Enemy",
+   ["spawnTimer"]=0.0,
+   ["capacity"]=3,
+   ["spawnRate"]=10.0,
+   ["counter"]=3,
 },
 -- Table: {599}
 {
-   ["x"]=-400.50680541992,
-   ["y"]=-1614.0941162109,
+   ["spriteName"]="Spawner.png",
+   ["color"]={1120},
+   ["priority"]=30,
 },
 -- Table: {600}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["scale"]={1121},
+   ["position"]={1122},
+   ["rotation"]=0.0,
 },
 -- Table: {601}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["prefab"]="Enemy",
+   ["spawnTimer"]=0.0,
+   ["capacity"]=3,
+   ["spawnRate"]=10.0,
+   ["counter"]=3,
 },
 -- Table: {602}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["spriteName"]="Spawner.png",
+   ["color"]={1123},
+   ["priority"]=30,
 },
 -- Table: {603}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["scale"]={1124},
+   ["position"]={1125},
+   ["rotation"]=0.0,
 },
 -- Table: {604}
 {
-   ["x"]=-516.60681152344,
-   ["y"]=-1764.0941162109,
+   ["spriteName"]="Fallback.png",
+   ["color"]={1126},
+   ["priority"]=-10,
 },
 -- Table: {605}
 {
-   ["x"]=60.0,
-   ["y"]=60.0,
+   ["scale"]={1127},
+   ["position"]={1128},
+   ["rotation"]=0.0,
 },
 -- Table: {606}
 {
-   ["x"]=-400.50680541992,
-   ["y"]=-1614.0941162109,
+   ["linkID"]=44,
 },
 -- Table: {607}
 {
-   ["x"]=500.0,
-   ["y"]=700.0,
+   ["spriteName"]="Door.png",
+   ["color"]={1129},
+   ["priority"]=100,
 },
 -- Table: {608}
 {
-   ["r"]=0.23963135480881,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=0.421839594841,
+   ["scale"]={1130},
+   ["position"]={1131},
+   ["rotation"]=0.0,
 },
 -- Table: {609}
 {
-   ["x"]=265.44143676758,
-   ["y"]=-997.10894775391,
+   ["tag"]="Door",
+   ["offset"]={1132},
+   ["debug"]=false,
+   ["extents"]={1133},
+   ["rotation"]=0.0,
 },
 -- Table: {610}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["linkID"]=5,
 },
 -- Table: {611}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["spriteName"]="Door.png",
+   ["color"]={1134},
+   ["priority"]=100,
 },
 -- Table: {612}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["scale"]={1135},
+   ["position"]={1136},
+   ["rotation"]=0.0,
 },
 -- Table: {613}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["tag"]="Door",
+   ["offset"]={1137},
+   ["debug"]=false,
+   ["extents"]={1138},
+   ["rotation"]=0.0,
 },
 -- Table: {614}
 {
-   ["x"]=149.34143066406,
-   ["y"]=-1147.1088867188,
+   ["linkID"]=118,
 },
 -- Table: {615}
 {
-   ["x"]=60.0,
-   ["y"]=60.0,
+   ["spriteName"]="Door.png",
+   ["color"]={1139},
+   ["priority"]=100,
 },
 -- Table: {616}
 {
-   ["x"]=265.44143676758,
-   ["y"]=-997.10894775391,
+   ["scale"]={1140},
+   ["position"]={1141},
+   ["rotation"]=0.0,
 },
 -- Table: {617}
 {
-   ["x"]=500.0,
-   ["y"]=700.0,
+   ["tag"]="Door",
+   ["offset"]={1142},
+   ["debug"]=false,
+   ["extents"]={1143},
+   ["rotation"]=0.0,
 },
 -- Table: {618}
 {
-   ["r"]=0.23963135480881,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=0.421839594841,
 },
 -- Table: {619}
 {
-   ["x"]=997.94488525391,
-   ["y"]=72.203498840332,
+   ["spriteName"]="Door.png",
+   ["color"]={1144},
+   ["priority"]=100,
 },
 -- Table: {620}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["scale"]={1145},
+   ["position"]={1146},
+   ["rotation"]=0.0,
 },
 -- Table: {621}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["tag"]="Door",
+   ["offset"]={1147},
+   ["debug"]=false,
+   ["extents"]={1148},
+   ["rotation"]=0.0,
 },
 -- Table: {622}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["target"]=59,
+   ["textRender"]={1149},
+   ["trans"]={1150},
+   ["speed"]=16,
 },
 -- Table: {623}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["scale"]={1151},
+   ["position"]={1152},
+   ["rotation"]=0.0,
 },
 -- Table: {624}
 {
-   ["x"]=881.84490966797,
-   ["y"]=-77.796501159668,
+   ["speed"]=35,
+   ["trans"]={1153},
+   ["wanderPoint"]={1070},
 },
 -- Table: {625}
 {
-   ["x"]=60.0,
-   ["y"]=60.0,
+   ["scale"]={1154},
+   ["position"]={1155},
+   ["rotation"]=303.38790893555,
 },
 -- Table: {626}
 {
-   ["x"]=997.94488525391,
-   ["y"]=72.203498840332,
+   ["spriteName"]="Maxwell.png",
+   ["color"]={1156},
+   ["priority"]=30,
 },
 -- Table: {627}
 {
-   ["x"]=500.0,
-   ["y"]=700.0,
+   ["tag"]="Enemy",
+   ["offset"]={1157},
+   ["debug"]=true,
+   ["extents"]={1158},
+   ["rotation"]=0.0,
 },
 -- Table: {628}
 {
-   ["r"]=0.23963135480881,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=0.421839594841,
+   ["max"]=100.0,
+   ["current"]=100.0,
 },
 -- Table: {629}
 {
-   ["x"]=62.315582275391,
-   ["y"]=1136.4339599609,
+   ["hardness"]=0.10000000149012,
 },
 -- Table: {630}
 {
-   ["x"]=100.0,
-   ["y"]=100.0,
+   ["linkID"]=16,
 },
 -- Table: {631}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["spriteName"]="Door.png",
+   ["color"]={1159},
+   ["priority"]=100,
 },
 -- Table: {632}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["scale"]={1160},
+   ["position"]={1161},
+   ["rotation"]=0.0,
 },
 -- Table: {633}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["tag"]="Door",
+   ["offset"]={1162},
+   ["debug"]=false,
+   ["extents"]={1163},
+   ["rotation"]=0.0,
 },
 -- Table: {634}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["prefab"]="Enemy",
+   ["spawnTimer"]=0.0,
+   ["capacity"]=3,
+   ["spawnRate"]=10.0,
+   ["counter"]=3,
 },
 -- Table: {635}
 {
-   ["x"]=-359.78442382812,
-   ["y"]=1304.5339355469,
+   ["spriteName"]="Spawner.png",
+   ["color"]={1164},
+   ["priority"]=30,
 },
 -- Table: {636}
 {
-   ["x"]=60.0,
-   ["y"]=60.0,
+   ["scale"]={1165},
+   ["position"]={1166},
+   ["rotation"]=0.0,
 },
 -- Table: {637}
 {
-   ["x"]=-192.28442382812,
-   ["y"]=1304.5339355469,
+   ["prefab"]="Enemy",
+   ["spawnTimer"]=0.0,
+   ["capacity"]=3,
+   ["spawnRate"]=10.0,
+   ["counter"]=3,
 },
 -- Table: {638}
 {
-   ["x"]=700.0,
-   ["y"]=500.0,
+   ["spriteName"]="Spawner.png",
+   ["color"]={1167},
+   ["priority"]=30,
 },
 -- Table: {639}
 {
-   ["r"]=0.66735339164734,
-   ["a"]=1.0,
-   ["b"]=0.18894010782242,
-   ["g"]=1.0,
+   ["scale"]={1168},
+   ["position"]={1169},
+   ["rotation"]=0.0,
 },
 -- Table: {640}
 {
-   ["r"]=0.80310881137848,
-   ["a"]=1.0,
-   ["b"]=0.3578619658947,
-   ["g"]=0.55164813995361,
+   ["spriteName"]="Fallback.png",
+   ["color"]={1170},
+   ["priority"]=-10,
 },
 -- Table: {641}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["scale"]={1171},
+   ["position"]={1172},
+   ["rotation"]=0.0,
 },
 -- Table: {642}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["linkID"]=26,
 },
 -- Table: {643}
 {
-   ["x"]=-192.28442382812,
-   ["y"]=1304.5339355469,
+   ["spriteName"]="Door.png",
+   ["color"]={1173},
+   ["priority"]=100,
 },
 -- Table: {644}
 {
-   ["x"]=100.0,
-   ["y"]=100.0,
+   ["scale"]={1174},
+   ["position"]={1175},
+   ["rotation"]=0.0,
 },
 -- Table: {645}
 {
-   ["x"]=-513.61694335938,
-   ["y"]=-434.71063232422,
+   ["tag"]="Door",
+   ["offset"]={1176},
+   ["debug"]=false,
+   ["extents"]={1177},
+   ["rotation"]=0.0,
 },
 -- Table: {646}
 {
-   ["x"]=100.0,
-   ["y"]=100.0,
 },
 -- Table: {647}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["spriteName"]="Door.png",
+   ["color"]={1178},
+   ["priority"]=100,
 },
 -- Table: {648}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["scale"]={1179},
+   ["position"]={1180},
+   ["rotation"]=0.0,
 },
 -- Table: {649}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["tag"]="Door",
+   ["offset"]={1181},
+   ["debug"]=false,
+   ["extents"]={1182},
+   ["rotation"]=0.0,
 },
 -- Table: {650}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["target"]=51,
+   ["textRender"]={1183},
+   ["trans"]={1184},
+   ["speed"]=16,
 },
 -- Table: {651}
 {
-   ["x"]=-935.71697998047,
-   ["y"]=-266.6106262207,
+   ["scale"]={1185},
+   ["position"]={1186},
+   ["rotation"]=0.0,
 },
 -- Table: {652}
 {
-   ["x"]=60.0,
-   ["y"]=60.0,
+   ["speed"]=35,
+   ["trans"]={1187},
+   ["wanderPoint"]={1070},
 },
 -- Table: {653}
 {
-   ["x"]=-768.21697998047,
-   ["y"]=-266.6106262207,
+   ["scale"]={1188},
+   ["position"]={1189},
+   ["rotation"]=325.87036132812,
 },
 -- Table: {654}
 {
-   ["x"]=700.0,
-   ["y"]=500.0,
+   ["spriteName"]="Maxwell.png",
+   ["color"]={1190},
+   ["priority"]=30,
 },
 -- Table: {655}
 {
-   ["r"]=0.66735339164734,
-   ["a"]=1.0,
-   ["b"]=0.18894010782242,
-   ["g"]=1.0,
+   ["tag"]="Enemy",
+   ["offset"]={1191},
+   ["debug"]=true,
+   ["extents"]={1192},
+   ["rotation"]=0.0,
 },
 -- Table: {656}
 {
-   ["r"]=0.80310881137848,
-   ["a"]=1.0,
-   ["b"]=0.3578619658947,
-   ["g"]=0.55164813995361,
+   ["max"]=100.0,
+   ["current"]=100.0,
 },
 -- Table: {657}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["hardness"]=0.10000000149012,
 },
 -- Table: {658}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
 },
 -- Table: {659}
 {
-   ["x"]=-768.21697998047,
-   ["y"]=-266.6106262207,
+   ["spriteName"]="Door.png",
+   ["color"]={1193},
+   ["priority"]=100,
 },
 -- Table: {660}
 {
-   ["x"]=100.0,
-   ["y"]=100.0,
+   ["scale"]={1194},
+   ["position"]={1195},
+   ["rotation"]=0.0,
 },
 -- Table: {661}
 {
-   ["x"]=765.13732910156,
-   ["y"]=971.87829589844,
+   ["tag"]="Door",
+   ["offset"]={1196},
+   ["debug"]=false,
+   ["extents"]={1197},
+   ["rotation"]=0.0,
 },
 -- Table: {662}
 {
-   ["x"]=100.0,
-   ["y"]=100.0,
+   ["prefab"]="Enemy",
+   ["spawnTimer"]=0.0,
+   ["capacity"]=3,
+   ["spawnRate"]=10.0,
+   ["counter"]=3,
 },
 -- Table: {663}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["spriteName"]="Spawner.png",
+   ["color"]={1198},
+   ["priority"]=30,
 },
 -- Table: {664}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["scale"]={1199},
+   ["position"]={1200},
+   ["rotation"]=0.0,
 },
 -- Table: {665}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["prefab"]="Enemy",
+   ["spawnTimer"]=0.0,
+   ["capacity"]=3,
+   ["spawnRate"]=10.0,
+   ["counter"]=3,
 },
 -- Table: {666}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["spriteName"]="Spawner.png",
+   ["color"]={1201},
+   ["priority"]=30,
 },
 -- Table: {667}
 {
-   ["x"]=343.03735351562,
-   ["y"]=1139.9782714844,
+   ["scale"]={1202},
+   ["position"]={1203},
+   ["rotation"]=0.0,
 },
 -- Table: {668}
 {
-   ["x"]=60.0,
-   ["y"]=60.0,
+   ["spriteName"]="Fallback.png",
+   ["color"]={1204},
+   ["priority"]=-10,
 },
 -- Table: {669}
 {
-   ["x"]=510.53735351562,
-   ["y"]=1139.9782714844,
+   ["scale"]={1205},
+   ["position"]={1206},
+   ["rotation"]=0.0,
 },
 -- Table: {670}
 {
-   ["x"]=700.0,
-   ["y"]=500.0,
+   ["linkID"]=80,
 },
 -- Table: {671}
 {
-   ["r"]=0.66735339164734,
-   ["a"]=1.0,
-   ["b"]=0.18894010782242,
-   ["g"]=1.0,
+   ["spriteName"]="Door.png",
+   ["color"]={1207},
+   ["priority"]=100,
 },
 -- Table: {672}
 {
-   ["r"]=0.80310881137848,
-   ["a"]=1.0,
-   ["b"]=0.3578619658947,
-   ["g"]=0.55164813995361,
+   ["scale"]={1208},
+   ["position"]={1209},
+   ["rotation"]=0.0,
 },
 -- Table: {673}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["tag"]="Door",
+   ["offset"]={1210},
+   ["debug"]=false,
+   ["extents"]={1211},
+   ["rotation"]=0.0,
 },
 -- Table: {674}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["linkID"]=61,
 },
 -- Table: {675}
 {
-   ["x"]=510.53735351562,
-   ["y"]=1139.9782714844,
+   ["spriteName"]="Door.png",
+   ["color"]={1212},
+   ["priority"]=100,
 },
 -- Table: {676}
 {
-   ["x"]=100.0,
-   ["y"]=100.0,
+   ["scale"]={1213},
+   ["position"]={1214},
+   ["rotation"]=0.0,
 },
 -- Table: {677}
 {
-   ["x"]=1465.4049072266,
-   ["y"]=506.11001586914,
+   ["tag"]="Door",
+   ["offset"]={1215},
+   ["debug"]=false,
+   ["extents"]={1216},
+   ["rotation"]=0.0,
 },
 -- Table: {678}
 {
-   ["x"]=100.0,
-   ["y"]=100.0,
 },
 -- Table: {679}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["spriteName"]="Door.png",
+   ["color"]={1217},
+   ["priority"]=100,
 },
 -- Table: {680}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["scale"]={1218},
+   ["position"]={1219},
+   ["rotation"]=0.0,
 },
 -- Table: {681}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["tag"]="Door",
+   ["offset"]={1220},
+   ["debug"]=false,
+   ["extents"]={1221},
+   ["rotation"]=0.0,
 },
 -- Table: {682}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["target"]=42,
+   ["textRender"]={1222},
+   ["trans"]={1223},
+   ["speed"]=16,
 },
 -- Table: {683}
 {
-   ["x"]=1043.3049316406,
-   ["y"]=674.21002197266,
+   ["scale"]={1224},
+   ["position"]={1225},
+   ["rotation"]=0.0,
 },
 -- Table: {684}
 {
-   ["x"]=60.0,
-   ["y"]=60.0,
+   ["speed"]=35,
+   ["trans"]={1226},
+   ["wanderPoint"]={1070},
 },
 -- Table: {685}
 {
-   ["x"]=1210.8049316406,
-   ["y"]=674.21002197266,
+   ["scale"]={1227},
+   ["position"]={1228},
+   ["rotation"]=256.16787719727,
 },
 -- Table: {686}
 {
-   ["x"]=700.0,
-   ["y"]=500.0,
+   ["spriteName"]="Maxwell.png",
+   ["color"]={1229},
+   ["priority"]=30,
 },
 -- Table: {687}
 {
-   ["r"]=0.66735339164734,
-   ["a"]=1.0,
-   ["b"]=0.18894010782242,
-   ["g"]=1.0,
+   ["tag"]="Enemy",
+   ["offset"]={1230},
+   ["debug"]=true,
+   ["extents"]={1231},
+   ["rotation"]=0.0,
 },
 -- Table: {688}
 {
-   ["r"]=0.80310881137848,
-   ["a"]=1.0,
-   ["b"]=0.3578619658947,
-   ["g"]=0.55164813995361,
+   ["max"]=100.0,
+   ["current"]=100.0,
 },
 -- Table: {689}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["hardness"]=0.10000000149012,
 },
 -- Table: {690}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["spriteName"]="",
+   ["color"]={1232},
+   ["priority"]=25,
 },
 -- Table: {691}
 {
-   ["x"]=1210.8049316406,
-   ["y"]=674.21002197266,
+   ["scale"]={1233},
+   ["position"]={1234},
+   ["rotation"]=0.0,
 },
 -- Table: {692}
 {
-   ["x"]=100.0,
-   ["y"]=100.0,
+   ["hardness"]=6.0,
 },
 -- Table: {693}
 {
-   ["x"]=150.9485168457,
-   ["y"]=135.02182006836,
+   ["tag"]="Solid",
+   ["debug"]=false,
+   ["extents"]={1235},
+   ["offset"]={1236},
+   ["rotation"]=0.0,
 },
 -- Table: {694}
 {
-   ["x"]=100.0,
-   ["y"]=100.0,
+   ["prefab"]="Enemy",
+   ["spawnTimer"]=0.0,
+   ["capacity"]=3,
+   ["spawnRate"]=10.0,
+   ["counter"]=3,
 },
 -- Table: {695}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["spriteName"]="Spawner.png",
+   ["color"]={1237},
+   ["priority"]=30,
 },
 -- Table: {696}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["scale"]={1238},
+   ["position"]={1239},
+   ["rotation"]=0.0,
 },
 -- Table: {697}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["prefab"]="Enemy",
+   ["spawnTimer"]=0.0,
+   ["capacity"]=3,
+   ["spawnRate"]=10.0,
+   ["counter"]=3,
 },
 -- Table: {698}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["spriteName"]="Spawner.png",
+   ["color"]={1240},
+   ["priority"]=30,
 },
 -- Table: {699}
 {
-   ["x"]=-271.15148925781,
-   ["y"]=303.12182617188,
+   ["scale"]={1241},
+   ["position"]={1242},
+   ["rotation"]=0.0,
 },
 -- Table: {700}
 {
-   ["x"]=60.0,
-   ["y"]=60.0,
+   ["spriteName"]="Fallback.png",
+   ["color"]={1243},
+   ["priority"]=-10,
 },
 -- Table: {701}
 {
-   ["x"]=-103.65148162842,
-   ["y"]=303.12182617188,
+   ["scale"]={1244},
+   ["position"]={1245},
+   ["rotation"]=0.0,
 },
 -- Table: {702}
 {
-   ["x"]=700.0,
-   ["y"]=500.0,
+   ["linkID"]=135,
 },
 -- Table: {703}
 {
-   ["r"]=0.66735339164734,
-   ["a"]=1.0,
-   ["b"]=0.18894010782242,
-   ["g"]=1.0,
+   ["spriteName"]="Door.png",
+   ["color"]={1246},
+   ["priority"]=100,
 },
 -- Table: {704}
 {
-   ["r"]=0.80310881137848,
-   ["a"]=1.0,
-   ["b"]=0.3578619658947,
-   ["g"]=0.55164813995361,
+   ["scale"]={1247},
+   ["position"]={1248},
+   ["rotation"]=0.0,
 },
 -- Table: {705}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["tag"]="Door",
+   ["offset"]={1249},
+   ["debug"]=false,
+   ["extents"]={1250},
+   ["rotation"]=0.0,
 },
 -- Table: {706}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
 },
 -- Table: {707}
 {
-   ["x"]=-103.65148162842,
-   ["y"]=303.12182617188,
+   ["spriteName"]="Door.png",
+   ["color"]={1251},
+   ["priority"]=100,
 },
 -- Table: {708}
 {
-   ["x"]=100.0,
-   ["y"]=100.0,
+   ["scale"]={1252},
+   ["position"]={1253},
+   ["rotation"]=0.0,
 },
 -- Table: {709}
 {
-   ["x"]=1853.6234130859,
-   ["y"]=-375.32086181641,
+   ["tag"]="Door",
+   ["offset"]={1254},
+   ["debug"]=false,
+   ["extents"]={1255},
+   ["rotation"]=0.0,
 },
 -- Table: {710}
 {
-   ["x"]=100.0,
-   ["y"]=100.0,
+   ["target"]=34,
+   ["textRender"]={1256},
+   ["trans"]={1257},
+   ["speed"]=16,
 },
 -- Table: {711}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["scale"]={1258},
+   ["position"]={1259},
+   ["rotation"]=0.0,
 },
 -- Table: {712}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["speed"]=35,
+   ["trans"]={1260},
+   ["wanderPoint"]={1070},
 },
 -- Table: {713}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["scale"]={1261},
+   ["position"]={1262},
+   ["rotation"]=210.20565795898,
 },
 -- Table: {714}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["spriteName"]="Maxwell.png",
+   ["color"]={1263},
+   ["priority"]=30,
 },
 -- Table: {715}
 {
-   ["x"]=1431.5234375,
-   ["y"]=-207.22085571289,
+   ["tag"]="Enemy",
+   ["offset"]={1264},
+   ["debug"]=true,
+   ["extents"]={1265},
+   ["rotation"]=0.0,
 },
 -- Table: {716}
 {
-   ["x"]=60.0,
-   ["y"]=60.0,
+   ["max"]=100.0,
+   ["current"]=100.0,
 },
 -- Table: {717}
 {
-   ["x"]=1599.0234375,
-   ["y"]=-207.22085571289,
+   ["hardness"]=0.10000000149012,
 },
 -- Table: {718}
 {
-   ["x"]=700.0,
-   ["y"]=500.0,
+   ["spriteName"]="",
+   ["color"]={1266},
+   ["priority"]=0,
 },
 -- Table: {719}
 {
-   ["r"]=0.66735339164734,
-   ["a"]=1.0,
-   ["b"]=0.18894010782242,
-   ["g"]=1.0,
+   ["scale"]={1267},
+   ["position"]={1268},
+   ["rotation"]=0.0,
 },
 -- Table: {720}
 {
-   ["r"]=0.80310881137848,
-   ["a"]=1.0,
-   ["b"]=0.3578619658947,
-   ["g"]=0.55164813995361,
+   ["prefab"]="Enemy",
+   ["spawnTimer"]=0.0,
+   ["capacity"]=3,
+   ["spawnRate"]=10.0,
+   ["counter"]=3,
 },
 -- Table: {721}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["spriteName"]="Spawner.png",
+   ["color"]={1269},
+   ["priority"]=30,
 },
 -- Table: {722}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["scale"]={1270},
+   ["position"]={1271},
+   ["rotation"]=0.0,
 },
 -- Table: {723}
 {
-   ["x"]=1599.0234375,
-   ["y"]=-207.22085571289,
+   ["prefab"]="Enemy",
+   ["spawnTimer"]=0.0,
+   ["capacity"]=3,
+   ["spawnRate"]=10.0,
+   ["counter"]=3,
 },
 -- Table: {724}
 {
-   ["x"]=100.0,
-   ["y"]=100.0,
+   ["spriteName"]="Spawner.png",
+   ["color"]={1272},
+   ["priority"]=30,
 },
 -- Table: {725}
 {
-   ["x"]=-116.54022216797,
-   ["y"]=635.68481445312,
+   ["scale"]={1273},
+   ["position"]={1274},
+   ["rotation"]=0.0,
 },
 -- Table: {726}
 {
-   ["x"]=100.0,
-   ["y"]=100.0,
+   ["spriteName"]="Fallback.png",
+   ["color"]={1275},
+   ["priority"]=-10,
 },
 -- Table: {727}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["scale"]={1276},
+   ["position"]={1277},
+   ["rotation"]=0.0,
 },
 -- Table: {728}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["linkID"]=53,
 },
 -- Table: {729}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["spriteName"]="Door.png",
+   ["color"]={1278},
+   ["priority"]=100,
 },
 -- Table: {730}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["scale"]={1279},
+   ["position"]={1280},
+   ["rotation"]=0.0,
 },
 -- Table: {731}
 {
-   ["x"]=-538.64025878906,
-   ["y"]=803.78479003906,
+   ["tag"]="Door",
+   ["offset"]={1281},
+   ["debug"]=false,
+   ["extents"]={1282},
+   ["rotation"]=0.0,
 },
 -- Table: {732}
 {
-   ["x"]=60.0,
-   ["y"]=60.0,
+   ["linkID"]=102,
 },
 -- Table: {733}
 {
-   ["x"]=-371.14022827148,
-   ["y"]=803.78479003906,
+   ["spriteName"]="Door.png",
+   ["color"]={1283},
+   ["priority"]=100,
 },
 -- Table: {734}
 {
-   ["x"]=700.0,
-   ["y"]=500.0,
+   ["scale"]={1284},
+   ["position"]={1285},
+   ["rotation"]=0.0,
 },
 -- Table: {735}
 {
-   ["r"]=0.66735339164734,
-   ["a"]=1.0,
-   ["b"]=0.18894010782242,
-   ["g"]=1.0,
+   ["tag"]="Door",
+   ["offset"]={1286},
+   ["debug"]=false,
+   ["extents"]={1287},
+   ["rotation"]=0.0,
 },
 -- Table: {736}
 {
-   ["r"]=0.80310881137848,
-   ["a"]=1.0,
-   ["b"]=0.3578619658947,
-   ["g"]=0.55164813995361,
+   ["linkID"]=118,
 },
 -- Table: {737}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["spriteName"]="Door.png",
+   ["color"]={1288},
+   ["priority"]=100,
 },
 -- Table: {738}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["scale"]={1289},
+   ["position"]={1290},
+   ["rotation"]=0.0,
 },
 -- Table: {739}
 {
-   ["x"]=-371.14022827148,
-   ["y"]=803.78479003906,
+   ["tag"]="Door",
+   ["offset"]={1291},
+   ["debug"]=false,
+   ["extents"]={1292},
+   ["rotation"]=0.0,
 },
 -- Table: {740}
 {
-   ["x"]=100.0,
-   ["y"]=100.0,
 },
 -- Table: {741}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["spriteName"]="Door.png",
+   ["color"]={1293},
+   ["priority"]=100,
 },
 -- Table: {742}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["scale"]={1294},
+   ["position"]={1295},
+   ["rotation"]=0.0,
 },
 -- Table: {743}
 {
-   ["position"]={809},
-   ["scale"]={810},
+   ["tag"]="Door",
+   ["offset"]={1296},
+   ["debug"]=false,
+   ["extents"]={1297},
    ["rotation"]=0.0,
 },
 -- Table: {744}
 {
-   ["fontSize"]=14.0,
-   ["offset"]={811},
-   ["text"]="100 / 100",
-   ["spacing"]=3.0,
-   ["bgThickness"]=2.0,
-   ["font"]="",
-   ["textColor"]={812},
-   ["bgColor"]={813},
-   ["rotation"]=0.0,
+   ["target"]=24,
+   ["textRender"]={1298},
+   ["trans"]={1299},
+   ["speed"]=16,
 },
 -- Table: {745}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["scale"]={1300},
+   ["position"]={1301},
+   ["rotation"]=0.0,
 },
 -- Table: {746}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["speed"]=35,
+   ["trans"]={1302},
+   ["wanderPoint"]={1070},
 },
 -- Table: {747}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["scale"]={1303},
+   ["position"]={1304},
+   ["rotation"]=355.98635864258,
 },
 -- Table: {748}
 {
-   ["x"]=709.29425048828,
-   ["y"]=2411.8181152344,
+   ["spriteName"]="Maxwell.png",
+   ["color"]={1305},
+   ["priority"]=30,
 },
 -- Table: {749}
 {
-   ["x"]=60.0,
-   ["y"]=-60.0,
+   ["tag"]="Enemy",
+   ["offset"]={1306},
+   ["debug"]=true,
+   ["extents"]={1307},
+   ["rotation"]=0.0,
 },
 -- Table: {750}
 {
-   ["position"]={814},
-   ["scale"]={815},
-   ["rotation"]=254.43925031687,
+   ["max"]=100.0,
+   ["current"]=100.0,
 },
 -- Table: {751}
 {
-   ["x"]=31.0,
-   ["y"]=-24.0,
+   ["hardness"]=0.10000000149012,
 },
 -- Table: {752}
 {
-   ["x"]=-1049.9714355469,
-   ["y"]=748.25720214844,
+   ["scale"]={1308},
+   ["position"]={1309},
+   ["rotation"]=355.63983154297,
 },
 -- Table: {753}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["spriteName"]="Maxwell.png",
+   ["color"]={1310},
+   ["priority"]=30,
 },
 -- Table: {754}
 {
-   ["x"]=514.59423828125,
-   ["y"]=1950.0181884766,
+   ["tag"]="Enemy",
+   ["debug"]=true,
+   ["extents"]={1311},
+   ["offset"]={1312},
+   ["rotation"]=0.0,
 },
 -- Table: {755}
 {
-   ["x"]=100.0,
-   ["y"]=100.0,
+   ["max"]=100.0,
+   ["current"]=100.0,
 },
 -- Table: {756}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["hardness"]=0.10000000149012,
 },
 -- Table: {757}
 {
-   ["x"]=1669.1943359375,
-   ["y"]=1765.5181884766,
+   ["prefab"]="Enemy",
+   ["spawnTimer"]=0.0,
+   ["capacity"]=3,
+   ["spawnRate"]=10.0,
+   ["counter"]=3,
 },
 -- Table: {758}
 {
-   ["x"]=100.0,
-   ["y"]=100.0,
+   ["spriteName"]="Spawner.png",
+   ["color"]={1313},
+   ["priority"]=30,
 },
 -- Table: {759}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["scale"]={1314},
+   ["position"]={1315},
+   ["rotation"]=0.0,
 },
 -- Table: {760}
 {
-   ["x"]=1064.4942626953,
-   ["y"]=2304.9182128906,
+   ["prefab"]="Enemy",
+   ["spawnTimer"]=0.0,
+   ["capacity"]=3,
+   ["spawnRate"]=10.0,
+   ["counter"]=3,
 },
 -- Table: {761}
 {
-   ["x"]=2000.0,
-   ["y"]=1500.0,
+   ["spriteName"]="Spawner.png",
+   ["color"]={1316},
+   ["priority"]=30,
 },
 -- Table: {762}
 {
-   ["r"]=0.0,
-   ["a"]=1.0,
-   ["b"]=0.39380532503128,
-   ["g"]=0.29971033334732,
+   ["scale"]={1317},
+   ["position"]={1318},
+   ["rotation"]=0.0,
 },
 -- Table: {763}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["spriteName"]="Fallback.png",
+   ["color"]={1319},
+   ["priority"]=-10,
 },
 -- Table: {764}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["scale"]={1320},
+   ["position"]={1321},
+   ["rotation"]=0.0,
 },
 -- Table: {765}
 {
-   ["position"]={816},
-   ["scale"]={817},
-   ["rotation"]=0.0,
+   ["linkID"]=93,
 },
 -- Table: {766}
 {
-   ["fontSize"]=14.0,
-   ["offset"]={818},
-   ["text"]="100 / 100",
-   ["spacing"]=3.0,
-   ["bgThickness"]=2.0,
-   ["font"]="",
-   ["textColor"]={819},
-   ["bgColor"]={820},
-   ["rotation"]=0.0,
+   ["spriteName"]="Door.png",
+   ["color"]={1322},
+   ["priority"]=100,
 },
 -- Table: {767}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["scale"]={1323},
+   ["position"]={1324},
+   ["rotation"]=0.0,
 },
 -- Table: {768}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["tag"]="Door",
+   ["offset"]={1325},
+   ["debug"]=false,
+   ["extents"]={1326},
+   ["rotation"]=0.0,
 },
 -- Table: {769}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["linkID"]=127,
 },
 -- Table: {770}
 {
-   ["x"]=2521.5900878906,
-   ["y"]=900.48370361328,
+   ["spriteName"]="Door.png",
+   ["color"]={1327},
+   ["priority"]=100,
 },
 -- Table: {771}
 {
-   ["x"]=60.0,
-   ["y"]=-60.0,
+   ["scale"]={1328},
+   ["position"]={1329},
+   ["rotation"]=0.0,
 },
 -- Table: {772}
 {
-   ["position"]={821},
-   ["scale"]={822},
-   ["rotation"]=200.3644540262,
+   ["tag"]="Door",
+   ["offset"]={1330},
+   ["debug"]=false,
+   ["extents"]={1331},
+   ["rotation"]=0.0,
 },
 -- Table: {773}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["linkID"]=135,
 },
 -- Table: {774}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["spriteName"]="Door.png",
+   ["color"]={1332},
+   ["priority"]=100,
 },
 -- Table: {775}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["scale"]={1333},
+   ["position"]={1334},
+   ["rotation"]=0.0,
 },
 -- Table: {776}
 {
-   ["x"]=-1049.9714355469,
-   ["y"]=748.25720214844,
+   ["tag"]="Door",
+   ["offset"]={1335},
+   ["debug"]=false,
+   ["extents"]={1336},
+   ["rotation"]=0.0,
 },
 -- Table: {777}
 {
-   ["x"]=60.0,
-   ["y"]=-60.0,
 },
 -- Table: {778}
 {
-   ["x"]=2326.8901367188,
-   ["y"]=438.68368530273,
+   ["spriteName"]="Door.png",
+   ["color"]={1337},
+   ["priority"]=100,
 },
 -- Table: {779}
 {
-   ["x"]=100.0,
-   ["y"]=100.0,
+   ["scale"]={1338},
+   ["position"]={1339},
+   ["rotation"]=0.0,
 },
 -- Table: {780}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["tag"]="Door",
+   ["offset"]={1340},
+   ["debug"]=false,
+   ["extents"]={1341},
+   ["rotation"]=0.0,
 },
 -- Table: {781}
 {
-   ["x"]=3481.4899902344,
-   ["y"]=254.18365478516,
+   ["target"]=14,
+   ["textRender"]={1342},
+   ["trans"]={1343},
+   ["speed"]=16,
 },
 -- Table: {782}
 {
-   ["x"]=100.0,
-   ["y"]=100.0,
+   ["scale"]={1344},
+   ["position"]={1345},
+   ["rotation"]=0.0,
 },
 -- Table: {783}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["speed"]=35,
+   ["trans"]={1346},
+   ["wanderPoint"]={1070},
 },
 -- Table: {784}
 {
-   ["x"]=2876.7900390625,
-   ["y"]=793.58367919922,
+   ["scale"]={1347},
+   ["position"]={1348},
+   ["rotation"]=108.24304199219,
 },
 -- Table: {785}
 {
-   ["x"]=2000.0,
-   ["y"]=1500.0,
+   ["spriteName"]="Maxwell.png",
+   ["color"]={1349},
+   ["priority"]=30,
 },
 -- Table: {786}
 {
-   ["r"]=0.0,
-   ["a"]=1.0,
-   ["b"]=0.39380532503128,
-   ["g"]=0.29971033334732,
+   ["tag"]="Enemy",
+   ["offset"]={1350},
+   ["debug"]=true,
+   ["extents"]={1351},
+   ["rotation"]=0.0,
 },
 -- Table: {787}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["max"]=100.0,
+   ["current"]=100.0,
 },
 -- Table: {788}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["hardness"]=0.10000000149012,
 },
 -- Table: {789}
 {
-   ["position"]={823},
-   ["scale"]={824},
-   ["rotation"]=0.0,
+   ["prefab"]="Enemy",
+   ["spawnTimer"]=0.0,
+   ["capacity"]=3,
+   ["spawnRate"]=10.0,
+   ["counter"]=3,
 },
 -- Table: {790}
 {
-   ["fontSize"]=14.0,
-   ["offset"]={825},
-   ["text"]="100 / 100",
-   ["spacing"]=3.0,
-   ["bgThickness"]=2.0,
-   ["font"]="",
-   ["textColor"]={826},
-   ["bgColor"]={827},
-   ["rotation"]=0.0,
+   ["spriteName"]="Spawner.png",
+   ["color"]={1352},
+   ["priority"]=30,
 },
 -- Table: {791}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["scale"]={1353},
+   ["position"]={1354},
+   ["rotation"]=0.0,
 },
 -- Table: {792}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["prefab"]="Enemy",
+   ["spawnTimer"]=0.0,
+   ["capacity"]=3,
+   ["spawnRate"]=10.0,
+   ["counter"]=3,
 },
 -- Table: {793}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["spriteName"]="Spawner.png",
+   ["color"]={1355},
+   ["priority"]=30,
 },
 -- Table: {794}
 {
-   ["x"]=-2974.7824707031,
-   ["y"]=423.86471557617,
+   ["scale"]={1356},
+   ["position"]={1357},
+   ["rotation"]=0.0,
 },
 -- Table: {795}
 {
-   ["x"]=60.0,
-   ["y"]=60.0,
+   ["prefab"]="Enemy",
+   ["spawnTimer"]=0.0,
+   ["capacity"]=3,
+   ["spawnRate"]=10.0,
+   ["counter"]=3,
 },
 -- Table: {796}
 {
-   ["position"]={828},
-   ["scale"]={829},
-   ["rotation"]=351.52521926581,
+   ["spriteName"]="Spawner.png",
+   ["color"]={1358},
+   ["priority"]=30,
 },
 -- Table: {797}
 {
-   ["x"]=-1049.9714355469,
-   ["y"]=748.25720214844,
+   ["scale"]={1359},
+   ["position"]={1360},
+   ["rotation"]=0.0,
 },
 -- Table: {798}
 {
-   ["x"]=500.0,
-   ["y"]=500.0,
+   ["spriteName"]="Fallback.png",
+   ["color"]={1361},
+   ["priority"]=-10,
 },
 -- Table: {799}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=0.147465467453,
-   ["g"]=0.147465467453,
+   ["scale"]={1362},
+   ["position"]={1363},
+   ["rotation"]=0.0,
 },
 -- Table: {800}
 {
-   ["x"]=-3169.482421875,
-   ["y"]=-37.935272216797,
+   ["linkID"]=110,
 },
 -- Table: {801}
 {
-   ["x"]=100.0,
-   ["y"]=100.0,
+   ["spriteName"]="Door.png",
+   ["color"]={1364},
+   ["priority"]=100,
 },
 -- Table: {802}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["scale"]={1365},
+   ["position"]={1366},
+   ["rotation"]=0.0,
 },
 -- Table: {803}
 {
-   ["x"]=-2014.8825683594,
-   ["y"]=-222.43530273438,
+   ["tag"]="Door",
+   ["offset"]={1367},
+   ["debug"]=false,
+   ["extents"]={1368},
+   ["rotation"]=0.0,
 },
 -- Table: {804}
 {
-   ["x"]=100.0,
-   ["y"]=100.0,
+   ["linkID"]=127,
 },
 -- Table: {805}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["spriteName"]="Door.png",
+   ["color"]={1369},
+   ["priority"]=100,
 },
 -- Table: {806}
 {
-   ["x"]=-2619.5825195312,
-   ["y"]=316.96472167969,
+   ["scale"]={1370},
+   ["position"]={1371},
+   ["rotation"]=0.0,
 },
 -- Table: {807}
 {
-   ["x"]=2000.0,
-   ["y"]=1500.0,
+   ["tag"]="Door",
+   ["offset"]={1372},
+   ["debug"]=false,
+   ["extents"]={1373},
+   ["rotation"]=0.0,
 },
 -- Table: {808}
 {
-   ["r"]=0.0,
-   ["a"]=1.0,
-   ["b"]=0.39380532503128,
-   ["g"]=0.29971033334732,
+   ["linkID"]=93,
 },
 -- Table: {809}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["spriteName"]="Door.png",
+   ["color"]={1374},
+   ["priority"]=100,
 },
 -- Table: {810}
 {
-   ["x"]=1,
-   ["y"]=1,
+   ["scale"]={1375},
+   ["position"]={1376},
+   ["rotation"]=0.0,
 },
 -- Table: {811}
 {
-   ["x"]=0,
-   ["y"]=-60.0,
+   ["tag"]="Door",
+   ["offset"]={1377},
+   ["debug"]=false,
+   ["extents"]={1378},
+   ["rotation"]=0.0,
 },
 -- Table: {812}
 {
-   ["r"]=1,
-   ["a"]=1,
-   ["b"]=1,
-   ["g"]=1,
+   ["linkID"]=61,
 },
 -- Table: {813}
 {
-   ["r"]=0.0,
-   ["a"]=1.0,
-   ["b"]=0.0,
-   ["g"]=0.0,
+   ["spriteName"]="Door.png",
+   ["color"]={1379},
+   ["priority"]=100,
 },
 -- Table: {814}
 {
-   ["x"]=709.29425048828,
-   ["y"]=2411.8181152344,
+   ["scale"]={1380},
+   ["position"]={1381},
+   ["rotation"]=0.0,
 },
 -- Table: {815}
 {
-   ["x"]=60.0,
-   ["y"]=-60.0,
+   ["tag"]="Door",
+   ["offset"]={1382},
+   ["debug"]=false,
+   ["extents"]={1383},
+   ["rotation"]=0.0,
 },
 -- Table: {816}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
 },
 -- Table: {817}
 {
-   ["x"]=1,
-   ["y"]=1,
+   ["spriteName"]="Door.png",
+   ["color"]={1384},
+   ["priority"]=100,
 },
 -- Table: {818}
 {
-   ["x"]=0,
-   ["y"]=-60.0,
+   ["scale"]={1385},
+   ["position"]={1386},
+   ["rotation"]=0.0,
 },
 -- Table: {819}
 {
-   ["r"]=1,
-   ["a"]=1,
-   ["b"]=1,
-   ["g"]=1,
+   ["tag"]="Door",
+   ["offset"]={1387},
+   ["debug"]=false,
+   ["extents"]={1388},
+   ["rotation"]=0.0,
 },
 -- Table: {820}
 {
-   ["r"]=0.0,
-   ["a"]=1.0,
-   ["b"]=0.0,
-   ["g"]=0.0,
+   ["spriteName"]="",
+   ["color"]={1389},
+   ["priority"]=25,
 },
 -- Table: {821}
 {
-   ["x"]=2521.5900878906,
-   ["y"]=900.48370361328,
+   ["scale"]={1390},
+   ["position"]={1391},
+   ["rotation"]=0.0,
 },
 -- Table: {822}
 {
-   ["x"]=60.0,
-   ["y"]=-60.0,
+   ["hardness"]=6.0,
 },
 -- Table: {823}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["tag"]="Solid",
+   ["debug"]=false,
+   ["extents"]={1392},
+   ["offset"]={1393},
+   ["rotation"]=0.0,
 },
 -- Table: {824}
 {
-   ["x"]=1,
-   ["y"]=1,
+   ["spriteName"]="",
+   ["color"]={1394},
+   ["priority"]=0,
 },
 -- Table: {825}
 {
-   ["x"]=0,
-   ["y"]=-60.0,
+   ["scale"]={1395},
+   ["position"]={1396},
+   ["rotation"]=0.0,
 },
 -- Table: {826}
 {
-   ["r"]=1,
-   ["a"]=1,
-   ["b"]=1,
-   ["g"]=1,
+   ["scale"]={1397},
+   ["position"]={1398},
+   ["rotation"]=355.63983154297,
 },
 -- Table: {827}
 {
-   ["r"]=0.0,
-   ["a"]=1.0,
-   ["b"]=0.0,
-   ["g"]=0.0,
+   ["spriteName"]="Maxwell.png",
+   ["color"]={1399},
+   ["priority"]=30,
 },
 -- Table: {828}
 {
-   ["x"]=-2974.7824707031,
-   ["y"]=423.86471557617,
+   ["tag"]="Enemy",
+   ["debug"]=true,
+   ["extents"]={1400},
+   ["offset"]={1401},
+   ["rotation"]=0.0,
 },
 -- Table: {829}
 {
-   ["x"]=60.0,
+   ["max"]=100.0,
+   ["current"]=100.0,
+},
+-- Table: {830}
+{
+   ["hardness"]=0.10000000149012,
+},
+-- Table: {831}
+{
+   ["prefab"]="Enemy",
+   ["spawnTimer"]=0.0,
+   ["capacity"]=3,
+   ["spawnRate"]=10.0,
+   ["counter"]=3,
+},
+-- Table: {832}
+{
+   ["spriteName"]="Spawner.png",
+   ["color"]={1402},
+   ["priority"]=30,
+},
+-- Table: {833}
+{
+   ["scale"]={1403},
+   ["position"]={1404},
+   ["rotation"]=0.0,
+},
+-- Table: {834}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {835}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {836}
+{
+   ["y"]=-1010.6036987305,
+   ["x"]=1558.7561035156,
+},
+-- Table: {837}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {838}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {839}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {840}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {841}
+{
+   ["y"]=-730.99682617188,
+   ["x"]=1194.5723876953,
+},
+-- Table: {842}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {843}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {844}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {845}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {846}
+{
+   ["y"]=-701.0185546875,
+   ["x"]=1618.3903808594,
+},
+-- Table: {847}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {848}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {849}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {850}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {851}
+{
+   ["y"]=-821.20928955078,
+   ["x"]=1279.8509521484,
+},
+-- Table: {852}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {853}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {854}
+{
+   ["g"]=0.55164813995361,
+   ["b"]=0.3578619658947,
+   ["a"]=1.0,
+   ["r"]=0.80310881137848,
+},
+-- Table: {855}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {856}
+{
+   ["y"]=-821.20928955078,
+   ["x"]=1279.8509521484,
+},
+-- Table: {857}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {858}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {859}
+{
+   ["g"]=1.0,
+   ["b"]=0.18894010782242,
+   ["a"]=1.0,
+   ["r"]=0.66735339164734,
+},
+-- Table: {860}
+{
+   ["y"]=500.0,
+   ["x"]=700.0,
+},
+-- Table: {861}
+{
+   ["y"]=-821.20928955078,
+   ["x"]=1279.8509521484,
+},
+-- Table: {862}
+{
    ["y"]=60.0,
+   ["x"]=60.0,
+},
+-- Table: {863}
+{
+   ["y"]=-821.20928955078,
+   ["x"]=1112.3509521484,
+},
+-- Table: {864}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {865}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {866}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {867}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {868}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {869}
+{
+   ["y"]=-989.30932617188,
+   ["x"]=1534.4509277344,
+},
+-- Table: {870}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {871}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {872}
+{
+   ["y"]=-266.21502685547,
+   ["x"]=-981.97259521484,
+},
+-- Table: {873}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {874}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {875}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {876}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {877}
+{
+   ["y"]=-375.10876464844,
+   ["x"]=-1427.5177001953,
+},
+-- Table: {878}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {879}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {880}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {881}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {882}
+{
+   ["y"]=-634.09918212891,
+   ["x"]=-981.4658203125,
+},
+-- Table: {883}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {884}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {885}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {886}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {887}
+{
+   ["y"]=-402.89828491211,
+   ["x"]=-1482.8558349609,
+},
+-- Table: {888}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {889}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {890}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {891}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {892}
+{
+   ["y"]=-492.93026733398,
+   ["x"]=-1277.1923828125,
+},
+-- Table: {893}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {894}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {895}
+{
+   ["g"]=0.55164813995361,
+   ["b"]=0.3578619658947,
+   ["a"]=1.0,
+   ["r"]=0.80310881137848,
+},
+-- Table: {896}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {897}
+{
+   ["y"]=-492.93026733398,
+   ["x"]=-1277.1923828125,
+},
+-- Table: {898}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {899}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {900}
+{
+   ["g"]=1.0,
+   ["b"]=0.18894010782242,
+   ["a"]=1.0,
+   ["r"]=0.66735339164734,
+},
+-- Table: {901}
+{
+   ["y"]=500.0,
+   ["x"]=700.0,
+},
+-- Table: {902}
+{
+   ["y"]=-492.93026733398,
+   ["x"]=-1277.1923828125,
+},
+-- Table: {903}
+{
+   ["y"]=60.0,
+   ["x"]=60.0,
+},
+-- Table: {904}
+{
+   ["y"]=-492.93026733398,
+   ["x"]=-1444.6923828125,
+},
+-- Table: {905}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {906}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {907}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {908}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {909}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {910}
+{
+   ["y"]=-661.0302734375,
+   ["x"]=-1022.5924072266,
+},
+-- Table: {911}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {912}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {913}
+{
+   ["y"]=-434.83792114258,
+   ["x"]=1517.8225097656,
+},
+-- Table: {914}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {915}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {916}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {917}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {918}
+{
+   ["y"]=-306.51458740234,
+   ["x"]=1178.3603515625,
+},
+-- Table: {919}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {920}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {921}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {922}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {923}
+{
+   ["y"]=-197.77699279785,
+   ["x"]=1509.7280273438,
+},
+-- Table: {924}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {925}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {926}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {927}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {928}
+{
+   ["y"]=-319.48175048828,
+   ["x"]=1317.2727050781,
+},
+-- Table: {929}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {930}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {931}
+{
+   ["g"]=0.55164813995361,
+   ["b"]=0.3578619658947,
+   ["a"]=1.0,
+   ["r"]=0.80310881137848,
+},
+-- Table: {932}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {933}
+{
+   ["y"]=-319.48175048828,
+   ["x"]=1317.2727050781,
+},
+-- Table: {934}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {935}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {936}
+{
+   ["g"]=1.0,
+   ["b"]=0.18894010782242,
+   ["a"]=1.0,
+   ["r"]=0.66735339164734,
+},
+-- Table: {937}
+{
+   ["y"]=500.0,
+   ["x"]=700.0,
+},
+-- Table: {938}
+{
+   ["y"]=-319.48175048828,
+   ["x"]=1317.2727050781,
+},
+-- Table: {939}
+{
+   ["y"]=60.0,
+   ["x"]=60.0,
+},
+-- Table: {940}
+{
+   ["y"]=-319.48175048828,
+   ["x"]=1149.7727050781,
+},
+-- Table: {941}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {942}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {943}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {944}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {945}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {946}
+{
+   ["y"]=-487.5817565918,
+   ["x"]=1571.8726806641,
+},
+-- Table: {947}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {948}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {949}
+{
+   ["y"]=-795.96166992188,
+   ["x"]=-1557.3715820312,
+},
+-- Table: {950}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {951}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {952}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {953}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {954}
+{
+   ["y"]=-1162.3474121094,
+   ["x"]=-1492.8387451172,
+},
+-- Table: {955}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {956}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {957}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {958}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {959}
+{
+   ["y"]=-927.41058349609,
+   ["x"]=-1453.0386962891,
+},
+-- Table: {960}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {961}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {962}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {963}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {964}
+{
+   ["y"]=-993.79925537109,
+   ["x"]=-1593.8024902344,
+},
+-- Table: {965}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {966}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {967}
+{
+   ["g"]=0.55164813995361,
+   ["b"]=0.3578619658947,
+   ["a"]=1.0,
+   ["r"]=0.80310881137848,
+},
+-- Table: {968}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {969}
+{
+   ["y"]=-993.79925537109,
+   ["x"]=-1593.8024902344,
+},
+-- Table: {970}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {971}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {972}
+{
+   ["g"]=1.0,
+   ["b"]=0.18894010782242,
+   ["a"]=1.0,
+   ["r"]=0.66735339164734,
+},
+-- Table: {973}
+{
+   ["y"]=500.0,
+   ["x"]=700.0,
+},
+-- Table: {974}
+{
+   ["y"]=-993.79925537109,
+   ["x"]=-1593.8024902344,
+},
+-- Table: {975}
+{
+   ["y"]=60.0,
+   ["x"]=60.0,
+},
+-- Table: {976}
+{
+   ["y"]=-993.79925537109,
+   ["x"]=-1761.3024902344,
+},
+-- Table: {977}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {978}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {979}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {980}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {981}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {982}
+{
+   ["y"]=-1161.8992919922,
+   ["x"]=-1339.2025146484,
+},
+-- Table: {983}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {984}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {985}
+{
+   ["y"]=-500.53219604492,
+   ["x"]=-225.93086242676,
+},
+-- Table: {986}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {987}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {988}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {989}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {990}
+{
+   ["y"]=-970.71203613281,
+   ["x"]=114.11001586914,
+},
+-- Table: {991}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {992}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {993}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {994}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {995}
+{
+   ["y"]=-573.25769042969,
+   ["x"]=157.03887939453,
+},
+-- Table: {996}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {997}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {998}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {999}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {1000}
+{
+   ["y"]=-835.30627441406,
+   ["x"]=-467.6220703125,
+},
+-- Table: {1001}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1002}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1003}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1004}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1005}
+{
+   ["y"]=-737.05230712891,
+   ["x"]=-138.86743164062,
+},
+-- Table: {1006}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1007}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1008}
+{
+   ["g"]=0.55164813995361,
+   ["b"]=0.3578619658947,
+   ["a"]=1.0,
+   ["r"]=0.80310881137848,
+},
+-- Table: {1009}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1010}
+{
+   ["y"]=-737.05230712891,
+   ["x"]=-138.86743164062,
+},
+-- Table: {1011}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1012}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1013}
+{
+   ["g"]=1.0,
+   ["b"]=0.18894010782242,
+   ["a"]=1.0,
+   ["r"]=0.66735339164734,
+},
+-- Table: {1014}
+{
+   ["y"]=500.0,
+   ["x"]=700.0,
+},
+-- Table: {1015}
+{
+   ["y"]=-737.05230712891,
+   ["x"]=-138.86743164062,
+},
+-- Table: {1016}
+{
+   ["y"]=60.0,
+   ["x"]=60.0,
+},
+-- Table: {1017}
+{
+   ["y"]=-737.05230712891,
+   ["x"]=-306.36743164062,
+},
+-- Table: {1018}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1019}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1020}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1021}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1022}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1023}
+{
+   ["y"]=-905.15234375,
+   ["x"]=115.73257446289,
+},
+-- Table: {1024}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1025}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {1026}
+{
+   ["y"]=133.86041259766,
+   ["x"]=1409.4071044922,
+},
+-- Table: {1027}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1028}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1029}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1030}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {1031}
+{
+   ["y"]=95.766593933105,
+   ["x"]=1575.4620361328,
+},
+-- Table: {1032}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1033}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1034}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1035}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1036}
+{
+   ["y"]=181.77030944824,
+   ["x"]=1317.8381347656,
+},
+-- Table: {1037}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1038}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1039}
+{
+   ["g"]=0.55164813995361,
+   ["b"]=0.3578619658947,
+   ["a"]=1.0,
+   ["r"]=0.80310881137848,
+},
+-- Table: {1040}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1041}
+{
+   ["y"]=181.77030944824,
+   ["x"]=1317.8381347656,
+},
+-- Table: {1042}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1043}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1044}
+{
+   ["g"]=1.0,
+   ["b"]=0.18894010782242,
+   ["a"]=1.0,
+   ["r"]=0.66735339164734,
+},
+-- Table: {1045}
+{
+   ["y"]=500.0,
+   ["x"]=700.0,
+},
+-- Table: {1046}
+{
+   ["y"]=181.77030944824,
+   ["x"]=1317.8381347656,
+},
+-- Table: {1047}
+{
+   ["y"]=60.0,
+   ["x"]=60.0,
+},
+-- Table: {1048}
+{
+   ["y"]=181.77030944824,
+   ["x"]=1150.3381347656,
+},
+-- Table: {1049}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1050}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1051}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1052}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1053}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1054}
+{
+   ["y"]=13.670303344727,
+   ["x"]=1572.4381103516,
+},
+-- Table: {1055}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1056}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {1057}
+{
+   ["y"]=3973.8142089844,
+   ["x"]=361.37191772461,
+},
+-- Table: {1058}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1059}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1060}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1061}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1062}
+{
+   ["y"]=3509.1213378906,
+   ["x"]=-478.06253051758,
+},
+-- Table: {1063}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1064}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1065}
+{
+   ["bgColor"]={1405},
+   ["spacing"]=3.0,
+   ["font"]="",
+   ["bgThickness"]=2.0,
+   ["text"]="100 / 100",
+   ["textColor"]={1406},
+   ["offset"]={1407},
+   ["fontSize"]=14.0,
+   ["rotation"]=0.0,
+},
+-- Table: {1066}
+{
+   ["scale"]={1408},
+   ["position"]={1409},
+   ["rotation"]=0.0,
+},
+-- Table: {1067}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1068}
+{
+   ["y"]=106.90000152588,
+   ["x"]=-355.20001220703,
+},
+-- Table: {1069}
+{
+   ["scale"]={1410},
+   ["position"]={1411},
+   ["rotation"]=283.35660555575,
+},
+-- Table: {1070}
+{
+   ["y"]=-24.0,
+   ["x"]=31.0,
+},
+-- Table: {1071}
+{
+   ["y"]=60.0,
+   ["x"]=60.0,
+},
+-- Table: {1072}
+{
+   ["y"]=3616.0212402344,
+   ["x"]=-833.26257324219,
+},
+-- Table: {1073}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1074}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1075}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1076}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1077}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {1078}
+{
+   ["y"]=452.00476074219,
+   ["x"]=2173.3835449219,
+},
+-- Table: {1079}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1080}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1081}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1082}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1083}
+{
+   ["y"]=3154.2214355469,
+   ["x"]=-1027.9625244141,
+},
+-- Table: {1084}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1085}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1086}
+{
+   ["y"]=2969.7211914062,
+   ["x"]=126.63748168945,
+},
+-- Table: {1087}
+{
+   ["g"]=0.29971033334732,
+   ["b"]=0.39380532503128,
+   ["a"]=1.0,
+   ["r"]=0.0,
+},
+-- Table: {1088}
+{
+   ["y"]=1500.0,
+   ["x"]=2000.0,
+},
+-- Table: {1089}
+{
+   ["y"]=3509.1213378906,
+   ["x"]=-478.06253051758,
+},
+-- Table: {1090}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1091}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {1092}
+{
+   ["y"]=-1938.7791748047,
+   ["x"]=-1516.4761962891,
+},
+-- Table: {1093}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1094}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1095}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1096}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {1097}
+{
+   ["y"]=-1780.5198974609,
+   ["x"]=-808.84851074219,
+},
+-- Table: {1098}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1099}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1100}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1101}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1102}
+{
+   ["y"]=-1994.2515869141,
+   ["x"]=-1054.7908935547,
+},
+-- Table: {1103}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1104}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1105}
+{
+   ["bgColor"]={1412},
+   ["spacing"]=3.0,
+   ["font"]="",
+   ["bgThickness"]=2.0,
+   ["text"]="100 / 100",
+   ["textColor"]={1413},
+   ["offset"]={1414},
+   ["fontSize"]=14.0,
+   ["rotation"]=0.0,
+},
+-- Table: {1106}
+{
+   ["scale"]={1415},
+   ["position"]={1416},
+   ["rotation"]=0.0,
+},
+-- Table: {1107}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1108}
+{
+   ["y"]=106.90000152588,
+   ["x"]=-355.20001220703,
+},
+-- Table: {1109}
+{
+   ["scale"]={1417},
+   ["position"]={1418},
+   ["rotation"]=52.284041129613,
+},
+-- Table: {1110}
+{
+   ["y"]=60.0,
+   ["x"]=60.0,
+},
+-- Table: {1111}
+{
+   ["y"]=-1887.3515625,
+   ["x"]=-1409.9909667969,
+},
+-- Table: {1112}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1113}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1114}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1115}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1116}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {1117}
+{
+   ["y"]=23.124494552612,
+   ["x"]=2344.0739746094,
+},
+-- Table: {1118}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1119}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1120}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1121}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1122}
+{
+   ["y"]=-2349.1516113281,
+   ["x"]=-1604.6909179688,
+},
+-- Table: {1123}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1124}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1125}
+{
+   ["y"]=-2533.6516113281,
+   ["x"]=-450.09088134766,
+},
+-- Table: {1126}
+{
+   ["g"]=0.29971033334732,
+   ["b"]=0.39380532503128,
+   ["a"]=1.0,
+   ["r"]=0.0,
+},
+-- Table: {1127}
+{
+   ["y"]=1500.0,
+   ["x"]=2000.0,
+},
+-- Table: {1128}
+{
+   ["y"]=-1994.2515869141,
+   ["x"]=-1054.7908935547,
+},
+-- Table: {1129}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1130}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {1131}
+{
+   ["y"]=34.507095336914,
+   ["x"]=-827.86138916016,
+},
+-- Table: {1132}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1133}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1134}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1135}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {1136}
+{
+   ["y"]=992.28790283203,
+   ["x"]=642.39831542969,
+},
+-- Table: {1137}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1138}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1139}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1140}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {1141}
+{
+   ["y"]=608.50164794922,
+   ["x"]=-488.39633178711,
+},
+-- Table: {1142}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1143}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1144}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1145}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1146}
+{
+   ["y"]=507.3212890625,
+   ["x"]=-34.436431884766,
+},
+-- Table: {1147}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1148}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1149}
+{
+   ["bgColor"]={1419},
+   ["spacing"]=3.0,
+   ["font"]="",
+   ["bgThickness"]=2.0,
+   ["text"]="100 / 100",
+   ["textColor"]={1420},
+   ["offset"]={1421},
+   ["fontSize"]=14.0,
+   ["rotation"]=0.0,
+},
+-- Table: {1150}
+{
+   ["scale"]={1422},
+   ["position"]={1423},
+   ["rotation"]=0.0,
+},
+-- Table: {1151}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1152}
+{
+   ["y"]=106.90000152588,
+   ["x"]=-355.20001220703,
+},
+-- Table: {1153}
+{
+   ["scale"]={1424},
+   ["position"]={1425},
+   ["rotation"]=303.38792390642,
+},
+-- Table: {1154}
+{
+   ["y"]=60.0,
+   ["x"]=60.0,
+},
+-- Table: {1155}
+{
+   ["y"]=614.22131347656,
+   ["x"]=-389.6364440918,
+},
+-- Table: {1156}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1157}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1158}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1159}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1160}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {1161}
+{
+   ["y"]=277.18734741211,
+   ["x"]=1997.9764404297,
+},
+-- Table: {1162}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1163}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1164}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1165}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1166}
+{
+   ["y"]=152.42129516602,
+   ["x"]=-584.33642578125,
+},
+-- Table: {1167}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1168}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1169}
+{
+   ["y"]=-32.078735351562,
+   ["x"]=570.26354980469,
+},
+-- Table: {1170}
+{
+   ["g"]=0.29971033334732,
+   ["b"]=0.39380532503128,
+   ["a"]=1.0,
+   ["r"]=0.0,
+},
+-- Table: {1171}
+{
+   ["y"]=1500.0,
+   ["x"]=2000.0,
+},
+-- Table: {1172}
+{
+   ["y"]=507.3212890625,
+   ["x"]=-34.436431884766,
+},
+-- Table: {1173}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1174}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {1175}
+{
+   ["y"]=1812.619140625,
+   ["x"]=-1540.2624511719,
+},
+-- Table: {1176}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1177}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1178}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1179}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1180}
+{
+   ["y"]=1593.3486328125,
+   ["x"]=-2157.6694335938,
+},
+-- Table: {1181}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1182}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1183}
+{
+   ["bgColor"]={1426},
+   ["spacing"]=3.0,
+   ["font"]="",
+   ["bgThickness"]=2.0,
+   ["text"]="100 / 100",
+   ["textColor"]={1427},
+   ["offset"]={1428},
+   ["fontSize"]=14.0,
+   ["rotation"]=0.0,
+},
+-- Table: {1184}
+{
+   ["scale"]={1429},
+   ["position"]={1430},
+   ["rotation"]=0.0,
+},
+-- Table: {1185}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1186}
+{
+   ["y"]=106.90000152588,
+   ["x"]=-355.20001220703,
+},
+-- Table: {1187}
+{
+   ["scale"]={1431},
+   ["position"]={1432},
+   ["rotation"]=325.87036460462,
+},
+-- Table: {1188}
+{
+   ["y"]=60.0,
+   ["x"]=60.0,
+},
+-- Table: {1189}
+{
+   ["y"]=1700.2486572266,
+   ["x"]=-2512.8693847656,
+},
+-- Table: {1190}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1191}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1192}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1193}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1194}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1195}
+{
+   ["y"]=206.67805480957,
+   ["x"]=2018.7080078125,
+},
+-- Table: {1196}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1197}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1198}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1199}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1200}
+{
+   ["y"]=1238.4486083984,
+   ["x"]=-2707.5693359375,
+},
+-- Table: {1201}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1202}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1203}
+{
+   ["y"]=1053.9486083984,
+   ["x"]=-1552.9694824219,
+},
+-- Table: {1204}
+{
+   ["g"]=0.29971033334732,
+   ["b"]=0.39380532503128,
+   ["a"]=1.0,
+   ["r"]=0.0,
+},
+-- Table: {1205}
+{
+   ["y"]=1500.0,
+   ["x"]=2000.0,
+},
+-- Table: {1206}
+{
+   ["y"]=1593.3486328125,
+   ["x"]=-2157.6694335938,
+},
+-- Table: {1207}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1208}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {1209}
+{
+   ["y"]=2487.130859375,
+   ["x"]=1435.7121582031,
+},
+-- Table: {1210}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1211}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1212}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1213}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {1214}
+{
+   ["y"]=2698.7399902344,
+   ["x"]=311.83279418945,
+},
+-- Table: {1215}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1216}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1217}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1218}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1219}
+{
+   ["y"]=2008.7666015625,
+   ["x"]=913.02508544922,
+},
+-- Table: {1220}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1221}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1222}
+{
+   ["bgColor"]={1433},
+   ["spacing"]=3.0,
+   ["font"]="",
+   ["bgThickness"]=2.0,
+   ["text"]="100 / 100",
+   ["textColor"]={1434},
+   ["offset"]={1435},
+   ["fontSize"]=14.0,
+   ["rotation"]=0.0,
+},
+-- Table: {1223}
+{
+   ["scale"]={1436},
+   ["position"]={1437},
+   ["rotation"]=0.0,
+},
+-- Table: {1224}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1225}
+{
+   ["y"]=106.90000152588,
+   ["x"]=-355.20001220703,
+},
+-- Table: {1226}
+{
+   ["scale"]={1438},
+   ["position"]={1439},
+   ["rotation"]=256.16786651608,
+},
+-- Table: {1227}
+{
+   ["y"]=-60.0,
+   ["x"]=60.0,
+},
+-- Table: {1228}
+{
+   ["y"]=2115.6665039062,
+   ["x"]=557.82507324219,
+},
+-- Table: {1229}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1230}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1231}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1232}
+{
+   ["g"]=0.55164813995361,
+   ["b"]=0.3578619658947,
+   ["a"]=1.0,
+   ["r"]=0.80310881137848,
+},
+-- Table: {1233}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1234}
+{
+   ["y"]=206.67805480957,
+   ["x"]=2018.7080078125,
+},
+-- Table: {1235}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1236}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1237}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1238}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1239}
+{
+   ["y"]=1653.8665771484,
+   ["x"]=363.12506103516,
+},
+-- Table: {1240}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1241}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1242}
+{
+   ["y"]=1469.3665771484,
+   ["x"]=1517.7250976562,
+},
+-- Table: {1243}
+{
+   ["g"]=0.29971033334732,
+   ["b"]=0.39380532503128,
+   ["a"]=1.0,
+   ["r"]=0.0,
+},
+-- Table: {1244}
+{
+   ["y"]=1500.0,
+   ["x"]=2000.0,
+},
+-- Table: {1245}
+{
+   ["y"]=2008.7666015625,
+   ["x"]=913.02508544922,
+},
+-- Table: {1246}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1247}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {1248}
+{
+   ["y"]=1894.8427734375,
+   ["x"]=3351.3933105469,
+},
+-- Table: {1249}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1250}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1251}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1252}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1253}
+{
+   ["y"]=1340.3892822266,
+   ["x"]=2913.5537109375,
+},
+-- Table: {1254}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1255}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1256}
+{
+   ["bgColor"]={1440},
+   ["spacing"]=3.0,
+   ["font"]="",
+   ["bgThickness"]=2.0,
+   ["text"]="100 / 100",
+   ["textColor"]={1441},
+   ["offset"]={1442},
+   ["fontSize"]=14.0,
+   ["rotation"]=0.0,
+},
+-- Table: {1257}
+{
+   ["scale"]={1443},
+   ["position"]={1444},
+   ["rotation"]=0.0,
+},
+-- Table: {1258}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1259}
+{
+   ["y"]=106.90000152588,
+   ["x"]=-355.20001220703,
+},
+-- Table: {1260}
+{
+   ["scale"]={1445},
+   ["position"]={1446},
+   ["rotation"]=210.20566059682,
+},
+-- Table: {1261}
+{
+   ["y"]=-60.0,
+   ["x"]=60.0,
+},
+-- Table: {1262}
+{
+   ["y"]=1447.2893066406,
+   ["x"]=2558.3537597656,
+},
+-- Table: {1263}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1264}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1265}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1266}
+{
+   ["g"]=1.0,
+   ["b"]=0.18894010782242,
+   ["a"]=1.0,
+   ["r"]=0.66735339164734,
+},
+-- Table: {1267}
+{
+   ["y"]=500.0,
+   ["x"]=700.0,
+},
+-- Table: {1268}
+{
+   ["y"]=206.67805480957,
+   ["x"]=2018.7080078125,
+},
+-- Table: {1269}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1270}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1271}
+{
+   ["y"]=985.4892578125,
+   ["x"]=2363.6538085938,
+},
+-- Table: {1272}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1273}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1274}
+{
+   ["y"]=800.9892578125,
+   ["x"]=3518.2536621094,
+},
+-- Table: {1275}
+{
+   ["g"]=0.29971033334732,
+   ["b"]=0.39380532503128,
+   ["a"]=1.0,
+   ["r"]=0.0,
+},
+-- Table: {1276}
+{
+   ["y"]=1500.0,
+   ["x"]=2000.0,
+},
+-- Table: {1277}
+{
+   ["y"]=1340.3892822266,
+   ["x"]=2913.5537109375,
+},
+-- Table: {1278}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1279}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {1280}
+{
+   ["y"]=782.99200439453,
+   ["x"]=-2270.4353027344,
+},
+-- Table: {1281}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1282}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1283}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1284}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {1285}
+{
+   ["y"]=-72.496887207031,
+   ["x"]=-3261.7131347656,
+},
+-- Table: {1286}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1287}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1288}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1289}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {1290}
+{
+   ["y"]=-413.22738647461,
+   ["x"]=-2093.7028808594,
+},
+-- Table: {1291}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1292}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1293}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1294}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1295}
+{
+   ["y"]=92.115577697754,
+   ["x"]=-2792.1936035156,
+},
+-- Table: {1296}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1297}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1298}
+{
+   ["bgColor"]={1447},
+   ["spacing"]=3.0,
+   ["font"]="",
+   ["bgThickness"]=2.0,
+   ["text"]="100 / 100",
+   ["textColor"]={1448},
+   ["offset"]={1449},
+   ["fontSize"]=14.0,
+   ["rotation"]=0.0,
+},
+-- Table: {1299}
+{
+   ["scale"]={1450},
+   ["position"]={1451},
+   ["rotation"]=0.0,
+},
+-- Table: {1300}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1301}
+{
+   ["y"]=106.90000152588,
+   ["x"]=-355.20001220703,
+},
+-- Table: {1302}
+{
+   ["scale"]={1452},
+   ["position"]={1453},
+   ["rotation"]=355.9863549651,
+},
+-- Table: {1303}
+{
+   ["y"]=60.0,
+   ["x"]=60.0,
+},
+-- Table: {1304}
+{
+   ["y"]=199.01557922363,
+   ["x"]=-3147.3935546875,
+},
+-- Table: {1305}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1306}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1307}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1308}
+{
+   ["y"]=60.0,
+   ["x"]=60.0,
+},
+-- Table: {1309}
+{
+   ["y"]=206.67805480957,
+   ["x"]=1851.2080078125,
+},
+-- Table: {1310}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1311}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1312}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1313}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1314}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1315}
+{
+   ["y"]=-262.78442382812,
+   ["x"]=-3342.09375,
+},
+-- Table: {1316}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1317}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1318}
+{
+   ["y"]=-447.2844543457,
+   ["x"]=-2187.4936523438,
+},
+-- Table: {1319}
+{
+   ["g"]=0.29971033334732,
+   ["b"]=0.39380532503128,
+   ["a"]=1.0,
+   ["r"]=0.0,
+},
+-- Table: {1320}
+{
+   ["y"]=1500.0,
+   ["x"]=2000.0,
+},
+-- Table: {1321}
+{
+   ["y"]=92.115577697754,
+   ["x"]=-2792.1936035156,
+},
+-- Table: {1322}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1323}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {1324}
+{
+   ["y"]=-1659.1832275391,
+   ["x"]=74.207443237305,
+},
+-- Table: {1325}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1326}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1327}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1328}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {1329}
+{
+   ["y"]=-1476.0395507812,
+   ["x"]=1698.5725097656,
+},
+-- Table: {1330}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1331}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1332}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1333}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {1334}
+{
+   ["y"]=-2484.7048339844,
+   ["x"]=270.232421875,
+},
+-- Table: {1335}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1336}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1337}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1338}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1339}
+{
+   ["y"]=-1827.8028564453,
+   ["x"]=945.52612304688,
+},
+-- Table: {1340}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1341}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1342}
+{
+   ["bgColor"]={1454},
+   ["spacing"]=3.0,
+   ["font"]="",
+   ["bgThickness"]=2.0,
+   ["text"]="100 / 100",
+   ["textColor"]={1455},
+   ["offset"]={1456},
+   ["fontSize"]=14.0,
+   ["rotation"]=0.0,
+},
+-- Table: {1343}
+{
+   ["scale"]={1457},
+   ["position"]={1458},
+   ["rotation"]=0.0,
+},
+-- Table: {1344}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1345}
+{
+   ["y"]=106.90000152588,
+   ["x"]=-355.20001220703,
+},
+-- Table: {1346}
+{
+   ["scale"]={1459},
+   ["position"]={1460},
+   ["rotation"]=108.24304028217,
+},
+-- Table: {1347}
+{
+   ["y"]=-60.0,
+   ["x"]=60.0,
+},
+-- Table: {1348}
+{
+   ["y"]=-1720.9028320312,
+   ["x"]=590.32611083984,
+},
+-- Table: {1349}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1350}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1351}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1352}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1353}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1354}
+{
+   ["y"]=38.578048706055,
+   ["x"]=2273.3081054688,
+},
+-- Table: {1355}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1356}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1357}
+{
+   ["y"]=-2182.7028808594,
+   ["x"]=395.62609863281,
+},
+-- Table: {1358}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1359}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1360}
+{
+   ["y"]=-2367.2028808594,
+   ["x"]=1550.2260742188,
+},
+-- Table: {1361}
+{
+   ["g"]=0.29971033334732,
+   ["b"]=0.39380532503128,
+   ["a"]=1.0,
+   ["r"]=0.0,
+},
+-- Table: {1362}
+{
+   ["y"]=1500.0,
+   ["x"]=2000.0,
+},
+-- Table: {1363}
+{
+   ["y"]=-1827.8028564453,
+   ["x"]=945.52612304688,
+},
+-- Table: {1364}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1365}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {1366}
+{
+   ["y"]=-759.80187988281,
+   ["x"]=445.51657104492,
+},
+-- Table: {1367}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1368}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1369}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1370}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {1371}
+{
+   ["y"]=-362.31457519531,
+   ["x"]=593.43109130859,
+},
+-- Table: {1372}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1373}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1374}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1375}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {1376}
+{
+   ["y"]=-584.18609619141,
+   ["x"]=658.99572753906,
+},
+-- Table: {1377}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1378}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1379}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1380}
+{
+   ["y"]=50.0,
+   ["x"]=50.0,
+},
+-- Table: {1381}
+{
+   ["y"]=-677.54162597656,
+   ["x"]=446.92599487305,
+},
+-- Table: {1382}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1383}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1384}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1385}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1386}
+{
+   ["y"]=-554.94256591797,
+   ["x"]=579.63458251953,
+},
+-- Table: {1387}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1388}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1389}
+{
+   ["g"]=0.55164813995361,
+   ["b"]=0.3578619658947,
+   ["a"]=1.0,
+   ["r"]=0.80310881137848,
+},
+-- Table: {1390}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1391}
+{
+   ["y"]=-554.94256591797,
+   ["x"]=579.63458251953,
+},
+-- Table: {1392}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1393}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1394}
+{
+   ["g"]=1.0,
+   ["b"]=0.18894010782242,
+   ["a"]=1.0,
+   ["r"]=0.66735339164734,
+},
+-- Table: {1395}
+{
+   ["y"]=500.0,
+   ["x"]=700.0,
+},
+-- Table: {1396}
+{
+   ["y"]=-554.94256591797,
+   ["x"]=579.63458251953,
+},
+-- Table: {1397}
+{
+   ["y"]=60.0,
+   ["x"]=60.0,
+},
+-- Table: {1398}
+{
+   ["y"]=-554.94256591797,
+   ["x"]=412.13458251953,
+},
+-- Table: {1399}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1400}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {1401}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {1402}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {1403}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {1404}
+{
+   ["y"]=-723.04260253906,
+   ["x"]=834.23461914062,
+},
+-- Table: {1405}
+{
+   ["g"]=0.0,
+   ["b"]=0.0,
+   ["a"]=1.0,
+   ["r"]=0.0,
+},
+-- Table: {1406}
+{
+   ["g"]=1,
+   ["b"]=1,
+   ["a"]=1,
+   ["r"]=1,
+},
+-- Table: {1407}
+{
+   ["y"]=-60.0,
+   ["x"]=0,
+},
+-- Table: {1408}
+{
+   ["y"]=1,
+   ["x"]=1,
+},
+-- Table: {1409}
+{
+   ["y"]=106.90000152588,
+   ["x"]=-355.20001220703,
+},
+-- Table: {1410}
+{
+   ["y"]=60.0,
+   ["x"]=60.0,
+},
+-- Table: {1411}
+{
+   ["y"]=3616.0212402344,
+   ["x"]=-833.26257324219,
+},
+-- Table: {1412}
+{
+   ["g"]=0.0,
+   ["b"]=0.0,
+   ["a"]=1.0,
+   ["r"]=0.0,
+},
+-- Table: {1413}
+{
+   ["g"]=1,
+   ["b"]=1,
+   ["a"]=1,
+   ["r"]=1,
+},
+-- Table: {1414}
+{
+   ["y"]=-60.0,
+   ["x"]=0,
+},
+-- Table: {1415}
+{
+   ["y"]=1,
+   ["x"]=1,
+},
+-- Table: {1416}
+{
+   ["y"]=106.90000152588,
+   ["x"]=-355.20001220703,
+},
+-- Table: {1417}
+{
+   ["y"]=60.0,
+   ["x"]=60.0,
+},
+-- Table: {1418}
+{
+   ["y"]=-1887.3515625,
+   ["x"]=-1409.9909667969,
+},
+-- Table: {1419}
+{
+   ["g"]=0.0,
+   ["b"]=0.0,
+   ["a"]=1.0,
+   ["r"]=0.0,
+},
+-- Table: {1420}
+{
+   ["g"]=1,
+   ["b"]=1,
+   ["a"]=1,
+   ["r"]=1,
+},
+-- Table: {1421}
+{
+   ["y"]=-60.0,
+   ["x"]=0,
+},
+-- Table: {1422}
+{
+   ["y"]=1,
+   ["x"]=1,
+},
+-- Table: {1423}
+{
+   ["y"]=106.90000152588,
+   ["x"]=-355.20001220703,
+},
+-- Table: {1424}
+{
+   ["y"]=60.0,
+   ["x"]=60.0,
+},
+-- Table: {1425}
+{
+   ["y"]=614.22131347656,
+   ["x"]=-389.6364440918,
+},
+-- Table: {1426}
+{
+   ["g"]=0.0,
+   ["b"]=0.0,
+   ["a"]=1.0,
+   ["r"]=0.0,
+},
+-- Table: {1427}
+{
+   ["g"]=1,
+   ["b"]=1,
+   ["a"]=1,
+   ["r"]=1,
+},
+-- Table: {1428}
+{
+   ["y"]=-60.0,
+   ["x"]=0,
+},
+-- Table: {1429}
+{
+   ["y"]=1,
+   ["x"]=1,
+},
+-- Table: {1430}
+{
+   ["y"]=106.90000152588,
+   ["x"]=-355.20001220703,
+},
+-- Table: {1431}
+{
+   ["y"]=60.0,
+   ["x"]=60.0,
+},
+-- Table: {1432}
+{
+   ["y"]=1700.2486572266,
+   ["x"]=-2512.8693847656,
+},
+-- Table: {1433}
+{
+   ["g"]=0.0,
+   ["b"]=0.0,
+   ["a"]=1.0,
+   ["r"]=0.0,
+},
+-- Table: {1434}
+{
+   ["g"]=1,
+   ["b"]=1,
+   ["a"]=1,
+   ["r"]=1,
+},
+-- Table: {1435}
+{
+   ["y"]=-60.0,
+   ["x"]=0,
+},
+-- Table: {1436}
+{
+   ["y"]=1,
+   ["x"]=1,
+},
+-- Table: {1437}
+{
+   ["y"]=106.90000152588,
+   ["x"]=-355.20001220703,
+},
+-- Table: {1438}
+{
+   ["y"]=-60.0,
+   ["x"]=60.0,
+},
+-- Table: {1439}
+{
+   ["y"]=2115.6665039062,
+   ["x"]=557.82507324219,
+},
+-- Table: {1440}
+{
+   ["g"]=0.0,
+   ["b"]=0.0,
+   ["a"]=1.0,
+   ["r"]=0.0,
+},
+-- Table: {1441}
+{
+   ["g"]=1,
+   ["b"]=1,
+   ["a"]=1,
+   ["r"]=1,
+},
+-- Table: {1442}
+{
+   ["y"]=-60.0,
+   ["x"]=0,
+},
+-- Table: {1443}
+{
+   ["y"]=1,
+   ["x"]=1,
+},
+-- Table: {1444}
+{
+   ["y"]=106.90000152588,
+   ["x"]=-355.20001220703,
+},
+-- Table: {1445}
+{
+   ["y"]=-60.0,
+   ["x"]=60.0,
+},
+-- Table: {1446}
+{
+   ["y"]=1447.2893066406,
+   ["x"]=2558.3537597656,
+},
+-- Table: {1447}
+{
+   ["g"]=0.0,
+   ["b"]=0.0,
+   ["a"]=1.0,
+   ["r"]=0.0,
+},
+-- Table: {1448}
+{
+   ["g"]=1,
+   ["b"]=1,
+   ["a"]=1,
+   ["r"]=1,
+},
+-- Table: {1449}
+{
+   ["y"]=-60.0,
+   ["x"]=0,
+},
+-- Table: {1450}
+{
+   ["y"]=1,
+   ["x"]=1,
+},
+-- Table: {1451}
+{
+   ["y"]=106.90000152588,
+   ["x"]=-355.20001220703,
+},
+-- Table: {1452}
+{
+   ["y"]=60.0,
+   ["x"]=60.0,
+},
+-- Table: {1453}
+{
+   ["y"]=199.01557922363,
+   ["x"]=-3147.3935546875,
+},
+-- Table: {1454}
+{
+   ["g"]=0.0,
+   ["b"]=0.0,
+   ["a"]=1.0,
+   ["r"]=0.0,
+},
+-- Table: {1455}
+{
+   ["g"]=1,
+   ["b"]=1,
+   ["a"]=1,
+   ["r"]=1,
+},
+-- Table: {1456}
+{
+   ["y"]=-60.0,
+   ["x"]=0,
+},
+-- Table: {1457}
+{
+   ["y"]=1,
+   ["x"]=1,
+},
+-- Table: {1458}
+{
+   ["y"]=106.90000152588,
+   ["x"]=-355.20001220703,
+},
+-- Table: {1459}
+{
+   ["y"]=-60.0,
+   ["x"]=60.0,
+},
+-- Table: {1460}
+{
+   ["y"]=-1720.9028320312,
+   ["x"]=590.32611083984,
 },
 }

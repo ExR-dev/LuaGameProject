@@ -97,7 +97,7 @@ public:
 	bool PhysicalSeparation();
 
 	void RoomSelection(float selectionThreshold = 1.5f);
-	void GenerateGraph();
+	void GenerateGraph(float addBackRate = 0.15f);
 
 	void Draw();
 };
