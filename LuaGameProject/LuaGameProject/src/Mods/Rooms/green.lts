@@ -2,8 +2,8 @@ return {
 -- Table: {1}
 {
    ["elementName"]="green",
-   ["dataPath"]="rooms",
    ["contents"]={2},
+   ["dataPath"]="rooms",
 },
 -- Table: {2}
 {
