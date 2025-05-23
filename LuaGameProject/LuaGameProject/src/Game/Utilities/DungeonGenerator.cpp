@@ -80,7 +80,7 @@ int DungeonGenerator::lua_GetRooms(lua_State* L)
 	int index = 0;
 	for (auto room : Instance().m_rooms)
 	{
-		lua_createtable(L, 0, 3);
+		lua_createtable(L, 0, 4);
 
 			lua_createtable(L, 0, 2);
 				lua_pushnumber(L, room.pos.x);
@@ -102,15 +102,6 @@ int DungeonGenerator::lua_GetRooms(lua_State* L)
 			lua_pushinteger(L, room.GetID());
 			lua_setfield(L, -2, "ID");
 
-			const size_t nLinks = room.linkIDs.size();
-			lua_createtable(L, 0, nLinks);
-			for (int i = 0; i < nLinks; i++)
-			{
-				lua_pushinteger(L, room.linkIDs[i]+1);
-				lua_rawseti(L, -2, i+1);
-			}
-			lua_setfield(L, -2, "links");
-
 		lua_rawseti(L, -2, ++index);
 	}
 
@@ -126,7 +117,8 @@ int DungeonGenerator::lua_Generate(lua_State *L)
 
 int DungeonGenerator::lua_SeparateRooms(lua_State *L)
 {
-	Instance().SeparateRooms();
+	float selectionThreshold = lua_tonumber(L, 1);
+	Instance().SeparateRooms(selectionThreshold);
 	return 0;
 }
 
@@ -208,7 +200,7 @@ void DungeonGenerator::Reset()
 	m_isInitialized = false;
 }
 
-void DungeonGenerator::SeparateRooms()
+void DungeonGenerator::SeparateRooms(float selectionThreshold)
 {
 	ZoneScopedC(RandomUniqueColor());
 
@@ -226,9 +218,7 @@ void DungeonGenerator::SeparateRooms()
 
 	// TODO: Move to "Generate"
 	RoomSelection(selectionThreshold);
-
-	// TODO: Link abb back rate to Lua
-	GenerateGraph(0.15f);
+	GenerateGraph();
 }
 
 bool DungeonGenerator::GridSeparation()
@@ -331,7 +321,7 @@ bool DungeonGenerator::PhysicalSeparation()
 	return foundIntersection;
 }
 
-void DungeonGenerator::RoomSelection()
+void DungeonGenerator::RoomSelection(float selectionThreshold)
 {
 	ZoneScopedC(RandomUniqueColor());
 
@@ -348,8 +338,6 @@ void DungeonGenerator::RoomSelection()
 
 	const float nRooms = m_rooms.size();
 	const float avgArea = totalArea / nRooms;
-
-	const float selectionThreshold = 1.5f;
 
 	// Select main-rooms based on area
 	for (int i = 0; i < m_rooms.size(); i++)

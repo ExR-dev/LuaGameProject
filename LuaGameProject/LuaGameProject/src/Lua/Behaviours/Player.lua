@@ -330,6 +330,8 @@ function player:UpdateHeldItem(entID, localOffset, allowFire)
 	if itemBehaviour.OnReload ~= nil then
 		if Input.KeyPressed(Input.Key.KEY_R) then
 			itemBehaviour:OnReload(self.ammoReserve)
+		elseif Input.KeyPressed(Input.Key.KEY_V) then
+			itemBehaviour:OnCycleAmmoType(self.ammoReserve)
 		end
 	end
 

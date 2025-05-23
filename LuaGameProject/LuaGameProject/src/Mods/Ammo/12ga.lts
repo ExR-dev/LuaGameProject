@@ -1,42 +1,42 @@
 return {
 -- Table: {1}
 {
-   ["dataPath"]="ammo.calibers",
-   ["contents"]={2},
    ["elementName"]="12ga",
+   ["contents"]={2},
+   ["dataPath"]="ammo.calibers",
 },
 -- Table: {2}
 {
-   ["Buck"]={3},
-   ["Dart"]={4},
+   ["Dart"]={3},
+   ["Buck"]={4},
    ["default"]="Buck",
    ["Slug"]={5},
 },
 -- Table: {3}
 {
-   ["damageMult"]=0.45,
-   ["burstSize"]=8,
-   ["falloff"]=0.725,
-   ["spread"]=28.0,
-   ["penetration"]=0.4,
-   ["recoil"]=6.0,
+   ["falloff"]=0.965,
+   ["penetration"]=0.725,
+   ["damageMult"]=1.0,
+   ["recoil"]=7.0,
+   ["burstSize"]=1,
+   ["spread"]=1.5,
 },
 -- Table: {4}
 {
-   ["damageMult"]=1.0,
-   ["burstSize"]=1,
-   ["falloff"]=0.965,
-   ["spread"]=1.5,
-   ["penetration"]=0.725,
-   ["recoil"]=7.0,
+   ["falloff"]=0.73500001430511,
+   ["penetration"]=0.4,
+   ["damageMult"]=0.46500000357628,
+   ["recoil"]=6.0,
+   ["burstSize"]=8,
+   ["spread"]=30.0,
 },
 -- Table: {5}
 {
-   ["damageMult"]=1.9,
-   ["burstSize"]=1,
    ["falloff"]=0.96,
-   ["spread"]=3.5,
    ["penetration"]=0.6,
+   ["damageMult"]=1.9,
    ["recoil"]=9.0,
+   ["burstSize"]=1,
+   ["spread"]=3.5,
 },
 }

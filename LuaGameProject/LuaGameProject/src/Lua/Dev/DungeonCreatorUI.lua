@@ -205,6 +205,7 @@ function SaveDungeon(name)
 end
 
 local radius = 100
+local selectionThreshold = 1.2
 local selectedRooms = {}
 function dungeonCreatorUI:GenerateDungeon()
 	imgui.Text("Dungeon Generation")
@@ -228,8 +229,7 @@ function dungeonCreatorUI:GenerateDungeon()
 		end
 		dungeonGenerator.Generate(radius)
 		dungeonGenerator.SeparateRooms(selectionThreshold)
-		local rooms = dungeonGenerator.GetRooms()
-		for i, room in pairs(rooms) do
+		for i, room in pairs(dungeonGenerator.GetRooms()) do
 			local t = transform(vec2(room.position), 0, vec2(1, 1))
 			game.SpawnGroup(room.name, t)
 
@@ -300,6 +300,7 @@ function dungeonCreatorUI:GenerateDungeon()
 	imgui.Separator("Settings")
 
 	radius, _ = imgui.DragFloat("Radius", radius, 0.1, 0.01, 10000.0)
+	selectionThreshold, _ = imgui.DragFloat("Selection Threshold", selectionThreshold, 0.001, 0.001, 5)
 
 	imgui.Separator("Room Selection")
 
