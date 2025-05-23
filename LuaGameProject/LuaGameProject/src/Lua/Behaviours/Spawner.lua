@@ -1,47 +1,79 @@
 
 
 tracy.ZoneBeginN("Lua Spawner.lua")
-local enemy = {}
+local spawner = {}
 
 local vec2 = require("Vec2")
 local transform = require("Transform2")
-local color = require("Color")
-local gameMath = require("Utility/GameMath")
 local collider = require("Components/Collider")
 
 -- Guaranteed to be called before OnUpdate from the C environment.
 -- Can set up more fields in self.
-function enemy:OnCreate()
+function spawner:OnCreate()
 	tracy.ZoneBeginN("Lua enemy:OnCreate")
 
     self.spawnRate = 10
     self.spawnTimer = 0
-    self.prefab = ""
+
+    self.capacity = 3
+    self.counter = self.capacity
+
+    self.prefab = nil
 
 	tracy.ZoneEnd()
 end
 
 -- Called once per tick from the C environment.
-function enemy:OnUpdate(delta)
+function spawner:OnUpdate(delta)
 	tracy.ZoneBeginN("Lua enemy:OnUpdate")
 
-    self.spawnTimer = self.spawnTimer + delta
-    if self.spawnTimer >= 60/self.spawnRate then
-		if ~game.SpawnPrefab(self.prefab) then
+    if self.counter > 0 then
+        self.spawnTimer = self.spawnTimer + delta
+    end
+
+    if self.spawnTimer >= 60/self.spawnRate and self.prefab ~= nil then
+        local entityID = game.SpawnPrefab(self.prefab)
+		if entityID == nil then
             print("Could not spawn prefab: " .. self.prefab)
+        else
+            -- Set position to spawner
+            if scene.HasComponent(entityID, "Transofrm") then
+	            local t = transform(scene.GetComponent(entityID, "Transform"))
+                t.position = transform(scene.GetComponent(self.ID, "Transform")).position
+	            scene.SetComponent(entityID, "Transform", t)
+            end
         end
+        self.counter = self.counter - 1
         self.spawnTimer = 0
     end
 
 	tracy.ZoneEnd()
 end
 
+-- Reset spawner
+function spawner:Reset()
+    self.counter = self.capacity
+    self.spawnTimer = 0
+end
+
 
 -- Called during ImGui rendering if the entity is selected
-function enemy:OnGUI()
+function spawner:OnGUI()
 	tracy.ZoneBeginN("Lua enemy:OnGUI")
 
-    self.spawnRate, _ = imgui.DragFloat("Spawn Rate (spawn/min)", self.spawnRate, 0.0001, 1000, 0.1)
+    imgui.Separator("Information")
+    imgui.Text(string.format("Time: %.2f/%.2f", self.spawnTimer, 60/self.spawnRate))
+    imgui.Text(string.format("Counter: %d/%d", self.counter, self.capacity))
+
+    imgui.Separator("Settings")
+    local changed = false
+
+    self.spawnRate, _ = imgui.DragFloat("Spawn Rate (spawn/min)", self.spawnRate, 0.1, 1000, 0.1)
+    self.capacity, changed = imgui.InputInt("Capacity", self.capacity)
+
+    if changed then
+        self.counter = self.capacity
+    end
 
     if imgui.BeginCombo("Spawn Prefab", self.prefab) then
         for name, _ in pairs(data.prefabs) do
@@ -58,16 +90,13 @@ function enemy:OnGUI()
         imgui.EndCombo()
     end
 
-	tracy.ZoneEnd()
-end
-
-
-function enemy:OnHit()
-	tracy.ZoneBeginN("Lua enemy:OnHit")
+    if imgui.Button("Reset") then
+        self.Reset(self)
+    end
 
 	tracy.ZoneEnd()
 end
 
 tracy.ZoneEnd()
-return enemy
+return spawner
 

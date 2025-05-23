@@ -1,8 +1,8 @@
 return {
 -- Table: {1}
 {
-   ["dataPath"]="dungeons",
    ["elementName"]="testDungeon",
+   ["dataPath"]="dungeons",
    ["contents"]={2},
 },
 -- Table: {2}
@@ -29,753 +29,3956 @@ return {
    {19},
    {20},
    {21},
+   {22},
+   {23},
+   {24},
+   {25},
+   {26},
+   {27},
+   {28},
+   {29},
+   {30},
+   {31},
+   {32},
+   {33},
+   {34},
+   {35},
+   {36},
+   {37},
+   {38},
+   {39},
+   {40},
+   {41},
+   {42},
+   {43},
+   {44},
+   {45},
+   {46},
+   {47},
+   {48},
+   {49},
+   {50},
+   {51},
+   {52},
+   {53},
+   {54},
+   {55},
+   {56},
+   {57},
+   {58},
+   {59},
+   {60},
+   {61},
+   {62},
+   {63},
+   {64},
+   {65},
+   {66},
+   {67},
+   {68},
+   {69},
+   {70},
+   {71},
+   {72},
+   {73},
+   {74},
+   {75},
+   {76},
+   {77},
+   {78},
+   {79},
+   {80},
+   {81},
+   {82},
 },
 -- Table: {4}
 {
-   ["components"]={22},
+   ["components"]={83},
 },
 -- Table: {5}
 {
-   ["components"]={23},
+   ["components"]={84},
 },
 -- Table: {6}
 {
-   ["components"]={24},
+   ["components"]={85},
 },
 -- Table: {7}
 {
-   ["components"]={25},
+   ["components"]={86},
 },
 -- Table: {8}
 {
-   ["components"]={26},
+   ["components"]={87},
 },
 -- Table: {9}
 {
-   ["components"]={27},
+   ["components"]={88},
 },
 -- Table: {10}
 {
-   ["components"]={28},
+   ["components"]={89},
 },
 -- Table: {11}
 {
-   ["components"]={29},
+   ["components"]={90},
 },
 -- Table: {12}
 {
-   ["components"]={30},
+   ["components"]={91},
 },
 -- Table: {13}
 {
-   ["components"]={31},
+   ["components"]={92},
 },
 -- Table: {14}
 {
-   ["components"]={32},
+   ["components"]={93},
 },
 -- Table: {15}
 {
-   ["components"]={33},
+   ["components"]={94},
 },
 -- Table: {16}
 {
-   ["components"]={34},
+   ["components"]={95},
 },
 -- Table: {17}
 {
-   ["components"]={35},
+   ["components"]={96},
 },
 -- Table: {18}
 {
-   ["components"]={36},
+   ["components"]={97},
 },
 -- Table: {19}
 {
-   ["components"]={37},
+   ["components"]={98},
 },
 -- Table: {20}
 {
-   ["components"]={38},
+   ["components"]={99},
 },
 -- Table: {21}
 {
-   ["components"]={39},
+   ["components"]={100},
 },
 -- Table: {22}
 {
-   ["Transform"]={40},
-   ["Sprite"]={41},
+   ["components"]={101},
 },
 -- Table: {23}
 {
-   ["Transform"]={42},
-   ["Sprite"]={43},
+   ["components"]={102},
 },
 -- Table: {24}
 {
-   ["Transform"]={44},
-   ["Sprite"]={45},
+   ["components"]={103},
 },
 -- Table: {25}
 {
-   ["Transform"]={46},
-   ["Sprite"]={47},
-   ["Hardness"]={48},
-   ["Health"]={49},
-   ["Collider"]={50},
+   ["components"]={104},
+   ["behaviour"]={105},
 },
 -- Table: {26}
 {
-   ["Transform"]={51},
+   ["components"]={106},
 },
 -- Table: {27}
 {
-   ["Transform"]={52},
-   ["Sprite"]={53},
+   ["components"]={107},
 },
 -- Table: {28}
 {
-   ["Transform"]={54},
-   ["Sprite"]={55},
-   ["Hardness"]={56},
-   ["Health"]={57},
-   ["Collider"]={58},
+   ["components"]={108},
 },
 -- Table: {29}
 {
-   ["Transform"]={59},
+   ["components"]={109},
+   ["behaviour"]={110},
 },
 -- Table: {30}
 {
-   ["Transform"]={60},
-   ["Sprite"]={61},
+   ["components"]={111},
 },
 -- Table: {31}
 {
-   ["Transform"]={62},
-   ["Sprite"]={63},
-   ["Hardness"]={64},
-   ["Health"]={65},
-   ["Collider"]={66},
+   ["components"]={112},
 },
 -- Table: {32}
 {
-   ["Transform"]={67},
+   ["components"]={113},
 },
 -- Table: {33}
 {
-   ["Transform"]={68},
-   ["Sprite"]={69},
+   ["components"]={114},
+   ["behaviour"]={115},
 },
 -- Table: {34}
 {
-   ["Transform"]={70},
-   ["Sprite"]={71},
-   ["Hardness"]={72},
-   ["Health"]={73},
-   ["Collider"]={74},
+   ["components"]={116},
 },
 -- Table: {35}
 {
-   ["Transform"]={75},
+   ["components"]={117},
 },
 -- Table: {36}
 {
-   ["Transform"]={76},
-   ["Sprite"]={77},
+   ["components"]={118},
 },
 -- Table: {37}
 {
-   ["Transform"]={78},
-   ["Sprite"]={79},
+   ["components"]={119},
+   ["behaviour"]={120},
 },
 -- Table: {38}
 {
-   ["Transform"]={80},
-   ["Sprite"]={81},
+   ["components"]={121},
 },
 -- Table: {39}
 {
-   ["Transform"]={82},
-   ["Sprite"]={83},
+   ["components"]={122},
 },
 -- Table: {40}
 {
-   ["scale"]={84},
-   ["position"]={85},
-   ["rotation"]=0.0,
+   ["components"]={123},
 },
 -- Table: {41}
 {
-   ["spriteName"]="",
-   ["priority"]=0,
-   ["color"]={86},
+   ["components"]={124},
+   ["behaviour"]={125},
 },
 -- Table: {42}
 {
-   ["scale"]={87},
-   ["position"]={88},
-   ["rotation"]=0.0,
+   ["components"]={126},
 },
 -- Table: {43}
 {
-   ["spriteName"]="",
-   ["priority"]=0,
-   ["color"]={89},
+   ["components"]={127},
 },
 -- Table: {44}
 {
-   ["scale"]={90},
-   ["position"]={91},
-   ["rotation"]=0.0,
+   ["components"]={128},
 },
 -- Table: {45}
 {
-   ["spriteName"]="",
-   ["priority"]=0,
-   ["color"]={92},
+   ["components"]={129},
+   ["behaviour"]={130},
 },
 -- Table: {46}
 {
-   ["scale"]={93},
-   ["position"]={94},
-   ["rotation"]=147.31944274902,
+   ["components"]={131},
 },
 -- Table: {47}
 {
-   ["spriteName"]="Maxwell.png",
-   ["priority"]=30,
-   ["color"]={95},
+   ["components"]={132},
 },
 -- Table: {48}
 {
-   ["hardness"]=0.10000000149012,
+   ["components"]={133},
 },
 -- Table: {49}
 {
-   ["max"]=100.0,
-   ["current"]=100.0,
+   ["components"]={134},
+   ["behaviour"]={135},
 },
 -- Table: {50}
 {
-   ["offset"]={96},
-   ["rotation"]=0.0,
-   ["debug"]=false,
-   ["tag"]="Enemy",
-   ["extents"]={97},
+   ["components"]={136},
 },
 -- Table: {51}
 {
-   ["scale"]={98},
-   ["position"]={99},
-   ["rotation"]=0.0,
+   ["components"]={137},
 },
 -- Table: {52}
 {
-   ["scale"]={100},
-   ["position"]={101},
-   ["rotation"]=0.0,
+   ["components"]={138},
 },
 -- Table: {53}
 {
-   ["spriteName"]="",
-   ["priority"]=0,
-   ["color"]={102},
+   ["components"]={139},
+   ["behaviour"]={140},
 },
 -- Table: {54}
 {
-   ["scale"]={103},
-   ["position"]={104},
-   ["rotation"]=147.31944274902,
+   ["components"]={141},
 },
 -- Table: {55}
 {
-   ["spriteName"]="Maxwell.png",
-   ["priority"]=30,
-   ["color"]={105},
+   ["components"]={142},
 },
 -- Table: {56}
 {
-   ["hardness"]=0.10000000149012,
+   ["components"]={143},
 },
 -- Table: {57}
 {
-   ["max"]=100.0,
-   ["current"]=100.0,
+   ["components"]={144},
+   ["behaviour"]={145},
 },
 -- Table: {58}
 {
-   ["offset"]={106},
-   ["rotation"]=0.0,
-   ["debug"]=false,
-   ["tag"]="Enemy",
-   ["extents"]={107},
+   ["components"]={146},
 },
 -- Table: {59}
 {
-   ["scale"]={108},
-   ["position"]={109},
-   ["rotation"]=0.0,
+   ["components"]={147},
 },
 -- Table: {60}
 {
-   ["scale"]={110},
-   ["position"]={111},
-   ["rotation"]=0.0,
+   ["components"]={148},
 },
 -- Table: {61}
 {
-   ["spriteName"]="",
-   ["priority"]=0,
-   ["color"]={112},
+   ["components"]={149},
+   ["behaviour"]={150},
 },
 -- Table: {62}
 {
-   ["scale"]={113},
-   ["position"]={114},
-   ["rotation"]=147.31944274902,
+   ["components"]={151},
 },
 -- Table: {63}
 {
-   ["spriteName"]="Maxwell.png",
-   ["priority"]=30,
-   ["color"]={115},
+   ["components"]={152},
 },
 -- Table: {64}
 {
-   ["hardness"]=0.10000000149012,
+   ["components"]={153},
 },
 -- Table: {65}
 {
-   ["max"]=100.0,
-   ["current"]=100.0,
+   ["components"]={154},
 },
 -- Table: {66}
 {
-   ["offset"]={116},
-   ["rotation"]=0.0,
-   ["debug"]=false,
-   ["tag"]="Enemy",
-   ["extents"]={117},
+   ["components"]={155},
 },
 -- Table: {67}
 {
-   ["scale"]={118},
-   ["position"]={119},
-   ["rotation"]=0.0,
+   ["components"]={156},
 },
 -- Table: {68}
 {
-   ["scale"]={120},
-   ["position"]={121},
-   ["rotation"]=0.0,
+   ["components"]={157},
 },
 -- Table: {69}
 {
-   ["spriteName"]="",
-   ["priority"]=0,
-   ["color"]={122},
+   ["components"]={158},
 },
 -- Table: {70}
 {
-   ["scale"]={123},
-   ["position"]={124},
-   ["rotation"]=147.31944274902,
+   ["components"]={159},
 },
 -- Table: {71}
 {
-   ["spriteName"]="Maxwell.png",
-   ["priority"]=30,
-   ["color"]={125},
+   ["components"]={160},
 },
 -- Table: {72}
 {
-   ["hardness"]=0.10000000149012,
+   ["components"]={161},
 },
 -- Table: {73}
 {
-   ["max"]=100.0,
-   ["current"]=100.0,
+   ["components"]={162},
 },
 -- Table: {74}
 {
-   ["offset"]={126},
-   ["rotation"]=0.0,
-   ["debug"]=false,
-   ["tag"]="Enemy",
-   ["extents"]={127},
+   ["components"]={163},
 },
 -- Table: {75}
 {
-   ["scale"]={128},
-   ["position"]={129},
-   ["rotation"]=0.0,
+   ["components"]={164},
 },
 -- Table: {76}
 {
-   ["scale"]={130},
-   ["position"]={131},
-   ["rotation"]=0.0,
+   ["components"]={165},
 },
 -- Table: {77}
 {
-   ["spriteName"]="",
-   ["priority"]=0,
-   ["color"]={132},
+   ["components"]={166},
 },
 -- Table: {78}
 {
-   ["scale"]={133},
-   ["position"]={134},
-   ["rotation"]=0.0,
+   ["components"]={167},
 },
 -- Table: {79}
 {
-   ["spriteName"]="",
-   ["priority"]=0,
-   ["color"]={135},
+   ["components"]={168},
 },
 -- Table: {80}
 {
-   ["scale"]={136},
-   ["position"]={137},
-   ["rotation"]=0.0,
+   ["components"]={169},
 },
 -- Table: {81}
 {
-   ["spriteName"]="",
-   ["priority"]=0,
-   ["color"]={138},
+   ["components"]={170},
 },
 -- Table: {82}
 {
-   ["scale"]={139},
-   ["position"]={140},
-   ["rotation"]=0.0,
+   ["components"]={171},
 },
 -- Table: {83}
 {
-   ["spriteName"]="",
-   ["priority"]=0,
-   ["color"]={141},
+   ["Transform"]={172},
+   ["Sprite"]={173},
 },
 -- Table: {84}
 {
-   ["x"]=500.0,
-   ["y"]=700.0,
+   ["Sprite"]={174},
+   ["Collider"]={175},
+   ["Transform"]={176},
+   ["Health"]={177},
+   ["Hardness"]={178},
 },
 -- Table: {85}
 {
-   ["x"]=-196.5611114502,
-   ["y"]=-837.61596679688,
+   ["Transform"]={179},
 },
 -- Table: {86}
 {
-   ["r"]=0.23963135480881,
-   ["g"]=0.421839594841,
-   ["b"]=1.0,
-   ["a"]=1.0,
+   ["Transform"]={180},
+   ["Sprite"]={181},
 },
 -- Table: {87}
+{
+   ["Sprite"]={182},
+   ["Collider"]={183},
+   ["Transform"]={184},
+   ["Health"]={185},
+   ["Hardness"]={186},
+},
+-- Table: {88}
+{
+   ["Transform"]={187},
+},
+-- Table: {89}
+{
+   ["Transform"]={188},
+   ["Sprite"]={189},
+},
+-- Table: {90}
+{
+   ["Sprite"]={190},
+   ["Collider"]={191},
+   ["Transform"]={192},
+   ["Health"]={193},
+   ["Hardness"]={194},
+},
+-- Table: {91}
+{
+   ["Transform"]={195},
+},
+-- Table: {92}
+{
+   ["Transform"]={196},
+   ["Sprite"]={197},
+},
+-- Table: {93}
+{
+   ["Sprite"]={198},
+   ["Collider"]={199},
+   ["Transform"]={200},
+   ["Health"]={201},
+   ["Hardness"]={202},
+},
+-- Table: {94}
+{
+   ["Transform"]={203},
+},
+-- Table: {95}
+{
+   ["Transform"]={204},
+   ["Sprite"]={205},
+},
+-- Table: {96}
+{
+   ["Sprite"]={206},
+   ["Collider"]={207},
+   ["Transform"]={208},
+   ["Health"]={209},
+   ["Hardness"]={210},
+},
+-- Table: {97}
+{
+   ["Transform"]={211},
+},
+-- Table: {98}
+{
+   ["Transform"]={212},
+   ["Sprite"]={213},
+},
+-- Table: {99}
+{
+   ["Sprite"]={214},
+   ["Collider"]={215},
+   ["Transform"]={216},
+   ["Health"]={217},
+   ["Hardness"]={218},
+},
+-- Table: {100}
+{
+   ["Transform"]={219},
+},
+-- Table: {101}
+{
+   ["Transform"]={220},
+   ["Sprite"]={221},
+   ["Collider"]={222},
+   ["Hardness"]={223},
+},
+-- Table: {102}
+{
+   ["Transform"]={224},
+   ["Sprite"]={225},
+},
+-- Table: {103}
+{
+   ["Sprite"]={226},
+   ["Collider"]={227},
+   ["Transform"]={228},
+   ["Health"]={229},
+   ["Hardness"]={230},
+},
+-- Table: {104}
+{
+   ["Transform"]={231},
+   ["Sprite"]={232},
+},
+-- Table: {105}
+{
+   ["properties"]={233},
+   ["path"]="Behaviours/Spawner",
+},
+-- Table: {106}
+{
+   ["Transform"]={234},
+   ["Sprite"]={235},
+   ["Collider"]={236},
+   ["Hardness"]={237},
+},
+-- Table: {107}
+{
+   ["Transform"]={238},
+   ["Sprite"]={239},
+},
+-- Table: {108}
+{
+   ["Sprite"]={240},
+   ["Collider"]={241},
+   ["Transform"]={242},
+   ["Health"]={243},
+   ["Hardness"]={244},
+},
+-- Table: {109}
+{
+   ["Transform"]={245},
+   ["Sprite"]={246},
+},
+-- Table: {110}
+{
+   ["properties"]={247},
+   ["path"]="Behaviours/Spawner",
+},
+-- Table: {111}
+{
+   ["Transform"]={248},
+   ["Sprite"]={249},
+   ["Collider"]={250},
+   ["Hardness"]={251},
+},
+-- Table: {112}
+{
+   ["Transform"]={252},
+   ["Sprite"]={253},
+},
+-- Table: {113}
+{
+   ["Sprite"]={254},
+   ["Collider"]={255},
+   ["Transform"]={256},
+   ["Health"]={257},
+   ["Hardness"]={258},
+},
+-- Table: {114}
+{
+   ["Transform"]={259},
+   ["Sprite"]={260},
+},
+-- Table: {115}
+{
+   ["properties"]={261},
+   ["path"]="Behaviours/Spawner",
+},
+-- Table: {116}
+{
+   ["Transform"]={262},
+   ["Sprite"]={263},
+   ["Collider"]={264},
+   ["Hardness"]={265},
+},
+-- Table: {117}
+{
+   ["Transform"]={266},
+   ["Sprite"]={267},
+},
+-- Table: {118}
+{
+   ["Sprite"]={268},
+   ["Collider"]={269},
+   ["Transform"]={270},
+   ["Health"]={271},
+   ["Hardness"]={272},
+},
+-- Table: {119}
+{
+   ["Transform"]={273},
+   ["Sprite"]={274},
+},
+-- Table: {120}
+{
+   ["properties"]={275},
+   ["path"]="Behaviours/Spawner",
+},
+-- Table: {121}
+{
+   ["Transform"]={276},
+   ["Sprite"]={277},
+   ["Collider"]={278},
+   ["Hardness"]={279},
+},
+-- Table: {122}
+{
+   ["Transform"]={280},
+   ["Sprite"]={281},
+},
+-- Table: {123}
+{
+   ["Sprite"]={282},
+   ["Collider"]={283},
+   ["Transform"]={284},
+   ["Health"]={285},
+   ["Hardness"]={286},
+},
+-- Table: {124}
+{
+   ["Transform"]={287},
+   ["Sprite"]={288},
+},
+-- Table: {125}
+{
+   ["properties"]={289},
+   ["path"]="Behaviours/Spawner",
+},
+-- Table: {126}
+{
+   ["Transform"]={290},
+   ["Sprite"]={291},
+   ["Collider"]={292},
+   ["Hardness"]={293},
+},
+-- Table: {127}
+{
+   ["Transform"]={294},
+   ["Sprite"]={295},
+},
+-- Table: {128}
+{
+   ["Sprite"]={296},
+   ["Collider"]={297},
+   ["Transform"]={298},
+   ["Health"]={299},
+   ["Hardness"]={300},
+},
+-- Table: {129}
+{
+   ["Transform"]={301},
+   ["Sprite"]={302},
+},
+-- Table: {130}
+{
+   ["properties"]={303},
+   ["path"]="Behaviours/Spawner",
+},
+-- Table: {131}
+{
+   ["Transform"]={304},
+   ["Sprite"]={305},
+   ["Collider"]={306},
+   ["Hardness"]={307},
+},
+-- Table: {132}
+{
+   ["Transform"]={308},
+   ["Sprite"]={309},
+},
+-- Table: {133}
+{
+   ["Sprite"]={310},
+   ["Collider"]={311},
+   ["Transform"]={312},
+   ["Health"]={313},
+   ["Hardness"]={314},
+},
+-- Table: {134}
+{
+   ["Transform"]={315},
+   ["Sprite"]={316},
+},
+-- Table: {135}
+{
+   ["properties"]={317},
+   ["path"]="Behaviours/Spawner",
+},
+-- Table: {136}
+{
+   ["Transform"]={318},
+   ["Sprite"]={319},
+   ["Collider"]={320},
+   ["Hardness"]={321},
+},
+-- Table: {137}
+{
+   ["Transform"]={322},
+   ["Sprite"]={323},
+},
+-- Table: {138}
+{
+   ["Sprite"]={324},
+   ["Collider"]={325},
+   ["Transform"]={326},
+   ["Health"]={327},
+   ["Hardness"]={328},
+},
+-- Table: {139}
+{
+   ["Transform"]={329},
+   ["Sprite"]={330},
+},
+-- Table: {140}
+{
+   ["properties"]={331},
+   ["path"]="Behaviours/Spawner",
+},
+-- Table: {141}
+{
+   ["Transform"]={332},
+   ["Sprite"]={333},
+   ["Collider"]={334},
+   ["Hardness"]={335},
+},
+-- Table: {142}
+{
+   ["Transform"]={336},
+   ["Sprite"]={337},
+},
+-- Table: {143}
+{
+   ["Sprite"]={338},
+   ["Collider"]={339},
+   ["Transform"]={340},
+   ["Health"]={341},
+   ["Hardness"]={342},
+},
+-- Table: {144}
+{
+   ["Transform"]={343},
+   ["Sprite"]={344},
+},
+-- Table: {145}
+{
+   ["properties"]={345},
+   ["path"]="Behaviours/Spawner",
+},
+-- Table: {146}
+{
+   ["Transform"]={346},
+   ["Sprite"]={347},
+   ["Collider"]={348},
+   ["Hardness"]={349},
+},
+-- Table: {147}
+{
+   ["Transform"]={350},
+   ["Sprite"]={351},
+},
+-- Table: {148}
+{
+   ["Sprite"]={352},
+   ["Collider"]={353},
+   ["Transform"]={354},
+   ["Health"]={355},
+   ["Hardness"]={356},
+},
+-- Table: {149}
+{
+   ["Transform"]={357},
+   ["Sprite"]={358},
+},
+-- Table: {150}
+{
+   ["properties"]={359},
+   ["path"]="Behaviours/Spawner",
+},
+-- Table: {151}
+{
+   ["Transform"]={360},
+},
+-- Table: {152}
+{
+   ["Sprite"]={361},
+   ["Collider"]={362},
+   ["Transform"]={363},
+   ["Health"]={364},
+   ["Hardness"]={365},
+},
+-- Table: {153}
+{
+   ["Transform"]={366},
+   ["Sprite"]={367},
+},
+-- Table: {154}
+{
+   ["Transform"]={368},
+},
+-- Table: {155}
+{
+   ["Sprite"]={369},
+   ["Collider"]={370},
+   ["Transform"]={371},
+   ["Health"]={372},
+   ["Hardness"]={373},
+},
+-- Table: {156}
+{
+   ["Transform"]={374},
+   ["Sprite"]={375},
+},
+-- Table: {157}
+{
+   ["Transform"]={376},
+},
+-- Table: {158}
+{
+   ["Sprite"]={377},
+   ["Collider"]={378},
+   ["Transform"]={379},
+   ["Health"]={380},
+   ["Hardness"]={381},
+},
+-- Table: {159}
+{
+   ["Transform"]={382},
+   ["Sprite"]={383},
+},
+-- Table: {160}
+{
+   ["Transform"]={384},
+},
+-- Table: {161}
+{
+   ["Sprite"]={385},
+   ["Collider"]={386},
+   ["Transform"]={387},
+   ["Health"]={388},
+   ["Hardness"]={389},
+},
+-- Table: {162}
+{
+   ["Transform"]={390},
+   ["Sprite"]={391},
+},
+-- Table: {163}
+{
+   ["Transform"]={392},
+},
+-- Table: {164}
+{
+   ["Sprite"]={393},
+   ["Collider"]={394},
+   ["Transform"]={395},
+   ["Health"]={396},
+   ["Hardness"]={397},
+},
+-- Table: {165}
+{
+   ["Transform"]={398},
+   ["Sprite"]={399},
+},
+-- Table: {166}
+{
+   ["Transform"]={400},
+},
+-- Table: {167}
+{
+   ["Sprite"]={401},
+   ["Collider"]={402},
+   ["Transform"]={403},
+   ["Health"]={404},
+   ["Hardness"]={405},
+},
+-- Table: {168}
+{
+   ["Transform"]={406},
+   ["Sprite"]={407},
+},
+-- Table: {169}
+{
+   ["Transform"]={408},
+},
+-- Table: {170}
+{
+   ["Sprite"]={409},
+   ["Collider"]={410},
+   ["Transform"]={411},
+   ["Health"]={412},
+   ["Hardness"]={413},
+},
+-- Table: {171}
+{
+   ["Transform"]={414},
+   ["Sprite"]={415},
+},
+-- Table: {172}
+{
+   ["rotation"]=0.0,
+   ["scale"]={416},
+   ["position"]={417},
+},
+-- Table: {173}
+{
+   ["spriteName"]="",
+   ["color"]={418},
+   ["priority"]=0,
+},
+-- Table: {174}
+{
+   ["spriteName"]="Maxwell.png",
+   ["color"]={419},
+   ["priority"]=30,
+},
+-- Table: {175}
+{
+   ["tag"]="Enemy",
+   ["debug"]=false,
+   ["extents"]={420},
+   ["offset"]={421},
+   ["rotation"]=0.0,
+},
+-- Table: {176}
+{
+   ["rotation"]=147.31944274902,
+   ["scale"]={422},
+   ["position"]={423},
+},
+-- Table: {177}
+{
+   ["current"]=100.0,
+   ["max"]=100.0,
+},
+-- Table: {178}
+{
+   ["hardness"]=0.10000000149012,
+},
+-- Table: {179}
+{
+   ["rotation"]=0.0,
+   ["scale"]={424},
+   ["position"]={425},
+},
+-- Table: {180}
+{
+   ["rotation"]=0.0,
+   ["scale"]={426},
+   ["position"]={427},
+},
+-- Table: {181}
+{
+   ["spriteName"]="",
+   ["color"]={428},
+   ["priority"]=0,
+},
+-- Table: {182}
+{
+   ["spriteName"]="Maxwell.png",
+   ["color"]={429},
+   ["priority"]=30,
+},
+-- Table: {183}
+{
+   ["tag"]="Enemy",
+   ["debug"]=false,
+   ["extents"]={430},
+   ["offset"]={431},
+   ["rotation"]=0.0,
+},
+-- Table: {184}
+{
+   ["rotation"]=147.31944274902,
+   ["scale"]={432},
+   ["position"]={433},
+},
+-- Table: {185}
+{
+   ["current"]=100.0,
+   ["max"]=100.0,
+},
+-- Table: {186}
+{
+   ["hardness"]=0.10000000149012,
+},
+-- Table: {187}
+{
+   ["rotation"]=0.0,
+   ["scale"]={434},
+   ["position"]={435},
+},
+-- Table: {188}
+{
+   ["rotation"]=0.0,
+   ["scale"]={436},
+   ["position"]={437},
+},
+-- Table: {189}
+{
+   ["spriteName"]="",
+   ["color"]={438},
+   ["priority"]=0,
+},
+-- Table: {190}
+{
+   ["spriteName"]="Maxwell.png",
+   ["color"]={439},
+   ["priority"]=30,
+},
+-- Table: {191}
+{
+   ["tag"]="Enemy",
+   ["debug"]=false,
+   ["extents"]={440},
+   ["offset"]={441},
+   ["rotation"]=0.0,
+},
+-- Table: {192}
+{
+   ["rotation"]=147.31944274902,
+   ["scale"]={442},
+   ["position"]={443},
+},
+-- Table: {193}
+{
+   ["current"]=100.0,
+   ["max"]=100.0,
+},
+-- Table: {194}
+{
+   ["hardness"]=0.10000000149012,
+},
+-- Table: {195}
+{
+   ["rotation"]=0.0,
+   ["scale"]={444},
+   ["position"]={445},
+},
+-- Table: {196}
+{
+   ["rotation"]=0.0,
+   ["scale"]={446},
+   ["position"]={447},
+},
+-- Table: {197}
+{
+   ["spriteName"]="",
+   ["color"]={448},
+   ["priority"]=0,
+},
+-- Table: {198}
+{
+   ["spriteName"]="Maxwell.png",
+   ["color"]={449},
+   ["priority"]=30,
+},
+-- Table: {199}
+{
+   ["tag"]="Enemy",
+   ["debug"]=false,
+   ["extents"]={450},
+   ["offset"]={451},
+   ["rotation"]=0.0,
+},
+-- Table: {200}
+{
+   ["rotation"]=147.31944274902,
+   ["scale"]={452},
+   ["position"]={453},
+},
+-- Table: {201}
+{
+   ["current"]=100.0,
+   ["max"]=100.0,
+},
+-- Table: {202}
+{
+   ["hardness"]=0.10000000149012,
+},
+-- Table: {203}
+{
+   ["rotation"]=0.0,
+   ["scale"]={454},
+   ["position"]={455},
+},
+-- Table: {204}
+{
+   ["rotation"]=0.0,
+   ["scale"]={456},
+   ["position"]={457},
+},
+-- Table: {205}
+{
+   ["spriteName"]="",
+   ["color"]={458},
+   ["priority"]=0,
+},
+-- Table: {206}
+{
+   ["spriteName"]="Maxwell.png",
+   ["color"]={459},
+   ["priority"]=30,
+},
+-- Table: {207}
+{
+   ["tag"]="Enemy",
+   ["debug"]=false,
+   ["extents"]={460},
+   ["offset"]={461},
+   ["rotation"]=0.0,
+},
+-- Table: {208}
+{
+   ["rotation"]=147.31944274902,
+   ["scale"]={462},
+   ["position"]={463},
+},
+-- Table: {209}
+{
+   ["current"]=100.0,
+   ["max"]=100.0,
+},
+-- Table: {210}
+{
+   ["hardness"]=0.10000000149012,
+},
+-- Table: {211}
+{
+   ["rotation"]=0.0,
+   ["scale"]={464},
+   ["position"]={465},
+},
+-- Table: {212}
+{
+   ["rotation"]=0.0,
+   ["scale"]={466},
+   ["position"]={467},
+},
+-- Table: {213}
+{
+   ["spriteName"]="",
+   ["color"]={468},
+   ["priority"]=0,
+},
+-- Table: {214}
+{
+   ["spriteName"]="Maxwell.png",
+   ["color"]={469},
+   ["priority"]=30,
+},
+-- Table: {215}
+{
+   ["tag"]="Enemy",
+   ["debug"]=false,
+   ["extents"]={470},
+   ["offset"]={471},
+   ["rotation"]=0.0,
+},
+-- Table: {216}
+{
+   ["rotation"]=147.31944274902,
+   ["scale"]={472},
+   ["position"]={473},
+},
+-- Table: {217}
+{
+   ["current"]=100.0,
+   ["max"]=100.0,
+},
+-- Table: {218}
+{
+   ["hardness"]=0.10000000149012,
+},
+-- Table: {219}
+{
+   ["rotation"]=0.0,
+   ["scale"]={474},
+   ["position"]={475},
+},
+-- Table: {220}
+{
+   ["rotation"]=0.0,
+   ["scale"]={476},
+   ["position"]={477},
+},
+-- Table: {221}
+{
+   ["spriteName"]="",
+   ["color"]={478},
+   ["priority"]=25,
+},
+-- Table: {222}
+{
+   ["tag"]="Solid",
+   ["debug"]=false,
+   ["extents"]={479},
+   ["offset"]={480},
+   ["rotation"]=0.0,
+},
+-- Table: {223}
+{
+   ["hardness"]=6.0,
+},
+-- Table: {224}
+{
+   ["rotation"]=0.0,
+   ["scale"]={481},
+   ["position"]={482},
+},
+-- Table: {225}
+{
+   ["spriteName"]="",
+   ["color"]={483},
+   ["priority"]=0,
+},
+-- Table: {226}
+{
+   ["spriteName"]="Maxwell.png",
+   ["color"]={484},
+   ["priority"]=30,
+},
+-- Table: {227}
+{
+   ["tag"]="Enemy",
+   ["debug"]=true,
+   ["extents"]={485},
+   ["offset"]={486},
+   ["rotation"]=0.0,
+},
+-- Table: {228}
+{
+   ["rotation"]=355.63983154297,
+   ["scale"]={487},
+   ["position"]={488},
+},
+-- Table: {229}
+{
+   ["current"]=100.0,
+   ["max"]=100.0,
+},
+-- Table: {230}
+{
+   ["hardness"]=0.10000000149012,
+},
+-- Table: {231}
+{
+   ["rotation"]=0.0,
+   ["scale"]={489},
+   ["position"]={490},
+},
+-- Table: {232}
+{
+   ["spriteName"]="Spawner.png",
+   ["color"]={491},
+   ["priority"]=30,
+},
+-- Table: {233}
+{
+   ["capacity"]=3,
+   ["counter"]=3,
+   ["spawnTimer"]=0.0,
+   ["prefab"]="Enemy",
+   ["spawnRate"]=10.0,
+},
+-- Table: {234}
+{
+   ["rotation"]=0.0,
+   ["scale"]={492},
+   ["position"]={493},
+},
+-- Table: {235}
+{
+   ["spriteName"]="",
+   ["color"]={494},
+   ["priority"]=25,
+},
+-- Table: {236}
+{
+   ["tag"]="Solid",
+   ["debug"]=false,
+   ["extents"]={495},
+   ["offset"]={496},
+   ["rotation"]=0.0,
+},
+-- Table: {237}
+{
+   ["hardness"]=6.0,
+},
+-- Table: {238}
+{
+   ["rotation"]=0.0,
+   ["scale"]={497},
+   ["position"]={498},
+},
+-- Table: {239}
+{
+   ["spriteName"]="",
+   ["color"]={499},
+   ["priority"]=0,
+},
+-- Table: {240}
+{
+   ["spriteName"]="Maxwell.png",
+   ["color"]={500},
+   ["priority"]=30,
+},
+-- Table: {241}
+{
+   ["tag"]="Enemy",
+   ["debug"]=true,
+   ["extents"]={501},
+   ["offset"]={502},
+   ["rotation"]=0.0,
+},
+-- Table: {242}
+{
+   ["rotation"]=355.63983154297,
+   ["scale"]={503},
+   ["position"]={504},
+},
+-- Table: {243}
+{
+   ["current"]=100.0,
+   ["max"]=100.0,
+},
+-- Table: {244}
+{
+   ["hardness"]=0.10000000149012,
+},
+-- Table: {245}
+{
+   ["rotation"]=0.0,
+   ["scale"]={505},
+   ["position"]={506},
+},
+-- Table: {246}
+{
+   ["spriteName"]="Spawner.png",
+   ["color"]={507},
+   ["priority"]=30,
+},
+-- Table: {247}
+{
+   ["capacity"]=3,
+   ["counter"]=3,
+   ["spawnTimer"]=0.0,
+   ["prefab"]="Enemy",
+   ["spawnRate"]=10.0,
+},
+-- Table: {248}
+{
+   ["rotation"]=0.0,
+   ["scale"]={508},
+   ["position"]={509},
+},
+-- Table: {249}
+{
+   ["spriteName"]="",
+   ["color"]={510},
+   ["priority"]=25,
+},
+-- Table: {250}
+{
+   ["tag"]="Solid",
+   ["debug"]=false,
+   ["extents"]={511},
+   ["offset"]={512},
+   ["rotation"]=0.0,
+},
+-- Table: {251}
+{
+   ["hardness"]=6.0,
+},
+-- Table: {252}
+{
+   ["rotation"]=0.0,
+   ["scale"]={513},
+   ["position"]={514},
+},
+-- Table: {253}
+{
+   ["spriteName"]="",
+   ["color"]={515},
+   ["priority"]=0,
+},
+-- Table: {254}
+{
+   ["spriteName"]="Maxwell.png",
+   ["color"]={516},
+   ["priority"]=30,
+},
+-- Table: {255}
+{
+   ["tag"]="Enemy",
+   ["debug"]=true,
+   ["extents"]={517},
+   ["offset"]={518},
+   ["rotation"]=0.0,
+},
+-- Table: {256}
+{
+   ["rotation"]=355.63983154297,
+   ["scale"]={519},
+   ["position"]={520},
+},
+-- Table: {257}
+{
+   ["current"]=100.0,
+   ["max"]=100.0,
+},
+-- Table: {258}
+{
+   ["hardness"]=0.10000000149012,
+},
+-- Table: {259}
+{
+   ["rotation"]=0.0,
+   ["scale"]={521},
+   ["position"]={522},
+},
+-- Table: {260}
+{
+   ["spriteName"]="Spawner.png",
+   ["color"]={523},
+   ["priority"]=30,
+},
+-- Table: {261}
+{
+   ["capacity"]=3,
+   ["counter"]=3,
+   ["spawnTimer"]=0.0,
+   ["prefab"]="Enemy",
+   ["spawnRate"]=10.0,
+},
+-- Table: {262}
+{
+   ["rotation"]=0.0,
+   ["scale"]={524},
+   ["position"]={525},
+},
+-- Table: {263}
+{
+   ["spriteName"]="",
+   ["color"]={526},
+   ["priority"]=25,
+},
+-- Table: {264}
+{
+   ["tag"]="Solid",
+   ["debug"]=false,
+   ["extents"]={527},
+   ["offset"]={528},
+   ["rotation"]=0.0,
+},
+-- Table: {265}
+{
+   ["hardness"]=6.0,
+},
+-- Table: {266}
+{
+   ["rotation"]=0.0,
+   ["scale"]={529},
+   ["position"]={530},
+},
+-- Table: {267}
+{
+   ["spriteName"]="",
+   ["color"]={531},
+   ["priority"]=0,
+},
+-- Table: {268}
+{
+   ["spriteName"]="Maxwell.png",
+   ["color"]={532},
+   ["priority"]=30,
+},
+-- Table: {269}
+{
+   ["tag"]="Enemy",
+   ["debug"]=true,
+   ["extents"]={533},
+   ["offset"]={534},
+   ["rotation"]=0.0,
+},
+-- Table: {270}
+{
+   ["rotation"]=355.63983154297,
+   ["scale"]={535},
+   ["position"]={536},
+},
+-- Table: {271}
+{
+   ["current"]=100.0,
+   ["max"]=100.0,
+},
+-- Table: {272}
+{
+   ["hardness"]=0.10000000149012,
+},
+-- Table: {273}
+{
+   ["rotation"]=0.0,
+   ["scale"]={537},
+   ["position"]={538},
+},
+-- Table: {274}
+{
+   ["spriteName"]="Spawner.png",
+   ["color"]={539},
+   ["priority"]=30,
+},
+-- Table: {275}
+{
+   ["capacity"]=3,
+   ["counter"]=3,
+   ["spawnTimer"]=0.0,
+   ["prefab"]="Enemy",
+   ["spawnRate"]=10.0,
+},
+-- Table: {276}
+{
+   ["rotation"]=0.0,
+   ["scale"]={540},
+   ["position"]={541},
+},
+-- Table: {277}
+{
+   ["spriteName"]="",
+   ["color"]={542},
+   ["priority"]=25,
+},
+-- Table: {278}
+{
+   ["tag"]="Solid",
+   ["debug"]=false,
+   ["extents"]={543},
+   ["offset"]={544},
+   ["rotation"]=0.0,
+},
+-- Table: {279}
+{
+   ["hardness"]=6.0,
+},
+-- Table: {280}
+{
+   ["rotation"]=0.0,
+   ["scale"]={545},
+   ["position"]={546},
+},
+-- Table: {281}
+{
+   ["spriteName"]="",
+   ["color"]={547},
+   ["priority"]=0,
+},
+-- Table: {282}
+{
+   ["spriteName"]="Maxwell.png",
+   ["color"]={548},
+   ["priority"]=30,
+},
+-- Table: {283}
+{
+   ["tag"]="Enemy",
+   ["debug"]=true,
+   ["extents"]={549},
+   ["offset"]={550},
+   ["rotation"]=0.0,
+},
+-- Table: {284}
+{
+   ["rotation"]=355.63983154297,
+   ["scale"]={551},
+   ["position"]={552},
+},
+-- Table: {285}
+{
+   ["current"]=100.0,
+   ["max"]=100.0,
+},
+-- Table: {286}
+{
+   ["hardness"]=0.10000000149012,
+},
+-- Table: {287}
+{
+   ["rotation"]=0.0,
+   ["scale"]={553},
+   ["position"]={554},
+},
+-- Table: {288}
+{
+   ["spriteName"]="Spawner.png",
+   ["color"]={555},
+   ["priority"]=30,
+},
+-- Table: {289}
+{
+   ["capacity"]=3,
+   ["counter"]=3,
+   ["spawnTimer"]=0.0,
+   ["prefab"]="Enemy",
+   ["spawnRate"]=10.0,
+},
+-- Table: {290}
+{
+   ["rotation"]=0.0,
+   ["scale"]={556},
+   ["position"]={557},
+},
+-- Table: {291}
+{
+   ["spriteName"]="",
+   ["color"]={558},
+   ["priority"]=25,
+},
+-- Table: {292}
+{
+   ["tag"]="Solid",
+   ["debug"]=false,
+   ["extents"]={559},
+   ["offset"]={560},
+   ["rotation"]=0.0,
+},
+-- Table: {293}
+{
+   ["hardness"]=6.0,
+},
+-- Table: {294}
+{
+   ["rotation"]=0.0,
+   ["scale"]={561},
+   ["position"]={562},
+},
+-- Table: {295}
+{
+   ["spriteName"]="",
+   ["color"]={563},
+   ["priority"]=0,
+},
+-- Table: {296}
+{
+   ["spriteName"]="Maxwell.png",
+   ["color"]={564},
+   ["priority"]=30,
+},
+-- Table: {297}
+{
+   ["tag"]="Enemy",
+   ["debug"]=true,
+   ["extents"]={565},
+   ["offset"]={566},
+   ["rotation"]=0.0,
+},
+-- Table: {298}
+{
+   ["rotation"]=355.63983154297,
+   ["scale"]={567},
+   ["position"]={568},
+},
+-- Table: {299}
+{
+   ["current"]=100.0,
+   ["max"]=100.0,
+},
+-- Table: {300}
+{
+   ["hardness"]=0.10000000149012,
+},
+-- Table: {301}
+{
+   ["rotation"]=0.0,
+   ["scale"]={569},
+   ["position"]={570},
+},
+-- Table: {302}
+{
+   ["spriteName"]="Spawner.png",
+   ["color"]={571},
+   ["priority"]=30,
+},
+-- Table: {303}
+{
+   ["capacity"]=3,
+   ["counter"]=3,
+   ["spawnTimer"]=0.0,
+   ["prefab"]="Enemy",
+   ["spawnRate"]=10.0,
+},
+-- Table: {304}
+{
+   ["rotation"]=0.0,
+   ["scale"]={572},
+   ["position"]={573},
+},
+-- Table: {305}
+{
+   ["spriteName"]="",
+   ["color"]={574},
+   ["priority"]=25,
+},
+-- Table: {306}
+{
+   ["tag"]="Solid",
+   ["debug"]=false,
+   ["extents"]={575},
+   ["offset"]={576},
+   ["rotation"]=0.0,
+},
+-- Table: {307}
+{
+   ["hardness"]=6.0,
+},
+-- Table: {308}
+{
+   ["rotation"]=0.0,
+   ["scale"]={577},
+   ["position"]={578},
+},
+-- Table: {309}
+{
+   ["spriteName"]="",
+   ["color"]={579},
+   ["priority"]=0,
+},
+-- Table: {310}
+{
+   ["spriteName"]="Maxwell.png",
+   ["color"]={580},
+   ["priority"]=30,
+},
+-- Table: {311}
+{
+   ["tag"]="Enemy",
+   ["debug"]=true,
+   ["extents"]={581},
+   ["offset"]={582},
+   ["rotation"]=0.0,
+},
+-- Table: {312}
+{
+   ["rotation"]=355.63983154297,
+   ["scale"]={583},
+   ["position"]={584},
+},
+-- Table: {313}
+{
+   ["current"]=100.0,
+   ["max"]=100.0,
+},
+-- Table: {314}
+{
+   ["hardness"]=0.10000000149012,
+},
+-- Table: {315}
+{
+   ["rotation"]=0.0,
+   ["scale"]={585},
+   ["position"]={586},
+},
+-- Table: {316}
+{
+   ["spriteName"]="Spawner.png",
+   ["color"]={587},
+   ["priority"]=30,
+},
+-- Table: {317}
+{
+   ["capacity"]=3,
+   ["counter"]=3,
+   ["spawnTimer"]=0.0,
+   ["prefab"]="Enemy",
+   ["spawnRate"]=10.0,
+},
+-- Table: {318}
+{
+   ["rotation"]=0.0,
+   ["scale"]={588},
+   ["position"]={589},
+},
+-- Table: {319}
+{
+   ["spriteName"]="",
+   ["color"]={590},
+   ["priority"]=25,
+},
+-- Table: {320}
+{
+   ["tag"]="Solid",
+   ["debug"]=false,
+   ["extents"]={591},
+   ["offset"]={592},
+   ["rotation"]=0.0,
+},
+-- Table: {321}
+{
+   ["hardness"]=6.0,
+},
+-- Table: {322}
+{
+   ["rotation"]=0.0,
+   ["scale"]={593},
+   ["position"]={594},
+},
+-- Table: {323}
+{
+   ["spriteName"]="",
+   ["color"]={595},
+   ["priority"]=0,
+},
+-- Table: {324}
+{
+   ["spriteName"]="Maxwell.png",
+   ["color"]={596},
+   ["priority"]=30,
+},
+-- Table: {325}
+{
+   ["tag"]="Enemy",
+   ["debug"]=true,
+   ["extents"]={597},
+   ["offset"]={598},
+   ["rotation"]=0.0,
+},
+-- Table: {326}
+{
+   ["rotation"]=355.63983154297,
+   ["scale"]={599},
+   ["position"]={600},
+},
+-- Table: {327}
+{
+   ["current"]=100.0,
+   ["max"]=100.0,
+},
+-- Table: {328}
+{
+   ["hardness"]=0.10000000149012,
+},
+-- Table: {329}
+{
+   ["rotation"]=0.0,
+   ["scale"]={601},
+   ["position"]={602},
+},
+-- Table: {330}
+{
+   ["spriteName"]="Spawner.png",
+   ["color"]={603},
+   ["priority"]=30,
+},
+-- Table: {331}
+{
+   ["capacity"]=3,
+   ["counter"]=3,
+   ["spawnTimer"]=0.0,
+   ["prefab"]="Enemy",
+   ["spawnRate"]=10.0,
+},
+-- Table: {332}
+{
+   ["rotation"]=0.0,
+   ["scale"]={604},
+   ["position"]={605},
+},
+-- Table: {333}
+{
+   ["spriteName"]="",
+   ["color"]={606},
+   ["priority"]=25,
+},
+-- Table: {334}
+{
+   ["tag"]="Solid",
+   ["debug"]=false,
+   ["extents"]={607},
+   ["offset"]={608},
+   ["rotation"]=0.0,
+},
+-- Table: {335}
+{
+   ["hardness"]=6.0,
+},
+-- Table: {336}
+{
+   ["rotation"]=0.0,
+   ["scale"]={609},
+   ["position"]={610},
+},
+-- Table: {337}
+{
+   ["spriteName"]="",
+   ["color"]={611},
+   ["priority"]=0,
+},
+-- Table: {338}
+{
+   ["spriteName"]="Maxwell.png",
+   ["color"]={612},
+   ["priority"]=30,
+},
+-- Table: {339}
+{
+   ["tag"]="Enemy",
+   ["debug"]=true,
+   ["extents"]={613},
+   ["offset"]={614},
+   ["rotation"]=0.0,
+},
+-- Table: {340}
+{
+   ["rotation"]=355.63983154297,
+   ["scale"]={615},
+   ["position"]={616},
+},
+-- Table: {341}
+{
+   ["current"]=100.0,
+   ["max"]=100.0,
+},
+-- Table: {342}
+{
+   ["hardness"]=0.10000000149012,
+},
+-- Table: {343}
+{
+   ["rotation"]=0.0,
+   ["scale"]={617},
+   ["position"]={618},
+},
+-- Table: {344}
+{
+   ["spriteName"]="Spawner.png",
+   ["color"]={619},
+   ["priority"]=30,
+},
+-- Table: {345}
+{
+   ["capacity"]=3,
+   ["counter"]=3,
+   ["spawnTimer"]=0.0,
+   ["prefab"]="Enemy",
+   ["spawnRate"]=10.0,
+},
+-- Table: {346}
+{
+   ["rotation"]=0.0,
+   ["scale"]={620},
+   ["position"]={621},
+},
+-- Table: {347}
+{
+   ["spriteName"]="",
+   ["color"]={622},
+   ["priority"]=25,
+},
+-- Table: {348}
+{
+   ["tag"]="Solid",
+   ["debug"]=false,
+   ["extents"]={623},
+   ["offset"]={624},
+   ["rotation"]=0.0,
+},
+-- Table: {349}
+{
+   ["hardness"]=6.0,
+},
+-- Table: {350}
+{
+   ["rotation"]=0.0,
+   ["scale"]={625},
+   ["position"]={626},
+},
+-- Table: {351}
+{
+   ["spriteName"]="",
+   ["color"]={627},
+   ["priority"]=0,
+},
+-- Table: {352}
+{
+   ["spriteName"]="Maxwell.png",
+   ["color"]={628},
+   ["priority"]=30,
+},
+-- Table: {353}
+{
+   ["tag"]="Enemy",
+   ["debug"]=true,
+   ["extents"]={629},
+   ["offset"]={630},
+   ["rotation"]=0.0,
+},
+-- Table: {354}
+{
+   ["rotation"]=355.63983154297,
+   ["scale"]={631},
+   ["position"]={632},
+},
+-- Table: {355}
+{
+   ["current"]=100.0,
+   ["max"]=100.0,
+},
+-- Table: {356}
+{
+   ["hardness"]=0.10000000149012,
+},
+-- Table: {357}
+{
+   ["rotation"]=0.0,
+   ["scale"]={633},
+   ["position"]={634},
+},
+-- Table: {358}
+{
+   ["spriteName"]="Spawner.png",
+   ["color"]={635},
+   ["priority"]=30,
+},
+-- Table: {359}
+{
+   ["capacity"]=3,
+   ["counter"]=3,
+   ["spawnTimer"]=0.0,
+   ["prefab"]="Enemy",
+   ["spawnRate"]=10.0,
+},
+-- Table: {360}
+{
+   ["rotation"]=0.0,
+   ["scale"]={636},
+   ["position"]={637},
+},
+-- Table: {361}
+{
+   ["spriteName"]="Maxwell.png",
+   ["color"]={638},
+   ["priority"]=30,
+},
+-- Table: {362}
+{
+   ["tag"]="Enemy",
+   ["debug"]=true,
+   ["extents"]={639},
+   ["offset"]={640},
+   ["rotation"]=0.0,
+},
+-- Table: {363}
+{
+   ["rotation"]=49.689155578613,
+   ["scale"]={641},
+   ["position"]={642},
+},
+-- Table: {364}
+{
+   ["current"]=100.0,
+   ["max"]=100.0,
+},
+-- Table: {365}
+{
+   ["hardness"]=0.10000000149012,
+},
+-- Table: {366}
+{
+   ["rotation"]=0.0,
+   ["scale"]={643},
+   ["position"]={644},
+},
+-- Table: {367}
+{
+   ["spriteName"]="",
+   ["color"]={645},
+   ["priority"]=0,
+},
+-- Table: {368}
+{
+   ["rotation"]=0.0,
+   ["scale"]={646},
+   ["position"]={647},
+},
+-- Table: {369}
+{
+   ["spriteName"]="Maxwell.png",
+   ["color"]={648},
+   ["priority"]=30,
+},
+-- Table: {370}
+{
+   ["tag"]="Enemy",
+   ["debug"]=true,
+   ["extents"]={649},
+   ["offset"]={650},
+   ["rotation"]=0.0,
+},
+-- Table: {371}
+{
+   ["rotation"]=49.689155578613,
+   ["scale"]={651},
+   ["position"]={652},
+},
+-- Table: {372}
+{
+   ["current"]=100.0,
+   ["max"]=100.0,
+},
+-- Table: {373}
+{
+   ["hardness"]=0.10000000149012,
+},
+-- Table: {374}
+{
+   ["rotation"]=0.0,
+   ["scale"]={653},
+   ["position"]={654},
+},
+-- Table: {375}
+{
+   ["spriteName"]="",
+   ["color"]={655},
+   ["priority"]=0,
+},
+-- Table: {376}
+{
+   ["rotation"]=0.0,
+   ["scale"]={656},
+   ["position"]={657},
+},
+-- Table: {377}
+{
+   ["spriteName"]="Maxwell.png",
+   ["color"]={658},
+   ["priority"]=30,
+},
+-- Table: {378}
+{
+   ["tag"]="Enemy",
+   ["debug"]=true,
+   ["extents"]={659},
+   ["offset"]={660},
+   ["rotation"]=0.0,
+},
+-- Table: {379}
+{
+   ["rotation"]=49.689155578613,
+   ["scale"]={661},
+   ["position"]={662},
+},
+-- Table: {380}
+{
+   ["current"]=100.0,
+   ["max"]=100.0,
+},
+-- Table: {381}
+{
+   ["hardness"]=0.10000000149012,
+},
+-- Table: {382}
+{
+   ["rotation"]=0.0,
+   ["scale"]={663},
+   ["position"]={664},
+},
+-- Table: {383}
+{
+   ["spriteName"]="",
+   ["color"]={665},
+   ["priority"]=0,
+},
+-- Table: {384}
+{
+   ["rotation"]=0.0,
+   ["scale"]={666},
+   ["position"]={667},
+},
+-- Table: {385}
+{
+   ["spriteName"]="Maxwell.png",
+   ["color"]={668},
+   ["priority"]=30,
+},
+-- Table: {386}
+{
+   ["tag"]="Enemy",
+   ["debug"]=true,
+   ["extents"]={669},
+   ["offset"]={670},
+   ["rotation"]=0.0,
+},
+-- Table: {387}
+{
+   ["rotation"]=49.689155578613,
+   ["scale"]={671},
+   ["position"]={672},
+},
+-- Table: {388}
+{
+   ["current"]=100.0,
+   ["max"]=100.0,
+},
+-- Table: {389}
+{
+   ["hardness"]=0.10000000149012,
+},
+-- Table: {390}
+{
+   ["rotation"]=0.0,
+   ["scale"]={673},
+   ["position"]={674},
+},
+-- Table: {391}
+{
+   ["spriteName"]="",
+   ["color"]={675},
+   ["priority"]=0,
+},
+-- Table: {392}
+{
+   ["rotation"]=0.0,
+   ["scale"]={676},
+   ["position"]={677},
+},
+-- Table: {393}
+{
+   ["spriteName"]="Maxwell.png",
+   ["color"]={678},
+   ["priority"]=30,
+},
+-- Table: {394}
+{
+   ["tag"]="Enemy",
+   ["debug"]=true,
+   ["extents"]={679},
+   ["offset"]={680},
+   ["rotation"]=0.0,
+},
+-- Table: {395}
+{
+   ["rotation"]=49.689155578613,
+   ["scale"]={681},
+   ["position"]={682},
+},
+-- Table: {396}
+{
+   ["current"]=100.0,
+   ["max"]=100.0,
+},
+-- Table: {397}
+{
+   ["hardness"]=0.10000000149012,
+},
+-- Table: {398}
+{
+   ["rotation"]=0.0,
+   ["scale"]={683},
+   ["position"]={684},
+},
+-- Table: {399}
+{
+   ["spriteName"]="",
+   ["color"]={685},
+   ["priority"]=0,
+},
+-- Table: {400}
+{
+   ["rotation"]=0.0,
+   ["scale"]={686},
+   ["position"]={687},
+},
+-- Table: {401}
+{
+   ["spriteName"]="Maxwell.png",
+   ["color"]={688},
+   ["priority"]=30,
+},
+-- Table: {402}
+{
+   ["tag"]="Enemy",
+   ["debug"]=true,
+   ["extents"]={689},
+   ["offset"]={690},
+   ["rotation"]=0.0,
+},
+-- Table: {403}
+{
+   ["rotation"]=49.689155578613,
+   ["scale"]={691},
+   ["position"]={692},
+},
+-- Table: {404}
+{
+   ["current"]=100.0,
+   ["max"]=100.0,
+},
+-- Table: {405}
+{
+   ["hardness"]=0.10000000149012,
+},
+-- Table: {406}
+{
+   ["rotation"]=0.0,
+   ["scale"]={693},
+   ["position"]={694},
+},
+-- Table: {407}
+{
+   ["spriteName"]="",
+   ["color"]={695},
+   ["priority"]=0,
+},
+-- Table: {408}
+{
+   ["rotation"]=0.0,
+   ["scale"]={696},
+   ["position"]={697},
+},
+-- Table: {409}
+{
+   ["spriteName"]="Maxwell.png",
+   ["color"]={698},
+   ["priority"]=30,
+},
+-- Table: {410}
+{
+   ["tag"]="Enemy",
+   ["debug"]=true,
+   ["extents"]={699},
+   ["offset"]={700},
+   ["rotation"]=0.0,
+},
+-- Table: {411}
+{
+   ["rotation"]=49.689155578613,
+   ["scale"]={701},
+   ["position"]={702},
+},
+-- Table: {412}
+{
+   ["current"]=100.0,
+   ["max"]=100.0,
+},
+-- Table: {413}
+{
+   ["hardness"]=0.10000000149012,
+},
+-- Table: {414}
+{
+   ["rotation"]=0.0,
+   ["scale"]={703},
+   ["position"]={704},
+},
+-- Table: {415}
+{
+   ["spriteName"]="",
+   ["color"]={705},
+   ["priority"]=0,
+},
+-- Table: {416}
+{
+   ["x"]=500.0,
+   ["y"]=500.0,
+},
+-- Table: {417}
+{
+   ["x"]=-726.54840087891,
+   ["y"]=652.97747802734,
+},
+-- Table: {418}
+{
+   ["b"]=0.147465467453,
+   ["g"]=0.147465467453,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {419}
+{
+   ["b"]=1.0,
+   ["g"]=1.0,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {420}
+{
+   ["x"]=1.0,
+   ["y"]=1.0,
+},
+-- Table: {421}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {422}
+{
+   ["x"]=60.0,
+   ["y"]=-60.0,
+},
+-- Table: {423}
+{
+   ["x"]=-726.54840087891,
+   ["y"]=652.97747802734,
+},
+-- Table: {424}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {425}
+{
+   ["x"]=-726.54840087891,
+   ["y"]=652.97747802734,
+},
+-- Table: {426}
+{
+   ["x"]=500.0,
+   ["y"]=500.0,
+},
+-- Table: {427}
+{
+   ["x"]=-1551.0255126953,
+   ["y"]=371.47814941406,
+},
+-- Table: {428}
+{
+   ["b"]=0.147465467453,
+   ["g"]=0.147465467453,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {429}
+{
+   ["b"]=1.0,
+   ["g"]=1.0,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {430}
+{
+   ["x"]=1.0,
+   ["y"]=1.0,
+},
+-- Table: {431}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {432}
+{
+   ["x"]=60.0,
+   ["y"]=-60.0,
+},
+-- Table: {433}
+{
+   ["x"]=-1551.0255126953,
+   ["y"]=371.47814941406,
+},
+-- Table: {434}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {435}
+{
+   ["x"]=-1551.0255126953,
+   ["y"]=371.47814941406,
+},
+-- Table: {436}
+{
+   ["x"]=500.0,
+   ["y"]=500.0,
+},
+-- Table: {437}
+{
+   ["x"]=521.22198486328,
+   ["y"]=1456.4122314453,
+},
+-- Table: {438}
+{
+   ["b"]=0.147465467453,
+   ["g"]=0.147465467453,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {439}
+{
+   ["b"]=1.0,
+   ["g"]=1.0,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {440}
+{
+   ["x"]=1.0,
+   ["y"]=1.0,
+},
+-- Table: {441}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {442}
+{
+   ["x"]=60.0,
+   ["y"]=-60.0,
+},
+-- Table: {443}
+{
+   ["x"]=521.22198486328,
+   ["y"]=1456.4122314453,
+},
+-- Table: {444}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {445}
+{
+   ["x"]=521.22198486328,
+   ["y"]=1456.4122314453,
+},
+-- Table: {446}
+{
+   ["x"]=500.0,
+   ["y"]=500.0,
+},
+-- Table: {447}
+{
+   ["x"]=19.633594512939,
+   ["y"]=1854.6357421875,
+},
+-- Table: {448}
+{
+   ["b"]=0.147465467453,
+   ["g"]=0.147465467453,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {449}
+{
+   ["b"]=1.0,
+   ["g"]=1.0,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {450}
+{
+   ["x"]=1.0,
+   ["y"]=1.0,
+},
+-- Table: {451}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {452}
+{
+   ["x"]=60.0,
+   ["y"]=-60.0,
+},
+-- Table: {453}
+{
+   ["x"]=19.633594512939,
+   ["y"]=1854.6357421875,
+},
+-- Table: {454}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {455}
+{
+   ["x"]=19.633594512939,
+   ["y"]=1854.6357421875,
+},
+-- Table: {456}
+{
+   ["x"]=500.0,
+   ["y"]=500.0,
+},
+-- Table: {457}
+{
+   ["x"]=-349.51623535156,
+   ["y"]=151.9315032959,
+},
+-- Table: {458}
+{
+   ["b"]=0.147465467453,
+   ["g"]=0.147465467453,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {459}
+{
+   ["b"]=1.0,
+   ["g"]=1.0,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {460}
+{
+   ["x"]=1.0,
+   ["y"]=1.0,
+},
+-- Table: {461}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {462}
+{
+   ["x"]=60.0,
+   ["y"]=-60.0,
+},
+-- Table: {463}
+{
+   ["x"]=-349.51623535156,
+   ["y"]=151.9315032959,
+},
+-- Table: {464}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {465}
+{
+   ["x"]=-349.51623535156,
+   ["y"]=151.9315032959,
+},
+-- Table: {466}
+{
+   ["x"]=500.0,
+   ["y"]=500.0,
+},
+-- Table: {467}
+{
+   ["x"]=-162.87142944336,
+   ["y"]=652.41802978516,
+},
+-- Table: {468}
+{
+   ["b"]=0.147465467453,
+   ["g"]=0.147465467453,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {469}
+{
+   ["b"]=1.0,
+   ["g"]=1.0,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {470}
+{
+   ["x"]=1.0,
+   ["y"]=1.0,
+},
+-- Table: {471}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {472}
+{
+   ["x"]=60.0,
+   ["y"]=-60.0,
+},
+-- Table: {473}
+{
+   ["x"]=-162.87142944336,
+   ["y"]=652.41802978516,
+},
+-- Table: {474}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {475}
+{
+   ["x"]=-162.87142944336,
+   ["y"]=652.41802978516,
+},
+-- Table: {476}
+{
+   ["x"]=100.0,
+   ["y"]=100.0,
+},
+-- Table: {477}
+{
+   ["x"]=-687.51409912109,
+   ["y"]=-381.1552734375,
+},
+-- Table: {478}
+{
+   ["b"]=0.3578619658947,
+   ["g"]=0.55164813995361,
+   ["r"]=0.80310881137848,
+   ["a"]=1.0,
+},
+-- Table: {479}
+{
+   ["x"]=1.0,
+   ["y"]=1.0,
+},
+-- Table: {480}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {481}
+{
+   ["x"]=700.0,
+   ["y"]=500.0,
+},
+-- Table: {482}
+{
+   ["x"]=-687.51409912109,
+   ["y"]=-381.1552734375,
+},
+-- Table: {483}
+{
+   ["b"]=0.18894010782242,
+   ["g"]=1.0,
+   ["r"]=0.66735339164734,
+   ["a"]=1.0,
+},
+-- Table: {484}
+{
+   ["b"]=1.0,
+   ["g"]=1.0,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {485}
+{
+   ["x"]=1.0,
+   ["y"]=1.0,
+},
+-- Table: {486}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {487}
+{
+   ["x"]=60.0,
+   ["y"]=60.0,
+},
+-- Table: {488}
+{
+   ["x"]=-855.01409912109,
+   ["y"]=-381.1552734375,
+},
+-- Table: {489}
+{
+   ["x"]=100.0,
+   ["y"]=100.0,
+},
+-- Table: {490}
+{
+   ["x"]=-432.91409301758,
+   ["y"]=-549.25524902344,
+},
+-- Table: {491}
+{
+   ["b"]=1.0,
+   ["g"]=1.0,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {492}
+{
+   ["x"]=100.0,
+   ["y"]=100.0,
+},
+-- Table: {493}
+{
+   ["x"]=733.72302246094,
+   ["y"]=-820.70550537109,
+},
+-- Table: {494}
+{
+   ["b"]=0.3578619658947,
+   ["g"]=0.55164813995361,
+   ["r"]=0.80310881137848,
+   ["a"]=1.0,
+},
+-- Table: {495}
+{
+   ["x"]=1.0,
+   ["y"]=1.0,
+},
+-- Table: {496}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {497}
+{
+   ["x"]=700.0,
+   ["y"]=500.0,
+},
+-- Table: {498}
+{
+   ["x"]=733.72302246094,
+   ["y"]=-820.70550537109,
+},
+-- Table: {499}
+{
+   ["b"]=0.18894010782242,
+   ["g"]=1.0,
+   ["r"]=0.66735339164734,
+   ["a"]=1.0,
+},
+-- Table: {500}
+{
+   ["b"]=1.0,
+   ["g"]=1.0,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {501}
+{
+   ["x"]=1.0,
+   ["y"]=1.0,
+},
+-- Table: {502}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {503}
+{
+   ["x"]=60.0,
+   ["y"]=60.0,
+},
+-- Table: {504}
+{
+   ["x"]=566.22302246094,
+   ["y"]=-820.70550537109,
+},
+-- Table: {505}
+{
+   ["x"]=100.0,
+   ["y"]=100.0,
+},
+-- Table: {506}
+{
+   ["x"]=988.32299804688,
+   ["y"]=-988.80554199219,
+},
+-- Table: {507}
+{
+   ["b"]=1.0,
+   ["g"]=1.0,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {508}
+{
+   ["x"]=100.0,
+   ["y"]=100.0,
+},
+-- Table: {509}
+{
+   ["x"]=12.512498855591,
+   ["y"]=-702.23333740234,
+},
+-- Table: {510}
+{
+   ["b"]=0.3578619658947,
+   ["g"]=0.55164813995361,
+   ["r"]=0.80310881137848,
+   ["a"]=1.0,
+},
+-- Table: {511}
+{
+   ["x"]=1.0,
+   ["y"]=1.0,
+},
+-- Table: {512}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {513}
+{
+   ["x"]=700.0,
+   ["y"]=500.0,
+},
+-- Table: {514}
+{
+   ["x"]=12.512498855591,
+   ["y"]=-702.23333740234,
+},
+-- Table: {515}
+{
+   ["b"]=0.18894010782242,
+   ["g"]=1.0,
+   ["r"]=0.66735339164734,
+   ["a"]=1.0,
+},
+-- Table: {516}
+{
+   ["b"]=1.0,
+   ["g"]=1.0,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {517}
+{
+   ["x"]=1.0,
+   ["y"]=1.0,
+},
+-- Table: {518}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {519}
+{
+   ["x"]=60.0,
+   ["y"]=60.0,
+},
+-- Table: {520}
+{
+   ["x"]=-154.98750305176,
+   ["y"]=-702.23333740234,
+},
+-- Table: {521}
+{
+   ["x"]=100.0,
+   ["y"]=100.0,
+},
+-- Table: {522}
+{
+   ["x"]=267.11251831055,
+   ["y"]=-870.33337402344,
+},
+-- Table: {523}
+{
+   ["b"]=1.0,
+   ["g"]=1.0,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {524}
+{
+   ["x"]=100.0,
+   ["y"]=100.0,
+},
+-- Table: {525}
+{
+   ["x"]=-949.98229980469,
+   ["y"]=119.57297515869,
+},
+-- Table: {526}
+{
+   ["b"]=0.3578619658947,
+   ["g"]=0.55164813995361,
+   ["r"]=0.80310881137848,
+   ["a"]=1.0,
+},
+-- Table: {527}
+{
+   ["x"]=1.0,
+   ["y"]=1.0,
+},
+-- Table: {528}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {529}
+{
+   ["x"]=700.0,
+   ["y"]=500.0,
+},
+-- Table: {530}
+{
+   ["x"]=-949.98229980469,
+   ["y"]=119.57297515869,
+},
+-- Table: {531}
+{
+   ["b"]=0.18894010782242,
+   ["g"]=1.0,
+   ["r"]=0.66735339164734,
+   ["a"]=1.0,
+},
+-- Table: {532}
+{
+   ["b"]=1.0,
+   ["g"]=1.0,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {533}
+{
+   ["x"]=1.0,
+   ["y"]=1.0,
+},
+-- Table: {534}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {535}
+{
+   ["x"]=60.0,
+   ["y"]=60.0,
+},
+-- Table: {536}
+{
+   ["x"]=-1117.4822998047,
+   ["y"]=119.57297515869,
+},
+-- Table: {537}
+{
+   ["x"]=100.0,
+   ["y"]=100.0,
+},
+-- Table: {538}
+{
+   ["x"]=-695.38232421875,
+   ["y"]=-48.527030944824,
+},
+-- Table: {539}
+{
+   ["b"]=1.0,
+   ["g"]=1.0,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {540}
+{
+   ["x"]=100.0,
+   ["y"]=100.0,
+},
+-- Table: {541}
+{
+   ["x"]=752.19738769531,
+   ["y"]=253.65293884277,
+},
+-- Table: {542}
+{
+   ["b"]=0.3578619658947,
+   ["g"]=0.55164813995361,
+   ["r"]=0.80310881137848,
+   ["a"]=1.0,
+},
+-- Table: {543}
+{
+   ["x"]=1.0,
+   ["y"]=1.0,
+},
+-- Table: {544}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {545}
+{
+   ["x"]=700.0,
+   ["y"]=500.0,
+},
+-- Table: {546}
+{
+   ["x"]=752.19738769531,
+   ["y"]=253.65293884277,
+},
+-- Table: {547}
+{
+   ["b"]=0.18894010782242,
+   ["g"]=1.0,
+   ["r"]=0.66735339164734,
+   ["a"]=1.0,
+},
+-- Table: {548}
+{
+   ["b"]=1.0,
+   ["g"]=1.0,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {549}
+{
+   ["x"]=1.0,
+   ["y"]=1.0,
+},
+-- Table: {550}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {551}
+{
+   ["x"]=60.0,
+   ["y"]=60.0,
+},
+-- Table: {552}
+{
+   ["x"]=584.69738769531,
+   ["y"]=253.65293884277,
+},
+-- Table: {553}
+{
+   ["x"]=100.0,
+   ["y"]=100.0,
+},
+-- Table: {554}
+{
+   ["x"]=1006.7973632812,
+   ["y"]=85.552932739258,
+},
+-- Table: {555}
+{
+   ["b"]=1.0,
+   ["g"]=1.0,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {556}
+{
+   ["x"]=100.0,
+   ["y"]=100.0,
+},
+-- Table: {557}
+{
+   ["x"]=1121.8302001953,
+   ["y"]=1382.3205566406,
+},
+-- Table: {558}
+{
+   ["b"]=0.3578619658947,
+   ["g"]=0.55164813995361,
+   ["r"]=0.80310881137848,
+   ["a"]=1.0,
+},
+-- Table: {559}
+{
+   ["x"]=1.0,
+   ["y"]=1.0,
+},
+-- Table: {560}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {561}
+{
+   ["x"]=700.0,
+   ["y"]=500.0,
+},
+-- Table: {562}
+{
+   ["x"]=1121.8302001953,
+   ["y"]=1382.3205566406,
+},
+-- Table: {563}
+{
+   ["b"]=0.18894010782242,
+   ["g"]=1.0,
+   ["r"]=0.66735339164734,
+   ["a"]=1.0,
+},
+-- Table: {564}
+{
+   ["b"]=1.0,
+   ["g"]=1.0,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {565}
+{
+   ["x"]=1.0,
+   ["y"]=1.0,
+},
+-- Table: {566}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {567}
+{
+   ["x"]=60.0,
+   ["y"]=60.0,
+},
+-- Table: {568}
+{
+   ["x"]=954.33020019531,
+   ["y"]=1382.3205566406,
+},
+-- Table: {569}
+{
+   ["x"]=100.0,
+   ["y"]=100.0,
+},
+-- Table: {570}
+{
+   ["x"]=1376.4301757812,
+   ["y"]=1214.2205810547,
+},
+-- Table: {571}
+{
+   ["b"]=1.0,
+   ["g"]=1.0,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {572}
+{
+   ["x"]=100.0,
+   ["y"]=100.0,
+},
+-- Table: {573}
+{
+   ["x"]=-102.12091064453,
+   ["y"]=-1202.5328369141,
+},
+-- Table: {574}
+{
+   ["b"]=0.3578619658947,
+   ["g"]=0.55164813995361,
+   ["r"]=0.80310881137848,
+   ["a"]=1.0,
+},
+-- Table: {575}
+{
+   ["x"]=1.0,
+   ["y"]=1.0,
+},
+-- Table: {576}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {577}
+{
+   ["x"]=700.0,
+   ["y"]=500.0,
+},
+-- Table: {578}
+{
+   ["x"]=-102.12091064453,
+   ["y"]=-1202.5328369141,
+},
+-- Table: {579}
+{
+   ["b"]=0.18894010782242,
+   ["g"]=1.0,
+   ["r"]=0.66735339164734,
+   ["a"]=1.0,
+},
+-- Table: {580}
+{
+   ["b"]=1.0,
+   ["g"]=1.0,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {581}
+{
+   ["x"]=1.0,
+   ["y"]=1.0,
+},
+-- Table: {582}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {583}
+{
+   ["x"]=60.0,
+   ["y"]=60.0,
+},
+-- Table: {584}
+{
+   ["x"]=-269.62091064453,
+   ["y"]=-1202.5328369141,
+},
+-- Table: {585}
+{
+   ["x"]=100.0,
+   ["y"]=100.0,
+},
+-- Table: {586}
+{
+   ["x"]=152.47909545898,
+   ["y"]=-1370.6328125,
+},
+-- Table: {587}
+{
+   ["b"]=1.0,
+   ["g"]=1.0,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {588}
+{
+   ["x"]=100.0,
+   ["y"]=100.0,
+},
+-- Table: {589}
+{
+   ["x"]=-1394.2396240234,
+   ["y"]=-381.80221557617,
+},
+-- Table: {590}
+{
+   ["b"]=0.3578619658947,
+   ["g"]=0.55164813995361,
+   ["r"]=0.80310881137848,
+   ["a"]=1.0,
+},
+-- Table: {591}
+{
+   ["x"]=1.0,
+   ["y"]=1.0,
+},
+-- Table: {592}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {593}
+{
+   ["x"]=700.0,
+   ["y"]=500.0,
+},
+-- Table: {594}
+{
+   ["x"]=-1394.2396240234,
+   ["y"]=-381.80221557617,
+},
+-- Table: {595}
+{
+   ["b"]=0.18894010782242,
+   ["g"]=1.0,
+   ["r"]=0.66735339164734,
+   ["a"]=1.0,
+},
+-- Table: {596}
+{
+   ["b"]=1.0,
+   ["g"]=1.0,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {597}
+{
+   ["x"]=1.0,
+   ["y"]=1.0,
+},
+-- Table: {598}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {599}
+{
+   ["x"]=60.0,
+   ["y"]=60.0,
+},
+-- Table: {600}
+{
+   ["x"]=-1561.7396240234,
+   ["y"]=-381.80221557617,
+},
+-- Table: {601}
+{
+   ["x"]=100.0,
+   ["y"]=100.0,
+},
+-- Table: {602}
+{
+   ["x"]=-1139.6396484375,
+   ["y"]=-549.90222167969,
+},
+-- Table: {603}
+{
+   ["b"]=1.0,
+   ["g"]=1.0,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {604}
+{
+   ["x"]=100.0,
+   ["y"]=100.0,
+},
+-- Table: {605}
+{
+   ["x"]=1614.8101806641,
+   ["y"]=52.099781036377,
+},
+-- Table: {606}
+{
+   ["b"]=0.3578619658947,
+   ["g"]=0.55164813995361,
+   ["r"]=0.80310881137848,
+   ["a"]=1.0,
+},
+-- Table: {607}
+{
+   ["x"]=1.0,
+   ["y"]=1.0,
+},
+-- Table: {608}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {609}
+{
+   ["x"]=700.0,
+   ["y"]=500.0,
+},
+-- Table: {610}
+{
+   ["x"]=1614.8101806641,
+   ["y"]=52.099781036377,
+},
+-- Table: {611}
+{
+   ["b"]=0.18894010782242,
+   ["g"]=1.0,
+   ["r"]=0.66735339164734,
+   ["a"]=1.0,
+},
+-- Table: {612}
+{
+   ["b"]=1.0,
+   ["g"]=1.0,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {613}
+{
+   ["x"]=1.0,
+   ["y"]=1.0,
+},
+-- Table: {614}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {615}
+{
+   ["x"]=60.0,
+   ["y"]=60.0,
+},
+-- Table: {616}
+{
+   ["x"]=1447.3101806641,
+   ["y"]=52.099781036377,
+},
+-- Table: {617}
+{
+   ["x"]=100.0,
+   ["y"]=100.0,
+},
+-- Table: {618}
+{
+   ["x"]=1869.41015625,
+   ["y"]=-116.00022888184,
+},
+-- Table: {619}
+{
+   ["b"]=1.0,
+   ["g"]=1.0,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {620}
+{
+   ["x"]=100.0,
+   ["y"]=100.0,
+},
+-- Table: {621}
+{
+   ["x"]=788.59228515625,
+   ["y"]=-319.81671142578,
+},
+-- Table: {622}
+{
+   ["b"]=0.3578619658947,
+   ["g"]=0.55164813995361,
+   ["r"]=0.80310881137848,
+   ["a"]=1.0,
+},
+-- Table: {623}
+{
+   ["x"]=1.0,
+   ["y"]=1.0,
+},
+-- Table: {624}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {625}
+{
+   ["x"]=700.0,
+   ["y"]=500.0,
+},
+-- Table: {626}
+{
+   ["x"]=788.59228515625,
+   ["y"]=-319.81671142578,
+},
+-- Table: {627}
+{
+   ["b"]=0.18894010782242,
+   ["g"]=1.0,
+   ["r"]=0.66735339164734,
+   ["a"]=1.0,
+},
+-- Table: {628}
+{
+   ["b"]=1.0,
+   ["g"]=1.0,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {629}
+{
+   ["x"]=1.0,
+   ["y"]=1.0,
+},
+-- Table: {630}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {631}
+{
+   ["x"]=60.0,
+   ["y"]=60.0,
+},
+-- Table: {632}
+{
+   ["x"]=621.09228515625,
+   ["y"]=-319.81671142578,
+},
+-- Table: {633}
+{
+   ["x"]=100.0,
+   ["y"]=100.0,
+},
+-- Table: {634}
+{
+   ["x"]=1043.1922607422,
+   ["y"]=-487.9167175293,
+},
+-- Table: {635}
+{
+   ["b"]=1.0,
+   ["g"]=1.0,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {636}
+{
+   ["x"]=1.0,
+   ["y"]=1.0,
+},
+-- Table: {637}
+{
+   ["x"]=521.19018554688,
+   ["y"]=-1421.6065673828,
+},
+-- Table: {638}
+{
+   ["b"]=1.0,
+   ["g"]=1.0,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {639}
+{
+   ["x"]=1.0,
+   ["y"]=1.0,
+},
+-- Table: {640}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {641}
+{
+   ["x"]=60.0,
+   ["y"]=60.0,
+},
+-- Table: {642}
+{
+   ["x"]=405.09017944336,
+   ["y"]=-1571.6065673828,
+},
+-- Table: {643}
 {
    ["x"]=500.0,
    ["y"]=700.0,
 },
--- Table: {88}
+-- Table: {644}
 {
-   ["x"]=805.76892089844,
-   ["y"]=-455.11608886719,
+   ["x"]=521.19018554688,
+   ["y"]=-1421.6065673828,
 },
--- Table: {89}
+-- Table: {645}
 {
-   ["r"]=0.23963135480881,
+   ["b"]=1.0,
    ["g"]=0.421839594841,
-   ["b"]=1.0,
+   ["r"]=0.23963135480881,
    ["a"]=1.0,
 },
--- Table: {90}
-{
-   ["x"]=500.0,
-   ["y"]=500.0,
-},
--- Table: {91}
-{
-   ["x"]=-697.06640625,
-   ["y"]=-246.35256958008,
-},
--- Table: {92}
-{
-   ["r"]=1.0,
-   ["g"]=0.147465467453,
-   ["b"]=0.147465467453,
-   ["a"]=1.0,
-},
--- Table: {93}
-{
-   ["x"]=60.0,
-   ["y"]=-60.0,
-},
--- Table: {94}
-{
-   ["x"]=-697.06640625,
-   ["y"]=-246.35256958008,
-},
--- Table: {95}
-{
-   ["r"]=1.0,
-   ["g"]=1.0,
-   ["b"]=1.0,
-   ["a"]=1.0,
-},
--- Table: {96}
-{
-   ["x"]=0.0,
-   ["y"]=0.0,
-},
--- Table: {97}
+-- Table: {646}
 {
    ["x"]=1.0,
    ["y"]=1.0,
 },
--- Table: {98}
+-- Table: {647}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["x"]=-726.05706787109,
+   ["y"]=-1136.9471435547,
 },
--- Table: {99}
+-- Table: {648}
 {
-   ["x"]=-697.06640625,
-   ["y"]=-246.35256958008,
-},
--- Table: {100}
-{
-   ["x"]=500.0,
-   ["y"]=500.0,
-},
--- Table: {101}
-{
-   ["x"]=-149.23719787598,
-   ["y"]=20.248056411743,
-},
--- Table: {102}
-{
-   ["r"]=1.0,
-   ["g"]=0.147465467453,
-   ["b"]=0.147465467453,
-   ["a"]=1.0,
-},
--- Table: {103}
-{
-   ["x"]=60.0,
-   ["y"]=-60.0,
-},
--- Table: {104}
-{
-   ["x"]=-149.23719787598,
-   ["y"]=20.248056411743,
-},
--- Table: {105}
-{
-   ["r"]=1.0,
-   ["g"]=1.0,
    ["b"]=1.0,
+   ["g"]=1.0,
+   ["r"]=1.0,
    ["a"]=1.0,
 },
--- Table: {106}
-{
-   ["x"]=0.0,
-   ["y"]=0.0,
-},
--- Table: {107}
+-- Table: {649}
 {
    ["x"]=1.0,
    ["y"]=1.0,
 },
--- Table: {108}
+-- Table: {650}
 {
    ["x"]=0.0,
    ["y"]=0.0,
 },
--- Table: {109}
-{
-   ["x"]=-149.23719787598,
-   ["y"]=20.248056411743,
-},
--- Table: {110}
-{
-   ["x"]=500.0,
-   ["y"]=500.0,
-},
--- Table: {111}
-{
-   ["x"]=304.08486938477,
-   ["y"]=-480.89273071289,
-},
--- Table: {112}
-{
-   ["r"]=1.0,
-   ["g"]=0.147465467453,
-   ["b"]=0.147465467453,
-   ["a"]=1.0,
-},
--- Table: {113}
+-- Table: {651}
 {
    ["x"]=60.0,
-   ["y"]=-60.0,
+   ["y"]=60.0,
 },
--- Table: {114}
+-- Table: {652}
 {
-   ["x"]=304.08486938477,
-   ["y"]=-480.89273071289,
+   ["x"]=-842.15704345703,
+   ["y"]=-1286.9471435547,
 },
--- Table: {115}
+-- Table: {653}
 {
-   ["r"]=1.0,
-   ["g"]=1.0,
+   ["x"]=500.0,
+   ["y"]=700.0,
+},
+-- Table: {654}
+{
+   ["x"]=-726.05706787109,
+   ["y"]=-1136.9471435547,
+},
+-- Table: {655}
+{
    ["b"]=1.0,
+   ["g"]=0.421839594841,
+   ["r"]=0.23963135480881,
    ["a"]=1.0,
 },
--- Table: {116}
-{
-   ["x"]=0.0,
-   ["y"]=0.0,
-},
--- Table: {117}
+-- Table: {656}
 {
    ["x"]=1.0,
    ["y"]=1.0,
 },
--- Table: {118}
+-- Table: {657}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["x"]=151.68778991699,
+   ["y"]=-100.69269561768,
 },
--- Table: {119}
+-- Table: {658}
 {
-   ["x"]=304.08486938477,
-   ["y"]=-480.89273071289,
-},
--- Table: {120}
-{
-   ["x"]=500.0,
-   ["y"]=500.0,
-},
--- Table: {121}
-{
-   ["x"]=-650.04010009766,
-   ["y"]=335.77621459961,
-},
--- Table: {122}
-{
-   ["r"]=1.0,
-   ["g"]=0.147465467453,
-   ["b"]=0.147465467453,
-   ["a"]=1.0,
-},
--- Table: {123}
-{
-   ["x"]=60.0,
-   ["y"]=-60.0,
-},
--- Table: {124}
-{
-   ["x"]=-650.04010009766,
-   ["y"]=335.77621459961,
-},
--- Table: {125}
-{
-   ["r"]=1.0,
-   ["g"]=1.0,
    ["b"]=1.0,
+   ["g"]=1.0,
+   ["r"]=1.0,
    ["a"]=1.0,
 },
--- Table: {126}
-{
-   ["x"]=0.0,
-   ["y"]=0.0,
-},
--- Table: {127}
+-- Table: {659}
 {
    ["x"]=1.0,
    ["y"]=1.0,
 },
--- Table: {128}
+-- Table: {660}
 {
    ["x"]=0.0,
    ["y"]=0.0,
 },
--- Table: {129}
+-- Table: {661}
 {
-   ["x"]=-650.04010009766,
-   ["y"]=335.77621459961,
+   ["x"]=60.0,
+   ["y"]=60.0,
 },
--- Table: {130}
+-- Table: {662}
 {
-   ["x"]=700.0,
-   ["y"]=500.0,
+   ["x"]=35.587791442871,
+   ["y"]=-250.69268798828,
 },
--- Table: {131}
+-- Table: {663}
 {
-   ["x"]=396.00900268555,
-   ["y"]=653.03381347656,
+   ["x"]=500.0,
+   ["y"]=700.0,
 },
--- Table: {132}
+-- Table: {664}
 {
-   ["r"]=0.66735339164734,
-   ["g"]=1.0,
-   ["b"]=0.18894010782242,
+   ["x"]=151.68778991699,
+   ["y"]=-100.69269561768,
+},
+-- Table: {665}
+{
+   ["b"]=1.0,
+   ["g"]=0.421839594841,
+   ["r"]=0.23963135480881,
    ["a"]=1.0,
 },
--- Table: {133}
+-- Table: {666}
 {
-   ["x"]=700.0,
-   ["y"]=500.0,
+   ["x"]=1.0,
+   ["y"]=1.0,
 },
--- Table: {134}
+-- Table: {667}
 {
-   ["x"]=457.76583862305,
-   ["y"]=151.48574829102,
+   ["x"]=337.44491577148,
+   ["y"]=855.74670410156,
 },
--- Table: {135}
+-- Table: {668}
 {
-   ["r"]=0.66735339164734,
+   ["b"]=1.0,
    ["g"]=1.0,
-   ["b"]=0.18894010782242,
+   ["r"]=1.0,
    ["a"]=1.0,
 },
--- Table: {136}
+-- Table: {669}
 {
-   ["x"]=700.0,
-   ["y"]=500.0,
+   ["x"]=1.0,
+   ["y"]=1.0,
 },
--- Table: {137}
+-- Table: {670}
 {
-   ["x"]=-305.65682983398,
-   ["y"]=836.93206787109,
+   ["x"]=0.0,
+   ["y"]=0.0,
 },
--- Table: {138}
+-- Table: {671}
 {
-   ["r"]=0.66735339164734,
-   ["g"]=1.0,
-   ["b"]=0.18894010782242,
+   ["x"]=60.0,
+   ["y"]=60.0,
+},
+-- Table: {672}
+{
+   ["x"]=221.34490966797,
+   ["y"]=705.74670410156,
+},
+-- Table: {673}
+{
+   ["x"]=500.0,
+   ["y"]=700.0,
+},
+-- Table: {674}
+{
+   ["x"]=337.44491577148,
+   ["y"]=855.74670410156,
+},
+-- Table: {675}
+{
+   ["b"]=1.0,
+   ["g"]=0.421839594841,
+   ["r"]=0.23963135480881,
    ["a"]=1.0,
 },
--- Table: {139}
+-- Table: {676}
 {
-   ["x"]=700.0,
-   ["y"]=500.0,
+   ["x"]=1.0,
+   ["y"]=1.0,
 },
--- Table: {140}
+-- Table: {677}
 {
-   ["x"]=1158.6646728516,
-   ["y"]=145.90888977051,
+   ["x"]=-219.88859558105,
+   ["y"]=1253.353515625,
 },
--- Table: {141}
+-- Table: {678}
 {
-   ["r"]=0.66735339164734,
+   ["b"]=1.0,
    ["g"]=1.0,
-   ["b"]=0.18894010782242,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {679}
+{
+   ["x"]=1.0,
+   ["y"]=1.0,
+},
+-- Table: {680}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {681}
+{
+   ["x"]=60.0,
+   ["y"]=60.0,
+},
+-- Table: {682}
+{
+   ["x"]=-335.98858642578,
+   ["y"]=1103.353515625,
+},
+-- Table: {683}
+{
+   ["x"]=500.0,
+   ["y"]=700.0,
+},
+-- Table: {684}
+{
+   ["x"]=-219.88859558105,
+   ["y"]=1253.353515625,
+},
+-- Table: {685}
+{
+   ["b"]=1.0,
+   ["g"]=0.421839594841,
+   ["r"]=0.23963135480881,
+   ["a"]=1.0,
+},
+-- Table: {686}
+{
+   ["x"]=1.0,
+   ["y"]=1.0,
+},
+-- Table: {687}
+{
+   ["x"]=1388.6625976562,
+   ["y"]=-581.95678710938,
+},
+-- Table: {688}
+{
+   ["b"]=1.0,
+   ["g"]=1.0,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {689}
+{
+   ["x"]=1.0,
+   ["y"]=1.0,
+},
+-- Table: {690}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {691}
+{
+   ["x"]=60.0,
+   ["y"]=60.0,
+},
+-- Table: {692}
+{
+   ["x"]=1272.5626220703,
+   ["y"]=-731.95678710938,
+},
+-- Table: {693}
+{
+   ["x"]=500.0,
+   ["y"]=700.0,
+},
+-- Table: {694}
+{
+   ["x"]=1388.6625976562,
+   ["y"]=-581.95678710938,
+},
+-- Table: {695}
+{
+   ["b"]=1.0,
+   ["g"]=0.421839594841,
+   ["r"]=0.23963135480881,
+   ["a"]=1.0,
+},
+-- Table: {696}
+{
+   ["x"]=1.0,
+   ["y"]=1.0,
+},
+-- Table: {697}
+{
+   ["x"]=1353.4611816406,
+   ["y"]=781.62622070312,
+},
+-- Table: {698}
+{
+   ["b"]=1.0,
+   ["g"]=1.0,
+   ["r"]=1.0,
+   ["a"]=1.0,
+},
+-- Table: {699}
+{
+   ["x"]=1.0,
+   ["y"]=1.0,
+},
+-- Table: {700}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {701}
+{
+   ["x"]=60.0,
+   ["y"]=60.0,
+},
+-- Table: {702}
+{
+   ["x"]=1237.3612060547,
+   ["y"]=631.62622070312,
+},
+-- Table: {703}
+{
+   ["x"]=500.0,
+   ["y"]=700.0,
+},
+-- Table: {704}
+{
+   ["x"]=1353.4611816406,
+   ["y"]=781.62622070312,
+},
+-- Table: {705}
+{
+   ["b"]=1.0,
+   ["g"]=0.421839594841,
+   ["r"]=0.23963135480881,
    ["a"]=1.0,
 },
 }
