@@ -3,6 +3,8 @@
 #include "Math.h"
 #include "Algorithms.h"
 
+#include <ranges>
+
 #ifdef LEAK_DETECTION
 #define new			DEBUG_NEW
 #endif
@@ -96,6 +98,18 @@ int DungeonGenerator::lua_GetRooms(lua_State* L)
 
 			lua_pushstring(L, room.p_name.c_str());
 			lua_setfield(L, -2, "name");
+
+			lua_pushinteger(L, room.GetID());
+			lua_setfield(L, -2, "ID");
+
+			const size_t nLinks = room.linkIDs.size();
+			lua_createtable(L, 0, nLinks);
+			for (int i = 0; i < nLinks; i++)
+			{
+				lua_pushinteger(L, room.linkIDs[i]+1);
+				lua_rawseti(L, -2, i+1);
+			}
+			lua_setfield(L, -2, "links");
 
 		lua_rawseti(L, -2, ++index);
 	}
@@ -211,8 +225,10 @@ void DungeonGenerator::SeparateRooms()
 	}
 
 	// TODO: Move to "Generate"
-	RoomSelection();
-	GenerateGraph();
+	RoomSelection(selectionThreshold);
+
+	// TODO: Link abb back rate to Lua
+	GenerateGraph(0.15f);
 }
 
 bool DungeonGenerator::GridSeparation()
@@ -275,6 +291,7 @@ bool DungeonGenerator::PhysicalSeparation()
 	if (!m_isInitialized)
 		return false;
 
+	// TODO: Do this separation using Box2D
 	bool foundIntersection = true;
 
 	std::vector<std::pair<Room*, Vector2>> resolutions;
@@ -340,17 +357,23 @@ void DungeonGenerator::RoomSelection()
 			m_selectedRooms.push_back(i);
 }
 
-void DungeonGenerator::GenerateGraph()
+void DungeonGenerator::GenerateGraph(float addBackRate)
 {
 	ZoneScopedC(RandomUniqueColor());
 
 	if (!m_isInitialized)
 		return;
 
-	std::vector<Point> points;
+	//TODO: I know... this soultion isn't pretty!
+	std::map<Point, int> roomPoints;
 	
-	for (const auto &room : m_selectedRooms)
-		points.push_back(m_rooms[room].pos);
+	for (const auto& room : m_selectedRooms)
+		roomPoints[m_rooms[room].pos] = room;
+
+	auto ks = std::views::keys(roomPoints);
+	std::vector<Point> points{ ks.begin(), ks.end() };
+
+	//NOTE: From here on, do not change any values of the points!
 
 	// Do Delaunay Triangulation
 	std::vector<Triangle> triangles = BowyerWatson(points);
@@ -375,12 +398,17 @@ void DungeonGenerator::GenerateGraph()
 	m_graph = Kruskal(m_graph);
 
 	// Add some of the removed lines back
-	const float addBackRate = 0.15f;
 	for (int i = 0; i < oldGraph.size(); i++)
 		if (std::find(m_graph.begin(), m_graph.end(), oldGraph[i]) == m_graph.end())
 			if (Random01f() < addBackRate)
 				m_graph.push_back(oldGraph[i]);
 
+	// Create room links
+	for (auto& line : m_graph)
+	{
+		m_rooms[roomPoints[line.p1]].linkIDs.push_back(m_rooms[roomPoints[line.p2]].GetID());
+		m_rooms[roomPoints[line.p2]].linkIDs.push_back(m_rooms[roomPoints[line.p1]].GetID());
+	}
 }
 
 void DungeonGenerator::Draw()

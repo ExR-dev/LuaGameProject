@@ -36,12 +36,19 @@ void PhysicsHandler::Setup()
     Assert(b2World_IsValid(m_worldId), "Invalid Box2D world!");
 }
 
+void PhysicsHandler::Step(unsigned int steps) const
+{
+    b2World_Step(m_worldId, Time::DeltaTime(), steps);
+}
+
 void PhysicsHandler::Update(lua_State* L, Scene* scene) const
 {
     ZoneScopedC(RandomUniqueColor());
 
-    b2World_Step(m_worldId, Time::DeltaTime(), 4);
+    // Update Box2D
+    Step(4);
 
+    // Lambda to handle lua call for collision enter/exit
     auto handleEvent = [&L, &scene](int entity, int other, int luaCallback) {
         if (scene->IsEntity(entity) && scene->IsEntity(other))
         {

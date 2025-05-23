@@ -13,6 +13,7 @@ struct Room
 	raylib::Vector2 pos;
 	raylib::Vector2 size;
 	std::string p_name;
+	std::vector<int> linkIDs;
 
 	bool operator==(const Room &other) 
 	{
@@ -93,8 +94,8 @@ public:
 	bool GridSeparation();
 	bool PhysicalSeparation();
 
-	void RoomSelection();
-	void GenerateGraph();
+	void RoomSelection(float selectionThreshold = 1.5f);
+	void GenerateGraph(float addBackRate = 0.15f);
 
 	void Draw();
 };

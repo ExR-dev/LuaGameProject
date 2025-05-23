@@ -1,12 +1,12 @@
 -- Collider component
 --[[
 	Associates a collider with an entity. Placement & size is determined by the Transform component.
-	It contains tag, debug and callback.
 	tag - string that can be used to categorize colliders
 	debug - if true the collider will be rendered
 	offset - offset the collider from the entity position
 	extents - size of the collider in relation to the size of the entity (can not be retreived from getComponent)
 	rotation - rotation of the collider relative the rotation of the entity
+	rotateWithTransform - boolean value for toggling rotation with transform
 	callback - a function that will be called when the collider intersects another collider, it's parameter is the entity it collides with.
 ]]
 

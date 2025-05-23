@@ -1,0 +1,48 @@
+return {
+-- Table: {1}
+{
+   ["contents"]={2},
+   ["dataPath"]="prefabs",
+   ["elementName"]="Door",
+},
+-- Table: {2}
+{
+   ["behaviour"]={3},
+   ["components"]={4},
+},
+-- Table: {3}
+{
+   ["properties"]={5},
+   ["path"]="Behaviours/Door",
+},
+-- Table: {4}
+{
+   ["Transform"]={6},
+   ["Sprite"]={7},
+},
+-- Table: {5}
+{
+},
+-- Table: {6}
+{
+   ["scale"]={8},
+},
+-- Table: {7}
+{
+   ["spriteName"]="Door.png",
+   ["priority"]=100,
+   ["color"]={9},
+},
+-- Table: {8}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {9}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+}
