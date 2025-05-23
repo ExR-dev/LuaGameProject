@@ -1,0 +1,17 @@
+return {
+-- Table: {1}
+{
+   ["dataPath"]="rooms",
+   ["contents"]={2},
+   ["elementName"]="big",
+},
+-- Table: {2}
+{
+   ["size"]={3},
+},
+-- Table: {3}
+{
+   ["x"]=2000.0,
+   ["y"]=1500.0,
+},
+}

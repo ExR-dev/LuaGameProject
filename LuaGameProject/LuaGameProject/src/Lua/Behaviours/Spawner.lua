@@ -61,11 +61,9 @@ end
 function spawner:OnGUI()
 	tracy.ZoneBeginN("Lua enemy:OnGUI")
 
-    imgui.Separator("Information")
     imgui.Text(string.format("Time: %.2f/%.2f", self.spawnTimer, 60/self.spawnRate))
     imgui.Text(string.format("Counter: %d/%d", self.counter, self.capacity))
 
-    imgui.Separator("Settings")
     local changed = false
 
     self.spawnRate, _ = imgui.DragFloat("Spawn Rate (spawn/min)", self.spawnRate, 0.1, 1000, 0.1)
@@ -85,7 +83,6 @@ function spawner:OnGUI()
             if isSelected then
                 imgui.SetItemDefaultFocus()
             end
-
         end
         imgui.EndCombo()
     end

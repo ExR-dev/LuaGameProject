@@ -14,6 +14,8 @@ struct Room
 	raylib::Vector2 size;
 	std::string p_name;
 
+	inline int GetID() const { return m_id; }
+
 	bool operator==(const Room &other) 
 	{
 		return m_id == other.m_id;
@@ -63,8 +65,8 @@ private:
 	// Aguments: radius (float)
 	// Returns: none
 	static int lua_Generate(lua_State *L);
-
-	// Aguments: none
+	 
+	// Aguments: selectionThreshold (float)
 	// Returns: none
 	static int lua_SeparateRooms(lua_State *L);
 
@@ -89,11 +91,11 @@ public:
 	void Generate(float radius);
 	void Reset();
 
-	void SeparateRooms();
+	void SeparateRooms(float selectionThreshold = 1.5f);
 	bool GridSeparation();
 	bool PhysicalSeparation();
 
-	void RoomSelection();
+	void RoomSelection(float selectionThreshold = 1.5f);
 	void GenerateGraph();
 
 	void Draw();

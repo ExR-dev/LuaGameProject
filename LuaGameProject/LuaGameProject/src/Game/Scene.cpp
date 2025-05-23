@@ -384,7 +384,7 @@ int Scene::lua_GetEntities(lua_State* L)
 		ZoneNamedNC(createPhysicsBodiesZone, "Lambda Push All Entities", RandomUniqueColor(), true);
 
 		unsigned int index = 1;
-		auto view = registry.view<entt::entity>(entt::exclude<ECS::Room>);
+		auto view = registry.view<entt::entity>();
 
 		view.each([&](entt::entity entity) {
 			ZoneNamedNC(drawSpriteZone, "Lambda Push Entity", RandomUniqueColor(), true);
