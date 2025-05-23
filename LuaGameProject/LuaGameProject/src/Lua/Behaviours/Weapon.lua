@@ -236,6 +236,47 @@ function weapon:OnReload(reserve)
 	return true
 end
 
+function weapon:OnCycleAmmoType(reserve)
+	print("Cycling ammo type...")
+
+	-- Refund the current ammo type
+	if self.loadedAmmoCount > 0 then
+		local ammoRefund = self.loadedAmmoCount
+		reserve[self.stats.caliber][self.loadedAmmoType] = reserve[self.stats.caliber][self.loadedAmmoType] + ammoRefund
+		self.loadedAmmoCount = 0
+	end
+
+	local ammoTypes = data.ammo.getCaliberAmmoTypes(self.stats.caliber)
+
+	if ammoTypes == nil then
+		print("No ammo types found for "..self.stats.caliber)
+		return false
+	end
+
+	-- Get the index of the current ammo type
+	local nextAmmoType = -1
+
+	for i = 1, #ammoTypes do
+		if self.loadedAmmoType == ammoTypes[i] then
+			nextAmmoType = ((i + 1) % #ammoTypes) + 1
+			break
+		end
+	end
+
+	if nextAmmoType == -1 then
+		return
+	end
+	
+	print("Prev Type: "..self.loadedAmmoType)
+	-- Get the next ammo type
+	self.loadedAmmoType = ammoTypes[nextAmmoType]
+	print("New Type: "..self.loadedAmmoType)
+
+	self.isReloading = false
+	self.reloadTimer = 0.0
+	self:OnReload(reserve)
+end
+
 function weapon:Interact()
 	if self.isHeld then
 		return false
