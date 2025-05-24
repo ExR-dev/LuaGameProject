@@ -12,22 +12,32 @@ function door:OnCreate()
 	tracy.ZoneBeginN("Lua door:OnCreate")
 
     self.linkID = nil
+    local active = true
 
-	local c = collider("Door", false, vec2(0, 0), vec2(1.0, 1.0), 0, true, nil,  function(other)
-		local c = collider(scene.GetComponent(other, "Collider"))
-        if c.tag ~= "Player" then
-            return
-        end
+	local c = collider("Door", false, vec2(0, 0), vec2(1.0, 1.0), 0, true, 
+        -- On Enter function
+        function(other)
+            local c = collider(scene.GetComponent(other, "Collider"))
+            if c.tag ~= "Player" or not active then
+                return
+            end
 
-        if self.linkID ~= nil then
-			if scene.HasComponent(other, "Transform") and scene.HasComponent(self.linkID, "Transform") then
-				local otherT = transform(scene.GetComponent(other, "Transform"))
-				local link = transform(scene.GetComponent(self.linkID, "Transform"))
-                otherT.position = link.position
-                scene.SetComponent(other, "Transform", otherT)
-            end 
+            if self.linkID ~= nil then
+                if scene.HasComponent(other, "Transform") and scene.HasComponent(self.linkID, "Transform") then
+                    local otherT = transform(scene.GetComponent(other, "Transform"))
+                    local link = transform(scene.GetComponent(self.linkID, "Transform"))
+                    otherT.position = link.position
+                    scene.SetComponent(other, "Transform", otherT)
+                    active = false
+                end 
+            end
+        end,
+
+        -- On Exit function
+        function(other)
+            active = true
         end
-    end)
+    )
 
     scene.SetComponent(self.ID, "Collider", c)
 
