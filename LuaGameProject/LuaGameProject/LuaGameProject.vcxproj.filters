@@ -420,6 +420,8 @@
     <None Include="src\Lua\Behaviours\DamageNumber.lua" />
     <None Include="src\Lua\Components\TextRender.lua" />
     <None Include="src\Lua\Behaviours\HealthBar.lua" />
+    <None Include="src\Lua\Behaviours\Spawner.lua" />
+    <None Include="src\Lua\Components\UIElement.lua" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="raylib.dll" />

@@ -23,6 +23,7 @@ function weapon:OnCreate()
 	self.currRecoil = 0.0
 
 	self.isHeld = false
+	self.triggerDown = false
 
 	self.isReloading = false
 	self.reloadTimer = 0.0
@@ -76,7 +77,6 @@ function weapon:OnUpdate(delta)
 	tracy.ZoneBeginN("Lua weapon:OnUpdate")
 	
 	if self.isHeld then
-
 		if self.isReloading then
 			self.reloadTimer = self.reloadTimer - delta
 
@@ -84,6 +84,8 @@ function weapon:OnUpdate(delta)
 				self.reloadTimer = 0.0
 				self.isReloading = false
 				print("Done Reloading.\n")
+				
+				game.PlaySound("Reload End.wav", 0.3)
 			end
 		end
 
@@ -92,14 +94,18 @@ function weapon:OnUpdate(delta)
 			
 			if self.fireCooldown <= 0.0 then
 				self.isOnCooldown = false
+			end
+		end
 
-				if self.stats.fireMode == "Auto" then
-					if Input.MouseHeld(Input.Mouse.MOUSE_LEFT) then
-						self:OnShoot()
-					end
-				else
-					self.fireCooldown = 0.0
+		if self.triggerDown then
+			if self.stats.fireMode == "Auto" and (not self.isOnCooldown) and self.loadedAmmoCount > 0  then
+				if self.loadedAmmoCount > 0 then
+					self:OnShoot()
 				end
+			end
+
+			if not Input.MouseHeld(Input.Mouse.MOUSE_LEFT) then
+				self.triggerDown = false
 			end
 		end
 
@@ -133,6 +139,21 @@ function weapon:OnGUI()
 	end
 
 	tracy.ZoneEnd()
+end
+
+function weapon:PullTrigger()
+	if self.triggerDown or self.isReloading or self.isOnCooldown then
+		return
+	end
+
+	self.triggerDown = true
+	self.fireCooldown = 0.0
+
+	if self.loadedAmmoCount > 0 then
+		self:OnShoot()
+	else
+		game.PlaySound("Dry Fire.wav", 0.2)
+	end
 end
 
 function weapon:OnShoot()
@@ -226,9 +247,11 @@ function weapon:OnReload(reserve)
 	self.loadedAmmoCount = self.loadedAmmoCount + ammoTaken
 	caliberReserve[self.loadedAmmoType] = ammoInReserve - ammoTaken
 	
+	self.triggerDown = false
 	self.isReloading = true
 	self.reloadTimer = self.stats.reloadTime
-
+	
+	game.PlaySound("Reload Start.wav", 0.3)
 	print("Reloading "..self.stats.caliber.." ("..self.loadedAmmoType..")")
 	print("Taking: "..ammoTaken.." out of "..ammoInReserve)
 	print("Reserve now: "..caliberReserve[self.loadedAmmoType].."\n")
@@ -324,6 +347,7 @@ function weapon:Drop()
 		player.lHandEntity = nil
 	end
 
+	self.triggerDown = false
 	self.isHeld = false
 end
 
