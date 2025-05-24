@@ -99,6 +99,7 @@ namespace ImLua
 			{ "IsMouseClicked",				lua_IsMouseClicked			},
 			{ "IsWindowFocused",			lua_IsWindowFocused			},
 			{ "SetKeyboardFocusHere",		lua_SetKeyboardFocusHere	},
+			{ "SetItemDefaultFocus",		lua_SetItemDefaultFocus		},
 
 			{ NULL,							NULL						}
 		};
@@ -1279,6 +1280,14 @@ namespace ImLua
 		// Do ImGui command
 		ImGui::SetKeyboardFocusHere(offset);
 
+		return 0;
+	}
+
+	int ImLua::lua_SetItemDefaultFocus(lua_State* L)
+	{
+		ZoneScopedC(RandomUniqueColor());
+
+		ImGui::SetItemDefaultFocus();
 		return 0;
 	}
 

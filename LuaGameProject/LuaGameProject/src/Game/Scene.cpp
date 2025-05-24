@@ -339,6 +339,18 @@ int Scene::lua_SetComponent(lua_State *L)
 
 		return 1;
 	}
+	else if (type == "UIElement") 
+	{
+		if (scene->HasComponents<ECS::UIElement>(entity))
+			scene->RemoveComponent<ECS::UIElement>(entity);
+
+		ECS::UIElement uiElement{};
+		uiElement.LuaPull(L, 3);
+
+		scene->SetComponent<ECS::UIElement>(entity, uiElement);
+
+		return 1;
+	}
 	else if (type == "CameraData") 
 	{
 		if (scene->HasComponents<ECS::CameraData>(entity))
@@ -384,7 +396,7 @@ int Scene::lua_GetEntities(lua_State* L)
 		ZoneNamedNC(createPhysicsBodiesZone, "Lambda Push All Entities", RandomUniqueColor(), true);
 
 		unsigned int index = 1;
-		auto view = registry.view<entt::entity>(entt::exclude<ECS::Room>);
+		auto view = registry.view<entt::entity>();
 
 		view.each([&](entt::entity entity) {
 			ZoneNamedNC(drawSpriteZone, "Lambda Push Entity", RandomUniqueColor(), true);
@@ -459,6 +471,10 @@ int Scene::lua_HasComponent(lua_State *L)
 	else if (type == "TextRender")
 	{
 		hasComponent = scene->HasComponents<ECS::TextRender>(entity);
+	}
+	else if (type == "UIElement")
+	{
+		hasComponent = scene->HasComponents<ECS::UIElement>(entity);
 	}
 	else if (type == "CameraData")
 	{

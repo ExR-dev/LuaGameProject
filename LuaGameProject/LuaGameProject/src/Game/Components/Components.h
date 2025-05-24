@@ -297,8 +297,8 @@ namespace ECS
 		{
 			if (ImGui::TreeNode("Transform"))
 			{
-				ImGui::DragFloat2("Position", Position, 0.1f);
-				ImGui::DragFloat2("Scale", Scale, 0.1f);
+				ImGui::DragFloat2("Position", Position, 0.05f);
+				ImGui::DragFloat2("Scale", Scale, 0.025f);
 
 				float rotRad = Rotation * DEG2RAD;
 				if (ImGui::SliderAngle("Rotation", &rotRad, 0.0f, 360.0f))
@@ -1008,7 +1008,7 @@ namespace ECS
 		{
 			if (ImGui::TreeNode("Hardness"))
 			{
-				if (ImGui::DragFloat("Hardness", &hardness, 0.1f))
+				if (ImGui::DragFloat("Hardness", &hardness, 0.05f))
 					hardness = std::fmaxf(0.0f, hardness);
 
 				ImGui::Separator();
@@ -1099,9 +1099,52 @@ namespace ECS
 		}
 	};
 
+	struct UIElement
+	{
+		// TODO: Add flag for if to use UV or pixel coordinates
+		char _;
+
+		void LuaPush(lua_State *L) const
+		{
+			ZoneScopedC(RandomUniqueColor());
+			lua_createtable(L, 0, 1);
+
+			lua_pushnumber(L, _);
+			lua_setfield(L, -2, "_");
+		}
+		void LuaPull(lua_State *L, int index)
+		{
+			ZoneScopedC(RandomUniqueColor());
+			if (index < 0)
+			{
+				index = lua_gettop(L) + index + 1;
+			}
+
+			// Verify that the value at the given index is a table
+			if (lua_istable(L, index))
+			{
+				lua_getfield(L, index, "_");
+				if (lua_isnumber(L, -1))
+					_ = lua_tonumber(L, -1);
+				lua_pop(L, 1);
+			}
+		}
+
+		void RenderUI()
+		{
+			if (ImGui::TreeNode("UIElement"))
+			{
+				ImGui::TextWrapped("Entities with this component are transformed to view-space before being rendered.");
+
+				ImGui::Separator();
+				ImGui::TreePop();
+			}
+		}
+	};
+
 	struct Remove 
 	{
-		int _; // Place holder
+		char _; // Place holder
 
 		void RenderUI()
 		{

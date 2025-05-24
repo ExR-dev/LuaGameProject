@@ -321,7 +321,7 @@ function player:UpdateHeldItem(entID, localOffset, allowFire)
 
 	if allowFire and itemBehaviour.OnShoot ~= nil then
 		if Input.MousePressed(Input.Mouse.MOUSE_LEFT) then
-			itemBehaviour:OnShoot()
+			itemBehaviour:PullTrigger()
 			self.nextHandFire = (self.nextHandFire + 1) % 2
 			self.didFire = true
 		end
@@ -330,6 +330,8 @@ function player:UpdateHeldItem(entID, localOffset, allowFire)
 	if itemBehaviour.OnReload ~= nil then
 		if Input.KeyPressed(Input.Key.KEY_R) then
 			itemBehaviour:OnReload(self.ammoReserve)
+		elseif Input.KeyPressed(Input.Key.KEY_V) then
+			itemBehaviour:OnCycleAmmoType(self.ammoReserve)
 		end
 	end
 

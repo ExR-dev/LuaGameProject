@@ -146,14 +146,17 @@ namespace EditorScene
 		// UI Functions
 		void SceneHierarchyUI();
 		void EntityEditorUI();
-		void RoomSelectionUI();
-		void GenerateDungeonUI();
 		void RenderWindowUI();
 		void EditorSelectorUI();
 
 		int RenderUI();
 
 		void SwitchEditorMode(EditorMode mode);
+
+		// Converts a 0-1 uv position in camera space to a world space position
+		raylib::Vector2 UVToWorldPos(const raylib::Vector2 &uv) const;
+		// Converts a 0-1 uv scale in camera space to a world space scale
+		raylib::Vector2 UVToWorldScale(const raylib::Vector2 &uv) const;
 
 		raylib::Vector2 ScreenToWorldPos(const raylib::Vector2 &pos) const;
 		raylib::Vector2 WorldToScreenPos(const raylib::Vector2 &pos) const;

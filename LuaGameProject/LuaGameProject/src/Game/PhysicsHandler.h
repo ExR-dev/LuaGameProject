@@ -12,6 +12,7 @@ public:
 	~PhysicsHandler();
 
 	void Setup();
+	void Step(unsigned int steps) const;
 	void Update(lua_State* L, Scene* scene) const;
 
 	b2WorldId GetWorldId() const;

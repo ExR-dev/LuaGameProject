@@ -23,6 +23,7 @@ function weapon:OnCreate()
 	self.currRecoil = 0.0
 
 	self.isHeld = false
+	self.triggerDown = false
 
 	self.isReloading = false
 	self.reloadTimer = 0.0
@@ -76,7 +77,6 @@ function weapon:OnUpdate(delta)
 	tracy.ZoneBeginN("Lua weapon:OnUpdate")
 	
 	if self.isHeld then
-
 		if self.isReloading then
 			self.reloadTimer = self.reloadTimer - delta
 
@@ -84,6 +84,8 @@ function weapon:OnUpdate(delta)
 				self.reloadTimer = 0.0
 				self.isReloading = false
 				print("Done Reloading.\n")
+				
+				game.PlaySound("Reload End.wav", 0.3)
 			end
 		end
 
@@ -92,14 +94,18 @@ function weapon:OnUpdate(delta)
 			
 			if self.fireCooldown <= 0.0 then
 				self.isOnCooldown = false
+			end
+		end
 
-				if self.stats.fireMode == "Auto" then
-					if Input.MouseHeld(Input.Mouse.MOUSE_LEFT) then
-						self:OnShoot()
-					end
-				else
-					self.fireCooldown = 0.0
+		if self.triggerDown then
+			if self.stats.fireMode == "Auto" and (not self.isOnCooldown) and self.loadedAmmoCount > 0  then
+				if self.loadedAmmoCount > 0 then
+					self:OnShoot()
 				end
+			end
+
+			if not Input.MouseHeld(Input.Mouse.MOUSE_LEFT) then
+				self.triggerDown = false
 			end
 		end
 
@@ -133,6 +139,21 @@ function weapon:OnGUI()
 	end
 
 	tracy.ZoneEnd()
+end
+
+function weapon:PullTrigger()
+	if self.triggerDown or self.isReloading or self.isOnCooldown then
+		return
+	end
+
+	self.triggerDown = true
+	self.fireCooldown = 0.0
+
+	if self.loadedAmmoCount > 0 then
+		self:OnShoot()
+	else
+		game.PlaySound("Dry Fire.wav", 0.2)
+	end
 end
 
 function weapon:OnShoot()
@@ -226,14 +247,57 @@ function weapon:OnReload(reserve)
 	self.loadedAmmoCount = self.loadedAmmoCount + ammoTaken
 	caliberReserve[self.loadedAmmoType] = ammoInReserve - ammoTaken
 	
+	self.triggerDown = false
 	self.isReloading = true
 	self.reloadTimer = self.stats.reloadTime
-
+	
+	game.PlaySound("Reload Start.wav", 0.3)
 	print("Reloading "..self.stats.caliber.." ("..self.loadedAmmoType..")")
 	print("Taking: "..ammoTaken.." out of "..ammoInReserve)
 	print("Reserve now: "..caliberReserve[self.loadedAmmoType].."\n")
 
 	return true
+end
+
+function weapon:OnCycleAmmoType(reserve)
+	print("Cycling ammo type...")
+
+	-- Refund the current ammo type
+	if self.loadedAmmoCount > 0 then
+		local ammoRefund = self.loadedAmmoCount
+		reserve[self.stats.caliber][self.loadedAmmoType] = reserve[self.stats.caliber][self.loadedAmmoType] + ammoRefund
+		self.loadedAmmoCount = 0
+	end
+
+	local ammoTypes = data.ammo.getCaliberAmmoTypes(self.stats.caliber)
+
+	if ammoTypes == nil then
+		print("No ammo types found for "..self.stats.caliber)
+		return false
+	end
+
+	-- Get the index of the current ammo type
+	local nextAmmoType = -1
+
+	for i = 1, #ammoTypes do
+		if self.loadedAmmoType == ammoTypes[i] then
+			nextAmmoType = ((i + 1) % #ammoTypes) + 1
+			break
+		end
+	end
+
+	if nextAmmoType == -1 then
+		return
+	end
+	
+	print("Prev Type: "..self.loadedAmmoType)
+	-- Get the next ammo type
+	self.loadedAmmoType = ammoTypes[nextAmmoType]
+	print("New Type: "..self.loadedAmmoType)
+
+	self.isReloading = false
+	self.reloadTimer = 0.0
+	self:OnReload(reserve)
 end
 
 function weapon:Interact()
@@ -283,6 +347,7 @@ function weapon:Drop()
 		player.lHandEntity = nil
 	end
 
+	self.triggerDown = false
 	self.isHeld = false
 end
 

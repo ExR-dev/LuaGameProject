@@ -266,11 +266,12 @@ int EditorScene::EditorScene::Render()
 			}
 
 			// Draw sprites
-			std::function<void(entt::registry &registry)> drawSystem = [](entt::registry &registry) {
+			std::function<void(entt::registry &registry)> drawSystem = [this](entt::registry &registry) {
 				ZoneNamedNC(drawSpritesZone, "Lambda Draw Sprites", RandomUniqueColor(), true);
+				using DrawTuple = std::tuple<entt::entity, ECS::Transform, ECS::Sprite>;
 
 				auto view = registry.view<ECS::Sprite, ECS::Transform>();
-				std::vector<std::pair<ECS::Transform, ECS::Sprite>> entitiesToRender;
+				std::vector<DrawTuple> entitiesToRender;
 				entitiesToRender.resize(view.size_hint());
 
 				view.each([&](const entt::entity entity, const ECS::Sprite &sprite, const ECS::Transform &transform) {
@@ -281,33 +282,50 @@ int EditorScene::EditorScene::Render()
 						if (!active.IsActive)
 							return; // Skip drawing if the entity is not active
 					}
-
-					entitiesToRender.push_back(std::make_pair(transform, sprite));
+					
+					entitiesToRender.push_back(std::make_tuple(entity, transform, sprite));
 				});
 
-				std::sort(entitiesToRender.begin(), entitiesToRender.end(), [](std::pair<ECS::Transform, ECS::Sprite> ent1, std::pair<ECS::Transform, ECS::Sprite>ent2) -> bool {
-					return ent1.second.Priority < ent2.second.Priority;
-				});
+				std::sort(entitiesToRender.begin(), entitiesToRender.end(), 
+					[](DrawTuple ent1, DrawTuple ent2) -> bool {
+						return std::get<2>(ent1).Priority < std::get<2>(ent2).Priority;
+					}
+				);
 
 				for (auto &entity : entitiesToRender) {
 					ZoneNamedNC(drawSpriteZone, "Lambda Draw Sprite", RandomUniqueColor(), true);
 
-					const ECS::Transform &transform = entity.first;
-					const ECS::Sprite &sprite = entity.second;
+					const entt::entity entityID = std::get<0>(entity);
+					const ECS::Transform &transform = std::get<1>(entity);
+					const ECS::Sprite &sprite = std::get<2>(entity);
 
-					int flip = transform.Scale[1] > 0 ? 1 : -1;
+					ECS::Transform drawTransform = transform;
+					if (registry.all_of<ECS::UIElement>(entityID))
+					{
+						// Move relative to camera view
+						raylib::Vector2 &drawPos = *((raylib::Vector2 *)drawTransform.Position);
+						raylib::Vector2 &drawScale = *((raylib::Vector2 *)drawTransform.Scale);
+
+						drawPos = UVToWorldPos(drawPos);
+						drawScale = UVToWorldScale(drawScale);
+
+						// Rotate around camera view
+						drawTransform.Rotation += m_camera.rotation;
+					}
+
+					int flip = drawTransform.Scale[1] > 0 ? 1 : -1;
 
 					raylib::Color color(*(raylib::Vector4 *)(&(sprite.Color)));
 					raylib::Rectangle rect(
-						transform.Position[0],
-						transform.Position[1],
-						transform.Scale[0],
-						transform.Scale[1] * flip
+						drawTransform.Position[0],
+						drawTransform.Position[1],
+						drawTransform.Scale[0],
+						drawTransform.Scale[1] * flip
 					);
 
 					raylib::Vector2 origin(
-						(transform.Scale[0] / 2),
-						(transform.Scale[1] / 2) * flip
+						(drawTransform.Scale[0] / 2),
+						(drawTransform.Scale[1] / 2) * flip
 					);
 
 					std::string textureName = sprite.SpriteName;
@@ -331,7 +349,7 @@ int EditorScene::EditorScene::Render()
 							raylib::Rectangle(0, 0, (float)texture->width, (float)(texture->height * flip)),
 							rect,
 							origin,
-							transform.Rotation,
+							drawTransform.Rotation,
 							color
 						);
 					}
@@ -340,7 +358,7 @@ int EditorScene::EditorScene::Render()
 						DrawRectanglePro(
 							rect,
 							origin,
-							transform.Rotation,
+							drawTransform.Rotation,
 							color
 						);
 					}
@@ -349,7 +367,7 @@ int EditorScene::EditorScene::Render()
 			scene.RunSystem(drawSystem);
 
 			// Draw text
-			std::function<void(entt::registry &registry)> drawTextSystem = [](entt::registry &registry) {
+			std::function<void(entt::registry &registry)> drawTextSystem = [this](entt::registry &registry) {
 				ZoneNamedNC(lambdaDrawTextZone, "Lambda Draw Text", RandomUniqueColor(), true);
 
 				auto view = registry.view<ECS::TextRender, ECS::Transform>();
@@ -365,6 +383,30 @@ int EditorScene::EditorScene::Render()
 							return; // Skip drawing if the entity is not active
 					}
 
+					float
+						fontSize = textRender.FontSize,
+						spacing = textRender.Spacing,
+						bgExtents = textRender.BgThickness;
+
+					ECS::Transform drawTransform = transform;
+					if (registry.all_of<ECS::UIElement>(entity))
+					{
+						// Move relative to camera view
+						raylib::Vector2 &drawPos = *((raylib::Vector2 *)drawTransform.Position);
+						raylib::Vector2 &drawScale = *((raylib::Vector2 *)drawTransform.Scale);
+
+						drawPos = UVToWorldPos(drawPos);
+						drawScale = UVToWorldScale(drawScale);
+
+						// Rotate around camera view
+						drawTransform.Rotation += m_camera.rotation;
+
+						float invZoom = 1.0f / m_camera.zoom;
+						fontSize *= invZoom;
+						spacing *= invZoom;
+						bgExtents *= invZoom;
+					}
+
 					raylib::Font *font = ResourceManager::GetFontResource(textRender.Font);
 
 					if (!font)
@@ -376,13 +418,8 @@ int EditorScene::EditorScene::Render()
 							font = ResourceManager::GetFontResource(""); // Fallback to default
 					}
 
-					raylib::Vector2 entPos(transform.Position[0], transform.Position[1]);
-					float entRot = transform.Rotation;
-
-					const float
-						fontSize = textRender.FontSize,
-						spacing = textRender.Spacing,
-						bgExtents = textRender.BgThickness;
+					raylib::Vector2 entPos(drawTransform.Position[0], drawTransform.Position[1]);
+					float entRot = drawTransform.Rotation;
 
 					raylib::Vector2 offset(
 						textRender.Offset[0],
@@ -419,6 +456,7 @@ int EditorScene::EditorScene::Render()
 			};
 			scene.RunSystem(drawTextSystem);
 
+			// Draw debug collider shapes
 			std::function<void(entt::registry &registry)> drawPhysicsBodies = [&](entt::registry &registry) {
 				ZoneNamedNC(drawPhysicsBodiesZone, "Lambda Draw Physics Bodies", RandomUniqueColor(), true);
 
@@ -536,13 +574,16 @@ void EditorScene::EditorScene::EntityEditorUI()
 			if (modeScene.scene.HasComponents<ECS::Sprite>(m_selectedEntity))
 				modeScene.scene.GetComponent<ECS::Sprite>(m_selectedEntity).RenderUI();
 
+			if (modeScene.scene.HasComponents<ECS::UIElement>(m_selectedEntity))
+				modeScene.scene.GetComponent<ECS::UIElement>(m_selectedEntity).RenderUI();
+
 			if (modeScene.scene.HasComponents<ECS::TextRender>(m_selectedEntity))
 				modeScene.scene.GetComponent<ECS::TextRender>(m_selectedEntity).RenderUI();
 
 			if (modeScene.scene.HasComponents<ECS::Behaviour>(m_selectedEntity))
 				modeScene.scene.GetComponent<ECS::Behaviour>(m_selectedEntity).RenderUI();
 
-			std::string items[] = { "Collider", "Sprite", "Behaviour" };
+			std::string items[] = { "Collider", "Sprite", "Behaviour", "UIElement" };
 
 			if (ImGui::BeginCombo("##AddComponentCombo", "Add Component"))
 			{
@@ -552,13 +593,21 @@ void EditorScene::EditorScene::EntityEditorUI()
 					if (ImGui::Selectable(current.c_str()))
 					{
 						if (current == "Collider")
+						{
 							modeScene.scene.SetComponent<ECS::Collider>(m_selectedEntity, ECS::Collider());
+						}
 						else if (current == "Behaviour")
+						{
 							modeScene.scene.SetComponent<ECS::Behaviour>(m_selectedEntity, ECS::Behaviour("Behaviours/Enemy", m_selectedEntity, modeScene.L));
+						}
 						else if (current == "Sprite")
 						{
 							const float color[4]{ 0, 0, 0, 1 };
 							modeScene.scene.SetComponent<ECS::Sprite>(m_selectedEntity, ECS::Sprite("\0", color, 0));
+						}
+						else if (current == "UIElement")
+						{
+							modeScene.scene.SetComponent<ECS::UIElement>(m_selectedEntity, ECS::UIElement());
 						}
 					}
 				}
@@ -882,6 +931,9 @@ int EditorScene::EditorScene::RenderUI()
 						if (modeScene.scene.HasComponents<ECS::TextRender>(m_selectedEntity))
 							modeScene.scene.GetComponent<ECS::TextRender>(m_selectedEntity).RenderUI();
 
+						if (modeScene.scene.HasComponents<ECS::UIElement>(m_selectedEntity))
+							modeScene.scene.GetComponent<ECS::UIElement>(m_selectedEntity).RenderUI();
+
 						if (modeScene.scene.HasComponents<ECS::Collider>(m_selectedEntity))
 							modeScene.scene.GetComponent<ECS::Collider>(m_selectedEntity).RenderUI();
 
@@ -943,6 +995,38 @@ void EditorScene::EditorScene::SwitchEditorMode(EditorMode mode)
 	m_selectedEntity = -1;
 
 	//m_editorModeScenes[m_editorMode].get()->LoadData();
+}
+
+raylib::Vector2 EditorScene::EditorScene::UVToWorldPos(const raylib::Vector2 &uv) const
+{
+	raylib::Vector2 screenCenter = (raylib::Vector2)m_camera.target;
+	raylib::Vector2 screenOffset = (raylib::Vector2)m_camera.offset;
+	float invZoom = 1.0f / m_camera.zoom;
+
+	raylib::Vector2 screenTopLeft = screenCenter - screenOffset * invZoom;
+	raylib::Vector2 screenBotRight = screenCenter + screenOffset * invZoom;
+
+	raylib::Vector2 transformedPos = raylib::Vector2(
+		uv.x * (screenBotRight.x - screenTopLeft.x) + screenTopLeft.x,
+		uv.y * (screenBotRight.y - screenTopLeft.y) + screenTopLeft.y
+	);
+
+	return transformedPos;
+}
+raylib::Vector2 EditorScene::EditorScene::UVToWorldScale(const raylib::Vector2 &uv) const
+{
+	raylib::Vector2 screenCenter = (raylib::Vector2)m_camera.target;
+	raylib::Vector2 screenOffset = (raylib::Vector2)m_camera.offset;
+
+	float invZoom = 1.0f / m_camera.zoom;
+	raylib::Vector2 screenTopLeft = screenCenter - screenOffset * invZoom;
+	raylib::Vector2 screenBotRight = screenCenter + screenOffset * invZoom;
+
+	raylib::Vector2 transformedSize = raylib::Vector2(
+		uv.x * (screenBotRight.x - screenTopLeft.x),
+		uv.y * (screenBotRight.y - screenTopLeft.y)
+	);
+	return transformedSize;
 }
 
 raylib::Vector2 EditorScene::EditorScene::ScreenToWorldPos(const raylib::Vector2 &pos) const

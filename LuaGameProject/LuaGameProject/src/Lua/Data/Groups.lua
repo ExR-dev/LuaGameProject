@@ -70,6 +70,13 @@ if game.SpawnGroup == nil then
 
             local entity = scene.CreateEntity()
 
+            -- Add other components
+            for componentName, componentData in pairs(groupData.components) do
+                if componentName ~= "Behaviour" then
+                    scene.SetComponent(entity, componentName, componentData)
+                end
+		    end
+
             -- Add behaviour
             if groupData.behaviour then
                 scene.SetComponent(entity, "Behaviour", groupData.behaviour.path)
@@ -85,13 +92,7 @@ if game.SpawnGroup == nil then
                 end
             end
 
-            -- Add other components
-            for componentName, componentData in pairs(groupData.components) do
-                if componentName ~= "Behaviour" then
-                    scene.SetComponent(entity, componentName, componentData)
-                end
-		    end
-
+            -- Offset Transform
             if scene.HasComponent(entity, "Transform") and transform.istransform2(trans) then
                 local t = transform(scene.GetComponent(entity, "Transform"))
                 t.position = t.position + trans.position
@@ -99,7 +100,6 @@ if game.SpawnGroup == nil then
                 t.scale = t.scale * trans.scale
 	            scene.SetComponent(entity, "Transform", t)
             end
-
         end
 	end
 	game.SpawnGroup = SpawnGroup

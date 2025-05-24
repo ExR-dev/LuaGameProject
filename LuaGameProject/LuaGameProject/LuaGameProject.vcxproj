@@ -395,6 +395,7 @@
     <None Include="src\Lua\Behaviours\Enemy.lua" />
     <None Include="src\Lua\Behaviours\Player.lua" />
     <None Include="src\Lua\Behaviours\Projectile.lua" />
+    <None Include="src\Lua\Behaviours\Spawner.lua" />
     <None Include="src\Lua\Behaviours\Weapon.lua" />
     <None Include="src\Lua\Cmd.lua" />
     <None Include="src\Lua\Color.lua" />
@@ -405,6 +406,7 @@
     <None Include="src\Lua\Components\Sprite.lua" />
     <None Include="src\Lua\Components\Tags.lua" />
     <None Include="src\Lua\Components\TextRender.lua" />
+    <None Include="src\Lua\Components\UIElement.lua" />
     <None Include="src\Lua\Data\Ammo.lua" />
     <None Include="src\Lua\Data\Groups.lua" />
     <None Include="src\Lua\Data\Prefabs.lua" />

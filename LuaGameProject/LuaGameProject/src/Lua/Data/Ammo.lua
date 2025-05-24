@@ -93,6 +93,27 @@ if data.ammo.getStats == nil then
 	data.ammo.getStats = getStats
 end
 
+if data.ammo.getCaliberAmmoTypes == nil then
+
+	-- Get a list of all ammo type of a specific caliber
+	local function getCaliberAmmoTypes(caliber)
+		local ammoTypes = { }
+		local caliberTable = data.ammo.calibers[caliber]
+
+		if caliberTable ~= nil then
+			for typeKey, typeValue in pairs(caliberTable) do
+				if typeKey ~= "default" then
+					table.insert(ammoTypes, typeKey)
+				end
+			end
+		end
+
+		return ammoTypes
+	end
+
+	data.ammo.getCaliberAmmoTypes = getCaliberAmmoTypes
+end
+
 if data.ammo.getCaliberDefaultType == nil then
 
 	-- Get the default ammo type of a specific caliber

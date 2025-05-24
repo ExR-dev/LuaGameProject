@@ -205,6 +205,7 @@ function SaveDungeon(name)
 end
 
 local radius = 100
+local selectionThreshold = 1.2
 local selectedRooms = {}
 function dungeonCreatorUI:GenerateDungeon()
 	imgui.Text("Dungeon Generation")
@@ -227,11 +228,45 @@ function dungeonCreatorUI:GenerateDungeon()
 			end
 		end
 		dungeonGenerator.Generate(radius)
-		dungeonGenerator.SeparateRooms()
+		dungeonGenerator.SeparateRooms(selectionThreshold)
 		for i, room in pairs(dungeonGenerator.GetRooms()) do
 			local t = transform(vec2(room.position), 0, vec2(1, 1))
 			game.SpawnGroup(room.name, t)
+
+
+			-- Create enter door
+			local tempID = game.SpawnPrefab("Door")
+			local doorT = transform(scene.GetComponent(tempID, "Transform"))
+			doorT.position = t.position + doorT.position
+            scene.SetComponent(tempID, "Transform", doorT)
+			room.doorID = tempID
+
+			-- Create exit doors
+			room.doorLinks = {}
+			for j, _ in pairs(room.links) do
+				print("test")
+				tempID = game.SpawnPrefab("Door")
+
+				-- Set Door position
+				doorT = transform(scene.GetComponent(tempID, "Transform"))
+                doorT.position = t.position + doorT.position + vec2(gameMath.randomSigned() * room.size.x, gameMath.randomSigned() * room.size.y)
+                scene.SetComponent(tempID, "Transform", doorT)
+
+				room.doorLinks[j] = tempID
+			end
+		end	
+
+
+		-- Link doors
+		for i, room in pairs(rooms) do
+			for j, link in pairs(room.links) do
+				local doorB = scene.GetComponent(room.doorLinks[j], "Behaviour")
+				local otherRoom = room[link]
+				doorB.linkLinks = otherRoom.doorID
+                scene.SetComponent(room.doorLinks[j], "Transform", doorB)
+			end
 		end
+
 		dungeonGenerator.Reset();
 	end
 
@@ -265,6 +300,7 @@ function dungeonCreatorUI:GenerateDungeon()
 	imgui.Separator("Settings")
 
 	radius, _ = imgui.DragFloat("Radius", radius, 0.1, 0.01, 10000.0)
+	selectionThreshold, _ = imgui.DragFloat("Selection Threshold", selectionThreshold, 0.001, 0.001, 5)
 
 	imgui.Separator("Room Selection")
 
@@ -315,10 +351,46 @@ function dungeonCreatorUI:GenerateDungeon()
 	end
 
 	if imgui.Button("Complete") then
-		for i, room in pairs(dungeonGenerator.GetRooms()) do
+		local rooms = dungeonGenerator.GetRooms()
+		for i, room in pairs(rooms) do
 			local t = transform(vec2(room.position), 0, vec2(1, 1))
 			game.SpawnGroup(room.name, t)
+
+
+			-- Create enter door
+			local tempID = game.SpawnPrefab("Door")
+			local doorT = transform(scene.GetComponent(tempID, "Transform"))
+			doorT.position = t.position + doorT.position
+            scene.SetComponent(tempID, "Transform", doorT)
+			room.doorID = tempID
+
+			-- Create exit doors
+			room.doorLinks = {}
+			for j, _ in pairs(room.links) do
+				tempID = game.SpawnPrefab("Door")
+
+				-- Set Door position
+				local doorT = transform(scene.GetComponent(tempID, "Transform"))
+                doorT.position = t.position + doorT.position + vec2(gameMath.randomSigned() * room.size.x/2, gameMath.randomSigned() * room.size.y/2)
+				doorT.scale = doorT.scale * 0.5
+                scene.SetComponent(tempID, "Transform", doorT)
+
+				room.doorLinks[j] = tempID
+			end
+		end	
+
+
+		-- Link doors
+		for i, room in pairs(rooms) do
+			for j, link in pairs(room.links) do
+				local doorB = scene.GetComponent(room.doorLinks[j], "Behaviour")
+				local otherRoom = rooms[link]
+				if otherRoom ~= nil then
+					doorB.linkID = otherRoom.doorID
+				end
+			end
 		end
+
 		dungeonGenerator.Reset();
 	end
 

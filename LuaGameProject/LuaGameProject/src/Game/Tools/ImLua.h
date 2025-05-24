@@ -223,6 +223,9 @@ namespace ImLua
 		// Returns: none
 		static int lua_SetKeyboardFocusHere(lua_State *L);
 		
+		// Arguments: none
+		// Returns: none
+		static int lua_SetItemDefaultFocus(lua_State* L);
 
 
 

@@ -18,6 +18,7 @@ local collider = require("Components/Collider")
 -- Can set up more fields in self.
 function enemy:OnCreate()
 	tracy.ZoneBeginN("Lua enemy:OnCreate")
+	self.isInitialized = false
 	self.trans = transform(scene.GetComponent(self.ID, "Transform"))
 
 	self.speed = math.random(15, 35)
@@ -25,13 +26,20 @@ function enemy:OnCreate()
 	local c = collider("Enemy", true, vec2(0, 0), vec2(1, 1))
 	scene.SetComponent(self.ID, "Collider", c)
 
-	local healthBar = scene.CreateEntity()
-	scene.SetComponent(healthBar, "Behaviour", "Behaviours/HealthBar")
-	local healthBarBeh = scene.GetComponent(healthBar, "Behaviour")
-	healthBarBeh:Initialize(self.ID, 60.0)
-
 	self.hurtAnim = nil
 
+	tracy.ZoneEnd()
+end
+
+function enemy:OnInitialize()
+	tracy.ZoneBeginN("Lua enemy:OnInitialize")
+
+	self.healthBar = scene.CreateEntity()
+	scene.SetComponent(self.healthBar, "Behaviour", "Behaviours/HealthBar")
+	local healthBarBeh = scene.GetComponent(self.healthBar, "Behaviour")
+	healthBarBeh:Initialize(self.ID, 60.0)
+
+	self.isInitialized = true
 	tracy.ZoneEnd()
 end
 
@@ -39,6 +47,10 @@ end
 function enemy:OnUpdate(delta)
 	tracy.ZoneBeginN("Lua enemy:OnUpdate")
 	self.trans = transform(scene.GetComponent(self.ID, "Transform"))
+
+	if not self.isInitialized then
+		self:OnInitialize()
+	end
 
 	if self.wanderPoint == nil then
 		self.wanderPoint = self.trans.position + vec2(math.random(-75, 75), math.random(-75, 75));

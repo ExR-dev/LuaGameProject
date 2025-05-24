@@ -54,7 +54,7 @@ bool BehaviourSystem::OnNamedMethod(entt::registry &registry, const char *name, 
 		lua_getfield(L, -1, name);
 
 		// Check if the method exists before calling it
-		if (lua_isnil(L, -1))
+		if (lua_isnil(L, -1)) // TODO: Game sometimes crashes here suddenly while shooting
 		{
 			lua_pop(L, 1); // Pop nil
 			script.AddUnownedMethod(name);
