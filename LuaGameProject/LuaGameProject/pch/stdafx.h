@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <string>
+#include <tuple>
 #include <format>
 #include <atomic>
 #include <thread>

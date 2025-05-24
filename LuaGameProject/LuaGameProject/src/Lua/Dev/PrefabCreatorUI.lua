@@ -19,9 +19,9 @@ local prefabCreatorUI = {
 	-- HACK: This causes coupling, as it needs to be updated when new components are added
 	existingComponentsList = {
 		"Transform",	"Behaviour",	"Collider",
-		"Sprite",		"TextRender",	"Health",		
-		"Hardness",		"CameraData",	"Active",		
-		"Remove"
+		"Sprite",		"TextRender",	"UIElement",
+		"Health",		"Hardness",		"CameraData",	
+		"Active",		"Remove"
 	}
 }
 

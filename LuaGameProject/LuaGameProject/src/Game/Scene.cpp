@@ -339,6 +339,18 @@ int Scene::lua_SetComponent(lua_State *L)
 
 		return 1;
 	}
+	else if (type == "UIElement") 
+	{
+		if (scene->HasComponents<ECS::UIElement>(entity))
+			scene->RemoveComponent<ECS::UIElement>(entity);
+
+		ECS::UIElement uiElement{};
+		uiElement.LuaPull(L, 3);
+
+		scene->SetComponent<ECS::UIElement>(entity, uiElement);
+
+		return 1;
+	}
 	else if (type == "CameraData") 
 	{
 		if (scene->HasComponents<ECS::CameraData>(entity))
@@ -459,6 +471,10 @@ int Scene::lua_HasComponent(lua_State *L)
 	else if (type == "TextRender")
 	{
 		hasComponent = scene->HasComponents<ECS::TextRender>(entity);
+	}
+	else if (type == "UIElement")
+	{
+		hasComponent = scene->HasComponents<ECS::UIElement>(entity);
 	}
 	else if (type == "CameraData")
 	{

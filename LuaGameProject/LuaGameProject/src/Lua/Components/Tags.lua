@@ -10,6 +10,11 @@ local function new(s)
 
 	if type(s) == "string" then
 		t.insert(s)
+	elseif type(s) == "table" then
+		for _, v in ipairs(s) do
+			assert(type(v) == "string", "tags new - expected args: (string | table of strings)")
+			t.insert(v)
+		end
 	end
 
 	return setmetatable(t, tags)
@@ -20,17 +25,32 @@ local function istags(t)
 end
 
 -- Meta events
-function tags:__newindex(k)
+function tags:__newindex(s)
 	assert(type(s) == "string", "tags new - expected args: (string)")
-	print("tags - not possible to assign new fields")
+	self.insert(s)
 end
 
-function active:__tostring()
-	return "active("..self.isActive..")"
+function tags:__tostring()
+	local tagStr = ""
+	for k, v in pairs(self) do
+		if type(k) == "string" then
+			tagStr = tagStr .. k .. ", "
+		end
+	end
+	return "tags("..tagStr..")"
 end
 
-active.new = new
-active.isactive = isactive
+function tags:has(s)
+	for k, v in pairs(self) do
+		if v == s then
+			return true
+		end
+	end
+	return false
+end
+
+tags.new = new
+tags.istags = istags
 return setmetatable(active, {
 	__call = function(_, ...) 
 		return active.new(...) 
