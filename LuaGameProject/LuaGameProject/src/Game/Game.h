@@ -12,7 +12,9 @@ namespace Game
 		InEditor,
 		ReloadGame,
 		ReloadEditor,
-		Quitting
+		Quitting,
+
+		Count
 	};
 
 	static bool IsQuitting = false;

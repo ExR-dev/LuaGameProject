@@ -15,6 +15,7 @@ function endPortal:OnCreate()
 		if c.tag ~= "Player" then
 			return
 		end
+		scene.SetScene(scene.SceneState.InMenu);
         print("End")
     end)
 
