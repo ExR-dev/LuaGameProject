@@ -83,7 +83,6 @@ function weapon:OnUpdate(delta)
 			if self.reloadTimer <= 0.0 then
 				self.reloadTimer = 0.0
 				self.isReloading = false
-				print("Done Reloading.\n")
 				
 				game.PlaySound("Reload End.wav", 0.3)
 			end
@@ -290,8 +289,8 @@ function weapon:OnCycleAmmoType(reserve)
 		return
 	end
 	
-	print("Prev Type: "..self.loadedAmmoType)
 	-- Get the next ammo type
+	print("Prev Type: "..self.loadedAmmoType)
 	self.loadedAmmoType = ammoTypes[nextAmmoType]
 	print("New Type: "..self.loadedAmmoType)
 

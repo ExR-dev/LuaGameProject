@@ -11,7 +11,7 @@ end
 
 -- Create Weapon at Mouse
 function dev.MakeWeap(name)
-	tracy.ZoneBeginN("Lua Create Weapon")
+	tracy.ZoneBeginN("Lua Command Create Weapon")
 
 	local weaponEnt = scene.CreateEntity()
 
@@ -37,7 +37,7 @@ function dev.MakeWeap(name)
 end
 
 function dev.GiveAmmo(caliber, type, count)
-	tracy.ZoneBeginN("Lua Give Ammo")
+	tracy.ZoneBeginN("Lua Command Give Ammo")
 
 	if not game.GetPlayer then
 		print("No player found to give ammo to!")
@@ -71,7 +71,7 @@ end
 
 -- Give player all resources
 function dev.Impulse101()
-	tracy.ZoneBeginN("Lua Impulse 101")
+	tracy.ZoneBeginN("Lua Command Impulse 101")
 
 	if not game.GetPlayer then
 		print("No player found to give ammo to!")
@@ -104,5 +104,25 @@ function dev.Impulse101()
 	tracy.ZoneEnd()
 end
 
+-- Shake the camera
+function dev.Shake(frequency, amplitude, duration)
+	tracy.ZoneBeginN("Lua Command Shake")
+
+	if game.GetPlayerCamera == nil then
+		print("No get player camera function found!")
+		tracy.ZoneEnd()
+		return
+	end
+
+	local playerCamera = game.GetPlayerCamera()
+	if playerCamera == nil then
+		print("No player camera found to shake!")
+		tracy.ZoneEnd()
+		return
+	end
+
+	playerCamera:ApplyShake(frequency, amplitude, duration)
+	tracy.ZoneEnd()
+end
 
 tracy.ZoneEnd()
