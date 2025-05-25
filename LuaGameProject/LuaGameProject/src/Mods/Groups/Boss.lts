@@ -1,9 +1,9 @@
 return {
 -- Table: {1}
 {
-   ["contents"]={2},
-   ["dataPath"]="groups",
    ["elementName"]="Boss",
+   ["dataPath"]="groups",
+   ["contents"]={2},
 },
 -- Table: {2}
 {
@@ -20,314 +20,314 @@ return {
 },
 -- Table: {4}
 {
-   ["behaviour"]={10},
-   ["components"]={11},
+   ["components"]={10},
 },
 -- Table: {5}
 {
-   ["behaviour"]={12},
-   ["components"]={13},
+   ["behaviour"]={11},
+   ["components"]={12},
 },
 -- Table: {6}
 {
-   ["behaviour"]={14},
-   ["components"]={15},
+   ["behaviour"]={13},
+   ["components"]={14},
 },
 -- Table: {7}
 {
-   ["behaviour"]={16},
-   ["components"]={17},
+   ["behaviour"]={15},
+   ["components"]={16},
 },
 -- Table: {8}
 {
-   ["behaviour"]={18},
-   ["components"]={19},
+   ["behaviour"]={17},
+   ["components"]={18},
 },
 -- Table: {9}
 {
+   ["behaviour"]={19},
    ["components"]={20},
 },
 -- Table: {10}
 {
-   ["properties"]={21},
-   ["path"]="Behaviours/EndPortal",
+   ["Sprite"]={21},
+   ["Transform"]={22},
 },
 -- Table: {11}
 {
-   ["Sprite"]={22},
-   ["Collider"]={23},
-   ["Transform"]={24},
+   ["path"]="Behaviours/Spawner",
+   ["properties"]={23},
 },
 -- Table: {12}
 {
-   ["properties"]={25},
-   ["path"]="Behaviours/Spawner",
+   ["Sprite"]={24},
+   ["Transform"]={25},
 },
 -- Table: {13}
 {
-   ["Sprite"]={26},
-   ["Transform"]={27},
+   ["path"]="Behaviours/Spawner",
+   ["properties"]={26},
 },
 -- Table: {14}
 {
-   ["properties"]={28},
-   ["path"]="Behaviours/Spawner",
+   ["Sprite"]={27},
+   ["Transform"]={28},
 },
 -- Table: {15}
 {
-   ["Sprite"]={29},
-   ["Transform"]={30},
+   ["path"]="Behaviours/Spawner",
+   ["properties"]={29},
 },
 -- Table: {16}
 {
-   ["properties"]={31},
-   ["path"]="Behaviours/Spawner",
+   ["Sprite"]={30},
+   ["Transform"]={31},
 },
 -- Table: {17}
 {
-   ["Sprite"]={32},
-   ["Transform"]={33},
+   ["path"]="Behaviours/Spawner",
+   ["properties"]={32},
 },
 -- Table: {18}
 {
-   ["properties"]={34},
-   ["path"]="Behaviours/Spawner",
+   ["Sprite"]={33},
+   ["Transform"]={34},
 },
 -- Table: {19}
 {
-   ["Sprite"]={35},
-   ["Transform"]={36},
+   ["path"]="Behaviours/EndPortal",
+   ["properties"]={35},
 },
 -- Table: {20}
 {
+   ["Transform"]={36},
    ["Sprite"]={37},
-   ["Transform"]={38},
+   ["Collider"]={38},
 },
 -- Table: {21}
 {
+   ["color"]={39},
+   ["priority"]=-10,
+   ["spriteName"]="",
 },
 -- Table: {22}
 {
-   ["color"]={39},
-   ["spriteName"]="Exit.png",
-   ["priority"]=100,
+   ["rotation"]=0.0,
+   ["position"]={40},
+   ["scale"]={41},
 },
 -- Table: {23}
 {
-   ["tag"]="EndPortal",
-   ["rotation"]=0.0,
-   ["debug"]=false,
-   ["offset"]={40},
-   ["extents"]={41},
+   ["counter"]=8,
+   ["spawnRate"]=10.0,
+   ["capacity"]=8,
+   ["spawnTimer"]=0.0,
+   ["prefab"]="Enemy",
 },
 -- Table: {24}
 {
-   ["rotation"]=0.0,
-   ["scale"]={42},
-   ["position"]={43},
+   ["color"]={42},
+   ["priority"]=30,
+   ["spriteName"]="Spawner.png",
 },
 -- Table: {25}
 {
-   ["spawnRate"]=10.0,
-   ["prefab"]="Enemy",
-   ["spawnTimer"]=0.0,
-   ["capacity"]=3,
-   ["counter"]=3,
+   ["rotation"]=0.0,
+   ["position"]={43},
+   ["scale"]={44},
 },
 -- Table: {26}
 {
-   ["color"]={44},
-   ["spriteName"]="Spawner.png",
-   ["priority"]=30,
+   ["counter"]=3,
+   ["spawnRate"]=10.0,
+   ["capacity"]=3,
+   ["spawnTimer"]=0.0,
+   ["prefab"]="Enemy",
 },
 -- Table: {27}
 {
-   ["rotation"]=0.0,
-   ["scale"]={45},
-   ["position"]={46},
+   ["color"]={45},
+   ["priority"]=30,
+   ["spriteName"]="Spawner.png",
 },
 -- Table: {28}
 {
-   ["spawnRate"]=10.0,
-   ["prefab"]="Enemy",
-   ["spawnTimer"]=0.0,
-   ["capacity"]=3,
-   ["counter"]=3,
+   ["rotation"]=0.0,
+   ["position"]={46},
+   ["scale"]={47},
 },
 -- Table: {29}
 {
-   ["color"]={47},
-   ["spriteName"]="Spawner.png",
-   ["priority"]=30,
+   ["counter"]=3,
+   ["spawnRate"]=10.0,
+   ["capacity"]=3,
+   ["spawnTimer"]=0.0,
+   ["prefab"]="Enemy",
 },
 -- Table: {30}
 {
-   ["rotation"]=0.0,
-   ["scale"]={48},
-   ["position"]={49},
+   ["color"]={48},
+   ["priority"]=30,
+   ["spriteName"]="Spawner.png",
 },
 -- Table: {31}
 {
-   ["spawnRate"]=10.0,
-   ["prefab"]="Enemy",
-   ["spawnTimer"]=0.0,
-   ["capacity"]=3,
-   ["counter"]=3,
+   ["rotation"]=0.0,
+   ["position"]={49},
+   ["scale"]={50},
 },
 -- Table: {32}
 {
-   ["color"]={50},
-   ["spriteName"]="Spawner.png",
-   ["priority"]=30,
+   ["counter"]=3,
+   ["spawnRate"]=10.0,
+   ["capacity"]=3,
+   ["spawnTimer"]=0.0,
+   ["prefab"]="Enemy",
 },
 -- Table: {33}
 {
-   ["rotation"]=0.0,
-   ["scale"]={51},
-   ["position"]={52},
+   ["color"]={51},
+   ["priority"]=30,
+   ["spriteName"]="Spawner.png",
 },
 -- Table: {34}
 {
-   ["spawnRate"]=10.0,
-   ["prefab"]="Enemy",
-   ["spawnTimer"]=0.0,
-   ["capacity"]=8,
-   ["counter"]=8,
+   ["rotation"]=0.0,
+   ["position"]={52},
+   ["scale"]={53},
 },
 -- Table: {35}
 {
-   ["color"]={53},
-   ["spriteName"]="Spawner.png",
-   ["priority"]=30,
 },
 -- Table: {36}
 {
    ["rotation"]=0.0,
-   ["scale"]={54},
-   ["position"]={55},
+   ["position"]={54},
+   ["scale"]={55},
 },
 -- Table: {37}
 {
    ["color"]={56},
-   ["spriteName"]="",
-   ["priority"]=0,
+   ["priority"]=100,
+   ["spriteName"]="Exit.png",
 },
 -- Table: {38}
 {
    ["rotation"]=0.0,
-   ["scale"]={57},
-   ["position"]={58},
+   ["offset"]={57},
+   ["tag"]="EndPortal",
+   ["debug"]=false,
+   ["extents"]={58},
 },
 -- Table: {39}
 {
-   ["g"]=0.7565980553627,
-   ["r"]=0.67256641387939,
-   ["a"]=1.0,
-   ["b"]=1.0,
-},
--- Table: {40}
-{
-   ["y"]=0.0,
-   ["x"]=0.0,
-},
--- Table: {41}
-{
-   ["y"]=1.0,
-   ["x"]=1.0,
-},
--- Table: {42}
-{
-   ["y"]=150.0,
-   ["x"]=150.0,
-},
--- Table: {43}
-{
-   ["y"]=300.0,
-   ["x"]=-276.5,
-},
--- Table: {44}
-{
-   ["g"]=1.0,
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-},
--- Table: {45}
-{
-   ["y"]=100.0,
-   ["x"]=100.0,
-},
--- Table: {46}
-{
-   ["y"]=900.0,
-   ["x"]=-316.20001220703,
-},
--- Table: {47}
-{
-   ["g"]=1.0,
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-},
--- Table: {48}
-{
-   ["y"]=100.0,
-   ["x"]=100.0,
-},
--- Table: {49}
-{
-   ["y"]=-300.0,
-   ["x"]=199.44999694824,
-},
--- Table: {50}
-{
-   ["g"]=1.0,
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-},
--- Table: {51}
-{
-   ["y"]=100.0,
-   ["x"]=100.0,
-},
--- Table: {52}
-{
-   ["y"]=500.0,
-   ["x"]=189.75,
-},
--- Table: {53}
-{
-   ["g"]=1.0,
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-},
--- Table: {54}
-{
-   ["y"]=100.0,
-   ["x"]=100.0,
-},
--- Table: {55}
-{
-   ["y"]=-475.35000610352,
-   ["x"]=-604.40002441406,
-},
--- Table: {56}
-{
-   ["g"]=0.61034536361694,
    ["r"]=1.0,
    ["a"]=1.0,
    ["b"]=0.58849561214447,
+   ["g"]=0.61034536361694,
+},
+-- Table: {40}
+{
+   ["x"]=0.0,
+   ["y"]=0.0,
+},
+-- Table: {41}
+{
+   ["x"]=2000.0,
+   ["y"]=2000.0,
+},
+-- Table: {42}
+{
+   ["r"]=1.0,
+   ["a"]=1.0,
+   ["b"]=1.0,
+   ["g"]=1.0,
+},
+-- Table: {43}
+{
+   ["x"]=-604.40002441406,
+   ["y"]=-475.35000610352,
+},
+-- Table: {44}
+{
+   ["x"]=100.0,
+   ["y"]=100.0,
+},
+-- Table: {45}
+{
+   ["r"]=1.0,
+   ["a"]=1.0,
+   ["b"]=1.0,
+   ["g"]=1.0,
+},
+-- Table: {46}
+{
+   ["x"]=189.75,
+   ["y"]=500.0,
+},
+-- Table: {47}
+{
+   ["x"]=100.0,
+   ["y"]=100.0,
+},
+-- Table: {48}
+{
+   ["r"]=1.0,
+   ["a"]=1.0,
+   ["b"]=1.0,
+   ["g"]=1.0,
+},
+-- Table: {49}
+{
+   ["x"]=199.44999694824,
+   ["y"]=-300.0,
+},
+-- Table: {50}
+{
+   ["x"]=100.0,
+   ["y"]=100.0,
+},
+-- Table: {51}
+{
+   ["r"]=1.0,
+   ["a"]=1.0,
+   ["b"]=1.0,
+   ["g"]=1.0,
+},
+-- Table: {52}
+{
+   ["x"]=-316.20001220703,
+   ["y"]=900.0,
+},
+-- Table: {53}
+{
+   ["x"]=100.0,
+   ["y"]=100.0,
+},
+-- Table: {54}
+{
+   ["x"]=-276.5,
+   ["y"]=300.0,
+},
+-- Table: {55}
+{
+   ["x"]=150.0,
+   ["y"]=150.0,
+},
+-- Table: {56}
+{
+   ["r"]=0.67256641387939,
+   ["a"]=1.0,
+   ["b"]=1.0,
+   ["g"]=0.7565980553627,
 },
 -- Table: {57}
 {
-   ["y"]=2000.0,
-   ["x"]=2000.0,
+   ["x"]=0.0,
+   ["y"]=0.0,
 },
 -- Table: {58}
 {
-   ["y"]=0.0,
-   ["x"]=0.0,
+   ["x"]=1.0,
+   ["y"]=1.0,
 },
 }
