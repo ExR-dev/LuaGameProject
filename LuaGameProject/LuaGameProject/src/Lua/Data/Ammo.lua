@@ -56,6 +56,13 @@ local calibers = {
 				-- Type:		int
 				-- Range:		[1, inf)
 				-- Average:		1
+			
+				-- Name:		shootSound
+				-- Desc:		Name of soundfile for shooting
+				-- Equation:	_
+				-- Type:		string
+				-- Range:		_
+				-- Average:		Fire.wav
 
 
 				-- Special ammo types could add additional members (including functions) to override base functionality

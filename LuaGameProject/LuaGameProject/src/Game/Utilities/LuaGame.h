@@ -29,11 +29,11 @@ namespace LuaGame
 		float m_mouseWorldPos[2]{ 0.0f, 0.0f };
 
 
-		// Arguments: sound (string), volume (float)
+		// Arguments: string sound, float volume = 1.0f, float pan = 0.5f, float pitch = 1.0f
 		// Returns: none
 		static int lua_PlaySound(lua_State *L);
 
-		// Arguments: scale (float)
+		// Arguments: float scale
 		// Returns: none
 		static int lua_SetTimeScale(lua_State *L);
 

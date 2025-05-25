@@ -768,6 +768,37 @@ function presetCreatorUI:AmmoEditorUI()
 								ammoTypeData.burstSize = value
 							end
 						end
+
+						-- Sprite
+						do
+							value = ammoTypeData.shootSound or "Fire.wav"
+
+							imgui.Separator("Shoot Sound")
+							imgui.Text("Desc:       ")
+							imgui.SameLine()
+							imgui.TextWrapped("Name of a sound file located in the sounds folder, including extension.")
+							imgui.Text("Equation:   ")
+							imgui.SameLine()
+							imgui.TextWrapped("_")
+							imgui.Text("Range:      ")
+							imgui.SameLine()
+							imgui.TextWrapped("_")
+							imgui.Text("Average:    ")
+							imgui.SameLine()
+							imgui.TextWrapped("Fire.wav")
+							imgui.Text("Value:      ")
+							imgui.SameLine()
+							value, modified = imgui.InputText("##AmmoShootSoundInput", value, 64)
+							imgui.Text("")
+
+							if modified then
+								if value == "" or value == "Fire.wav" then
+									ammoTypeData.shootSound = nil
+								else
+									ammoTypeData.shootSound = value
+								end
+							end
+						end
 					end
 					imgui.EndChild()
 					imgui.Separator()

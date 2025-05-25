@@ -90,7 +90,12 @@ function enemy:OnUpdate(delta)
 		local falloff = 1.5
 		local distScaler = 1.0 / (falloff * soundDistSqr + 1.0)
 
-		game.PlaySound("Maxwell Short.wav", baseVolume * distScaler)
+		local maxPanDist = 1500.0
+		local pan = (gameMath.clamp(listenerPos.x - soundPos.x, -maxPanDist, maxPanDist) / maxPanDist) * 0.5 + 0.5
+
+		local pitch = 1.0 + (gameMath.randomND() * 0.025)
+
+		game.PlaySound("Maxwell Short.wav", (baseVolume * distScaler), pan, pitch)
 	end
 
 	-- Update the hurt animation coroutine

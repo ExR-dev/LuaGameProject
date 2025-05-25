@@ -1,8 +1,8 @@
 return {
 -- Table: {1}
 {
-   ["dataPath"]="weapons",
    ["elementName"]="God Gun",
+   ["dataPath"]="weapons",
    ["contents"]={2},
 },
 -- Table: {2}
@@ -13,15 +13,15 @@ return {
 },
 -- Table: {3}
 {
-   ["caliber"]="God Ammo",
-   ["spread"]=0.0,
    ["recoil"]=0.0,
+   ["spread"]=0.0,
    ["capacity"]=99999,
-   ["damage"]=9999.0,
-   ["recovery"]=4,
-   ["fireMode"]="Auto",
-   ["handCount"]=1,
+   ["caliber"]="God Ammo",
    ["reloadTime"]=0.0,
-   ["fireRate"]=90.0,
+   ["fireRate"]=80.0,
+   ["damage"]=9999.0,
+   ["handCount"]=1,
+   ["fireMode"]="Auto",
+   ["recovery"]=4,
 },
 }

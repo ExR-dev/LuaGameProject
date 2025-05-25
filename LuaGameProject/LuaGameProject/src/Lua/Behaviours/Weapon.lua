@@ -27,6 +27,7 @@ function weapon:OnCreate()
 
 	self.isReloading = false
 	self.reloadTimer = 0.0
+	self.playedReloadEnd = false
 
 	tracy.ZoneEnd()
 end
@@ -83,8 +84,11 @@ function weapon:OnUpdate(delta)
 			if self.reloadTimer <= 0.0 then
 				self.reloadTimer = 0.0
 				self.isReloading = false
-				
-				game.PlaySound("Reload End.wav", 0.3)
+				self.playedReloadEnd = false
+			elseif self.reloadTimer <= 0.3 and not self.playedReloadEnd then
+				local pitch = 1.0 + (gameMath.randomND() * 0.1)
+				game.PlaySound("Reload End.wav", 0.175, 0.5, pitch)
+				self.playedReloadEnd = true
 			end
 		end
 
@@ -151,7 +155,8 @@ function weapon:PullTrigger()
 	if self.loadedAmmoCount > 0 then
 		self:OnShoot()
 	else
-		game.PlaySound("Dry Fire.wav", 0.2)
+		local pitch = 1.0 + (gameMath.randomND() * 0.06)
+		game.PlaySound("Dry Fire.wav", 0.2, 0.5, pitch)
 	end
 end
 
@@ -214,6 +219,14 @@ function weapon:OnShoot()
 
 	self.loadedAmmoCount = self.loadedAmmoCount - 1
 
+	-- Play the shoot sound
+	local shootSound = ammoStats.shootSound or "Fire.wav"
+	local volumeDilation = (gameMath.randomND() * 0.2) + 1.0
+	local pitch = 1.0 + (gameMath.randomND() * 0.075)
+
+	game.PlaySound(shootSound, 0.3 * volumeDilation, 0.5, pitch)
+	print("Playing "..shootSound)
+
 	-- Apply camera shake
 	if game.GetPlayerCamera then
 		local playerCam = game.GetPlayerCamera()
@@ -262,7 +275,9 @@ function weapon:OnReload(reserve)
 	self.isReloading = true
 	self.reloadTimer = self.stats.reloadTime
 	
-	game.PlaySound("Reload Start.wav", 0.3)
+	local pitch = 1.0 + (gameMath.randomND() * 0.1)
+	game.PlaySound("Reload Start.wav", 0.175, 0.5, pitch)
+
 	print("Reloading "..self.stats.caliber.." ("..self.loadedAmmoType..")")
 	print("Taking: "..ammoTaken.." out of "..ammoInReserve)
 	print("Reserve now: "..caliberReserve[self.loadedAmmoType].."\n")
@@ -273,9 +288,18 @@ end
 function weapon:OnCycleAmmoType(reserve)
 	print("Cycling ammo type...")
 
+	if reserve[self.stats.caliber] == nil then
+		reserve[self.stats.caliber] = {}
+	end
+
+	if reserve[self.stats.caliber][self.loadedAmmoType] == nil then
+		reserve[self.stats.caliber][self.loadedAmmoType] = 0
+	end
+
 	-- Refund the current ammo type
 	if self.loadedAmmoCount > 0 then
 		local ammoRefund = self.loadedAmmoCount
+
 		reserve[self.stats.caliber][self.loadedAmmoType] = reserve[self.stats.caliber][self.loadedAmmoType] + ammoRefund
 		self.loadedAmmoCount = 0
 	end
@@ -292,7 +316,7 @@ function weapon:OnCycleAmmoType(reserve)
 
 	for i = 1, #ammoTypes do
 		if self.loadedAmmoType == ammoTypes[i] then
-			nextAmmoType = ((i + 1) % #ammoTypes) + 1
+			nextAmmoType = (i % #ammoTypes) + 1
 			break
 		end
 	end
@@ -300,11 +324,14 @@ function weapon:OnCycleAmmoType(reserve)
 	if nextAmmoType == -1 then
 		return
 	end
+
+	if reserve[self.stats.caliber][nextAmmoType] == nil then
+		reserve[self.stats.caliber][nextAmmoType] = 0
+	end
 	
 	-- Get the next ammo type
-	print("Prev Type: "..self.loadedAmmoType)
 	self.loadedAmmoType = ammoTypes[nextAmmoType]
-	print("New Type: "..self.loadedAmmoType)
+	print("New ammo type: "..self.loadedAmmoType)
 
 	self.isReloading = false
 	self.reloadTimer = 0.0
