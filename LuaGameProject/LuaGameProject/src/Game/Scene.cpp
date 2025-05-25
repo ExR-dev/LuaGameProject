@@ -199,6 +199,7 @@ void Scene::lua_openscene(lua_State *L, Scene *scene)
 
 	luaL_Reg methods[] = {
 	//  { "NameInLua",			NameInCpp			},
+		{ "SetScene",			lua_SetScene	},
 		{ "CreateEntity",		lua_CreateEntity	},
 		{ "SetComponent",		lua_SetComponent	},
 		{ "GetEntityCount",		lua_GetEntityCount	},
@@ -217,11 +218,55 @@ void Scene::lua_openscene(lua_State *L, Scene *scene)
 	lua_pushlightuserdata(L, scene);
 	luaL_setfuncs(L, methods, 1); // 1 : one upvalue (lightuserdata)
 
+	lua_createtable(L, 0, 7);
+		lua_pushnumber(L, Game::SceneState::None);
+		lua_setfield(L, -2, "None");
+
+		lua_pushnumber(L, Game::SceneState::InMenu);
+		lua_setfield(L, -2, "InMenu");
+
+		lua_pushnumber(L, Game::SceneState::InGame);
+		lua_setfield(L, -2, "InGame");
+
+		lua_pushnumber(L, Game::SceneState::InEditor);
+		lua_setfield(L, -2, "InEditor");
+
+		lua_pushnumber(L, Game::SceneState::ReloadGame);
+		lua_setfield(L, -2, "ReloadGame");
+
+		lua_pushnumber(L, Game::SceneState::ReloadEditor);
+		lua_setfield(L, -2, "ReloadEditor");
+
+		lua_pushnumber(L, Game::SceneState::Quitting);
+		lua_setfield(L, -2, "Quitting");
+	lua_setfield(L, -2, "SceneState");
+
 	lua_setglobal(L, "scene");
 
 #ifdef LUA_DEBUG
 	LuaDoFileCleaned(L, LuaFilePath("PrintTable"));
 #endif
+}
+
+void Scene::ResetSceneState()
+{
+	m_sceneState = Game::SceneState::None;
+}
+
+Game::SceneState Scene::GetSceneState() const
+{
+	return m_sceneState;
+}
+
+int Scene::lua_SetScene(lua_State* L)
+{
+	Scene* scene = lua_GetScene(L);
+	int sceneState = lua_tointeger(L, 1);
+
+	if (sceneState < Game::SceneState::Count)
+		scene->m_sceneState = (Game::SceneState)sceneState;
+
+	return 0;
 }
 
 int Scene::lua_CreateEntity(lua_State *L)

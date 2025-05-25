@@ -422,6 +422,7 @@
     <None Include="src\Lua\Behaviours\HealthBar.lua" />
     <None Include="src\Lua\Behaviours\Spawner.lua" />
     <None Include="src\Lua\Components\UIElement.lua" />
+    <None Include="src\Lua\Behaviours\Door.lua" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="raylib.dll" />

@@ -6,7 +6,7 @@
 
 #define LUA_DEBUG
 
-//#undef TRACY_ENABLE
+#undef TRACY_ENABLE
 #ifdef TRACY_ENABLE
 	#define TRACY_MEMORY
 	#define TRACY_SCREEN_CAPTURE

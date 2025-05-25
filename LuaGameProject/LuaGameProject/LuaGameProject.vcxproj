@@ -389,6 +389,7 @@
     </CopyFileToFolders>
     <None Include="src\Lua\Behaviours\Cursor.lua" />
     <None Include="src\Lua\Behaviours\DamageNumber.lua" />
+    <None Include="src\Lua\Behaviours\Door.lua" />
     <None Include="src\Lua\Behaviours\HealthBar.lua" />
     <None Include="src\Lua\Behaviours\InputMovement.lua" />
     <None Include="src\Lua\Behaviours\PlayerCamera.lua" />

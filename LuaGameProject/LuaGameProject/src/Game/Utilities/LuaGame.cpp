@@ -62,9 +62,31 @@ int LuaGame::LuaGame::lua_PlaySound(lua_State *L)
 		sound = ResourceManager::Instance().GetSoundResource(soundName);
 	}
 
-	float volume = lua_tonumber(L, 2);
+	float volume = 1.0f;
+	float pan = 0.5f;
+	float pitch = 1.0f;
+
+	// Get optional parameters
+	do
+	{
+		if (!lua_isnumber(L, 2))
+			break;
+		volume = lua_tonumber(L, 2);
+
+		if (!lua_isnumber(L, 3))
+			break;
+		pan = lua_tonumber(L, 3);
+
+		if (!lua_isnumber(L, 4))
+			break;
+		pitch = lua_tonumber(L, 4);
+
+	} while (false);
 
 	sound->SetVolume(volume);
+	sound->SetPan(pan);
+	sound->SetPitch(pitch);
+
 	sound->Play();
 	return 1;
 }

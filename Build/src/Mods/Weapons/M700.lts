@@ -1,0 +1,27 @@
+return {
+-- Table: {1}
+{
+   ["contents"]={2},
+   ["dataPath"]="weapons",
+   ["elementName"]="M700",
+},
+-- Table: {2}
+{
+   ["width"]=10,
+   ["stats"]={3},
+   ["length"]=64,
+},
+-- Table: {3}
+{
+   ["fireMode"]="Semi",
+   ["reloadTime"]=3.0,
+   ["recoil"]=13.0,
+   ["caliber"]="308",
+   ["recovery"]=3,
+   ["fireRate"]=1.0,
+   ["handCount"]=2,
+   ["damage"]=100.0,
+   ["capacity"]=5,
+   ["spread"]=0.3,
+},
+}
