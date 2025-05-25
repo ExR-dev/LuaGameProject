@@ -475,7 +475,9 @@ int GameScene::GameScene::Render()
 					}
 				});
 			};
+#ifdef _DEBUG
 			m_scene.RunSystem(drawPhysicsBodies);
+#endif
 
 			// Draw the dungeon
 			DungeonGenerator::Instance().Draw();
