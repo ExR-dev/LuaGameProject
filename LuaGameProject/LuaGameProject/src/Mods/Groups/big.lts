@@ -1,8 +1,8 @@
 return {
 -- Table: {1}
 {
-   ["dataPath"]="groups",
    ["contents"]={2},
+   ["dataPath"]="groups",
    ["elementName"]="big",
 },
 -- Table: {2}
@@ -23,325 +23,325 @@ return {
 },
 -- Table: {5}
 {
-   ["components"]={10},
-   ["behaviour"]={11},
+   ["behaviour"]={10},
+   ["components"]={11},
 },
 -- Table: {6}
 {
-   ["components"]={12},
-   ["behaviour"]={13},
+   ["behaviour"]={12},
+   ["components"]={13},
 },
 -- Table: {7}
 {
-   ["components"]={14},
-   ["behaviour"]={15},
+   ["behaviour"]={14},
+   ["components"]={15},
 },
 -- Table: {8}
 {
-   ["components"]={16},
-   ["behaviour"]={17},
+   ["behaviour"]={16},
+   ["components"]={17},
 },
 -- Table: {9}
 {
-   ["Transform"]={18},
-   ["Sprite"]={19},
+   ["Sprite"]={18},
+   ["Transform"]={19},
 },
 -- Table: {10}
 {
-   ["Transform"]={20},
-   ["Sprite"]={21},
+   ["path"]="Behaviours/Spawner",
+   ["properties"]={20},
 },
 -- Table: {11}
 {
-   ["properties"]={22},
-   ["path"]="Behaviours/Spawner",
+   ["Sprite"]={21},
+   ["Transform"]={22},
 },
 -- Table: {12}
 {
-   ["Transform"]={23},
-   ["Sprite"]={24},
+   ["path"]="Behaviours/Spawner",
+   ["properties"]={23},
 },
 -- Table: {13}
 {
-   ["properties"]={25},
-   ["path"]="Behaviours/Spawner",
+   ["Sprite"]={24},
+   ["Transform"]={25},
 },
 -- Table: {14}
 {
-   ["Transform"]={26},
+   ["path"]="Behaviours/HealthBar",
+   ["properties"]={26},
 },
 -- Table: {15}
 {
-   ["properties"]={27},
-   ["path"]="Behaviours/HealthBar",
+   ["Transform"]={27},
 },
 -- Table: {16}
 {
-   ["Health"]={28},
-   ["Collider"]={29},
-   ["Sprite"]={30},
-   ["Transform"]={31},
-   ["Hardness"]={32},
+   ["path"]="Behaviours/Enemy",
+   ["properties"]={28},
 },
 -- Table: {17}
 {
-   ["properties"]={33},
-   ["path"]="Behaviours/Enemy",
+   ["Sprite"]={29},
+   ["Health"]={30},
+   ["Transform"]={31},
+   ["Collider"]={32},
+   ["Hardness"]={33},
 },
 -- Table: {18}
 {
-   ["position"]={34},
-   ["scale"]={35},
-   ["rotation"]=0.0,
-},
--- Table: {19}
-{
-   ["color"]={36},
+   ["color"]={34},
    ["spriteName"]="Fallback.png",
    ["priority"]=-10,
 },
+-- Table: {19}
+{
+   ["scale"]={35},
+   ["rotation"]=0.0,
+   ["position"]={36},
+},
 -- Table: {20}
 {
-   ["position"]={37},
-   ["scale"]={38},
-   ["rotation"]=0.0,
+   ["counter"]=3,
+   ["prefab"]="Enemy",
+   ["spawnTimer"]=0.0,
+   ["capacity"]=3,
+   ["spawnRate"]=10.0,
 },
 -- Table: {21}
 {
-   ["color"]={39},
+   ["color"]={37},
    ["spriteName"]="Spawner.png",
    ["priority"]=30,
 },
 -- Table: {22}
 {
-   ["counter"]=3,
-   ["spawnTimer"]=0.0,
-   ["prefab"]="Enemy",
-   ["capacity"]=3,
-   ["spawnRate"]=10.0,
+   ["scale"]={38},
+   ["rotation"]=0.0,
+   ["position"]={39},
 },
 -- Table: {23}
 {
-   ["position"]={40},
-   ["scale"]={41},
-   ["rotation"]=0.0,
+   ["counter"]=3,
+   ["prefab"]="Enemy",
+   ["spawnTimer"]=0.0,
+   ["capacity"]=3,
+   ["spawnRate"]=10.0,
 },
 -- Table: {24}
 {
-   ["color"]={42},
+   ["color"]={40},
    ["spriteName"]="Spawner.png",
    ["priority"]=30,
 },
 -- Table: {25}
 {
-   ["counter"]=3,
-   ["spawnTimer"]=0.0,
-   ["prefab"]="Enemy",
-   ["capacity"]=3,
-   ["spawnRate"]=10.0,
+   ["scale"]={41},
+   ["rotation"]=0.0,
+   ["position"]={42},
 },
 -- Table: {26}
 {
-   ["position"]={43},
-   ["scale"]={44},
-   ["rotation"]=0.0,
+   ["speed"]=16,
+   ["textRender"]={43},
+   ["trans"]={44},
+   ["target"]=8388608,
 },
 -- Table: {27}
 {
-   ["speed"]=16,
-   ["trans"]={45},
-   ["target"]=8388608,
-   ["textRender"]={46},
+   ["scale"]={45},
+   ["rotation"]=0.0,
+   ["position"]={46},
 },
 -- Table: {28}
 {
-   ["current"]=100.0,
-   ["max"]=100.0,
+   ["speed"]=35,
+   ["trans"]={47},
+   ["wanderPoint"]={48},
 },
 -- Table: {29}
-{
-   ["extents"]={47},
-   ["rotation"]=0.0,
-   ["offset"]={48},
-   ["debug"]=true,
-   ["tag"]="Enemy",
-},
--- Table: {30}
 {
    ["color"]={49},
    ["spriteName"]="Maxwell.png",
    ["priority"]=30,
 },
+-- Table: {30}
+{
+   ["max"]=100.0,
+   ["current"]=100.0,
+},
 -- Table: {31}
 {
-   ["position"]={50},
-   ["scale"]={51},
+   ["scale"]={50},
    ["rotation"]=341.27624511719,
+   ["position"]={51},
 },
 -- Table: {32}
 {
-   ["hardness"]=0.10000000149012,
+   ["offset"]={52},
+   ["rotation"]=0.0,
+   ["extents"]={53},
+   ["tag"]="Enemy",
+   ["debug"]=true,
 },
 -- Table: {33}
 {
-   ["speed"]=35,
-   ["trans"]={52},
-   ["wanderPoint"]={53},
+   ["hardness"]=0.10000000149012,
 },
 -- Table: {34}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
-},
--- Table: {35}
-{
-   ["x"]=2000.0,
-   ["y"]=1500.0,
-},
--- Table: {36}
-{
+   ["g"]=0.29971033334732,
    ["r"]=0.0,
    ["a"]=1.0,
    ["b"]=0.39380532503128,
-   ["g"]=0.29971033334732,
+},
+-- Table: {35}
+{
+   ["y"]=1500.0,
+   ["x"]=2000.0,
+},
+-- Table: {36}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
 },
 -- Table: {37}
 {
-   ["x"]=604.70001220703,
-   ["y"]=-539.40002441406,
+   ["g"]=1.0,
+   ["r"]=1.0,
+   ["a"]=1.0,
+   ["b"]=1.0,
 },
 -- Table: {38}
 {
-   ["x"]=100.0,
    ["y"]=100.0,
+   ["x"]=100.0,
 },
 -- Table: {39}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["y"]=-539.40002441406,
+   ["x"]=604.70001220703,
 },
 -- Table: {40}
 {
-   ["x"]=-549.90002441406,
-   ["y"]=-354.89999389648,
+   ["g"]=1.0,
+   ["r"]=1.0,
+   ["a"]=1.0,
+   ["b"]=1.0,
 },
 -- Table: {41}
 {
-   ["x"]=100.0,
    ["y"]=100.0,
+   ["x"]=100.0,
 },
 -- Table: {42}
 {
-   ["r"]=1.0,
-   ["a"]=1.0,
-   ["b"]=1.0,
-   ["g"]=1.0,
+   ["y"]=-354.89999389648,
+   ["x"]=-549.90002441406,
 },
 -- Table: {43}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["offset"]={54},
+   ["bgThickness"]=2.0,
+   ["font"]="",
+   ["fontSize"]=14.0,
+   ["spacing"]=3.0,
+   ["textColor"]={55},
+   ["text"]="100 / 100",
+   ["rotation"]=0.0,
+   ["bgColor"]={56},
 },
 -- Table: {44}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["scale"]={57},
+   ["rotation"]=0.0,
+   ["position"]={58},
 },
 -- Table: {45}
 {
-   ["position"]={54},
-   ["scale"]={55},
-   ["rotation"]=0.0,
+   ["y"]=1.0,
+   ["x"]=1.0,
 },
 -- Table: {46}
 {
-   ["fontSize"]=14.0,
-   ["offset"]={56},
-   ["text"]="100 / 100",
-   ["spacing"]=3.0,
-   ["bgThickness"]=2.0,
-   ["font"]="",
-   ["textColor"]={57},
-   ["bgColor"]={58},
-   ["rotation"]=0.0,
+   ["y"]=0.0,
+   ["x"]=0.0,
 },
 -- Table: {47}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["scale"]={59},
+   ["rotation"]=341.27624236399,
+   ["position"]={60},
 },
 -- Table: {48}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["y"]=-24.0,
+   ["x"]=31.0,
 },
 -- Table: {49}
 {
+   ["g"]=1.0,
    ["r"]=1.0,
    ["a"]=1.0,
    ["b"]=1.0,
-   ["g"]=1.0,
 },
 -- Table: {50}
 {
-   ["x"]=-355.20001220703,
-   ["y"]=106.90000152588,
+   ["y"]=60.0,
+   ["x"]=60.0,
 },
 -- Table: {51}
 {
-   ["x"]=60.0,
-   ["y"]=60.0,
+   ["y"]=106.90000152588,
+   ["x"]=-355.20001220703,
 },
 -- Table: {52}
 {
-   ["position"]={59},
-   ["scale"]={60},
-   ["rotation"]=341.27624236399,
+   ["y"]=0.0,
+   ["x"]=0.0,
 },
 -- Table: {53}
 {
-   ["x"]=31.0,
-   ["y"]=-24.0,
+   ["y"]=1.0,
+   ["x"]=1.0,
 },
 -- Table: {54}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["y"]=-60.0,
+   ["x"]=0,
 },
 -- Table: {55}
 {
-   ["x"]=1,
-   ["y"]=1,
-},
--- Table: {56}
-{
-   ["x"]=0,
-   ["y"]=-60.0,
-},
--- Table: {57}
-{
+   ["g"]=1,
    ["r"]=1,
    ["a"]=1,
    ["b"]=1,
-   ["g"]=1,
 },
--- Table: {58}
+-- Table: {56}
 {
+   ["g"]=0.0,
    ["r"]=0.0,
    ["a"]=1.0,
    ["b"]=0.0,
-   ["g"]=0.0,
+},
+-- Table: {57}
+{
+   ["y"]=1,
+   ["x"]=1,
+},
+-- Table: {58}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
 },
 -- Table: {59}
 {
-   ["x"]=-355.20001220703,
-   ["y"]=106.90000152588,
+   ["y"]=60.0,
+   ["x"]=60.0,
 },
 -- Table: {60}
 {
-   ["x"]=60.0,
-   ["y"]=60.0,
+   ["y"]=106.90000152588,
+   ["x"]=-355.20001220703,
 },
 }

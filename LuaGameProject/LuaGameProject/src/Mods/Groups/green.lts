@@ -1,9 +1,9 @@
 return {
 -- Table: {1}
 {
-   ["elementName"]="green",
-   ["dataPath"]="groups",
    ["contents"]={2},
+   ["dataPath"]="groups",
+   ["elementName"]="green",
 },
 -- Table: {2}
 {
@@ -18,8 +18,8 @@ return {
 },
 -- Table: {4}
 {
-   ["components"]={8},
-   ["behaviour"]={9},
+   ["behaviour"]={8},
+   ["components"]={9},
 },
 -- Table: {5}
 {
@@ -35,78 +35,78 @@ return {
 },
 -- Table: {8}
 {
-   ["Transform"]={13},
-   ["Sprite"]={14},
+   ["path"]="Behaviours/Spawner",
+   ["properties"]={13},
 },
 -- Table: {9}
 {
-   ["properties"]={15},
-   ["path"]="Behaviours/Spawner",
+   ["Sprite"]={14},
+   ["Transform"]={15},
 },
 -- Table: {10}
 {
    ["Sprite"]={16},
-   ["Collider"]={17},
+   ["Health"]={17},
    ["Transform"]={18},
-   ["Health"]={19},
+   ["Collider"]={19},
    ["Hardness"]={20},
 },
 -- Table: {11}
 {
-   ["Transform"]={21},
-   ["Sprite"]={22},
+   ["Sprite"]={21},
+   ["Transform"]={22},
 },
 -- Table: {12}
 {
-   ["Transform"]={23},
-   ["Sprite"]={24},
-   ["Collider"]={25},
-   ["Hardness"]={26},
+   ["Sprite"]={23},
+   ["Collider"]={24},
+   ["Hardness"]={25},
+   ["Transform"]={26},
 },
 -- Table: {13}
 {
-   ["rotation"]=0.0,
-   ["scale"]={27},
-   ["position"]={28},
+   ["counter"]=3,
+   ["prefab"]="Enemy",
+   ["spawnTimer"]=0.0,
+   ["capacity"]=3,
+   ["spawnRate"]=10.0,
 },
 -- Table: {14}
 {
+   ["color"]={27},
    ["spriteName"]="Spawner.png",
-   ["color"]={29},
    ["priority"]=30,
 },
 -- Table: {15}
 {
-   ["capacity"]=3,
-   ["counter"]=3,
-   ["spawnTimer"]=0.0,
-   ["prefab"]="Enemy",
-   ["spawnRate"]=10.0,
+   ["rotation"]=0.0,
+   ["scale"]={28},
+   ["position"]={29},
 },
 -- Table: {16}
 {
-   ["spriteName"]="Maxwell.png",
    ["color"]={30},
+   ["spriteName"]="Maxwell.png",
    ["priority"]=30,
 },
 -- Table: {17}
 {
-   ["tag"]="Enemy",
-   ["debug"]=true,
-   ["extents"]={31},
-   ["offset"]={32},
-   ["rotation"]=0.0,
+   ["max"]=100.0,
+   ["current"]=100.0,
 },
 -- Table: {18}
 {
    ["rotation"]=355.63983154297,
-   ["scale"]={33},
-   ["position"]={34},
+   ["scale"]={31},
+   ["position"]={32},
 },
 -- Table: {19}
 {
-   ["current"]=100.0,
-   ["max"]=100.0,
+   ["tag"]="Enemy",
+   ["rotation"]=0.0,
+   ["debug"]=true,
+   ["offset"]={33},
+   ["extents"]={34},
 },
 -- Table: {20}
 {
@@ -114,126 +114,126 @@ return {
 },
 -- Table: {21}
 {
-   ["rotation"]=0.0,
-   ["scale"]={35},
-   ["position"]={36},
+   ["color"]={35},
+   ["spriteName"]="",
+   ["priority"]=0,
 },
 -- Table: {22}
 {
-   ["spriteName"]="",
-   ["color"]={37},
-   ["priority"]=0,
+   ["rotation"]=0.0,
+   ["scale"]={36},
+   ["position"]={37},
 },
 -- Table: {23}
 {
-   ["rotation"]=0.0,
-   ["scale"]={38},
-   ["position"]={39},
+   ["color"]={38},
+   ["spriteName"]="",
+   ["priority"]=25,
 },
 -- Table: {24}
 {
-   ["spriteName"]="",
-   ["color"]={40},
-   ["priority"]=25,
+   ["tag"]="Solid",
+   ["rotation"]=0.0,
+   ["debug"]=false,
+   ["offset"]={39},
+   ["extents"]={40},
 },
 -- Table: {25}
 {
-   ["tag"]="Solid",
-   ["debug"]=false,
-   ["extents"]={41},
-   ["offset"]={42},
-   ["rotation"]=0.0,
+   ["hardness"]=6.0,
 },
 -- Table: {26}
 {
-   ["hardness"]=6.0,
+   ["rotation"]=0.0,
+   ["scale"]={41},
+   ["position"]={42},
 },
 -- Table: {27}
 {
-   ["x"]=100.0,
-   ["y"]=100.0,
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
 },
 -- Table: {28}
 {
-   ["x"]=254.60000610352,
-   ["y"]=-168.10000610352,
+   ["y"]=100.0,
+   ["x"]=100.0,
 },
 -- Table: {29}
 {
-   ["b"]=1.0,
-   ["g"]=1.0,
-   ["r"]=1.0,
-   ["a"]=1.0,
+   ["y"]=-168.10000610352,
+   ["x"]=254.60000610352,
 },
 -- Table: {30}
 {
-   ["b"]=1.0,
    ["g"]=1.0,
-   ["r"]=1.0,
+   ["b"]=1.0,
    ["a"]=1.0,
+   ["r"]=1.0,
 },
 -- Table: {31}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["y"]=60.0,
+   ["x"]=60.0,
 },
 -- Table: {32}
 {
-   ["x"]=0.0,
    ["y"]=0.0,
+   ["x"]=-167.5,
 },
 -- Table: {33}
 {
-   ["x"]=60.0,
-   ["y"]=60.0,
+   ["y"]=0.0,
+   ["x"]=0.0,
 },
 -- Table: {34}
 {
-   ["x"]=-167.5,
-   ["y"]=0.0,
+   ["y"]=1.0,
+   ["x"]=1.0,
 },
 -- Table: {35}
 {
-   ["x"]=700.0,
-   ["y"]=500.0,
+   ["g"]=1.0,
+   ["b"]=0.18894010782242,
+   ["a"]=1.0,
+   ["r"]=0.66735339164734,
 },
 -- Table: {36}
 {
-   ["x"]=0.0,
-   ["y"]=0.0,
+   ["y"]=500.0,
+   ["x"]=700.0,
 },
 -- Table: {37}
 {
-   ["b"]=0.18894010782242,
-   ["g"]=1.0,
-   ["r"]=0.66735339164734,
-   ["a"]=1.0,
+   ["y"]=0.0,
+   ["x"]=0.0,
 },
 -- Table: {38}
 {
-   ["x"]=100.0,
-   ["y"]=100.0,
+   ["g"]=0.55164813995361,
+   ["b"]=0.3578619658947,
+   ["a"]=1.0,
+   ["r"]=0.80310881137848,
 },
 -- Table: {39}
 {
-   ["x"]=0.0,
    ["y"]=0.0,
+   ["x"]=0.0,
 },
 -- Table: {40}
 {
-   ["b"]=0.3578619658947,
-   ["g"]=0.55164813995361,
-   ["r"]=0.80310881137848,
-   ["a"]=1.0,
+   ["y"]=1.0,
+   ["x"]=1.0,
 },
 -- Table: {41}
 {
-   ["x"]=1.0,
-   ["y"]=1.0,
+   ["y"]=100.0,
+   ["x"]=100.0,
 },
 -- Table: {42}
 {
-   ["x"]=0.0,
    ["y"]=0.0,
+   ["x"]=0.0,
 },
 }
