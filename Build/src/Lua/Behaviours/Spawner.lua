@@ -20,6 +20,8 @@ function spawner:OnCreate()
 
     self.prefab = nil
 
+    self.spawnRate = math.max(self.spawnRate, 0)
+
 	tracy.ZoneEnd()
 end
 
@@ -67,6 +69,8 @@ function spawner:OnGUI()
     local changed = false
 
     self.spawnRate, _ = imgui.DragFloat("Spawn Rate (spawn/min)", self.spawnRate, 0.1, 1000, 0.1)
+    self.spawnRate = math.max(self.spawnRate, 0)
+
     self.capacity, changed = imgui.InputInt("Capacity", self.capacity)
 
     if changed then
