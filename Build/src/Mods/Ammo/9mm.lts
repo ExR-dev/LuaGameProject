@@ -1,0 +1,42 @@
+return {
+-- Table: {1}
+{
+   ["dataPath"]="ammo.calibers",
+   ["contents"]={2},
+   ["elementName"]="9mm",
+},
+-- Table: {2}
+{
+   ["FMJ"]={3},
+   ["AP"]={4},
+   ["default"]="FMJ",
+   ["HP"]={5},
+},
+-- Table: {3}
+{
+   ["damageMult"]=1.0,
+   ["falloff"]=0.95,
+   ["spread"]=3.0,
+   ["burstSize"]=1,
+   ["penetration"]=0.5,
+   ["recoil"]=2.0,
+},
+-- Table: {4}
+{
+   ["damageMult"]=0.75,
+   ["falloff"]=0.96,
+   ["spread"]=5.0,
+   ["burstSize"]=1,
+   ["penetration"]=0.675,
+   ["recoil"]=4.0,
+},
+-- Table: {5}
+{
+   ["damageMult"]=1.5,
+   ["falloff"]=0.94,
+   ["spread"]=2.0,
+   ["burstSize"]=1,
+   ["penetration"]=0.4,
+   ["recoil"]=3.5,
+},
+}

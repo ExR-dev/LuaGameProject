@@ -1,0 +1,57 @@
+return {
+-- Table: {1}
+{
+   ["dataPath"]="prefabs",
+   ["contents"]={2},
+   ["elementName"]="Spawner",
+},
+-- Table: {2}
+{
+   ["behaviour"]={3},
+   ["components"]={4},
+},
+-- Table: {3}
+{
+   ["properties"]={5},
+   ["path"]="Behaviours/Spawner",
+},
+-- Table: {4}
+{
+   ["Transform"]={6},
+   ["Sprite"]={7},
+},
+-- Table: {5}
+{
+   ["prefab"]="Enemy",
+   ["spawnRate"]=10.0,
+},
+-- Table: {6}
+{
+   ["position"]={8},
+   ["scale"]={9},
+   ["rotation"]=0.0,
+},
+-- Table: {7}
+{
+   ["priority"]=30,
+   ["spriteName"]="Spawner.png",
+   ["color"]={10},
+},
+-- Table: {8}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+-- Table: {9}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {10}
+{
+   ["g"]=1.0,
+   ["b"]=1.0,
+   ["a"]=1.0,
+   ["r"]=1.0,
+},
+}

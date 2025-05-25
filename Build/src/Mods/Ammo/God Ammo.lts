@@ -1,0 +1,33 @@
+return {
+-- Table: {1}
+{
+   ["dataPath"]="ammo.calibers",
+   ["contents"]={2},
+   ["elementName"]="God Ammo",
+},
+-- Table: {2}
+{
+   ["default"]="Spray",
+   ["Accurate"]={3},
+   ["Spray"]={4},
+},
+-- Table: {3}
+{
+   ["falloff"]=1.0,
+   ["recoil"]=0.10000000149012,
+   ["damageMult"]=1.0,
+   ["penetration"]=1.0,
+   ["burstSize"]=1,
+   ["spread"]=0.0,
+},
+-- Table: {4}
+{
+   ["shootSound"]="Fast Fire.wav",
+   ["recoil"]=3.0,
+   ["penetration"]=1.0,
+   ["damageMult"]=1.0,
+   ["burstSize"]=9,
+   ["falloff"]=1.0,
+   ["spread"]=15.0,
+},
+}
