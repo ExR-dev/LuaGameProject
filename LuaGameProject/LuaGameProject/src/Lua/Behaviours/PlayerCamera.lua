@@ -19,7 +19,7 @@ function playerCamera:OnCreate()
 	self.trackingOffset = vec2(0.0, 0.0) -- For aiming, camera shake, etc.
 	self.camT = transform(scene.GetComponent(self.ID, "Transform"))
 
-	self.shakeCoroutine = nil
+	self.shakeCoroutines = { }
 
 	tracy.ZoneEnd()
 end
@@ -55,20 +55,6 @@ function playerCamera:OnUpdate(delta)
 		delta
 	)
 
-	-- Update camera shake coroutine if it exists
-	if self.shakeCoroutine ~= nil then
-		local ret, err = pcall(coroutine.resume, self.shakeCoroutine, delta)
-
-		if not ret then
-			print("Error: ", err)
-			self.shakeCoroutine = nil
-		end
-
-		if coroutine.status(self.shakeCoroutine) == "dead" then
-			self.shakeCoroutine = nil
-		end
-	end
-
 	-- Update zoom if is scrolling
 	local mouseInfo = Input.GetMouseInfo()
 	if not gameMath.approx(mouseInfo.Scroll, 0.0) then
@@ -85,6 +71,20 @@ function playerCamera:OnUpdate(delta)
 		scene.SetComponent(self.ID, "CameraData", camData)
 	end
 
+	-- Update camera shake coroutines
+	for i, co in pairs(self.shakeCoroutines) do
+		local ret, err = pcall(coroutine.resume, co, delta)
+
+		if not ret then
+			print("Error: ", err)
+			self.shakeCoroutines[i] = nil
+		end
+
+		if coroutine.status(co) == "dead" then
+			self.shakeCoroutines[i] = nil
+		end
+	end
+
 	scene.SetComponent(self.ID, "Transform", self.camT)
 	tracy.ZoneEnd()
 end
@@ -94,14 +94,14 @@ function playerCamera:SetTrackedEntity(ent)
 end
 
 function playerCamera:ApplyShake(frequency, amplitude, duration)
-	self.shakeCoroutine = coroutine.create(function(self, frequency, amplitude, duration)
+	local shakeCo = coroutine.create(function(self, frequency, amplitude, duration)
 		local waveLength = 1.0 / frequency
 		local timeLeft = duration
 		local invDuration = 1.0 / duration
-		local nextWaveTimer = waveLength
+		local nextWaveTimer = 0.0
 
+		local delta = 0.0
 		while timeLeft >= 0 do
-			local delta = coroutine.yield()
 			local timeLeftNormalized = timeLeft * invDuration
 
 			while nextWaveTimer <= 0 do
@@ -117,11 +117,14 @@ function playerCamera:ApplyShake(frequency, amplitude, duration)
 
 			nextWaveTimer = nextWaveTimer - delta
 			timeLeft = timeLeft - delta
+			delta = coroutine.yield()
 		end
 	end)
 
 	-- Start the coroutine with the given parameters
-	coroutine.resume(self.shakeCoroutine, self, frequency, amplitude, duration)
+	coroutine.resume(shakeCo, self, frequency, amplitude, duration)
+
+	table.insert(self.shakeCoroutines, shakeCo)
 end
 
 tracy.ZoneEnd()

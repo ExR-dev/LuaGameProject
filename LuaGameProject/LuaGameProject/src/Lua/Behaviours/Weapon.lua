@@ -214,6 +214,18 @@ function weapon:OnShoot()
 
 	self.loadedAmmoCount = self.loadedAmmoCount - 1
 
+	-- Apply camera shake
+	if game.GetPlayerCamera then
+		local playerCam = game.GetPlayerCamera()
+		local totalDamage = self.stats.damage + (ammoStats.damageMult * ammoStats.burstSize)
+
+		playerCam:ApplyShake(
+			70.0, 
+			gameMath.clamp(totalDamage * 0.15, 0.5, 15.0), 
+			math.max(math.sqrt(recoilStrength * 0.25) * 0.1, 0.1, 0.5)
+		)
+	end
+
 	tracy.ZoneEnd()
 end
 
