@@ -260,7 +260,8 @@ function dungeonCreatorUI:GenerateDungeon()
 
 	if imgui.Button("Save") then
 		-- TODO: Save dungeon to file	
-		imgui.OpenPopup("SavePopup")
+		SaveDungeon("dungeon")
+		--imgui.OpenPopup("SavePopup")
 	end
 
 	imgui.Separator("Settings")
