@@ -76,10 +76,18 @@ public:
 
 	static void lua_openscene(lua_State *L, Scene *scene);
 
+	void ResetSceneState();
+	Game::SceneState GetSceneState() const;
 
 private:
 	entt::registry m_registry;
 	std::vector<System *> m_systems;
+
+	Game::SceneState m_sceneState = Game::SceneState::None;
+
+	// Aguments: sceneState (int)
+	// Returns: none
+	static int lua_SetScene(lua_State* L);
 
 	// Aguments: none
 	// Returns: entity (int)

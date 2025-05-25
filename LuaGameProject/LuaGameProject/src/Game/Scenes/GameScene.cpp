@@ -236,7 +236,10 @@ Game::SceneState GameScene::GameScene::Update()
 	if (Input::CheckKeyPressed(Input::GAME_KEY_ESCAPE))
 		return Game::SceneState::InMenu;
 
-	return Game::SceneState::None;
+	Game::SceneState sceneState = m_scene.GetSceneState();
+	m_scene.ResetSceneState();
+
+	return sceneState;
 }
 
 int GameScene::GameScene::Render()

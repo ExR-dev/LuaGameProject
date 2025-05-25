@@ -1,0 +1,66 @@
+return {
+-- Table: {1}
+{
+   ["dataPath"]="prefabs",
+   ["elementName"]="EndPortal",
+   ["contents"]={2},
+},
+-- Table: {2}
+{
+   ["components"]={3},
+   ["behaviour"]={4},
+},
+-- Table: {3}
+{
+   ["Sprite"]={5},
+   ["Transform"]={6},
+   ["Collider"]={7},
+},
+-- Table: {4}
+{
+   ["path"]="Behaviours/EndPortal",
+   ["properties"]={8},
+},
+-- Table: {5}
+{
+   ["color"]={9},
+   ["spriteName"]="Exit.png",
+   ["priority"]=100,
+},
+-- Table: {6}
+{
+   ["scale"]={10},
+},
+-- Table: {7}
+{
+   ["extents"]={11},
+   ["rotation"]=0.0,
+   ["offset"]={12},
+   ["tag"]="EndPortal",
+},
+-- Table: {8}
+{
+},
+-- Table: {9}
+{
+   ["a"]=1.0,
+   ["b"]=1.0,
+   ["g"]=1.0,
+   ["r"]=1.0,
+},
+-- Table: {10}
+{
+   ["y"]=100.0,
+   ["x"]=100.0,
+},
+-- Table: {11}
+{
+   ["y"]=1.0,
+   ["x"]=1.0,
+},
+-- Table: {12}
+{
+   ["y"]=0.0,
+   ["x"]=0.0,
+},
+}
